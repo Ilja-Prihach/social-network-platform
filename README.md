@@ -1,2 +1,2 @@
 # Frontend
-yopta 2
+yopta 3
