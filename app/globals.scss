@@ -1,0 +1,55 @@
+:root {
+  // Accent color
+  --accent-100-color: #73A5FF;
+  --accent-300-color: #4C8DFF;
+  --accent-500-color: #397DF6;
+  --accent-700-color: #2F68CC;
+  --accent-900-color: #234E99;
+
+  // Success color
+  --success-100-color: #80FFBF;
+  --success-300-color: #22E584;
+  --success-500-color: #14CC70;
+  --success-700-color: #0F9954;
+  --success-900-color: #0A6638;
+
+  // Danger color
+  --danger-100-color: #FF8099;
+  --danger-300-color: #F23D61;
+  --danger-500-color: #CC1439;
+  --danger-700-color: #990F2B;
+  --danger-900-color: #660A1D;
+
+  // Warning color
+  --warning-100-color: #FFD073;
+  --warning-300-color: #E5AC39;
+  --warning-500-color: #D99000;
+  --warning-700-color: #996600;
+  --warning-900-color: #664400;
+
+  // Dark color
+  --dark-100-color: #4C4C4C;
+  --dark-300-color: #333333;
+  --dark-500-color: #171717;
+  --dark-700-color: #0D0D0D;
+  --dark-900-color: #000000;
+
+  // Light color
+  --light-100-color: #FFFFFF;
+  --light-300-color: #F7FBFF;
+  --light-500-color: #EDF3FA;
+  --light-700-color: #D5DAE0;
+  --light-900-color: #8D9094;
+  //---------------------------
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--success-100-color);
+}
