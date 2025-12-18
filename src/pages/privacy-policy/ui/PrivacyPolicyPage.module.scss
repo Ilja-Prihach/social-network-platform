@@ -10,6 +10,7 @@
 .back_link {
   align-self: flex-start;
   padding-left: 64px;
+  color: var(--light-100-color)
 }
 
 .wrapper_items {
@@ -50,6 +51,7 @@
 
 .privacy_policy_item a {
   text-decoration: underline;
+  color: var(--light-100-color)
 }
 
 .privacy_policy_item a:hover {
