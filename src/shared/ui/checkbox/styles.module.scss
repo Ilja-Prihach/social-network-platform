@@ -1,0 +1,74 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+
+  &:has(.input:disabled) {
+    cursor: not-allowed;
+    opacity: .6;
+  }
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.box {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--light-100-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .15s ease;
+  position: relative;
+}
+
+.tick {
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--light-100-color);
+  opacity: 0;
+  transition: .15s ease;
+}
+
+/* CHECKED */
+.input:checked + .box .tick {
+  opacity: 1;
+}
+
+/* HOVER */
+.wrapper:hover .box {
+  background: rgba(255,255,255,.08); // можно заменить если дадут токен
+}
+
+/* ACTIVE */
+.wrapper:active .box {
+  background: rgba(255,255,255,.16);
+}
+
+/* FOCUS */
+.input:focus-visible + .box {
+  outline: 2px solid var(--light-700-color);
+  outline-offset: 4px;
+}
+
+/* DISABLED */
+.input:disabled + .box {
+  border-color: var(--light-700-color);
+}
+
+.input:disabled:checked + .box .tick {
+  background: var(--light-700-color);
+}
+
+.label {
+  color: var(--light-900-color);
+}
