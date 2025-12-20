@@ -3,6 +3,7 @@ import Link from "next/link";
 
 export function PrivacyPolicyPage() {
     return (
+
         <section className={styles.page}>
             <Link href="/sign-up" className={styles.back_link} aria-label="Back to Sign Up">
                 ← Back to Sign Up
