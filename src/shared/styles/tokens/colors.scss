@@ -42,19 +42,3 @@
   --light-900-color: #8D9094;
   //---------------------------
 }
-
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: var(--dark-900-color);
-  color: var(--light-100-color)
-}
-
-a {
-  text-decoration: none;
-}
