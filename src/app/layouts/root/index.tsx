@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {Inter} from "next/font/google";
 import type { ReactNode } from "react";
-import "@/app/globals.scss";
+import "@/src/shared/styles/globals.scss";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const inter = Inter({
+    subsets: ['latin'],
+    variable: '--font-main',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+
 
 export const metadata: Metadata = {
   title: "FSD Next.js starter",
@@ -24,8 +21,8 @@ export function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html className={inter.variable} lang="en">
+      <body>
         {children}
       </body>
     </html>
