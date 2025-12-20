@@ -1,6 +1,6 @@
 import styles from "./PrivacyPolicyPage.module.scss";
 import Link from "next/link";
-import {Button} from "@/src/shared/UI/Button/Button";
+import {Button} from "@/src/shared/ui/Button/Button";
 
 export function PrivacyPolicyPage() {
     return (

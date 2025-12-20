@@ -1,7 +1,7 @@
 'use client'
 
 import styles from "./HomePage.module.scss";
-import {Button} from "@/src/shared/UI/Button/Button";
+import {Button} from "@/src/shared/ui/Button/Button";
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
