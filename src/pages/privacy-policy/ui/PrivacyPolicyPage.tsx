@@ -8,7 +8,7 @@ export function PrivacyPolicyPage() {
             <Link href="/src/pages/sign-up" className={styles.back_link} aria-label="Back to Sign Up">
                 ← Back to Sign Up
             </Link>
-            <h2 className={styles.title}>Privacy Policy</h2>
+            <h2 className={`h2 ${styles.title}`}>Privacy Policy</h2>
             <div className={styles.wrapper_items}>
                 <div className={styles.privacy_policy_item}>
                     <h3 className={styles.title_policy_item}>Introduction</h3>

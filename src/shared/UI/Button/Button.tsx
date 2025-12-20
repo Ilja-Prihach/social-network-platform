@@ -59,5 +59,13 @@ export const Button = ({
 }
 
 
+//Образец использования кнопок и линков
+// <Button variant="primary" onClick={() => alert('clicked!')}>Primary</Button>
+// <Button variant="primary" disabled>Primary Disabled</Button>
+
+// <Link (Next.js Link)
+// <Button href="/privacy-policy" variant="primary">Primary Link</Button>
+// <Button href="/privacy-policy" variant="primary" disabled>Primary Link Disabled</Button>
+
 
 

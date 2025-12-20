@@ -1,10 +1,10 @@
 .button {
-  //all: unset;
+  all: unset;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 2px;
-  padding: 6px 24px;
+  margin: 6px 24px;
   width: 182px;
   height: 36px;
   font-size: 16px;
@@ -89,13 +89,9 @@
 
 /* TEXT */
 .text {
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: auto;
+  width: fit-content;
   background-color: transparent;
-  color: #3b82f6;
+  color: var(--accent-500-color);
   padding: 0;
 
   &:active:not(:disabled) {
