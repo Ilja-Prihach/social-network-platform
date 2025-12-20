@@ -23,21 +23,21 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
 
   return (
     <section className={styles.page}>
-      <h1 className={styles.title}>Home Page</h1>
-      <p className={styles.description}>
+      <h1 className={'h1'}>Home Page</h1>
+      <p className={'bold_text_16'}>
         Entry point stub wired through the Feature-Sliced Design layout. Replace with
         the actual landing or feed content.
       </p>
       {modalMessage ? (
         <div className={styles.modal}>
-          <p className={styles.modalTitle}>{modalMessage}</p>
+          <p>{modalMessage}</p>
           <p className={styles.modalHint}>
             Query-driven modal state. If both postId and action are present, postId takes
             precedence.
           </p>
         </div>
       ) : (
-        <p className={styles.placeholder}>
+        <p className='large'>
           No modal active. Add ?postId=42 or ?action=create to the URL to preview modal
           handling.
         </p>
