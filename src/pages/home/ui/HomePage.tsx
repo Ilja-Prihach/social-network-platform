@@ -23,7 +23,7 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
 
   return (
     <section className={styles.page}>
-      <h1 className={'h1'}>Home Page</h1>
+      <h1 className={'regular_link'}>Home Page</h1>
       <p className={'bold_text_16'}>
         Entry point stub wired through the Feature-Sliced Design layout. Replace with
         the actual landing or feed content.
