@@ -1,0 +1,120 @@
+.button {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  margin: 6px 24px;
+  width: 182px;
+  height: 36px;
+  font-size: 16px;
+  color: var(--light-100);
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+
+.primary {
+  background-color: var(--accent-500-color);
+
+  &:active:not(:disabled) {
+    background-color: var(--accent-700-color);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--accent-100-color);
+  }
+
+  &:focus:not(:disabled) {
+    background-color: var(--accent-500-color);
+  }
+
+  &:disabled {
+    background-color: var(--accent-900-color);
+    color: var(--light-900-color);
+  }
+}
+
+/* SECONDARY */
+.secondary {
+  background-color: var(--dark-300-color);
+  color: #fff;
+
+  &:active:not(:disabled) {
+    background-color: var(--dark-700-color);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--dark-100-color);
+  }
+
+  &:focus:not(:disabled) {
+    background-color: var(--dark-300-color);
+  }
+
+  &:disabled {
+    background-color: var(--dark-500-color);
+    color: #737373;
+  }
+}
+
+/* OUTLINE */
+.outline {
+  background: none;
+  border: 1px solid var(--accent-500-color);
+  color: var(--accent-500-color);
+
+  &:active:not(:disabled) {
+    border: 1px solid var(--accent-700-color);
+    color: var(--accent-700-color);
+  }
+
+  &:hover:not(:disabled) {
+    border: 1px solid var(--accent-100-color);
+    color: var(--accent-100-color);
+  }
+
+  &:focus:not(:disabled) {
+    border: 1px solid var(--accent-700-color);
+    color: var(--accent-700-color);
+  }
+
+  &:disabled {
+    border: 1px solid var(--accent-900-color);
+    color: var(--accent-900-color);
+  }
+}
+
+/* TEXT */
+.text {
+  width: fit-content;
+  background-color: transparent;
+  color: var(--accent-500-color);
+  padding: 0;
+
+  &:active:not(:disabled) {
+    color: var(--accent-700-color);
+  }
+
+  &:hover:not(:disabled) {
+    color: var(--accent-100-color);
+  }
+
+  &:focus:not(:disabled) {
+    border: 1px solid var(--accent-700-color);
+    color: var(--accent-700-color);
+  }
+
+
+  &:disabled {
+    color: var(--accent-900-color);
+  }
+}
+
+.button.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
