@@ -1,7 +1,6 @@
 import styles from "./UserCard.module.scss";
 
-import { formatUserStatus } from "../lib/formatUserStatus";
-import { getUserRoleLabel } from "../lib/getUserRoleLabel";
+import { formatUserStatus, getUserRoleLabel } from "@/entities/user";
 import type { User } from "../model/types";
 
 type UserCardProps = {
