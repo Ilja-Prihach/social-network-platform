@@ -1,1 +1,1 @@
-export { RootLayout as default, metadata } from "@/src/app/layouts/root";
+export { RootLayout as default, metadata } from "@/app/layouts/root/";

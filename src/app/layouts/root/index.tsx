@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import {Inter} from "next/font/google";
 import type { ReactNode } from "react";
-import "@/src/shared/styles/globals.scss";
+import "@/app/styles/globals.scss";
 
 const inter = Inter({
     subsets: ['latin'],
@@ -28,3 +28,5 @@ export function RootLayout({
     </html>
   );
 }
+
+export default RootLayout;
