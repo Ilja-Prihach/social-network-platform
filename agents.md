@@ -8,6 +8,5 @@
 8. Added README placeholders for shared/api, shared/lib, shared/config to keep empty dirs in VCS and show usage patterns.
 9. Added widgets/README with a Header example.
 10. Stubbed sidebar routes (feed, create, my-profile, messenger, search, statistics, favorites) with paired UI/SCSS and App Router re-exports.
-11. Installed clsx and fixed Button to import `{ clsx }` for ESM; attempted `cls` install hit ENOTDIR rename.
-12. Cleaned corrupted node_modules, reinstalled deps; dev server start blocked in sandbox by port permissions.
-13. Fixed imports that referenced `@/src/*` to use the configured `@/*` alias (Button, user entity, privacy policy page).
+11.Cleaned corrupted node_modules, reinstalled deps; dev server start blocked in sandbox by port permissions.
+12.Fixed imports that referenced `@/src/*` to use the configured `@/*` alias (Button, user entity, privacy policy page).
