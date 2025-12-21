@@ -4,7 +4,7 @@ import {AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode} from "react";
 
 import styles from './Button.module.scss';
 import Link from "next/link";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'text'
 
@@ -66,6 +66,5 @@ export const Button = ({
 // <Link (Next.js Link)
 // <Button href="/privacy-policy" variant="primary">Primary Link</Button>
 // <Button href="/privacy-policy" variant="primary" disabled>Primary Link Disabled</Button>
-
 
 
