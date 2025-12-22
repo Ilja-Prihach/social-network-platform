@@ -40,7 +40,7 @@
 /* SECONDARY */
 .secondary {
   background-color: var(--dark-300-color);
-  color: #fff;
+  color: var(--light-100-color);
 
   &:active:not(:disabled) {
     background-color: var(--dark-700-color);
@@ -93,6 +93,7 @@
   background-color: transparent;
   color: var(--accent-500-color);
   padding: 0;
+  height: fit-content;
 
   &:active:not(:disabled) {
     color: var(--accent-700-color);
