@@ -1,0 +1,74 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.controls {
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 12px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.controlsHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.caption {
+  margin: 0;
+  color: #334155;
+  font-weight: 500;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.button {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 120ms ease-in-out;
+}
+
+.button:hover {
+  border-color: #0ea5e9;
+  color: #0ea5e9;
+}
+
+.active {
+  border-color: #0ea5e9;
+  background: #e0f2fe;
+  color: #0f172a;
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.12);
+}
+
+.note {
+  margin: 0;
+  color: #475569;
+  font-size: 14px;
+}

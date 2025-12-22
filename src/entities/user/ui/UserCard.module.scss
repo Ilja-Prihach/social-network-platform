@@ -1,0 +1,54 @@
+.card {
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.label {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.name {
+  margin: 4px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.role {
+  align-self: flex-start;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #0ea5e9;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.email {
+  margin: 0;
+  color: #334155;
+  font-weight: 500;
+}
+
+.meta {
+  margin: 0;
+  color: #475569;
+  font-size: 14px;
+}

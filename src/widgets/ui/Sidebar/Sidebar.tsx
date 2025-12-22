@@ -1,14 +1,15 @@
 'use client'
 
-import {Button} from "@/src/shared/ui/Button/Button";
+
 import styles from "./Sidebar.module.scss";
+import {Button} from "@/shared/ui/Button/Button";
 
 export const Sidebar = () => {
     return (
         <nav className={styles.sidebar}>
             <ul className={styles.sidebar_nav}>
                 <li>
-                    <Button href="/" variant="text" style={{
+                    <Button href="/feed" variant="text" style={{
                         color: 'var(--light-100-color)'
                     }}>
                         <div className={styles.svg}></div>
@@ -24,7 +25,7 @@ export const Sidebar = () => {
                     </Button>
                 </li>
                 <li>
-                    <Button href="/" variant="text" style={{
+                    <Button href="/my-profile" variant="text" style={{
                         color: 'var(--light-100-color)'
                     }}>
                         <div className={styles.svg}></div>
@@ -32,7 +33,7 @@ export const Sidebar = () => {
                     </Button>
                 </li>
                 <li>
-                    <Button href="/" variant="text" style={{
+                    <Button href="/messenger" variant="text" style={{
                         color: 'var(--light-100-color)'
                     }}>
                         <div className={styles.svg}></div>
@@ -40,7 +41,7 @@ export const Sidebar = () => {
                     </Button>
                 </li>
                 <li>
-                    <Button href="/" variant="text" style={{
+                    <Button href="/search" variant="text" style={{
                         color: 'var(--light-100-color)'
                     }}>
                         <div className={styles.svg}></div>
@@ -51,7 +52,7 @@ export const Sidebar = () => {
 
             <ul  className={styles.sidebar_tools}>
                 <li>
-                    <Button href="/" variant="text" style={{
+                    <Button href="/statistics" variant="text" style={{
                         color: 'var(--light-100-color)'
                     }}>
                         <div className={styles.svg}></div>
@@ -59,11 +60,11 @@ export const Sidebar = () => {
                     </Button>
                 </li>
                 <li>
-                    <Button href="/" variant="text" style={{
+                    <Button href="/favorites" variant="text" style={{
                         color: 'var(--light-100-color)'
                     }}>
                         <div className={styles.svg}></div>
-                        <span>Favourites</span>
+                        <span>Favorites</span>
                     </Button>
                 </li>
             </ul>
