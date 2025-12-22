@@ -9,7 +9,7 @@ type Props = {
     label?: string;
 };
 
-export const Checkbox = ({ checked, onChange, disabled, label }: Props) => {
+export const Checkbox = ({checked, onChange, disabled, label}: Props) => {
     return (
         <label className={styles.wrapper}>
             <input
@@ -19,17 +19,11 @@ export const Checkbox = ({ checked, onChange, disabled, label }: Props) => {
                 disabled={disabled}
                 onChange={(e) => onChange(e.target.checked)}
             />
-
             <span className={styles.box}>
-        {/* ⬇️ временный inline SVG вместо спрута */}
-                <svg
-                    className={styles.icon}
-                    width="18"
-                    height="18"
-                    viewBox="0 0 18 18"
-                >
-          <path d="M4 9L8 13L14 5" />
+       <svg className={styles.icon} width="18" height="18" viewBox="0 0 24 24">
+            <use href="#check-mark"/>
         </svg>
+
       </span>
 
             {label && <span className={styles.label}>{label}</span>}

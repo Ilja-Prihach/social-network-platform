@@ -4,11 +4,7 @@
   gap: 8px;
   cursor: pointer;
   user-select: none;
-
-  &:has(.input:disabled) {
-    cursor: not-allowed;
-    opacity: .6;
-  }
+  position: relative;
 }
 
 .input {
@@ -18,6 +14,34 @@
   height: 0;
 }
 
+/* ОРЕОЛ */
+.wrapper::before {
+  content: "";
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  top: 10px; /* центр по высоте бокса */
+  left: 11px; /* центр по ширине бокса */
+  transform: translate(-50%, -50%);
+  transition: .15s ease;
+  pointer-events: none;
+}
+
+.wrapper:active::before {
+  background: var(--dark-100-color);
+}
+ .wrapper:hover::before {
+  background: var(--dark-300-color);
+}
+
+.wrapper:focus-within::before {
+  background: var(--dark-500-color);
+}
+
+
+/* БОКС */
 .box {
   width: 18px;
   height: 18px;
@@ -28,47 +52,48 @@
   justify-content: center;
   transition: .15s ease;
   position: relative;
+  z-index: 2; /* выше ореола */
 }
 
-.tick {
+/* ИКОНКА */
+.icon {
   width: 18px;
   height: 18px;
-  border-radius: 2px;
-  background: var(--light-100-color);
   opacity: 0;
   transition: .15s ease;
 }
 
+
 /* CHECKED */
-.input:checked + .box .tick {
+.input:checked + .box {
+  background: var(--light-100-color);
+  border-color: var(--light-100-color);
+}
+
+.input:checked + .box .icon {
   opacity: 1;
 }
 
-/* HOVER */
-.wrapper:hover .box {
-  background: rgba(255,255,255,.08); // можно заменить если дадут токен
-}
-
-/* ACTIVE */
-.wrapper:active .box {
-  background: rgba(255,255,255,.16);
-}
-
-/* FOCUS */
-.input:focus-visible + .box {
-  outline: 2px solid var(--light-700-color);
-  outline-offset: 4px;
-}
-
-/* DISABLED */
-.input:disabled + .box {
-  border-color: var(--light-700-color);
-}
-
-.input:disabled:checked + .box .tick {
-  background: var(--light-700-color);
-}
-
+/* LABEL */
 .label {
   color: var(--light-900-color);
 }
+
+.input:disabled + .box {
+  border-color: var(--dark-100-color);
+  background: var(--dark-100-color);
+}
+
+.wrapper:has(.input:disabled)::before {
+  background: transparent !important;
+}
+
+.input:disabled + .box .icon {
+  fill: var(--light-100-color)
+}
+
+
+
+
+
+
