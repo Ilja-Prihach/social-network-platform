@@ -21,9 +21,6 @@
 
 .title {
   padding-top: 23px;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 180%;
 }
 
 .title_policy_item {
@@ -49,11 +46,3 @@
   padding-top: 10px;
 }
 
-.privacy_policy_item a {
-  text-decoration: underline;
-  color: var(--light-100-color)
-}
-
-.privacy_policy_item a:hover {
-  color: #8a8a8c;
-}
