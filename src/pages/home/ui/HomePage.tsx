@@ -2,6 +2,7 @@
 
 import styles from "./HomePage.module.scss";
 import {Button} from "@/shared/ui/Button/Button";
+import {Alert} from "@/shared/ui/Alert/Alert";
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -46,7 +47,7 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
         </p>
       )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-
+        <Alert text={" Server is not available"} variant={"error"}/>
         <h3>Button </h3>
         <Button variant="primary" onClick={() => alert('clicked!')}>Primary</Button>
         <Button variant="primary" disabled>Primary Disabled</Button>

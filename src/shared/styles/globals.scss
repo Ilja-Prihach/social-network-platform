@@ -10,7 +10,8 @@
 
 body {
   background-color: var(--dark-900-color);
-  color: var(--light-100-color)
+  color: var(--light-100-color);
+  box-sizing: border-box;
 }
 
 a {
