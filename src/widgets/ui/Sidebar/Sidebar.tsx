@@ -17,7 +17,7 @@ export const Sidebar = () => {
                     </Button>
                 </li>
                 <li>
-                    <Button href="/" variant="text" style={{
+                    <Button href="/create" variant="text" style={{
                         color: 'var(--light-100-color)'
                     }}>
                         <div className={styles.svg}></div>
@@ -71,7 +71,7 @@ export const Sidebar = () => {
 
             <ul className={styles.sidebar_logout}>
                 <li>
-                    <Button href="/" variant="text" style={{
+                    <Button href="/sign-in" variant="text" style={{
                         color: 'var(--light-100-color)'
                     }}>
                         <div className={styles.svg}></div>
