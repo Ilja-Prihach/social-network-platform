@@ -2,9 +2,7 @@
 
 import styles from "./HomePage.module.scss";
 import {Button} from "@/shared/ui/Button/Button";
-import {Sidebar} from "@/widgets/ui/Sidebar/Sidebar";
-
-
+import {Icon} from "@/shared/ui/Icon/Icon";
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -49,9 +47,8 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
         </p>
       )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      </div>
-        <Sidebar/>
-        <Button variant="primary">Primary</Button>
+        <h3>Button </h3>
+        <Button variant="primary" onClick={() => alert('clicked!')}>Primary</Button>
         <Button variant="primary" disabled>Primary Disabled</Button>
 
         <Button variant="secondary">Secondary</Button>
