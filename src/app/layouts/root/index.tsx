@@ -6,15 +6,13 @@ import {SvgSprite} from "@/shared/assets/icons/SvgSprite";
 
 
 const inter = Inter({
-    subsets: ['latin'],
-    variable: '--font-main',
+  subsets: ['latin'],
+  variable: '--font-main',
 });
 
-
-
 export const metadata: Metadata = {
-  title: "FSD Next.js starter",
-  description: "Feature-Sliced scaffold with App Router re-exports.",
+  title: 'FSD Next.js starter',
+  description: 'Feature-Sliced scaffold with App Router re-exports.',
 };
 
 export function RootLayout({

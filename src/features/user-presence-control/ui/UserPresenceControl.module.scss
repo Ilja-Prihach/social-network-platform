@@ -5,7 +5,7 @@
   padding: 16px;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  background: #ffffff;
+  background: #fff;
 }
 
 .controls {
@@ -18,7 +18,7 @@
   gap: 10px;
 }
 
-.controlsHeader {
+.controls_header {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -48,7 +48,7 @@
   padding: 8px 12px;
   border-radius: 10px;
   border: 1px solid #cbd5e1;
-  background: #ffffff;
+  background: #fff;
   color: #0f172a;
   font-weight: 600;
   cursor: pointer;
@@ -64,7 +64,7 @@
   border-color: #0ea5e9;
   background: #e0f2fe;
   color: #0f172a;
-  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.12);
+  box-shadow: 0 6px 16px rgb(14 165 233 / 12%);
 }
 
 .note {
