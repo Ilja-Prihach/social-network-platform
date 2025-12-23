@@ -60,7 +60,7 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
         </button>
 
         <button
-            onClick={() => showAlert("Error! Server is not available", "error")}
+            onClick={() => showAlert("Error! Server is not availableError! Server is not availableError! Server is not availableError! Server is not availableError! Server is not availableError! Server is not availableError! Server is not availableError! Server is not availableError! Server is not availableError! Server is not availableError! Server is not availableError! Server is not available", "error")}
             style={{ padding: "8px 16px" }}
         >
           Error
