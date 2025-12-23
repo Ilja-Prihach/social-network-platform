@@ -47,9 +47,7 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
         </p>
       )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-
         <h3>Button </h3>
-        <Icon iconId="Microsoft Edge" color="white"/>
         <Button variant="primary" onClick={() => alert('clicked!')}>Primary</Button>
         <Button variant="primary" disabled>Primary Disabled</Button>
         <Button variant="secondary">Secondary</Button>
