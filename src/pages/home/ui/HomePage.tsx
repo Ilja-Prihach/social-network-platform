@@ -1,6 +1,8 @@
 'use client'
 
 import styles from "./HomePage.module.scss";
+import {showAlert} from "@/shared/ui/Alert/Alert";
+
 
 
 type HomePageProps = {
@@ -46,6 +48,21 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
         </p>
       )}
 
+      <div style={{ padding: "20px", display: "flex", gap: "12px" }}>
+        <button
+            onClick={() => showAlert("Your settings are saved", "success")}
+            style={{ padding: "8px 16px" }}
+        >
+          Success
+        </button>
+
+        <button
+            onClick={() => showAlert("Error! Server is not available", "error")}
+            style={{ padding: "8px 16px" }}
+        >
+          Error
+        </button>
+      </div>
     </section>
 
   );

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import {Inter} from "next/font/google";
 import type { ReactNode } from "react";
 import "@/shared/styles/globals.scss";
+import {Alert} from "@/shared/ui/Alert/Alert";
+
 
 const inter = Inter({
     subsets: ['latin'],
@@ -23,6 +25,7 @@ export function RootLayout({
   return (
     <html className={inter.variable} lang="en">
       <body>
+      <Alert />
         {children}
       </body>
     </html>
