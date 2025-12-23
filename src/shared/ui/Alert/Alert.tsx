@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { Button } from "@/shared/ui/Button/Button";
 import styles from "./Alert.module.scss";
+import {Icon} from "@/shared/ui/Icon/Icon";
 
 type AlertVariant = "success" | "error";
 
@@ -49,7 +50,7 @@ export const Alert = () => {
                             setAlerts(prev => prev.filter(a => a.id !== alert.id))
                         }
                     >
-                        X
+                        <Icon iconId="close-outline" style={{ color: 'var(--light-100-color)' }}/>
                     </Button>
                 </div>
             ))}
