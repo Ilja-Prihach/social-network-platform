@@ -15,12 +15,13 @@
   }
 }
 
-
+/* PRIMARY */
 .primary {
   background-color: var(--accent-500-color);
 
-  &:active:not(:disabled) {
-    background-color: var(--accent-700-color);
+  &:disabled {
+    background-color: var(--accent-900-color);
+    color: var(--light-900-color);
   }
 
   &:hover:not(:disabled) {
@@ -31,9 +32,8 @@
     background-color: var(--accent-500-color);
   }
 
-  &:disabled {
-    background-color: var(--accent-900-color);
-    color: var(--light-900-color);
+  &:active:not(:disabled) {
+    background-color: var(--accent-700-color);
   }
 }
 
@@ -42,8 +42,9 @@
   background-color: var(--dark-300-color);
   color: var(--light-100-color);
 
-  &:active:not(:disabled) {
-    background-color: var(--dark-700-color);
+  &:disabled {
+    background-color: var(--dark-500-color);
+    color: #737373;
   }
 
   &:hover:not(:disabled) {
@@ -54,9 +55,8 @@
     background-color: var(--dark-300-color);
   }
 
-  &:disabled {
-    background-color: var(--dark-500-color);
-    color: #737373;
+  &:active:not(:disabled) {
+    background-color: var(--dark-700-color);
   }
 }
 
@@ -66,24 +66,24 @@
   border: 1px solid var(--accent-500-color);
   color: var(--accent-500-color);
 
-  &:active:not(:disabled) {
-    border: 1px solid var(--accent-700-color);
-    color: var(--accent-700-color);
+  &:disabled {
+    border-color: var(--accent-900-color);
+    color: var(--accent-900-color);
   }
 
   &:hover:not(:disabled) {
-    border: 1px solid var(--accent-100-color);
+    border-color: var(--accent-100-color);
     color: var(--accent-100-color);
   }
 
   &:focus:not(:disabled) {
-    border: 1px solid var(--accent-700-color);
+    border-color: var(--accent-700-color);
     color: var(--accent-700-color);
   }
 
-  &:disabled {
-    border: 1px solid var(--accent-900-color);
-    color: var(--accent-900-color);
+  &:active:not(:disabled) {
+    border-color: var(--accent-700-color);
+    color: var(--accent-700-color);
   }
 }
 
@@ -95,8 +95,8 @@
   padding: 0;
   height: fit-content;
 
-  &:active:not(:disabled) {
-    color: var(--accent-700-color);
+  &:disabled {
+    color: var(--accent-900-color);
   }
 
   &:hover:not(:disabled) {
@@ -108,12 +108,12 @@
     color: var(--accent-700-color);
   }
 
-
-  &:disabled {
-    color: var(--accent-900-color);
+  &:active:not(:disabled) {
+    color: var(--accent-700-color);
   }
 }
 
+/* отдельное состояние через класс */
 .button.disabled {
   opacity: 0.5;
   pointer-events: none;
