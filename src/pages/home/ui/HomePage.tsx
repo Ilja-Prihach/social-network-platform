@@ -1,7 +1,10 @@
 'use client'
 
 import styles from "./HomePage.module.scss";
+
 import {showAlert} from "@/shared/ui/Alert/Alert";
+
+
 
 
 
@@ -63,6 +66,7 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
           Error
         </button>
       </div>
+
     </section>
 
   );
