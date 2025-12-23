@@ -1,8 +1,7 @@
 'use client'
 
 import styles from "./HomePage.module.scss";
-import {Button} from "@/shared/ui/Button/Button";
-import {Icon} from "@/shared/ui/Icon/Icon";
+import {Sidebar} from "@/widgets/ui/Sidebar/Sidebar";
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -46,31 +45,7 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
           handling.
         </p>
       )}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <h3>Button </h3>
-        <Button variant="primary" onClick={() => alert('clicked!')}>Primary</Button>
-        <Button variant="primary" disabled>Primary Disabled</Button>
-
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="secondary" disabled>Secondary Disabled</Button>
-
-        <Button variant="outline">Outline</Button>
-        <Button variant="outline" disabled>Outline Disabled</Button>
-
-        <Button variant="text">Text</Button>
-        <Button variant="text" disabled>Text Disabled</Button>
-
-        <Button href="/" variant="primary">Primary Link</Button>
-        <Button href="/" variant="primary" disabled>Primary Link Disabled</Button>
-
-        <Button href="/" variant="secondary">Secondary Link</Button>
-        <Button href="/" variant="secondary" disabled>Secondary Link Disabled</Button>
-
-        <Button href="/" variant="outline">Outline Link</Button>
-        <Button href="/" variant="outline" disabled>Outline Link Disabled</Button>
-
-        <Button href="/" variant="text">Text Link</Button>
-        <Button href="/" variant="text" disabled>Text Link Disabled</Button>
+     <Sidebar/>
     </section>
 
   );
