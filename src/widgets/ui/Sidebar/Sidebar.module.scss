@@ -1,11 +1,9 @@
 .sidebar {
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   width: 220px;
   height: 660px;
   padding: 72px 0 36px 60px;
-  background-color: rgb(138 138 140);
 }
 
 .sidebar_nav {
@@ -35,5 +33,4 @@
 .svg {
   width: 24px;
   height: 24px;
-  border: solid 1px rgb(153 0 255 / 82%);
 }

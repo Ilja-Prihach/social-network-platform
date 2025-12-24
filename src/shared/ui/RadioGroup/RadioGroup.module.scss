@@ -31,7 +31,6 @@
   }
 }
 
-
 .control {
   position: relative;
   z-index: 1;
@@ -42,7 +41,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
 
   &::after {
     content: '';
@@ -52,7 +53,9 @@
     background-color: var(--light-100-color);
     opacity: 0;
     transform: scale(0.6);
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
   }
 }
 
@@ -76,7 +79,7 @@
 }
 
 .label {
-  font-family: "Inter", sans-serif;
+  font-family: Inter, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.7;

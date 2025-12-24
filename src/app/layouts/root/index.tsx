@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
-import {Inter} from "next/font/google";
-import type { ReactNode } from "react";
-import "@/shared/styles/globals.scss";
-import {SvgSprite} from "@/shared/assets/icons/SvgSprite";
-
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import type { ReactNode } from 'react';
+import '@/shared/styles/globals.scss';
+import { SvgSprite } from '@/shared/assets/icons/SvgSprite';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,7 +22,7 @@ export function RootLayout({
   return (
     <html className={inter.variable} lang="en">
       <body>
-      <SvgSprite />
+        <SvgSprite />
         {children}
       </body>
     </html>
