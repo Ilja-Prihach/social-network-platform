@@ -6,13 +6,20 @@
 *::after {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   background-color: var(--dark-900-color);
-  color: var(--light-100-color)
+  color: var(--light-100-color);
+  font-family: "Inter", sans-serif;
 }
 
 a {
   text-decoration: none;
+  cursor: pointer;
+}
+
+button{
+  cursor: pointer;
 }
