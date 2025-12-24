@@ -1,5 +1,5 @@
-@import '@/shared/styles/tokens/colors';
-@import '@/shared/styles/tokens/typography';
+@use '@/shared/styles/tokens/colors' as *;
+@use '@/shared/styles/tokens/typography' as *;
 
 *,
 *::before,
