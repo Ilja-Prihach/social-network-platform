@@ -1,22 +1,18 @@
-import type { Metadata } from "next";
-import {Inter} from "next/font/google";
-import type { ReactNode } from "react";
-import "@/shared/styles/globals.scss";
-import {Alert} from "@/shared/ui/Alert/Alert";
-import {SvgSprite} from "@/shared/assets/icons/SvgSprite";
-
-
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import type { ReactNode } from 'react';
+import '@/shared/styles/globals.scss';
+import { Alert } from '@/shared/ui/Alert/Alert';
+import { SvgSprite } from '@/shared/assets/icons/SvgSprite';
 
 const inter = Inter({
-    subsets: ['latin'],
-    variable: '--font-main',
+  subsets: ['latin'],
+  variable: '--font-main',
 });
 
-
-
 export const metadata: Metadata = {
-  title: "FSD Next.js starter",
-  description: "Feature-Sliced scaffold with App Router re-exports.",
+  title: 'FSD Next.js starter',
+  description: 'Feature-Sliced scaffold with App Router re-exports.',
 };
 
 export function RootLayout({
@@ -27,8 +23,8 @@ export function RootLayout({
   return (
     <html className={inter.variable} lang="en">
       <body>
-      <Alert />
-      <SvgSprite />
+        <Alert />
+        <SvgSprite />
         {children}
       </body>
     </html>

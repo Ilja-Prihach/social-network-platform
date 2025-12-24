@@ -1,5 +1,5 @@
-@import '@/shared/styles/tokens/colors';
-@import '@/shared/styles/tokens/typography';
+@use '@/shared/styles/tokens/colors' as *;
+@use '@/shared/styles/tokens/typography' as *;
 
 *,
 *::before,
@@ -12,11 +12,16 @@
 body {
   background-color: var(--dark-900-color);
   color: var(--light-100-color);
-  box-sizing: border-box;
+  font-family: Inter, sans-serif;
 }
 
 a {
   text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
 }
 
 ul,
