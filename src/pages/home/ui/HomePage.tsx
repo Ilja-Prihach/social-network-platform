@@ -1,8 +1,7 @@
-'use client'
+'use client';
 
-import styles from "./HomePage.module.scss";
-import {Input} from "@/shared/ui/Input/Input";
-
+import styles from './HomePage.module.scss';
+import { Input } from '@/shared/ui/Input/Input';
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -17,11 +16,5 @@ const normalizeParam = (value?: string | string[]): string | undefined => {
 };
 
 export function HomePage({ searchParams = {} }: HomePageProps) {
-  return (
-        <>
-          VrontEnd
-        </>
-
-
-  );
+  return <>Vrontend</>;
 }

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './Input.module.scss';
 import { Icon } from '@/shared/ui/Icon/Icon';
@@ -14,25 +14,21 @@ type InputProps = {
 };
 
 export const Input = ({
-                        label,
-                        type = 'text',
-                        value: externalValue,
-                        onChange,
-                        disabled = false,
-                        placeholder,
-                        error,
-                      }: InputProps) => {
+  label,
+  type = 'text',
+  value: externalValue,
+  onChange,
+  disabled = false,
+  placeholder,
+  error,
+}: InputProps) => {
   const [value, setValue] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const isPassword = type === 'password';
   const isSearch = type === 'search';
 
-  const inputType = isPassword
-    ? showPassword
-      ? 'text'
-      : 'password'
-    : type;
+  const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
 
   const inputId = label.replace(/\s+/g, '_').toLowerCase();
 
@@ -53,7 +49,7 @@ export const Input = ({
   };
 
   const handleTogglePassword = () => {
-    setShowPassword(prev => !prev);
+    setShowPassword((prev) => !prev);
   };
 
   const blockClassName = [
@@ -81,11 +77,7 @@ export const Input = ({
 
       <div className={`${styles.input_box} ${blockClassName}`}>
         {isSearch && (
-          <button
-            type="button"
-            className={styles.search_icon}
-            onClick={handleSearchClick}
-          >
+          <button type="button" className={styles.search_icon} onClick={handleSearchClick}>
             <Icon iconId="search-outline" width="20px" height="20px" />
           </button>
         )}
@@ -101,11 +93,7 @@ export const Input = ({
         />
 
         {isPassword && (
-          <button
-            type="button"
-            className={styles.pass_icon}
-            onClick={handleTogglePassword}
-          >
+          <button type="button" className={styles.pass_icon} onClick={handleTogglePassword}>
             <Icon
               iconId={showPassword ? 'eye-off-outline' : 'eye-outline'}
               width="20px"
@@ -119,3 +107,8 @@ export const Input = ({
     </div>
   );
 };
+
+// пример
+// <Input type={'password'} label={'Email'} placeholder={'Enter Email'} value={'asd@mail.com'}/>
+// <Input type={'search'} label={'Email'} placeholder={'Enter Email'} value={'asd@mail.com'}/>
+// <Input type={'text'} label={'Email'} placeholder={'Enter Email'} error={'error'} value={'asd@mail.com'}/>
