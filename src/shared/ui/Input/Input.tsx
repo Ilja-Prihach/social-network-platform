@@ -1,5 +1,5 @@
 'use client';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import styles from './Input.module.scss';
 import { Icon } from '@/shared/ui/Icon/Icon';
 
@@ -16,31 +16,20 @@ type InputProps = {
 export const Input = ({
   label,
   type = 'text',
-  value: externalValue,
+  value = '', // значение по умолчанию вместо undefined
   onChange,
   disabled = false,
   placeholder,
   error,
 }: InputProps) => {
-  const [value, setValue] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
   const isPassword = type === 'password';
   const isSearch = type === 'search';
-
   const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
-
   const inputId = label.replace(/\s+/g, '_').toLowerCase();
-
-  useEffect(() => {
-    if (externalValue !== undefined) {
-      setValue(externalValue);
-    }
-  }, [externalValue]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setValue(newValue);
     onChange?.(newValue);
   };
 
@@ -77,7 +66,12 @@ export const Input = ({
 
       <div className={`${styles.input_box} ${blockClassName}`}>
         {isSearch && (
-          <button type="button" className={styles.search_icon} onClick={handleSearchClick}>
+          <button
+            type="button"
+            className={styles.search_icon}
+            onClick={handleSearchClick}
+            disabled={disabled}
+          >
             <Icon iconId="search-outline" width="20px" height="20px" />
           </button>
         )}
@@ -93,7 +87,12 @@ export const Input = ({
         />
 
         {isPassword && (
-          <button type="button" className={styles.pass_icon} onClick={handleTogglePassword}>
+          <button
+            type="button"
+            className={styles.pass_icon}
+            onClick={handleTogglePassword}
+            disabled={disabled}
+          >
             <Icon
               iconId={showPassword ? 'eye-off-outline' : 'eye-outline'}
               width="20px"
@@ -107,7 +106,6 @@ export const Input = ({
     </div>
   );
 };
-
 // пример
 // <Input type={'password'} label={'Email'} placeholder={'Enter Email'} value={'asd@mail.com'}/>
 // <Input type={'search'} label={'Email'} placeholder={'Enter Email'} value={'asd@mail.com'}/>
