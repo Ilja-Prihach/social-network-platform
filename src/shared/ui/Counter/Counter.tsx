@@ -1,15 +1,19 @@
 import React from 'react';
 import styles from './counter.module.scss';
 
-/*   Пример использования !
-<Counter value={123123}/>     */
-
-
 interface CounterProps {
     value: number;
+    onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+    onMouseEnter?: (event: React.MouseEvent<HTMLDivElement>) => void;
+    onMouseLeave?: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const Counter: React.FC<CounterProps> = ({ value }) => {
+const Counter: React.FC<CounterProps> = ({
+                                             value,
+                                             onClick,
+                                             onMouseEnter,
+                                             onMouseLeave
+                                         }) => {
     // Проверка что value целое число
     if (!Number.isInteger(value)) {
         throw new Error('Counter value must be an integer');
@@ -25,7 +29,13 @@ const Counter: React.FC<CounterProps> = ({ value }) => {
     const digits = formattedValue.split('');
 
     return (
-        <div className={styles.counter}>
+        <div
+            className={styles.counter}
+            onClick={onClick}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            style={{ cursor: onClick ? 'pointer' : 'default' }}
+        >
             {digits.map((digit, index) => (
                 <React.Fragment key={index}>
                     <div className={styles.digit}>
