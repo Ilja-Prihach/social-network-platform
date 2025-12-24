@@ -3,6 +3,7 @@
 import styles from "./HomePage.module.scss";
 import {Button} from "@/shared/ui/Button/Button";
 import {Icon} from "@/shared/ui/Icon/Icon";
+import Counter from "@/shared/ui/Counter";
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -71,6 +72,7 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
 
         <Button href="/" variant="text">Text Link</Button>
         <Button href="/" variant="text" disabled>Text Link Disabled</Button>
+      </div>
     </section>
 
   );
