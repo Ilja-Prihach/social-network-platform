@@ -3,6 +3,7 @@
 import styles from "./HomePage.module.scss";
 import {Input} from "@/shared/ui/Input/Input";
 
+
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
 };
@@ -47,6 +48,7 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
       )}
 
         <Input type={'password'} label={'Email'} placeholder={'Enter Email'} error={'suck my dick'} value={'asd@mail.com'}/>
+
     </section>
 
   );
