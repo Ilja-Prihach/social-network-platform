@@ -11,7 +11,7 @@ export function PrivacyPolicyPage() {
                     ← Back to Sign Up
                 </Button>
             </div>
-            <h2 className={`h2 ${styles.title}`}>Privacy Policy</h2>
+            <h2 className={styles.title}>Privacy Policy</h2>
             <div className={styles.wrapper_items}>
                 <div className={styles.privacy_policy_item}>
                     <h3 className={`h3 ${styles.title_policy_item}`}>Introduction</h3>
@@ -93,22 +93,26 @@ export function PrivacyPolicyPage() {
 
 
                 <div className={styles.privacy_policy_item}>
-                    <h3 className={`h3 ${styles.title_policy_item}`}>Children’s Privacy</h3>
+                    <h3>Children’s Privacy</h3>
                     <p>
                         The Service is not intended for users under 13 years old.
                     </p>
                 </div>
 
                 <div className={styles.privacy_policy_item}>
-                    <h3 className={`h3 ${styles.title_policy_item}`}>Changes to This Policy</h3>
+                    <h3 className={styles.title_policy_item}>Changes to This Policy</h3>
                     <p>
                         We may update this Privacy Policy from time to time.
                     </p>
                 </div>
 
                 <div className={styles.privacy_policy_item}>
-                    <h3 className={`h3 ${styles.title_policy_item}`}>Contact Us</h3>
+                    <h3 className={styles.title_policy_item}> Contact Us</h3>
                     <p>
+                        If you have any questions about these Terms, please contact us at:
+                    </p>
+                    <p>
+                        <strong>Email: </strong>
                         <a className={`regular_link`} href="mailto:social.network.incubator@gmail.com">
                             social.network.incubator@gmail.com
                         </a>
