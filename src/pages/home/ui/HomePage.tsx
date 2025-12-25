@@ -1,8 +1,8 @@
+'use client';
 
-'use client'
-
-import styles from "./HomePage.module.scss";
-import {Sidebar} from "@/widgets/ui/Sidebar/Sidebar";
+import styles from './HomePage.module.scss';
+import { Header } from '@/widgets/header/ui/Header';
+import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -21,16 +21,17 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
   const action = normalizeParam(searchParams.action);
   const modalMessage = postId
     ? `Post modal placeholder for id ${postId}`
-    : action === "create"
-      ? "Create post modal placeholder"
+    : action === 'create'
+      ? 'Create post modal placeholder'
       : null;
 
   return (
     <section className={styles.page}>
+      <Sidebar />
       <h1>Home Page</h1>
       <p className={'bold_text_16'}>
-        Entry point stub wired through the Feature-Sliced Design layout. Replace with
-        the actual landing or feed content.
+        Entry point stub wired through the Feature-Sliced Design layout. Replace with the actual
+        landing or feed content.
       </p>
       {modalMessage ? (
         <div className={styles.modal}>
@@ -41,13 +42,11 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
           </p>
         </div>
       ) : (
-        <p className='large'>
-          No modal active. Add ?postId=42 or ?action=create to the URL to preview modal
-          handling.
+        <p className="large">
+          No modal active. Add ?postId=42 or ?action=create to the URL to preview modal handling.
         </p>
       )}
-     <Sidebar/>
+      <Header />
     </section>
-
   );
 }
