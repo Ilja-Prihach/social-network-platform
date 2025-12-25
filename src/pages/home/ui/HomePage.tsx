@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import styles from "./HomePage.module.scss";
+import styles from './HomePage.module.scss';
 import {Button} from "@/shared/ui/Button/Button";
-import {Icon} from "@/shared/ui/Icon/Icon";
+
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -21,16 +21,16 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
   const action = normalizeParam(searchParams.action);
   const modalMessage = postId
     ? `Post modal placeholder for id ${postId}`
-    : action === "create"
-      ? "Create post modal placeholder"
+    : action === 'create'
+      ? 'Create post modal placeholder'
       : null;
 
   return (
     <section className={styles.page}>
       <h1>Home Page</h1>
       <p className={'bold_text_16'}>
-        Entry point stub wired through the Feature-Sliced Design layout. Replace with
-        the actual landing or feed content.
+        Entry point stub wired through the Feature-Sliced Design layout. Replace with the actual
+        landing or feed content.
       </p>
       {modalMessage ? (
         <div className={styles.modal}>
@@ -41,11 +41,11 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
           </p>
         </div>
       ) : (
-        <p className='large'>
-          No modal active. Add ?postId=42 or ?action=create to the URL to preview modal
-          handling.
+        <p className="large">
+          No modal active. Add ?postId=42 or ?action=create to the URL to preview modal handling.
         </p>
       )}
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <h3>Button </h3>
         <Button variant="primary" onClick={() => alert('clicked!')}>Primary</Button>
@@ -72,7 +72,7 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
         <Button href="/" variant="text">Text Link</Button>
         <Button href="/" variant="text" disabled>Text Link Disabled</Button>
       </div>
-    </section>
 
+    </section>
   );
 }
