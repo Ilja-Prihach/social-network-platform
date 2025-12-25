@@ -1,0 +1,40 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--dark-300-color);
+  width: 378px;
+  position: relative;
+  color: var(--light-100-color);
+}
+
+.title_wrapper {
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--dark-100-color);
+}
+
+.title {
+  font-size: 20px;
+  color: var(--light-100-color);
+}
+
+.description {
+  font-size: 16px;
+  color: var(--light-100-color);
+  padding: 30px 24px 18px;
+}
+
+.button_wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 24px 36px;
+}
