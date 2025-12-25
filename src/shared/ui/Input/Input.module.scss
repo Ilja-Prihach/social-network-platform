@@ -1,0 +1,126 @@
+.input {
+  display: flex;
+  flex-direction: column;
+}
+
+.input_label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--light-900-color);
+  margin-bottom: 5px;
+}
+
+.input_box {
+  position: relative;
+  width: fit-content;
+}
+
+.input_element {
+  border: 1px solid var(--dark-100-color);
+  border-radius: 2px;
+  width: 279px;
+  padding: 5px 12px;
+  background: transparent;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--light-900-color);
+  outline: none;
+
+  &:active {
+    border-color: var(--light-100-color);
+    background: var(--dark-500-color);
+  }
+
+  &:focus {
+    border-color: var(--accent-500-color);
+  }
+
+  &:disabled {
+    border-color: var(--dark-100-color);
+    color: var(--dark-100-color);
+  }
+}
+
+.input_element_search {
+  padding-left: 40px;
+}
+
+.input_element_pass {
+  padding-right: 40px;
+}
+
+.error {
+  border-color: var(--danger-500-color) !important;
+}
+
+/* =========================
+   BLOCK (BASE)
+   ========================= */
+
+.block {
+  position: relative;
+
+  .search_icon,
+  .pass_icon {
+    position: absolute;
+    top: 8px;
+    width: 20px;
+    height: 20px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .search_icon {
+    left: 11px;
+  }
+
+  .pass_icon {
+    right: 11px;
+  }
+
+  .search_icon svg {
+    color: var(--light-900-color);
+  }
+
+  .pass_icon svg {
+    color: var(--light-100-color);
+  }
+
+  /* focus */
+  &:focus-within {
+    .search_icon svg {
+      color: var(--light-900-color);
+    }
+  }
+
+  /* active */
+  &:active {
+    .search_icon svg {
+      color: var(--light-100-color);
+    }
+  }
+
+  &.block_disabled {
+    .search_icon svg,
+    .pass_icon svg {
+      color: var(--dark-100-color);
+    }
+  }
+
+  &.block_error {
+    .search_icon svg,
+    .pass_icon svg {
+      color: var(--light-100-color);
+    }
+  }
+}
+
+.input_text_error {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--danger-500-color);
+}

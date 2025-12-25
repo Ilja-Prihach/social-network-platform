@@ -1,0 +1,87 @@
+.group {
+  display: flex;
+  gap: 24px;
+}
+
+.radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--light-100-color);
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--dark-100-color);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+}
+
+.control {
+  position: relative;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--light-100-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
+
+  &::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--light-100-color);
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+}
+
+/* Checked */
+.radio[data-checked='true'] .control::after {
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+.radio:not([data-disabled='true']):hover::before {
+  opacity: 1;
+}
+
+.radio:not([data-disabled='true']):active::before {
+  opacity: 1;
+}
+
+.radio:not([data-disabled='true']):focus::before {
+  opacity: 1;
+  background-color: var(--dark-500-color);
+}
+
+.label {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--light-100-color);
+}

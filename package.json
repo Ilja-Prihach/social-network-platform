@@ -7,14 +7,14 @@
     "build": "next build",
     "build:production": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint .",
     "prepare": "husky",
     "stylelint": "stylelint \"**/*.scss\"",
     "stylelint:fix": "stylelint \"**/*.scss\" --fix"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
-      "eslint",
+      "eslint --fix",
       "prettier --write"
     ],
     "*.{json,md,yml,yaml,mjs}": [
