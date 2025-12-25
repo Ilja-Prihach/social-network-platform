@@ -1,0 +1,43 @@
+.container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.alert {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--danger-500-color);
+  border-radius: 2px;
+  padding: 12px 12px 12px 24px;
+  width: 387px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--light-100-color);
+}
+
+/* Вариант успех */
+.success {
+  border-color: var(--success-500-color);
+  background-color: var(--success-900-color);
+}
+
+/* Вариант ошибка */
+.error {
+  border-color: var(--danger-500-color);
+  background-color: var(--danger-900-color);
+}
+
+.close_button {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
