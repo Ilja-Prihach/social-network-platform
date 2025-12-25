@@ -1,8 +1,8 @@
 'use client';
 
 import styles from './Sidebar.module.scss';
-import { Button } from '@/shared/ui/Button/Button';
-import { Icon } from '@/shared/ui/Icon/Icon';
+import { Button } from '@/shared/ui/Button';
+import { Icon } from '@/shared/ui/Icon';
 
 export const Sidebar = () => {
   return (
