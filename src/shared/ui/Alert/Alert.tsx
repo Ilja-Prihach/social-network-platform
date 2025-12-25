@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import { Button } from '@/shared/ui/Button/Button';
+import { Button } from '@/shared/ui/Button';
 import styles from './Alert.module.scss';
-import { Icon } from '@/shared/ui/Icon/Icon';
+import { Icon } from '@/shared/ui/Icon';
 
 type AlertVariant = 'success' | 'error';
 
