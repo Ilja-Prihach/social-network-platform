@@ -1,3 +1,5 @@
+'use client';
+
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 
 import styles from './Button.module.scss';
