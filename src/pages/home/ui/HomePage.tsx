@@ -3,6 +3,8 @@
 import styles from './HomePage.module.scss';
 import { Header } from '@/widgets/header/ui/Header';
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
+import { Button } from '@/shared/ui/Button';
+import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -28,7 +30,18 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
   return (
     <section className={styles.page}>
       <Sidebar />
-      <h1>Home Page</h1>
+      <Button
+        variant="primary"
+        onClick={() =>
+          showModal({
+            title: 'Email sent',
+            description: 'We have sent a link to confirm your email to epam@epam.com',
+          })
+        }
+      >
+        open modal
+      </Button>
+      /<h1>Home Page</h1>
       <p className={'bold_text_16'}>
         Entry point stub wired through the Feature-Sliced Design layout. Replace with the actual
         landing or feed content.
