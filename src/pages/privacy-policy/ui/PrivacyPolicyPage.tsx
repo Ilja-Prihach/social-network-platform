@@ -1,4 +1,5 @@
 import styles from './PrivacyPolicyPage.module.scss';
+
 import { Button } from '@/shared/ui/Button';
 
 export function PrivacyPolicyPage() {
@@ -91,7 +92,7 @@ export function PrivacyPolicyPage() {
         </div>
 
         <div className={styles.privacy_policy_item}>
-          <h3>Children’s Privacy</h3>
+          <h3 className={styles.title_policy_item}>Children’s Privacy</h3>
           <p>The Service is not intended for users under 13 years old.</p>
         </div>
 
@@ -105,6 +106,7 @@ export function PrivacyPolicyPage() {
           <p>If you have any questions about these Terms, please contact us at:</p>
           <p>
             <strong>Email: </strong>
+
             <a className={`regular_link`} href="mailto:social.network.incubator@gmail.com">
               social.network.incubator@gmail.com
             </a>

@@ -1,0 +1,29 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 12px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--dark-100-color);
+  background-color: var(--dark-900-color);
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+}
+
+.select {
+  padding-right: 12px;
+  display: flex;
+  gap: 5px;
+}
