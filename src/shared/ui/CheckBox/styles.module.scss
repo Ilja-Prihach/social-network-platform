@@ -1,6 +1,7 @@
 .wrapper {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   cursor: pointer;
   user-select: none;
@@ -25,7 +26,7 @@
   border-radius: 50%;
   background: transparent;
   top: 18px;
-  left: 11px;
+  left: 18px;
   transform: translate(-50%, -50%);
   transition: 0.15s ease;
   pointer-events: none;
