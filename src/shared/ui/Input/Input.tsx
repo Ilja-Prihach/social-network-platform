@@ -1,11 +1,11 @@
 'use client';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useId } from 'react';
 import styles from './Input.module.scss';
 import { Icon } from '@/shared/ui/Icon/Icon';
 
 type InputProps = {
-  label: string;
-  type?: 'text' | 'password' | 'search';
+  label?: string;
+  type?: 'text' | 'password' | 'search' | 'email';
   value?: string;
   onChange?: (value: string) => void;
   disabled?: boolean;
@@ -26,7 +26,8 @@ export const Input = ({
   const isPassword = type === 'password';
   const isSearch = type === 'search';
   const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
-  const inputId = label.replace(/\s+/g, '_').toLowerCase();
+  const reactId = useId();
+  const inputId = label ? label.replace(/\s+/g, '_').toLowerCase() : reactId;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
