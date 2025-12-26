@@ -14,6 +14,20 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'FSD Next.js starter',
   description: 'Feature-Sliced scaffold with App Router re-exports.',
+  icons: {
+    icon: [
+      {
+        url: '/favicon-light.svg',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/favicon-dark.svg',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: light)',
+      },
+    ],
+  },
 };
 
 export function RootLayout({
