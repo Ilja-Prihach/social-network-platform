@@ -1,3 +1,65 @@
-.select {
-  display: block;
+.root {
+  position: relative;
+  width: 240px;
+}
+
+.trigger {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0b0b0b;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.trigger:focus-visible {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.trigger:hover {
+  border-color: #3f3f3f;
+}
+
+.arrow {
+  transition: transform 0.2s ease;
+}
+
+.root[data-open='true'] .arrow {
+  transform: rotate(180deg);
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 4px 0;
+  z-index: 10;
+}
+
+.option {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #d4d4d4;
+
+  &[data-active='true'] {
+    background: #1f1f1f;
+  }
+
+  &[data-selected='true'] {
+    color: #3b82f6;
+  }
+
+  &:hover {
+    background: #262626;
+  }
 }

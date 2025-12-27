@@ -6,6 +6,7 @@ import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
 import { Button } from '@/shared/ui/Button';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { Select } from '@/shared/ui/Select/Select';
+import { useState } from 'react';
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -20,6 +21,7 @@ const normalizeParam = (value?: string | string[]): string | undefined => {
 };
 
 export function HomePage({ searchParams = {} }: HomePageProps) {
+  const [value, setValue] = useState('Mr');
   const postId = normalizeParam(searchParams.postId);
   const action = normalizeParam(searchParams.action);
   const modalMessage = postId
@@ -32,11 +34,13 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
     <section className={styles.page}>
       <Sidebar />
       <Select
+        value={value}
         options={[
           { value: 'Hello', title: 'Moto' },
           { value: 'Mr', title: 'Mister' },
         ]}
         placeholder={'select ВАЛУЕ'}
+        onChange={setValue}
       />
       <Button
         variant="primary"
