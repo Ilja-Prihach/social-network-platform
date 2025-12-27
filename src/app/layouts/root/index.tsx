@@ -26,6 +26,10 @@ export const metadata: Metadata = {
         type: 'image/svg+xml',
         media: '(prefers-color-scheme: light)',
       },
+      {
+        url: '/favicon.ico',
+        type: 'image/x-icon',
+      },
     ],
   },
 };
