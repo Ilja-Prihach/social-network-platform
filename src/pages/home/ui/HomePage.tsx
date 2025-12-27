@@ -5,6 +5,7 @@ import { Header } from '@/widgets/header/ui/Header';
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
 import { Button } from '@/shared/ui/Button';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
+import { Select } from '@/shared/ui/Select/Select';
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -30,6 +31,13 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
   return (
     <section className={styles.page}>
       <Sidebar />
+      <Select
+        options={[
+          { value: 'Hello', title: 'Moto' },
+          { value: 'Mr', title: 'Mister' },
+        ]}
+        placeholder={'select ВАЛУЕ'}
+      />
       <Button
         variant="primary"
         onClick={() =>
