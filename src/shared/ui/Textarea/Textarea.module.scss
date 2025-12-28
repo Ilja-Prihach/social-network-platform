@@ -50,7 +50,7 @@
 
   /* FOCUS - ДОЛЖЕН БЫТЬ ПОСЛЕ ACTIVE */
   &:focus:not(:disabled, .textarea_field_error) {
-    border-color: #60a5fa;
+    border-color: var(--accent-700-color);
     border-width: 1px;
     box-shadow: 0 0 0 2px rgb(96 165 250 / 15%);
   }
@@ -67,7 +67,7 @@
   }
 
   &_error {
-    border-color: #f87171;
+    border-color: var(--danger-500-color);
     border-width: 1px;
 
     /* Error: активное состояние */
@@ -79,7 +79,7 @@
 
     /* Error: focus state */
     &:focus {
-      border-color: #60a5fa !important;
+      border-color: var(--accent-700-color) !important;
       border-width: 1px;
       box-shadow: 0 0 0 2px rgb(96 165 250 / 15%) !important;
     }
@@ -97,7 +97,7 @@
   }
 
   &_error {
-    color: #f87171;
+    color: var(--danger-500-color);
     display: flex;
     align-items: center;
     gap: 4px;
@@ -105,7 +105,7 @@
     &::before {
       content: 'Error:';
       font-weight: 500;
-      color: #fca5a5;
+      color: var(--danger-500-color);
     }
   }
 }
