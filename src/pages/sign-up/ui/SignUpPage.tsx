@@ -5,8 +5,8 @@ import { Icon } from '@/shared/ui/Icon';
 import { Input } from '@/shared/ui/Input';
 import { Button } from '@/shared/ui/Button';
 import { CheckBox } from '@/shared/ui/CheckBox';
-import { InputPassword } from '@/features/auth/ui/InputPassword';
 import { useState } from 'react';
+import { InputPassword } from '@/features/auth/input-password';
 
 export function SignUpPage() {
   const [password, setPassword] = useState('');
