@@ -1,0 +1,97 @@
+.tabs_container {
+  display: flex;
+  gap: 0;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  border-bottom: 1px solid var(--dark-100-color);
+}
+
+.tab {
+  position: relative;
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--dark-100-color);
+  transition: all 0.2s ease;
+  outline: none;
+  white-space: nowrap;
+  min-width: 100px;
+  text-align: center;
+
+  // Нижняя полоска (индикатор) для всех табов
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--dark-100-color);
+    transition: background-color 0.2s ease;
+  }
+
+  // === ВЫБРАННЫЙ ТАБ ===
+  &.selected {
+    color: var(--accent-500-color);
+
+    &::after {
+      background-color: var(--accent-500-color);
+    }
+  }
+
+  // === FOCUS СОСТОЯНИЕ ===
+  &:focus {
+    &:not(.disabled, .selected) {
+      outline: 2px solid var(--accent-700-color);
+      outline-offset: -2px;
+    }
+
+    &.selected:not(.disabled) {
+      outline: 2px solid var(--accent-500-color);
+      outline-offset: -2px;
+
+      &::after {
+        background-color: transparent;
+      }
+    }
+  }
+
+  // === ACTIVE СОСТОЯНИЕ ===
+  &:active:not(.disabled) {
+    background-color: rgb(255 255 255 / 10%);
+  }
+
+  // === HOVER СОСТОЯНИЕ ===
+  &:hover:not(.disabled, :active) {
+    background-color: rgb(255 255 255 / 5%);
+  }
+
+  // === DISABLED СОСТОЯНИЕ ===
+  &.disabled {
+    color: var(--dark-100-color);
+    cursor: not-allowed;
+    opacity: 0.6;
+
+    &::after {
+      background-color: var(--dark-100-color);
+    }
+
+    &.selected {
+      color: var(--accent-900-color);
+
+      &::after {
+        background-color: var(--accent-900-color);
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

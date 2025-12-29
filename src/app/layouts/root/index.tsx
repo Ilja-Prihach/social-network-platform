@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import '@/shared/styles/globals.scss';
 import { Alert } from '@/shared/ui/Alert/Alert';
 import { SvgSprite } from '@/shared/ui/SvgSprite';
+import { ModalWindow } from '@/shared/ui/ModalWindow';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -13,6 +14,24 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'FSD Next.js starter',
   description: 'Feature-Sliced scaffold with App Router re-exports.',
+  icons: {
+    icon: [
+      {
+        url: '/favicon-light.svg',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/favicon-dark.svg',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/favicon.ico',
+        type: 'image/x-icon',
+      },
+    ],
+  },
 };
 
 export function RootLayout({
@@ -25,6 +44,7 @@ export function RootLayout({
       <body>
         <Alert />
         <SvgSprite />
+        <ModalWindow />
         {children}
       </body>
     </html>
