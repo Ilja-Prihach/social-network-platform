@@ -6,11 +6,7 @@ export function PrivacyPolicyPage() {
   return (
     <section className={styles.page}>
       <div className={styles.back_link}>
-        <Button
-          href="/src/pages/sign-up"
-          variant={'text'}
-          style={{ color: 'var(--light-100-color)' }}
-        >
+        <Button href="/sign-up" variant={'text'} style={{ color: 'var(--light-100-color)' }}>
           ← Back to Sign Up
         </Button>
       </div>
