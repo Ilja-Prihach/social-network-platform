@@ -10,8 +10,9 @@ export const Header = () => {
           <p className={styles.logo}>SocialNetwork-AI</p>
         </div>
         <div className={styles.wrapper}>
+          <Icon iconId="Outline bell" />
           <div className={styles.select}>
-            <Icon iconId="flag-united-kingdom" />
+            <Icon iconId="Flag United Kingdom" />
             <p>Select</p>
           </div>
           <Button href="/privacy-policy" variant="text">

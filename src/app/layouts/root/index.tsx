@@ -5,6 +5,7 @@ import '@/shared/styles/globals.scss';
 import { Alert } from '@/shared/ui/Alert/Alert';
 import { SvgSprite } from '@/shared/ui/SvgSprite';
 import { ModalWindow } from '@/shared/ui/ModalWindow';
+import Script from 'next/script';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -28,6 +29,10 @@ export function RootLayout({
         <SvgSprite />
         <ModalWindow />
         {children}
+        <Script
+          src="https://www.google.com/recaptcha/api.js?render=explicit"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
