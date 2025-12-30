@@ -4,16 +4,26 @@
   justify-content: center;
 }
 
-.form{
+//Main page Sign up
+
+.sign{
   background: var(--dark-500-color);
   border: 1px solid #333;
   border-radius: 2px;
-  width: 378px;
+  max-width: 378px;
+  width: 95%;
   padding: 30px 20px;
+  gap: 19px;
   display: flex;
   flex-direction: column;
-  gap: 19px;
   align-items: center;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 19px;
 }
 
 .title{
@@ -65,4 +75,82 @@
 .term_text a{
   font-size: 12px;
   line-height: 1.3;
+}
+
+//Congratulations Block
+.congrat_body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  display: none;
+}
+
+.congrat_title{
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.8;
+  text-align: center;
+  margin-bottom: 19px;
+}
+
+.congrat_text{
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 54px;
+}
+
+.congrat_button{
+  width: 100%;
+  padding: 8px;
+}
+
+.congrat_image{
+  margin-top: 72px;
+}
+
+//Email verification link expired Block
+.verif{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  display: none;
+}
+
+.verif_title{
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.8;
+  text-align: center;
+  margin-bottom: 19px;
+}
+
+.verif_text{
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 30px;
+  max-width: 294px;
+}
+
+.verif_image{
+  margin-top: 36px;
+}
+
+.verif_img{
+
+}
+
+//verification
+.verification{
+  width: 229px;
+}
+
+.verification input{
+  margin-bottom: 24px;
+}
+
+.verification a{
+  width: 100%;
+  padding: 8px;
 }

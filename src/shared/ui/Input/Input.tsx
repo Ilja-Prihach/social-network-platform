@@ -1,45 +1,40 @@
-'use client';
-import { ChangeEvent, useState, useId } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 import styles from './Input.module.scss';
-import { Icon } from '@/shared/ui/Icon/Icon';
 
-type InputProps = {
+export type InputProps = {
+  id?: string;
   label?: string;
-  type?: 'text' | 'password' | 'search' | 'email';
+  type?: 'text' | 'password' | 'email' | 'search';
   value?: string;
   onChange?: (value: string) => void;
   disabled?: boolean;
   placeholder?: string;
   error?: string;
+
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  onLeftIconClick?: () => void;
+  onRightIconClick?: () => void;
 };
 
 export const Input = ({
+  id,
   label,
   type = 'text',
-  value = '', // значение по умолчанию вместо undefined
+  value = '',
   onChange,
   disabled = false,
   placeholder,
   error,
+  leftIcon,
+  rightIcon,
+  onLeftIconClick,
+  onRightIconClick,
 }: InputProps) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const isPassword = type === 'password';
-  const isSearch = type === 'search';
-  const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
-  const reactId = useId();
-  const inputId = label ? label.replace(/\s+/g, '_').toLowerCase() : reactId;
+  const inputId = id ?? label?.replace(/\s+/g, '_').toLowerCase();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    onChange?.(newValue);
-  };
-
-  const handleSearchClick = () => {
-    onChange?.(value);
-  };
-
-  const handleTogglePassword = () => {
-    setShowPassword((prev) => !prev);
+    onChange?.(e.target.value);
   };
 
   const blockClassName = [
@@ -52,8 +47,8 @@ export const Input = ({
 
   const inputClassName = [
     styles.input_element,
-    isSearch && styles.input_element_search,
-    isPassword && styles.input_element_pass,
+    leftIcon && styles.input_element_search,
+    rightIcon && styles.input_element_pass,
     error && styles.error,
   ]
     .filter(Boolean)
@@ -61,25 +56,27 @@ export const Input = ({
 
   return (
     <div className={styles.input}>
-      <label htmlFor={inputId} className={styles.input_label}>
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={inputId} className={styles.input_label}>
+          {label}
+        </label>
+      )}
 
       <div className={`${styles.input_box} ${blockClassName}`}>
-        {isSearch && (
+        {leftIcon && (
           <button
             type="button"
             className={styles.search_icon}
-            onClick={handleSearchClick}
+            onClick={onLeftIconClick}
             disabled={disabled}
           >
-            <Icon iconId="search-outline" width="20px" height="20px" />
+            {leftIcon}
           </button>
         )}
 
         <input
           id={inputId}
-          type={inputType}
+          type={type}
           className={inputClassName}
           placeholder={placeholder}
           disabled={disabled}
@@ -87,18 +84,14 @@ export const Input = ({
           onChange={handleChange}
         />
 
-        {isPassword && (
+        {rightIcon && (
           <button
             type="button"
             className={styles.pass_icon}
-            onClick={handleTogglePassword}
+            onClick={onRightIconClick}
             disabled={disabled}
           >
-            <Icon
-              iconId={showPassword ? 'eye-off-outline' : 'eye-outline'}
-              width="20px"
-              height="20px"
-            />
+            {rightIcon}
           </button>
         )}
       </div>
@@ -107,7 +100,3 @@ export const Input = ({
     </div>
   );
 };
-// пример
-// <Input type={'password'} label={'Email'} placeholder={'Enter Email'} value={'asd@mail.com'}/>
-// <Input type={'search'} label={'Email'} placeholder={'Enter Email'} value={'asd@mail.com'}/>
-// <Input type={'text'} label={'Email'} placeholder={'Enter Email'} error={'error'} value={'asd@mail.com'}/>
