@@ -4,7 +4,7 @@
   justify-content: center;
 }
 
-//Main page Sign up
+// Main page Sign up
 
 .sign{
   background: var(--dark-500-color);
@@ -77,9 +77,8 @@
   line-height: 1.3;
 }
 
-//Congratulations Block
+// Congratulations Block
 .congrat_body{
-  display: flex;
   flex-direction: column;
   align-items: center;
   display: none;
@@ -109,9 +108,8 @@
   margin-top: 72px;
 }
 
-//Email verification link expired Block
+// Email verification link expired Block
 .verif{
-  display: flex;
   flex-direction: column;
   align-items: center;
   display: none;
@@ -141,7 +139,7 @@
 
 }
 
-//verification
+// verification
 .verification{
   width: 229px;
 }
