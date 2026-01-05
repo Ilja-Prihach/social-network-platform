@@ -4,12 +4,74 @@ import styles from './SignUpPage.module.scss';
 import { Icon } from '@/shared/ui/Icon';
 import { Input } from '@/shared/ui/Input';
 import { Button } from '@/shared/ui/Button';
-import { CheckBox } from '@/shared/ui/CheckBox';
 import { useState } from 'react';
 import { InputPassword } from '@/features/auth/input-password';
+import { CheckBoxAgreeTerms } from '@/features/auth/check-box-agree-terms';
 
 export function SignUpPage() {
+  const [userName, setUserName] = useState('');
+  const [userNameError, setUserNameError] = useState('');
+
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [passwordConfirmError, setPasswordConfirmError] = useState('');
+
+  function checkUserName() {
+    if (userName && userName.length > 0) {
+      setUserNameError('');
+      return true;
+    } else {
+      setUserNameError('Username must not be empty');
+      return false;
+    }
+  }
+  function checkEmail() {
+    let re = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    let valid = email.match(re);
+    if (email && email.length > 0 && valid) {
+      setEmailError('');
+      return true;
+    } else {
+      setEmailError('Email must be valid');
+      return false;
+    }
+  }
+  function checkPassword() {
+    if (password && password.length > 6) {
+      setPasswordError('');
+      return true;
+    } else {
+      setPasswordError('Password must be at least 6 characters long');
+      return false;
+    }
+  }
+
+  function checkPasswordConfirm() {
+    if (password === passwordConfirm) {
+      setPasswordConfirmError('');
+      return true;
+    } else {
+      setPasswordConfirmError('The passwords must match');
+      return false;
+    }
+  }
+
+  function submitSignUp() {
+    if (checkUserName() && checkEmail() && checkPassword() && checkPasswordConfirm()) {
+      console.log({
+        login: userName,
+        email: email,
+        password: password,
+      });
+    } else {
+      return false;
+    }
+  }
 
   return (
     <section className={styles.page}>
@@ -17,33 +79,54 @@ export function SignUpPage() {
         <div className={styles.sign}>
           <h2 className={styles.title}>Sign Up</h2>
           <div className={styles.head}>
-            <a href="#" className={styles.soc_enter}>
+            <a href="/#" className={styles.soc_enter}>
               <Icon iconId={'google-svgrepo-com 1'} width={'36px'} height={'36px'} />
             </a>
-            <a href="#" className={styles.soc_enter}>
-              <Icon iconId={'google-svgrepo-com 1'} width={'36px'} height={'36px'} />
+            <a href="/#" className={styles.soc_enter}>
+              <Icon
+                iconId={'github-svgrepo-com (3) 1'}
+                width={'36px'}
+                height={'36px'}
+                style={{ color: 'var(--light-100-color)' }}
+              />
             </a>
           </div>
           <form className={styles.form}>
             <div className={styles.wrapper}>
-              <Input label={'Username'} type={'text'} placeholder={'Username'} />
-              <Input label={'Email'} type={'email'} placeholder={'Email'} />
+              <Input
+                label={'Username'}
+                type={'text'}
+                placeholder={'Username'}
+                value={userName}
+                onChange={setUserName}
+                error={userNameError}
+              />
+              <Input
+                label={'Email'}
+                type={'email'}
+                placeholder={'Email'}
+                value={email}
+                onChange={setEmail}
+                error={emailError}
+              />
               <InputPassword
                 label="Password"
                 placeholder="Enter password"
                 value={password}
                 onChange={setPassword}
+                error={passwordError}
               />
               <InputPassword
                 label="Password confirmation"
                 placeholder="Enter password confirmation"
-                value={password}
-                onChange={setPassword}
+                value={passwordConfirm}
+                onChange={setPasswordConfirm}
+                error={passwordConfirmError}
               />
             </div>
 
             <div className={styles.checkbox}>
-              <CheckBox checked={false} onChange={() => {}} />
+              <CheckBoxAgreeTerms />
               <p className={styles.term_text}>
                 I agree to the{' '}
                 <Button href="/sign-in" variant="text">
@@ -56,7 +139,7 @@ export function SignUpPage() {
               </p>
             </div>
 
-            <Button href="/sign-in" variant="primary" className={styles.button}>
+            <Button variant="primary" className={styles.button} onClick={submitSignUp}>
               Sign Up
             </Button>
           </form>
@@ -64,34 +147,6 @@ export function SignUpPage() {
           <Button href="/sign-in" variant="text">
             Sign In
           </Button>
-        </div>
-        <div className={styles.congrat}>
-          <div className={styles.congrat_body}>
-            <h2 className={styles.congrat_title}>Congratulations!</h2>
-            <p className={styles.congrat_text}>Your email has been confirmed</p>
-            <Button href="/sign-in" variant="primary" className={styles.congrat_button}>
-              Sign In
-            </Button>
-            <div className={styles.congrat_image}>
-              <img src="" alt="Congratulations" className={styles.congrat_img} />
-            </div>
-          </div>
-        </div>
-        <div className={styles.verif}>
-          <h2 className={styles.verif_title}>Email verification link expired</h2>
-          <p className={styles.verif_text}>
-            Looks like the verification link has expired. Not to worry, we can send the link again
-          </p>
-          <div className={styles.verification}>
-            <Input type={'text'} placeholder={'Epam@epam.com'} label={'Email'} />
-            <Button href="/sign-in" variant="primary" className={styles.verification_button}>
-              Sign In
-            </Button>
-          </div>
-          <div className={styles.verif_resend}></div>
-          <div className={styles.verif_image}>
-            <img src="" alt="Resend verification" className={styles.verif_img} />
-          </div>
         </div>
       </div>
     </section>

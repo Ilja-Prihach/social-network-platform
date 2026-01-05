@@ -6,14 +6,17 @@ type Props = {
   onChange: (v: boolean) => void;
   disabled?: boolean;
   label?: string;
+  error?: boolean;
 };
 
-export const CheckBox = ({ checked, onChange, disabled, label }: Props) => {
+export const CheckBox = ({ checked, onChange, disabled, label, error }: Props) => {
+  const checkboxClassName = [styles.input, error && styles.error].filter(Boolean).join(' ');
+
   return (
     <label className={styles.wrapper}>
       <input
         type="checkbox"
-        className={styles.input}
+        className={checkboxClassName}
         checked={checked}
         disabled={disabled}
         onChange={(e) => onChange(e.target.checked)}
