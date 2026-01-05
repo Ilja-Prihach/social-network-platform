@@ -59,11 +59,11 @@ export function SignUpPage() {
             <Button href="/sign-in" variant="primary" className={styles.button}>
               Sign Up
             </Button>
-            <p className={styles.text}>Do you have an account?</p>
-            <Button href="/sign-in" variant="text">
-              Sign In
-            </Button>
           </form>
+          <p className={styles.text}>Do you have an account?</p>
+          <Button href="/sign-in" variant="text">
+            Sign In
+          </Button>
         </div>
         <div className={styles.congrat}>
           <div className={styles.congrat_body}>
