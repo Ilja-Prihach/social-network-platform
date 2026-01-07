@@ -4,6 +4,7 @@
   width: 220px;
   height: 660px;
   padding: 72px 0 36px 60px;
+  color: var(--light-100-color);
 }
 
 .sidebar_nav {
@@ -33,4 +34,18 @@
 .svg {
   width: 24px;
   height: 24px;
+}
+
+.sidebar_button {
+  color: var(--light-100-color);
+}
+
+.sidebar_button.active {
+  color: var(--accent-700-color);
+}
+
+.sidebar_button:focus-visible,
+.sidebar_button.active:focus-visible {
+  color: var(--light-100-color) !important;
+  outline: 1px solid var(--accent-700-color);
 }

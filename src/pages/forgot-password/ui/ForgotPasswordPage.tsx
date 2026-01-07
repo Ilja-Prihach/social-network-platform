@@ -1,5 +1,4 @@
-// import styles from './ForgotPasswordPage.module.scss';
-import { ForgotPasswordWidget } from '@/widgets/forgotPassword/ui/forgotPassword';
+import { ForgotPasswordWidget } from '@/widgets/auth/forgotPassword/ui/forgotPassword';
 
 export function ForgotPasswordPage() {
   return <ForgotPasswordWidget />;

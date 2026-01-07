@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './forgotPassword.module.scss';
-import { RequestPasswordResetForm } from '@/features/RequestPasswordResetForm';
+import { RequestPasswordResetForm } from '@/features/auth/forgot-password/RequestPasswordResetForm';
 
 export function ForgotPasswordWidget() {
   return (
