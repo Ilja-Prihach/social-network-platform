@@ -8,6 +8,7 @@ import { ModalWindow } from '@/shared/ui/ModalWindow';
 
 import Script from 'next/script';
 import { SvgSprite } from '@/shared/ui/SvgSprite';
+import { ReactQueryProvider } from '@/app/providers/ReactQueryProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -43,14 +44,16 @@ export function RootLayout({
   return (
     <html className={inter.variable} lang="en">
       <body>
-        <Alert />
-        <SvgSprite />
-        <ModalWindow />
-        {children}
-        <Script
-          src="https://www.google.com/recaptcha/api.js?render=explicit"
-          strategy="afterInteractive"
-        />
+        <ReactQueryProvider>
+          <Alert />
+          <SvgSprite />
+          <ModalWindow />
+          {children}
+          <Script
+            src="https://www.google.com/recaptcha/api.js?render=explicit"
+            strategy="afterInteractive"
+          />
+        </ReactQueryProvider>
       </body>{' '}
     </html>
   );
