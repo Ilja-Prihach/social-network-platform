@@ -1,14 +1,24 @@
-import { BASE_API_URL } from '@/shared/api/baseApi';
+type ErrorResponse = {
+  errorsMessages?: Array<{ message?: string }>;
+};
+
+const getErrorMessage = async (response: Response, fallback: string) => {
+  try {
+    const data = (await response.json()) as ErrorResponse;
+    return data?.errorsMessages?.[0]?.message || fallback;
+  } catch {
+    return fallback;
+  }
+};
 
 export const recoverPassword = async (email: string): Promise<void> => {
-  const response = await fetch(`${BASE_API_URL}/api/v1/auth/recover-password`, {
+  const response = await fetch(`/api/auth/recover-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
   });
 
   if (!response.ok) {
-    const data = await response.json();
-    throw new Error(data?.errorsMessages?.[0]?.message || 'Recover Password');
+    throw new Error(await getErrorMessage(response, "User with this email doesn't exist"));
   }
 };

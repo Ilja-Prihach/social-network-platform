@@ -1,6 +1,5 @@
 // Фронт ожидает переменную
 // NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-// и будет отправлять recaptchaToken в POST /auth/forgot-password
 
 'use client';
 
@@ -12,32 +11,32 @@ import { Input } from '@/shared/ui/Input';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { useRecoverPassword } from '@/features/auth/forgot-password/model/useRecoverPassword';
 
-export function RequestPasswordResetForm() {
-  const isRecaptchaEnabled = false;
+const STORAGE_KEY = 'forgotPasswordEmail';
 
-  const [formData, setFormData] = useState({
-    email: '',
-    recaptchaToken: isRecaptchaEnabled ? '' : 'mock-token',
-  });
+export function RequestPasswordResetForm() {
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const isRecaptchaEnabled = Boolean(recaptchaSiteKey);
+
+  const [email, setEmail] = useState('');
+  const [recaptchaToken, setRecaptchaToken] = useState('');
 
   const { mutate, isPending } = useRecoverPassword();
-  const isDisabled = !formData.email || isPending;
+  const isDisabled = !email || (isRecaptchaEnabled && !recaptchaToken) || isPending;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    mutate(formData.email, {
+    mutate(email, {
       onSuccess: () => {
         showModal({
           title: 'Email sent',
-          description: `We have sent a link to confirm your email to ${formData.email}`,
+          description: `We have sent a link to confirm your email to ${email}`,
           confirmText: 'OK',
         });
 
-        setFormData({
-          email: '',
-          recaptchaToken: isRecaptchaEnabled ? '' : 'mock-token',
-        });
+        window.localStorage.setItem(STORAGE_KEY, email);
+        setEmail('');
+        setRecaptchaToken('');
       },
       onError: (error) => {
         showModal({
@@ -58,11 +57,11 @@ export function RequestPasswordResetForm() {
           label="Email"
           type="email"
           placeholder="Enter your email"
-          value={formData.email}
-          onChange={(val) => setFormData((prev) => ({ ...prev, email: val }))}
+          value={email}
+          onChange={setEmail}
         />
         <p className={styles.description}>
-          Enter your email and we will send you further instructions
+          Enter your email and we will send you further instruction
         </p>
       </div>
 
@@ -77,10 +76,7 @@ export function RequestPasswordResetForm() {
       </div>
       <div className={styles.recaptcha}>
         {isRecaptchaEnabled && (
-          <Recaptcha
-            siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-            onChange={(token) => setFormData((prev) => ({ ...prev, recaptchaToken: token }))}
-          />
+          <Recaptcha siteKey={recaptchaSiteKey!} onChange={(token) => setRecaptchaToken(token)} />
         )}
       </div>
     </form>
