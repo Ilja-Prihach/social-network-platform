@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  padding: 40px;
+}
+
+.image_placeholder {
+  width: 473px;
+  height: 352px;
+  background: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+}
+
+.title {
+  width: 294px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.text {
+  width: 294px;
+  font-size: 14px;
+  color: var(--light-900-color);
+}
+
+.button {
+  width: 294px;
+  min-height: 36px;
+}
