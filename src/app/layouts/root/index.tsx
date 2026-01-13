@@ -9,6 +9,7 @@ import { ModalWindow } from '@/shared/ui/ModalWindow';
 import Script from 'next/script';
 import { SvgSprite } from '@/shared/ui/SvgSprite';
 import { ReactQueryProvider } from '@/app/providers/ReactQueryProvider';
+import { Header } from '@/widgets/header/ui/Header';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -45,6 +46,7 @@ export function RootLayout({
     <html className={inter.variable} lang="en">
       <body>
         <ReactQueryProvider>
+          <Header />
           <Alert />
           <SvgSprite />
           <ModalWindow />
