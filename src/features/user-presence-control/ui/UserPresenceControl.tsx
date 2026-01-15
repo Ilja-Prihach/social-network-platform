@@ -1,25 +1,25 @@
-'use client'
-import { useState } from "react";
+'use client';
+import { useState } from 'react';
 
-import styles from "./UserPresenceControl.module.scss";
+import styles from './UserPresenceControl.module.scss';
 
-import { UserCard, type User, type UserStatus } from "@/entities/user";
-import { getPresenceText } from "../lib/getPresenceText";
-import type { UserPresenceControlProps } from "../model/types";
+import { UserBadge, type User, type UserStatus } from '@/entities/user';
+import { getPresenceText } from '../lib/getPresenceText';
+import type { UserPresenceControlProps } from '../model/types';
 
 const statusOptions: { value: UserStatus; label: string }[] = [
-  { value: "online", label: "Online" },
-  { value: "idle", label: "Idle" },
-  { value: "offline", label: "Offline" },
+  { value: 'online', label: 'Online' },
+  { value: 'idle', label: 'Idle' },
+  { value: 'offline', label: 'Offline' },
 ];
 
 const demoUser: User = {
-  id: "user-42",
-  fullName: "Taylor Moore",
-  email: "taylor.moore@example.com",
-  role: "admin",
-  status: "idle",
-  lastActive: "5 minutes ago",
+  id: 'user-42',
+  fullName: 'Taylor Moore',
+  email: 'taylor.moore@example.com',
+  role: 'admin',
+  status: 'idle',
+  lastActive: '5 minutes ago',
 };
 
 export function UserPresenceControl({ user = demoUser }: UserPresenceControlProps) {
@@ -29,7 +29,7 @@ export function UserPresenceControl({ user = demoUser }: UserPresenceControlProp
     setCurrentUser((prev) => ({
       ...prev,
       status,
-      lastActive: status === "online" ? "just now" : prev.lastActive,
+      lastActive: status === 'online' ? 'just now' : prev.lastActive,
     }));
   };
 
@@ -37,7 +37,7 @@ export function UserPresenceControl({ user = demoUser }: UserPresenceControlProp
 
   return (
     <section className={styles.wrapper}>
-      <UserCard user={currentUser} />
+      <UserBadge user={currentUser} />
       <div className={styles.controls}>
         <div className={styles.controlsHeader}>
           <p className={styles.label}>Presence Controls</p>
@@ -50,7 +50,7 @@ export function UserPresenceControl({ user = demoUser }: UserPresenceControlProp
               <button
                 key={option.value}
                 type="button"
-                className={`${styles.button} ${isActive ? styles.active : ""}`}
+                className={`${styles.button} ${isActive ? styles.active : ''}`}
                 onClick={() => handleStatusChange(option.value)}
               >
                 {option.label}

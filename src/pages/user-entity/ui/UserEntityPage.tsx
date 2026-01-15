@@ -1,6 +1,6 @@
 import styles from './UserEntityPage.module.scss';
 
-import { type User, UserCard } from '@/entities/user';
+import { type User, UserBadge } from '@/entities/user';
 
 const showcaseUser: User = {
   id: 'user-007',
@@ -24,7 +24,7 @@ export function UserEntityPage() {
       </header>
 
       <div className={styles.cardArea}>
-        <UserCard user={showcaseUser} />
+        <UserBadge user={showcaseUser} />
       </div>
 
       <div className={styles.notes}>

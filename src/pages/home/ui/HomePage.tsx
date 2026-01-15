@@ -3,64 +3,36 @@
 import styles from './HomePage.module.scss';
 
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
-import { Button } from '@/shared/ui/Button';
-import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { Header } from '@/widgets/header/ui/Header';
 
-type HomePageProps = {
-  searchParams?: Record<string, string | string[] | undefined>;
-};
+import { mockPosts } from '@/entities/post';
+import { mockUsers } from '@/entities/user';
+import { buildPostCards, PostCard } from '@/widgets/post-card';
+import Counter from '@/shared/ui/Counter';
 
-const normalizeParam = (value?: string | string[]): string | undefined => {
-  if (Array.isArray(value)) {
-    return value[0];
-  }
-
-  return value;
-};
-
-export function HomePage({ searchParams = {} }: HomePageProps) {
-  const postId = normalizeParam(searchParams.postId);
-  const action = normalizeParam(searchParams.action);
-  const modalMessage = postId
-    ? `Post modal placeholder for id ${postId}`
-    : action === 'create'
-      ? 'Create post modal placeholder'
-      : null;
+export function HomePage() {
+  const items = buildPostCards(mockPosts, mockUsers);
 
   return (
     <section className={styles.page}>
-      <Sidebar />
-      <Button
-        variant="primary"
-        onClick={() =>
-          showModal({
-            title: 'Email sent',
-            description: 'We have sent a link to confirm your email to epam@epam.com',
-          })
-        }
-      >
-        open modal
-      </Button>
-      /<h1>Home Page</h1>
-      <p className={'bold_text_16'}>
-        Entry point stub wired through the Feature-Sliced Design layout. Replace with the actual
-        landing or feed content.
-      </p>
-      {modalMessage ? (
-        <div className={styles.modal}>
-          <p>{modalMessage}</p>
-          <p className={styles.modalHint}>
-            Query-driven modal state. If both postId and action are present, postId takes
-            precedence.
-          </p>
-        </div>
-      ) : (
-        <p className="large">
-          No modal active. Add ?postId=42 or ?action=create to the URL to preview modal handling.
-        </p>
-      )}
       <Header />
+
+      <div className={styles.content}>
+        <aside className={styles.sidebar}>
+          <Sidebar />
+        </aside>
+        <div className={styles.user_count}>
+          <Counter value={234} />
+        </div>
+
+        <main className={styles.main}>
+          <div className={styles.grid}>
+            {items.map((vm) => (
+              <PostCard key={vm.post.id} vm={vm} />
+            ))}
+          </div>
+        </main>
+      </div>
     </section>
   );
 }
