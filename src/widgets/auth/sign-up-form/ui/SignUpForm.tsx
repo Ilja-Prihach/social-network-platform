@@ -8,7 +8,7 @@ import { CheckBoxAgreeTerms } from '@/features/auth/check-box-agree-terms';
 import { useSignUpForm } from '../model/useSignUpForm';
 
 export function SignUpForm() {
-  const { values, errors, agree, setAgree, submit } = useSignUpForm();
+  const { values, errors, agree, setAgree, submit, isSubmitting } = useSignUpForm();
 
   return (
     <form className={styles.form} onSubmit={submit}>
@@ -18,15 +18,24 @@ export function SignUpForm() {
           value={values.userName}
           onChange={values.setUserName}
           error={errors.userName}
+          disabled={isSubmitting}
         />
 
-        <Input label="Email" value={values.email} onChange={values.setEmail} error={errors.email} />
+        <Input
+          label="Email"
+          type="email"
+          value={values.email}
+          onChange={values.setEmail}
+          error={errors.email}
+          disabled={isSubmitting}
+        />
 
         <InputPassword
           label="Password"
           value={values.password}
           onChange={values.setPassword}
           error={errors.password}
+          disabled={isSubmitting}
         />
 
         <InputPassword
@@ -34,24 +43,30 @@ export function SignUpForm() {
           value={values.passwordConfirm}
           onChange={values.setPasswordConfirm}
           error={errors.passwordConfirm}
+          disabled={isSubmitting}
         />
       </div>
 
       <div className={styles.checkbox}>
-        <CheckBoxAgreeTerms checked={agree} error={errors.agree} onChangeAction={setAgree} />
+        <CheckBoxAgreeTerms
+          checked={agree}
+          error={errors.agree}
+          onChangeAction={setAgree}
+          disabled={isSubmitting}
+        />
         <p className={styles.term_text}>
           I agree to the{' '}
-          <Button href="/sign-in" variant="text">
+          <Button href="/terms" variant="text">
             Terms of Service
           </Button>{' '}
           and{' '}
-          <Button href="/sign-in" variant="text">
+          <Button href="/privacy-policy" variant="text">
             Privacy Policy
           </Button>
         </p>
       </div>
 
-      <Button type="submit" variant="primary" className={styles.button}>
+      <Button type="submit" variant="primary" className={styles.button} disabled={isSubmitting}>
         Sign Up
       </Button>
     </form>

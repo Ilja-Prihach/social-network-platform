@@ -1,4 +1,23 @@
 import { useState } from 'react';
+import type { FormEvent } from 'react';
+import { useSignUpMutation } from '@/entities/auth/model/useSignUpMutation';
+import type { ApiError } from '@/shared/api/types';
+
+type FormErrors = {
+  userName: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  agree: boolean;
+};
+
+const initialErrors: FormErrors = {
+  userName: '',
+  email: '',
+  password: '',
+  passwordConfirm: '',
+  agree: false,
+};
 
 export function useSignUpForm() {
   const [userName, setUserName] = useState('');
@@ -7,16 +26,11 @@ export function useSignUpForm() {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [agree, setAgree] = useState(false);
 
-  const [errors, setErrors] = useState({
-    userName: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-    agree: false,
-  });
+  const [errors, setErrors] = useState<FormErrors>(initialErrors);
+  const { mutateAsync, isPending } = useSignUpMutation();
 
   const validate = () => {
-    const nextErrors = {
+    const nextErrors: FormErrors = {
       userName: userName ? '' : 'Username required',
       email: /\S+@\S+\.\S+/.test(email) ? '' : 'Invalid email',
       password: password.length >= 6 ? '' : 'Min 6 chars',
@@ -29,16 +43,39 @@ export function useSignUpForm() {
     return !Object.values(nextErrors).some(Boolean);
   };
 
-  const submit = (e: React.FormEvent) => {
+  const applyServerErrors = (apiError: ApiError) => {
+    if (!apiError?.errorsMessages?.length) return;
+
+    setErrors((prev) => {
+      const next = { ...prev };
+
+      for (const { field, message } of apiError.errorsMessages) {
+        if (field === 'login' || field === 'userName') next.userName = message;
+        if (field === 'email') next.email = message;
+        if (field === 'password') next.password = message;
+      }
+
+      return next;
+    });
+  };
+
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validate()) return;
 
-    console.log({
-      login: userName,
-      email,
-      password,
-    });
+    try {
+      await mutateAsync({
+        login: userName,
+        email,
+        password,
+      });
+
+      console.log('Ура');
+    } catch (err) {
+      console.log(err);
+      applyServerErrors(err as ApiError);
+    }
   };
 
   return {
@@ -56,5 +93,6 @@ export function useSignUpForm() {
     agree,
     setAgree,
     submit,
+    isSubmitting: isPending,
   };
 }
