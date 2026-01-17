@@ -1,5 +1,10 @@
+import { Suspense } from 'react';
 import { EmailVerificationWidget } from '@/widgets/auth/emailVerification';
 
 export function EmailVerificationPage() {
-  return <EmailVerificationWidget variant="sign-up" />;
+  return (
+    <Suspense fallback={<div />}>
+      <EmailVerificationWidget variant="sign-up" />
+    </Suspense>
+  );
 }
