@@ -1,0 +1,54 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 24px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.congrat {
+  display: flex;
+  justify-content: center;
+}
+
+.congrat_body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.congrat_title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.8;
+  text-align: center;
+  margin-bottom: 19px;
+}
+
+.congrat_text {
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 54px;
+}
+
+.congrat_button {
+  width: 182px;
+  padding: 8px;
+}
+
+.congrat_image {
+  margin-top: 72px;
+}
+
+.congrat_img {
+  width: 100%;
+  max-width: 432px;
+  height: auto;
+}
