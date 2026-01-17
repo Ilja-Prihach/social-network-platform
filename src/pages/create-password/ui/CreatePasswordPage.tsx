@@ -1,5 +1,10 @@
+import { Suspense } from 'react';
 import { CreatePasswordWidget } from '@/widgets/auth/createPassword/ui/createPassword';
 
 export function CreatePasswordPage() {
-  return <CreatePasswordWidget />;
+  return (
+    <Suspense fallback={<div />}>
+      <CreatePasswordWidget />
+    </Suspense>
+  );
 }

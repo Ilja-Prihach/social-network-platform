@@ -45,68 +45,6 @@
   line-height: 1.5;
 }
 
-// Congratulations Block
-.congrat_body {
-  // display: flex;
-  flex-direction: column;
-  align-items: center;
-  display: none;
-}
-
-.congrat_title {
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1.8;
-  text-align: center;
-  margin-bottom: 19px;
-}
-
-.congrat_text {
-  font-size: 16px;
-  line-height: 1.5;
-  text-align: center;
-  margin-bottom: 54px;
-}
-
-.congrat_button {
-  width: 100%;
-  padding: 8px;
-}
-
-.congrat_image {
-  margin-top: 72px;
-}
-
-// Email verification link expired Block
-.verif {
-  // display: flex;
-  flex-direction: column;
-  align-items: center;
-  display: none;
-}
-
-.verif_title {
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1.8;
-  text-align: center;
-  margin-bottom: 19px;
-}
-
-.verif_text {
-  font-size: 16px;
-  line-height: 1.5;
-  text-align: center;
-  margin-bottom: 30px;
-  max-width: 294px;
-}
-
-.verif_image {
-  margin-top: 36px;
-}
-
-// .verif_img{
-// }
 // verification
 .verification {
   width: 229px;

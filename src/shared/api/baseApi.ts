@@ -1,7 +1,6 @@
 // export const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL!;
-// src/shared/api/baseApi.ts
 
-export const BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
+export const BASE_URL = (process.env.NEXT_PUBLIC_API_URL ?? '/api').replace(/\/$/, '');
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
