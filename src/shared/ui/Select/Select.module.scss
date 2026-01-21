@@ -1,33 +1,71 @@
 .root {
   position: relative;
-  width: 240px;
+  width: 210px;
 }
 
 .trigger {
   width: 100%;
-  height: 40px;
-  padding: 0 12px;
+  height: 36px;
+  padding: 6px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #0b0b0b;
-  border: 1px solid #2a2a2a;
-  border-radius: 6px;
-  color: #fff;
+  background-color: transparent;
+  border: 1px solid var(--dark-100-color);
+  border-radius: 4px;
+  color: var(--light-100-color);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+
+  &:focus-visible {
+    outline: none;
+    border: 1px solid var(--accent-500-color);
+    border-radius: 4px;
+    padding: 5px 11px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: var(--dark-100-color);
+    color: var(--dark-100-color);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--light-100-color);
+    color: var(--light-100-color);
+  }
+
+  &[aria-expanded='true'] {
+    border: 1px solid var(--accent-500-color);
+    border-radius: 4px;
+    padding: 5px 11px;
+  }
 }
 
-.trigger:focus-visible {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 1px #3b82f6;
+.value_wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.trigger:hover {
-  border-color: #3f3f3f;
+.icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.label_title {
+  display: block;
+  color: var(--light-900-color);
 }
 
 .arrow {
+  width: 24px;
+  height: 24px;
   transition: transform 0.2s ease;
+  color: var(--light-100-color);
 }
 
 .root[data-open='true'] .arrow {
@@ -39,27 +77,24 @@
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background: #141414;
-  border: 1px solid #2a2a2a;
-  border-radius: 6px;
-  padding: 4px 0;
-  z-index: 10;
+  background: var(--dark-500-color);
+  border: 1px solid var(--light-100-color);
+  border-radius: 4px;
+  padding: 0;
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .option {
   padding: 8px 12px;
   cursor: pointer;
-  color: #d4d4d4;
-
-  &[data-active='true'] {
-    background: #1f1f1f;
-  }
-
-  &[data-selected='true'] {
-    color: #3b82f6;
-  }
+  color: var(--light-100-color);
+  transition: background-color 0.15s;
+  background: var(--dark-500-color);
 
   &:hover {
-    background: #262626;
+    background: var(--dark-300-color);
+    color: var(--accent-500-color);
   }
 }

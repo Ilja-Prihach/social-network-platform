@@ -1,20 +1,33 @@
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from '@/shared/ui/Icon';
+import clsx from 'clsx';
 import styles from './Select.module.scss';
 
 type SelectOption = {
   title: string;
   value: string;
+  icon?: React.ReactNode;
 };
 
 type SelectPropsType = {
+  className?: string;
   options: SelectOption[];
-  value: string | null;
-  placeholder: string;
-  onChange: (value: string) => void;
+  value?: string | null;
+  placeholder?: string;
+  onChange?: (value: string) => void;
+  disabled?: boolean;
+  label?: string;
 };
 
-export const Select = ({ options, value, placeholder, onChange }: SelectPropsType) => {
+export const Select = ({
+  options,
+  value,
+  placeholder,
+  onChange,
+  disabled,
+  label,
+  className,
+}: SelectPropsType) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -51,15 +64,18 @@ export const Select = ({ options, value, placeholder, onChange }: SelectPropsTyp
 
   const selectedOption = options.find((o) => o.value === value);
 
-  const label = selectedOption ? selectedOption.title : placeholder;
+  const selectedTitle = selectedOption ? selectedOption.title : placeholder;
 
   const selectValue = (value: string) => {
+    if (disabled) return;
     setIsOpen(false);
     onChange?.(value);
     buttonRef.current?.focus();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (disabled) return;
+
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
@@ -88,28 +104,29 @@ export const Select = ({ options, value, placeholder, onChange }: SelectPropsTyp
   };
 
   return (
-    <div data-open={isOpen} className={styles.root} ref={rootRef}>
+    <div data-open={isOpen} className={clsx(styles.root, className)} ref={rootRef}>
+      {label && <span className={`regular_text_14 ${styles.label_title}`}>{label}</span>}
       <button
         className={styles.trigger}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => !disabled && setIsOpen(!isOpen)}
         onKeyDown={(e) => handleKeyDown(e)}
         ref={buttonRef}
+        disabled={disabled}
       >
-        <span className={styles.label}>{label}</span>
-        <Icon
-          className={styles.arrow}
-          iconId={'arrow-ios-Down-outline'}
-          style={{ color: 'black' }}
-        />
+        <span className={styles.value_wrapper}>
+          {selectedOption?.icon && <span className={styles.icon}>{selectedOption.icon}</span>}
+          <span className={`regular_text_16 ${styles.label}`}>{selectedTitle}</span>
+        </span>
+        <Icon className={styles.arrow} iconId={'arrow-ios-Down-outline'} />
       </button>
 
       {isOpen && (
         <ul className={styles.list} role="listbox">
           {options.map((o, i) => (
             <li
-              className={styles.option}
+              className={`regular_text_16 ${styles.option}`}
               data-active={i === activeIndex}
               data-selected={o.value === value}
               role="option"
@@ -117,6 +134,7 @@ export const Select = ({ options, value, placeholder, onChange }: SelectPropsTyp
               key={o.value}
               onClick={() => selectValue(o.value)}
             >
+              {o.icon && <span className={styles.icon}>{o.icon}</span>}
               {o.title}
             </li>
           ))}

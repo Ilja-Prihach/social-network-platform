@@ -21,7 +21,7 @@ const normalizeParam = (value?: string | string[]): string | undefined => {
 };
 
 export function HomePage({ searchParams = {} }: HomePageProps) {
-  const [value, setValue] = useState('Mr');
+  const [value, setValue] = useState('');
   const postId = normalizeParam(searchParams.postId);
   const action = normalizeParam(searchParams.action);
   const modalMessage = postId
@@ -36,11 +36,12 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
       <Select
         value={value}
         options={[
-          { value: 'Hello', title: 'Moto' },
+          { value: 'Hello', title: 'Select-box' },
           { value: 'Mr', title: 'Mister' },
         ]}
         placeholder={'select ВАЛУЕ'}
         onChange={setValue}
+        label={'Select-box'}
       />
       <Button
         variant="primary"
