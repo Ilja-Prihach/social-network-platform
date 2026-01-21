@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './HomePage.module.scss';
-import { Header } from '@/widgets/header/ui/Header';
+
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
 import { Button } from '@/shared/ui/Button';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';

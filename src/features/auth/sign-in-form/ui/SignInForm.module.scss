@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 130%;
+}
+
+.term_text {
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.term_text a {
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.button {
+  width: 130%;
+  padding: 8px;
+}
+
+.form {
+  background: var(--dark-500-color);
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  align-items: center;
+}

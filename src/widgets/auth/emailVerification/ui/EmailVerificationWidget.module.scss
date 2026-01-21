@@ -1,0 +1,62 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 24px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.verif {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.verif_title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.8;
+  text-align: center;
+  margin-bottom: 19px;
+}
+
+.verif_text {
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 30px;
+  max-width: 294px;
+}
+
+.verif_image {
+  margin-top: 36px;
+}
+
+.verif_img {
+  width: 100%;
+  max-width: 473px;
+  height: auto;
+}
+
+.verification {
+  width: 229px;
+}
+
+.verification input {
+  margin-bottom: 24px;
+}
+
+.verification_button {
+  width: 100%;
+  padding: 8px;
+}
+
+.verif_resend {
+  min-height: 0;
+}
