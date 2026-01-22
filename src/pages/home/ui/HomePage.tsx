@@ -8,6 +8,7 @@ import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { Select } from '@/shared/ui/Select/Select';
 import { useState } from 'react';
 import { Header } from '@/widgets/header/ui/Header';
+import { LanguageSelect } from '@/shared/ui/Select/LanguageSelect/LanguageSelect';
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -44,6 +45,7 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
         onChange={setValue}
         label={'Select-box'}
       />
+      <LanguageSelect />
       <Button
         variant="primary"
         onClick={() =>
