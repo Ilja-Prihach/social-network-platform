@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import { Select } from '@/shared/ui/Select/Select';
 import { Icon } from '@/shared/ui/Icon';
 import styles from './LanguageSelect.module.scss';
 import clsx from 'clsx';
+import { useLocale } from 'next-intlayer';
+import { usePathname, useRouter } from 'next/navigation';
 
-type LanguageCode = 'en' | 'ru';
+type LanguageCode = 'en' | 'ru' | 'it' | 'es' | 'fr';
 
 type LanguageSelectProps = {
-  defaultValue?: LanguageCode;
-  onChange?: (value: LanguageCode) => void; // стало опциональным
+  onChange?: (value: LanguageCode) => void;
   disabled?: boolean;
   className?: string;
 };
@@ -24,20 +24,44 @@ const LANGUAGE_OPTIONS = [
     title: 'Russian',
     icon: <Icon iconId="Flag Russia" width="20" height="20" />,
   },
+  {
+    value: 'it',
+    title: 'Italian',
+    icon: <Icon iconId="Flag Italy" width="20" height="20" />,
+  },
+  {
+    value: 'es',
+    title: 'Spanish',
+    icon: <Icon iconId="Flag Spain" width="20" height="20" />,
+  },
+  {
+    value: 'fr',
+    title: 'French',
+    icon: <Icon iconId="Flag France" width="20" height="20" />,
+  },
 ];
 
-export const LanguageSelect = ({
-  defaultValue = 'en',
-  onChange,
-  disabled,
-  className,
-}: LanguageSelectProps) => {
-  const [value, setValue] = useState<LanguageCode>(defaultValue);
+export const LanguageSelect = ({ disabled, className, onChange }: LanguageSelectProps) => {
+  const { locale } = useLocale();
+  const router = useRouter();
+  const pathname = usePathname() ?? `/${locale}`;
 
-  const handleChange = (v: string) => {
-    const lang = v as LanguageCode;
-    setValue(lang);
-    onChange?.(lang);
+  const value = (locale as LanguageCode) ?? 'en';
+
+  const handleChange = (nextValue: string) => {
+    const nextLang = nextValue as LanguageCode;
+
+    onChange?.(nextLang);
+
+    // '/en/feed' -> '/fr/feed'
+    const parts = pathname.split('/');
+    if (parts.length > 1) {
+      parts[1] = nextLang;
+    }
+
+    const nextPath = parts.join('/') || `/${nextLang}`;
+
+    router.push(nextPath);
   };
 
   return (

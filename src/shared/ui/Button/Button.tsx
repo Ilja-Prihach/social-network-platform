@@ -5,6 +5,8 @@ import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 import styles from './Button.module.scss';
 import Link from 'next/link';
 import clsx from 'clsx';
+import { useLocale } from 'next-intlayer';
+import { getLocalizedUrl } from 'intlayer';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'text';
 
@@ -22,7 +24,7 @@ type NativeButtonProps = CommonProps &
 
 type LinkButtonProps = CommonProps &
   AnchorHTMLAttributes<HTMLAnchorElement> & {
-    href?: string;
+    href: string;
   };
 
 type ButtonProps = NativeButtonProps | LinkButtonProps;
@@ -37,15 +39,21 @@ export const Button = ({
 }: ButtonProps) => {
   const classes = clsx(styles.button, styles[variant], className, disabled && styles.disabled);
 
+  const { locale } = useLocale();
+
   if (href) {
     const linkProps = props as AnchorHTMLAttributes<HTMLAnchorElement>;
 
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
       if (disabled) e.preventDefault();
+      linkProps.onClick?.(e);
     };
+    const localizedHref = getLocalizedUrl(href, locale); // 👈 добавляем префикс
+
+    console.log('BTN', { locale, href, localizedHref });
 
     return (
-      <Link href={href} className={classes} {...linkProps} onClick={handleClick}>
+      <Link href={localizedHref} className={classes} {...linkProps} onClick={handleClick}>
         {children}
       </Link>
     );

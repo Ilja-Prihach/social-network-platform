@@ -1,3 +1,4 @@
+import { withIntlayer } from 'next-intlayer/server'; // Add the plugin to the Next.js configuration
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -11,4 +12,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withIntlayer(nextConfig);
