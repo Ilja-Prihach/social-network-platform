@@ -7,6 +7,7 @@ import { Button } from '@/shared/ui/Button';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { Select } from '@/shared/ui/Select/Select';
 import { useState } from 'react';
+import { Header } from '@/widgets/header/ui/Header';
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
