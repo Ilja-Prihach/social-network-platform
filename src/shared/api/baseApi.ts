@@ -1,4 +1,4 @@
-export const BASE_URL = (process.env.NEXT_PUBLIC_API_URL ?? '/api').replace(/\/$/, '');
+export const BASE_URL = '/api';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

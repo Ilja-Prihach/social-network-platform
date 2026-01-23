@@ -10,8 +10,24 @@ export interface SignUpResponse {
   userId: string;
 }
 
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+}
+
 export function signUp(data: SignUpRequest) {
   return baseApi<SignUpResponse>('/auth/registration', {
+    method: 'POST',
+    body: data,
+  });
+}
+
+export function login(data: LoginRequest) {
+  return baseApi<LoginResponse>('/v1/auth/login', {
     method: 'POST',
     body: data,
   });

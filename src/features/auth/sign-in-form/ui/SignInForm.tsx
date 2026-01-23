@@ -5,6 +5,8 @@ import { Input } from '@/shared/ui/Input';
 import { InputPassword } from '@/features/auth/input-password';
 import styles from './SignInForm.module.scss';
 import { Button } from '@/shared/ui/Button';
+import { useSignIn } from '../model/useSignIn';
+import { useEffect } from 'react';
 
 type SignInFormValues = {
   email: string;
@@ -12,10 +14,13 @@ type SignInFormValues = {
 };
 
 export const SignInForm = () => {
+  const { mutate, isPending, error: serverError } = useSignIn();
+
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    setError,
+    formState: { errors },
   } = useForm<SignInFormValues>({
     defaultValues: {
       email: '',
@@ -24,10 +29,25 @@ export const SignInForm = () => {
     mode: 'onSubmit',
   });
 
-  const onSubmit = async (data: SignInFormValues) => {
-    console.log('test');
-    console.log('submit', data);
+  useEffect(() => {
+    const error = serverError as unknown;
+    if (error?.status === 400 && error.data?.messages) {
+      error.data.messages.forEach((msg: { field: string; message: string }) => {
+        if (msg.field === 'email' || msg.field === 'password') {
+          setError(msg.field as keyof SignInFormValues, {
+            type: 'server',
+            message: msg.message,
+          });
+        }
+      });
+    }
+  }, [serverError, setError]);
+
+  const onSubmit = (data: SignInFormValues) => {
+    mutate(data);
   };
+
+  const isLoading = isPending;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -49,7 +69,7 @@ export const SignInForm = () => {
               type="email"
               value={field.value}
               onChange={(value) => field.onChange(value)}
-              disabled={isSubmitting}
+              disabled={isLoading}
               error={errors.email?.message}
             />
           )}
@@ -68,19 +88,19 @@ export const SignInForm = () => {
               placeholder="Password"
               value={field.value}
               onChange={(value) => field.onChange(value)}
-              disabled={isSubmitting}
+              disabled={isLoading}
               error={errors.password?.message}
             />
           )}
         />
       </div>
       <p className={styles.term_text}>
-        <Button href="/forgot-password" variant="text">
+        <Button href="/forgot-password" variant="text" disabled={isLoading}>
           Forgot Password
         </Button>
       </p>
-      <Button variant="primary" className={styles.button} type={'submit'}>
-        Sign In
+      <Button variant="primary" className={styles.button} type={'submit'} disabled={isLoading}>
+        {isLoading ? 'Signing In...' : 'Sign In'}
       </Button>
     </form>
   );

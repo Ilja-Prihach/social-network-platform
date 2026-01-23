@@ -1,14 +1,17 @@
-import type { NextConfig } from 'next';
+// import type { NextConfig } from 'next';
+//
+// const nextConfig: NextConfig = {
+//   async rewrites() {
+//     return [
+//       {
+//         source: '/api/:path*',
+//         destination: 'https://inctagram.work/:path*',
+//       },
+//     ];
+//   },
+// };
+//
+// export default nextConfig;
 
-const nextConfig: NextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://socialnetwork-ai.com/api/v1/:path*',
-      },
-    ];
-  },
-};
-
+const nextConfig = {};
 export default nextConfig;
