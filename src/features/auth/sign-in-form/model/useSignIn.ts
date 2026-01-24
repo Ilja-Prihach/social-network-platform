@@ -1,29 +1,32 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import { login, LoginRequest } from '@/entities/auth/api/authApi';
+import { AuthErrorResponse, login, LoginRequest, LoginResponse } from '@/entities/auth/api/authApi';
+
 import { showAlert } from '@/shared/ui/Alert';
 import { useRouter } from 'next/navigation';
 import { saveToken } from '@/entities/auth/model/tokenStorage';
+import type { ApiError } from '@/shared/api/types';
 
 export const useSignIn = () => {
   const router = useRouter();
 
-  return useMutation({
-    mutationFn: (data: LoginRequest) => login(data),
+  return useMutation<LoginResponse, ApiError<AuthErrorResponse>, LoginRequest>({
+    mutationFn: login,
+
     onSuccess: (data) => {
       saveToken(data.accessToken);
       showAlert('Login successful!', 'success');
       router.replace('/');
     },
-    onError: (error: unknown) => {
-      const status = error.status;
-      const data = error.data;
+
+    onError: (error) => {
+      const { status, data } = error;
 
       if (status === 401) {
         showAlert('Invalid email or password', 'error');
-      } else if (status === 400 && data?.messages) {
-        showAlert(data.messages[0]?.message || 'Bad request', 'error');
+      } else if (status === 400 && data.messages?.length) {
+        showAlert(data.messages[0].message, 'error');
       } else if (status === 429) {
         showAlert('Too many requests. Please try again later.', 'error');
       } else {

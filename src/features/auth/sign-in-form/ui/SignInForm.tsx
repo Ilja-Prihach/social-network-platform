@@ -30,11 +30,12 @@ export const SignInForm = () => {
   });
 
   useEffect(() => {
-    const error = serverError as unknown;
-    if (error?.status === 400 && error.data?.messages) {
-      error.data.messages.forEach((msg: { field: string; message: string }) => {
+    if (!serverError) return;
+
+    if (serverError.status === 400 && serverError.data.messages) {
+      serverError.data.messages.forEach((msg) => {
         if (msg.field === 'email' || msg.field === 'password') {
-          setError(msg.field as keyof SignInFormValues, {
+          setError(msg.field, {
             type: 'server',
             message: msg.message,
           });

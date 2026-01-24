@@ -1,6 +1,4 @@
-export interface ApiError {
-  errorsMessages: {
-    field: string;
-    message: string;
-  }[];
-}
+export type ApiError<T = unknown> = {
+  status: number;
+  data: T;
+};

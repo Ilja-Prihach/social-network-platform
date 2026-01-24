@@ -19,6 +19,15 @@ export interface LoginResponse {
   accessToken: string;
 }
 
+export type AuthErrorResponse = {
+  statusCode: number;
+  messages?: {
+    message: string;
+    field: string;
+  }[];
+  error: string;
+};
+
 export function signUp(data: SignUpRequest) {
   return baseApi<SignUpResponse>('/auth/registration', {
     method: 'POST',
