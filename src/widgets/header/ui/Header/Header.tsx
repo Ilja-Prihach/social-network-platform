@@ -15,7 +15,7 @@ export const Header = () => {
             <Icon iconId="Flag United Kingdom" />
             <p>Select</p>
           </div>
-          <Button href="/privacy-policy" variant="text">
+          <Button href="/sign-in" variant="text">
             Log in
           </Button>
           <Button href="/sign-up" variant="primary">

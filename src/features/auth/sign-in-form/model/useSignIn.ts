@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { login, LoginRequest } from '@/entities/auth/api/authApi';
 import { showAlert } from '@/shared/ui/Alert';
 import { useRouter } from 'next/navigation';
+import { saveToken } from '@/entities/auth/model/tokenStorage';
 
 export const useSignIn = () => {
   const router = useRouter();
@@ -11,9 +12,9 @@ export const useSignIn = () => {
   return useMutation({
     mutationFn: (data: LoginRequest) => login(data),
     onSuccess: (data) => {
-      localStorage.setItem('accessToken', data.accessToken);
+      saveToken(data.accessToken);
       showAlert('Login successful!', 'success');
-      router.push('/');
+      router.replace('/');
     },
     onError: (error: unknown) => {
       const status = error.status;
@@ -22,8 +23,6 @@ export const useSignIn = () => {
       if (status === 401) {
         showAlert('Invalid email or password', 'error');
       } else if (status === 400 && data?.messages) {
-        // Validation errors are handled by React Hook Form in the component
-        // but we can also show a general alert
         showAlert(data.messages[0]?.message || 'Bad request', 'error');
       } else if (status === 429) {
         showAlert('Too many requests. Please try again later.', 'error');
