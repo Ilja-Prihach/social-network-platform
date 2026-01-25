@@ -1,4 +1,4 @@
-export const BASE_URL = '/api';
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '/';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

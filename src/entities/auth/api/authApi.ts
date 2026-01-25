@@ -1,9 +1,10 @@
 import { baseApi } from '@/shared/api/baseApi';
 
 export interface SignUpRequest {
-  login: string;
+  userName: string;
   email: string;
   password: string;
+  baseUrl: string;
 }
 
 export interface SignUpResponse {
@@ -19,6 +20,10 @@ export interface LoginResponse {
   accessToken: string;
 }
 
+export interface RegistrationConfirmationRequest {
+  code: string;
+}
+
 export type AuthErrorResponse = {
   statusCode: number;
   messages?: {
@@ -29,15 +34,22 @@ export type AuthErrorResponse = {
 };
 
 export function signUp(data: SignUpRequest) {
-  return baseApi<SignUpResponse>('/auth/registration', {
+  return baseApi<SignUpResponse>('/api/v1/auth/registration', {
     method: 'POST',
     body: data,
   });
 }
 
 export function login(data: LoginRequest) {
-  return baseApi<LoginResponse>('/v1/auth/login', {
+  return baseApi<LoginResponse>('/api/v1/auth/login', {
     method: 'POST',
     body: data,
+  });
+}
+
+export function confirmRegistration(data: RegistrationConfirmationRequest) {
+  return baseApi<void>('/api/v1/auth/registration-confirmation', {
+    method: 'POST',
+    body: { confirmationCode: data.code },
   });
 }

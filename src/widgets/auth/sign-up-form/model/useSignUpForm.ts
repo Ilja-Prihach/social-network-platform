@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import { useSignUpMutation } from '@/entities/auth/model/useSignUpMutation';
 import { ApiError, isApiError } from '@/shared/api/types';
 import { AuthErrorResponse } from '@/entities/auth/api/authApi';
+import { showAlert } from '@/shared/ui/Alert/Alert';
 
 type FormErrors = {
   userName: string;
@@ -35,6 +37,7 @@ export function useSignUpForm() {
 
   const [errors, setErrors] = useState<FormErrors>(initialErrors);
   const { mutateAsync, isPending } = useSignUpMutation();
+  const router = useRouter();
 
   const validate = () => {
     const nextErrors: FormErrors = {
@@ -67,24 +70,35 @@ export function useSignUpForm() {
     });
   };
 
+  const getApiErrorMessage = (apiError: ApiError<AuthErrorResponse>) =>
+    apiError.data.messages?.[0]?.message || apiError.data.error || 'Registration failed';
+
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validate()) return;
 
     try {
+      const baseUrl =
+        typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
+
       await mutateAsync({
-        login: userName,
+        userName,
         email,
         password,
+        baseUrl,
       });
 
-      console.log('Ура');
+      router.push('/congratulations');
     } catch (err) {
-      console.log(err);
       if (isApiError<AuthErrorResponse>(err)) {
         applyServerErrors(err);
+        showAlert(getApiErrorMessage(err), 'error');
+        return;
       }
+
+      const message = err instanceof Error ? err.message : 'Registration failed';
+      showAlert(message, 'error');
     }
   };
 
