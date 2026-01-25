@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useSignUpMutation } from '@/entities/auth/model/useSignUpMutation';
-import type { ApiError } from '@/shared/api/types';
+import { ApiError, isApiError } from '@/shared/api/types';
+import { AuthErrorResponse } from '@/entities/auth/api/authApi';
 
 type FormErrors = {
   userName: string;
@@ -10,6 +11,12 @@ type FormErrors = {
   passwordConfirm: string;
   agree: boolean;
 };
+
+type ServerErrorFields = {
+  [K in keyof FormErrors]: FormErrors[K] extends string ? K : never;
+}[keyof FormErrors];
+
+type FormField = ServerErrorFields;
 
 const initialErrors: FormErrors = {
   userName: '',
@@ -43,17 +50,18 @@ export function useSignUpForm() {
     return !Object.values(nextErrors).some(Boolean);
   };
 
-  const applyServerErrors = (apiError: ApiError) => {
-    if (!apiError?.errorsMessages?.length) return;
+  const applyServerErrors = (apiError: ApiError<AuthErrorResponse>) => {
+    const messages = apiError.data.messages;
+    if (!messages?.length) return;
 
     setErrors((prev) => {
-      const next = { ...prev };
+      const next: FormErrors = { ...prev };
 
-      for (const { field, message } of apiError.errorsMessages) {
-        if (field === 'login' || field === 'userName') next.userName = message;
-        if (field === 'email') next.email = message;
-        if (field === 'password') next.password = message;
-      }
+      messages.forEach(({ field, message }) => {
+        if (field in next) {
+          next[field as FormField] = message;
+        }
+      });
 
       return next;
     });
@@ -74,7 +82,9 @@ export function useSignUpForm() {
       console.log('Ура');
     } catch (err) {
       console.log(err);
-      applyServerErrors(err as ApiError);
+      if (isApiError<AuthErrorResponse>(err)) {
+        applyServerErrors(err);
+      }
     }
   };
 
