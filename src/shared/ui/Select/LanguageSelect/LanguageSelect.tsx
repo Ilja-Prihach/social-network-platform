@@ -61,7 +61,7 @@ export const LanguageSelect = ({ disabled, className, onChange }: LanguageSelect
 
     const nextPath = parts.join('/') || `/${nextLang}`;
 
-    router.push(nextPath);
+    router.push(nextPath, { scroll: false });
   };
 
   return (

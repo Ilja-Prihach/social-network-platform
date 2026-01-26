@@ -2,6 +2,8 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useSignUpMutation } from '@/entities/auth/model/useSignUpMutation';
 import type { ApiError } from '@/shared/api/types';
+import { useDictionary } from 'next-intlayer';
+import signUpFormContent from '../sign-up-form.content';
 
 type FormErrors = {
   userName: string;
@@ -20,6 +22,7 @@ const initialErrors: FormErrors = {
 };
 
 export function useSignUpForm() {
+  const content = useDictionary(signUpFormContent);
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,10 +34,10 @@ export function useSignUpForm() {
 
   const validate = () => {
     const nextErrors: FormErrors = {
-      userName: userName ? '' : 'Username required',
-      email: /\S+@\S+\.\S+/.test(email) ? '' : 'Invalid email',
-      password: password.length >= 6 ? '' : 'Min 6 chars',
-      passwordConfirm: password === passwordConfirm ? '' : 'Passwords do not match',
+      userName: userName ? '' : content.userNameRequired.value,
+      email: /\S+@\S+\.\S+/.test(email) ? '' : content.invalidEmail.value,
+      password: password.length >= 6 ? '' : content.passwordMin.value,
+      passwordConfirm: password === passwordConfirm ? '' : content.passwordMismatch.value,
       agree: !agree,
     };
 

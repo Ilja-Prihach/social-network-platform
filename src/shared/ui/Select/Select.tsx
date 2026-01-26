@@ -114,10 +114,13 @@ export const Select = ({
         onKeyDown={(e) => handleKeyDown(e)}
         ref={buttonRef}
         disabled={disabled}
+        title={selectedTitle}
       >
         <span className={styles.value_wrapper}>
           {selectedOption?.icon && <span className={styles.icon}>{selectedOption.icon}</span>}
-          <span className={`regular_text_16 ${styles.label}`}>{selectedTitle}</span>
+          <span className={`regular_text_16 ${styles.label}`} title={selectedTitle}>
+            {selectedTitle}
+          </span>
         </span>
         <Icon className={styles.arrow} iconId={'arrow-ios-Down-outline'} />
       </button>
@@ -133,6 +136,7 @@ export const Select = ({
               aria-selected={o.value === value}
               key={o.value}
               onClick={() => selectValue(o.value)}
+              title={o.title}
             >
               {o.icon && <span className={styles.icon}>{o.icon}</span>}
               {o.title}

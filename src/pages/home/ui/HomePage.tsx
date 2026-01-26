@@ -9,6 +9,8 @@ import { Select } from '@/shared/ui/Select/Select';
 import { useState } from 'react';
 import { Header } from '@/widgets/header/ui/Header';
 import { LanguageSelect } from '@/shared/ui/Select/LanguageSelect/LanguageSelect';
+import { useDictionary } from 'next-intlayer';
+import homeContent from '../home.content';
 
 type HomePageProps = {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -24,12 +26,13 @@ const normalizeParam = (value?: string | string[]): string | undefined => {
 
 export function HomePage({ searchParams = {} }: HomePageProps) {
   const [value, setValue] = useState('');
+  const content = useDictionary(homeContent);
   const postId = normalizeParam(searchParams.postId);
   const action = normalizeParam(searchParams.action);
   const modalMessage = postId
-    ? `Post modal placeholder for id ${postId}`
+    ? `${content.postModalPrefix.value} ${postId}`
     : action === 'create'
-      ? 'Create post modal placeholder'
+      ? content.createModal.value
       : null;
 
   return (
@@ -38,41 +41,39 @@ export function HomePage({ searchParams = {} }: HomePageProps) {
       <Select
         value={value}
         options={[
-          { value: 'Hello', title: 'Select-box' },
-          { value: 'Mr', title: 'Mister' },
+          { value: 'Hello', title: content.selectOptionSelectBox.value },
+          { value: 'Mr', title: content.selectOptionMister.value },
         ]}
-        placeholder={'select ВАЛУЕ'}
+        placeholder={content.selectPlaceholder.value}
         onChange={setValue}
-        label={'Select-box'}
+        label={content.selectLabel.value}
       />
       <LanguageSelect />
       <Button
         variant="primary"
         onClick={() =>
           showModal({
-            title: 'Email sent',
-            description: 'We have sent a link to confirm your email to epam@epam.com',
+            title: content.modalTitle.value,
+            description: content.modalDescription.value,
           })
         }
       >
-        open modal
+        {content.openModalButton}
       </Button>
-      /<h1>Home Page</h1>
+      <h1>{content.heading}</h1>
       <p className={'bold_text_16'}>
-        Entry point stub wired through the Feature-Sliced Design layout. Replace with the actual
-        landing or feed content.
+        {content.intro}
       </p>
       {modalMessage ? (
         <div className={styles.modal}>
           <p>{modalMessage}</p>
           <p className={styles.modalHint}>
-            Query-driven modal state. If both postId and action are present, postId takes
-            precedence.
+            {content.modalHint}
           </p>
         </div>
       ) : (
         <p className="large">
-          No modal active. Add ?postId=42 or ?action=create to the URL to preview modal handling.
+          {content.noModal}
         </p>
       )}
       <Header />

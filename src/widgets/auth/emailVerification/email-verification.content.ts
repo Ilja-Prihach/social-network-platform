@@ -1,0 +1,93 @@
+import { t, type Dictionary } from 'intlayer';
+
+const emailVerificationContent = {
+  key: 'email-verification',
+  content: {
+    modalTitle: t({
+      en: 'Email sent',
+      fr: 'E-mail envoyé',
+      es: 'Correo enviado',
+      ru: 'Письмо отправлено',
+      it: 'Email inviata',
+    }),
+    ok: t({
+      en: 'OK',
+      fr: 'OK',
+      es: 'OK',
+      ru: 'ОК',
+      it: 'OK',
+    }),
+    errorTitle: t({
+      en: 'Error',
+      fr: 'Erreur',
+      es: 'Error',
+      ru: 'Ошибка',
+      it: 'Errore',
+    }),
+    confirmEmailPrefix: t({
+      en: 'We have sent a link to confirm your email to',
+      fr: 'Nous avons envoyé un lien de confirmation à',
+      es: 'Hemos enviado un enlace de confirmación a',
+      ru: 'Мы отправили ссылку для подтверждения вашего email на',
+      it: 'Abbiamo inviato un link di conferma a',
+    }),
+    recoveryPrefix: t({
+      en: 'We have sent a password recovery link to',
+      fr: 'Nous avons envoyé un lien de récupération de mot de passe à',
+      es: 'Hemos enviado un enlace de recuperación de contraseña a',
+      ru: 'Мы отправили ссылку для восстановления пароля на',
+      it: 'Abbiamo inviato un link di recupero password a',
+    }),
+    titleSignUp: t({
+      en: 'Email verification link expired',
+      fr: 'Le lien de vérification a expiré',
+      es: 'El enlace de verificación ha caducado',
+      ru: 'Ссылка подтверждения устарела',
+      it: 'Il link di verifica è scaduto',
+    }),
+    titleRecovery: t({
+      en: 'Password Recovery',
+      fr: 'Récupération de mot de passe',
+      es: 'Recuperación de contraseña',
+      ru: 'Восстановление пароля',
+      it: 'Recupero password',
+    }),
+    description: t({
+      en: 'Looks like the verification link has expired. Not to worry, we can send the link again',
+      fr: "Le lien de vérification a expiré. Pas d'inquiétude, nous pouvons l'envoyer à nouveau",
+      es: 'Parece que el enlace de verificación expiró. Podemos enviarlo de nuevo',
+      ru: 'Похоже, ссылка подтверждения истекла. Мы можем отправить её снова',
+      it: 'Sembra che il link di verifica sia scaduto. Possiamo inviarlo di nuovo',
+    }),
+    emailLabel: t({
+      en: 'Email',
+      fr: 'E-mail',
+      es: 'Correo',
+      ru: 'Email',
+      it: 'Email',
+    }),
+    emailPlaceholder: t({
+      en: 'Epam@epam.com',
+      fr: 'Epam@epam.com',
+      es: 'Epam@epam.com',
+      ru: 'Epam@epam.com',
+      it: 'Epam@epam.com',
+    }),
+    resend: t({
+      en: 'Resend verification link',
+      fr: 'Renvoyer le lien de vérification',
+      es: 'Reenviar enlace de verificación',
+      ru: 'Отправить ссылку снова',
+      it: 'Reinvia link di verifica',
+    }),
+    imageAlt: t({
+      en: 'Resend verification',
+      fr: 'Renvoyer la vérification',
+      es: 'Reenviar verificación',
+      ru: 'Повторная отправка подтверждения',
+      it: 'Reinvio verifica',
+    }),
+  },
+} satisfies Dictionary;
+
+export default emailVerificationContent;

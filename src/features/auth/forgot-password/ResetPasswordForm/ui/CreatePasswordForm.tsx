@@ -7,6 +7,8 @@ import { Button } from '@/shared/ui/Button';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { useCreateNewPassword } from '@/features/auth/forgot-password/model/useCreateNewPassword';
 import { useRouter } from 'next/navigation';
+import { useDictionary } from 'next-intlayer';
+import createPasswordFormContent from '../create-password-form.content';
 
 type CreatePasswordFormProps = {
   recoveryCode?: string;
@@ -19,6 +21,7 @@ const isRecoveryCodeError = (message: string) => {
 };
 
 export function CreatePasswordForm({ recoveryCode, onExpired }: CreatePasswordFormProps) {
+  const content = useDictionary(createPasswordFormContent);
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [hasMismatch, setHasMismatch] = useState(false);
@@ -49,18 +52,18 @@ export function CreatePasswordForm({ recoveryCode, onExpired }: CreatePasswordFo
 
     if (hasMismatch) {
       showModal({
-        title: 'Error',
-        description: 'Passwords must match',
-        confirmText: 'OK',
+        title: content.errorTitle.value,
+        description: content.mismatchError.value,
+        confirmText: content.ok.value,
       });
       return;
     }
 
     if (isLengthInvalid) {
       showModal({
-        title: 'Error',
-        description: 'Password must be between 6 and 20 characters',
-        confirmText: 'OK',
+        title: content.errorTitle.value,
+        description: content.lengthError.value,
+        confirmText: content.ok.value,
       });
       return;
     }
@@ -85,9 +88,9 @@ export function CreatePasswordForm({ recoveryCode, onExpired }: CreatePasswordFo
           }
 
           showModal({
-            title: 'Error',
+            title: content.errorTitle.value,
             description: message,
-            confirmText: 'OK',
+            confirmText: content.ok.value,
           });
         },
       },
@@ -96,33 +99,33 @@ export function CreatePasswordForm({ recoveryCode, onExpired }: CreatePasswordFo
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <h2 className={styles.title}>Create New Password</h2>
+      <h2 className={styles.title}>{content.title}</h2>
 
       <div className={styles.input_wrapper}>
         <Input
-          label="New password"
+          label={content.newPasswordLabel.value}
           type="password"
-          placeholder="New Password"
+          placeholder={content.newPasswordPlaceholder.value}
           value={password}
           onChange={setPassword}
         />
 
         <div className={styles.confirm_wrapper}>
           <Input
-            label="Confirm password"
+            label={content.confirmLabel.value}
             type="password"
-            placeholder="Password confirmation"
+            placeholder={content.confirmPlaceholder.value}
             value={passwordConfirm}
             onChange={setPasswordConfirm}
-            error={hasMismatch ? 'Passwords must match' : undefined}
+            error={hasMismatch ? content.mismatchError.value : undefined}
           />
-          <p className={styles.pass_descr}>Your password must be between 6 and 20 characters</p>
+          <p className={styles.pass_descr}>{content.hint}</p>
         </div>
       </div>
 
       <div className={styles.button_wrapper}>
         <Button className={styles.button} type="submit" variant="primary" disabled={isDisabled}>
-          Create new password
+          {content.submit}
         </Button>
       </div>
     </form>

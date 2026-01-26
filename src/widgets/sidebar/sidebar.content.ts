@@ -1,0 +1,65 @@
+import { t, type Dictionary } from 'intlayer';
+
+const sidebarContent = {
+  key: 'sidebar',
+  content: {
+    feed: t({
+      en: 'Feed',
+      fr: 'Fil',
+      es: 'Feed',
+      ru: 'Лента',
+      it: 'Feed',
+    }),
+    create: t({
+      en: 'Create',
+      fr: 'Créer',
+      es: 'Crear',
+      ru: 'Создать',
+      it: 'Crea',
+    }),
+    myProfile: t({
+      en: 'My Profile',
+      fr: 'Mon profil',
+      es: 'Mi perfil',
+      ru: 'Мой профиль',
+      it: 'Il mio profilo',
+    }),
+    messenger: t({
+      en: 'Messenger',
+      fr: 'Messagerie',
+      es: 'Mensajería',
+      ru: 'Мессенджер',
+      it: 'Messaggi',
+    }),
+    search: t({
+      en: 'Search',
+      fr: 'Recherche',
+      es: 'Buscar',
+      ru: 'Поиск',
+      it: 'Cerca',
+    }),
+    statistics: t({
+      en: 'Statistics',
+      fr: 'Statistiques',
+      es: 'Estadísticas',
+      ru: 'Статистика',
+      it: 'Statistiche',
+    }),
+    favorites: t({
+      en: 'Favorites',
+      fr: 'Favoris',
+      es: 'Favoritos',
+      ru: 'Избранное',
+      it: 'Preferiti',
+    }),
+    logOut: t({
+      en: 'Log Out',
+      fr: 'Se déconnecter',
+      es: 'Cerrar sesión',
+      ru: 'Выйти',
+      it: 'Esci',
+    }),
+  },
+} satisfies Dictionary;
+
+export default sidebarContent;
