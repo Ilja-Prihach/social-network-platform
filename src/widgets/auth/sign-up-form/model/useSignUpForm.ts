@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import { useSignUpMutation } from '@/entities/auth/model/useSignUpMutation';
-import type { ApiError } from '@/shared/api/types';
+import { ApiError, isApiError } from '@/shared/api/types';
+import { AuthErrorResponse } from '@/entities/auth/api/authApi';
+import { showAlert } from '@/shared/ui/Alert/Alert';
 import { useDictionary } from 'next-intlayer';
 import signUpFormContent from '../sign-up-form.content';
 
@@ -12,6 +15,12 @@ type FormErrors = {
   passwordConfirm: string;
   agree: boolean;
 };
+
+type ServerErrorFields = {
+  [K in keyof FormErrors]: FormErrors[K] extends string ? K : never;
+}[keyof FormErrors];
+
+type FormField = ServerErrorFields;
 
 const initialErrors: FormErrors = {
   userName: '',
@@ -31,6 +40,7 @@ export function useSignUpForm() {
 
   const [errors, setErrors] = useState<FormErrors>(initialErrors);
   const { mutateAsync, isPending } = useSignUpMutation();
+  const router = useRouter();
 
   const validate = () => {
     const nextErrors: FormErrors = {
@@ -46,21 +56,25 @@ export function useSignUpForm() {
     return !Object.values(nextErrors).some(Boolean);
   };
 
-  const applyServerErrors = (apiError: ApiError) => {
-    if (!apiError?.errorsMessages?.length) return;
+  const applyServerErrors = (apiError: ApiError<AuthErrorResponse>) => {
+    const messages = apiError.data.messages;
+    if (!messages?.length) return;
 
     setErrors((prev) => {
-      const next = { ...prev };
+      const next: FormErrors = { ...prev };
 
-      for (const { field, message } of apiError.errorsMessages) {
-        if (field === 'login' || field === 'userName') next.userName = message;
-        if (field === 'email') next.email = message;
-        if (field === 'password') next.password = message;
-      }
+      messages.forEach(({ field, message }) => {
+        if (field in next) {
+          next[field as FormField] = message;
+        }
+      });
 
       return next;
     });
   };
+
+  const getApiErrorMessage = (apiError: ApiError<AuthErrorResponse>) =>
+    apiError.data.messages?.[0]?.message || apiError.data.error || 'Registration failed';
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,16 +82,26 @@ export function useSignUpForm() {
     if (!validate()) return;
 
     try {
+      const baseUrl =
+        typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
+
       await mutateAsync({
-        login: userName,
+        userName,
         email,
         password,
+        baseUrl,
       });
 
-      console.log('Ура');
+      router.push('/congratulations');
     } catch (err) {
-      console.log(err);
-      applyServerErrors(err as ApiError);
+      if (isApiError<AuthErrorResponse>(err)) {
+        applyServerErrors(err);
+        showAlert(getApiErrorMessage(err), 'error');
+        return;
+      }
+
+      const message = err instanceof Error ? err.message : 'Registration failed';
+      showAlert(message, 'error');
     }
   };
 
