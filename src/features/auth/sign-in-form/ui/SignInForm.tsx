@@ -32,14 +32,26 @@ export const SignInForm = () => {
   useEffect(() => {
     if (!serverError) return;
 
-    if (serverError.status === 400 && serverError.data.messages) {
-      serverError.data.messages.forEach((msg) => {
+    const { status, data } = serverError;
+    const messages = Array.isArray(data?.messages) ? data.messages : [];
+    const messageText = typeof data?.messages === 'string' ? data.messages : undefined;
+
+    if (status === 400 && messages.length) {
+      messages.forEach((msg) => {
         if (msg.field === 'email' || msg.field === 'password') {
           setError(msg.field, {
             type: 'server',
             message: msg.message,
           });
         }
+      });
+      return;
+    }
+
+    if (status === 400 && messageText) {
+      setError('password', {
+        type: 'server',
+        message: messageText,
       });
     }
   }, [serverError, setError]);

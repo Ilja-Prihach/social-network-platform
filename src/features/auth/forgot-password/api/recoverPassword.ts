@@ -1,3 +1,5 @@
+import { BASE_URL } from '@/shared/api/baseApi';
+
 type ErrorResponse = {
   errorsMessages?: Array<{ message?: string }>;
 };
@@ -12,7 +14,7 @@ const getErrorMessage = async (response: Response, fallback: string) => {
 };
 
 export const recoverPassword = async (email: string): Promise<void> => {
-  const response = await fetch(`/api/auth/recover-password`, {
+  const response = await fetch(`${BASE_URL}/auth/recover-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),

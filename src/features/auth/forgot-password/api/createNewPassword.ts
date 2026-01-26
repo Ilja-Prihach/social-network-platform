@@ -1,3 +1,5 @@
+import { BASE_URL } from '@/shared/api/baseApi';
+
 type NewPasswordPayload = {
   newPassword: string;
   recoveryCode: string;
@@ -17,7 +19,7 @@ const getErrorMessage = async (response: Response, fallback: string) => {
 };
 
 export const createNewPassword = async (payload: NewPasswordPayload): Promise<void> => {
-  const response = await fetch(`/api/auth/new-password`, {
+  const response = await fetch(`${BASE_URL}/auth/new-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),

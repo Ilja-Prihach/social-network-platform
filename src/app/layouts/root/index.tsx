@@ -54,7 +54,8 @@ export function RootLayout({
             strategy="afterInteractive"
           />
         </ReactQueryProvider>
-      </body>{' '}
+      </body>
+      {''}
     </html>
   );
 }

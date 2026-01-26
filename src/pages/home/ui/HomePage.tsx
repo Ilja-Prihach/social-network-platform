@@ -2,7 +2,9 @@ import { RegistrationConfirmationHandler } from '@/features/auth/registration-co
 import { HomePageClient } from './HomePageClient';
 
 type HomePageProps = {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?:
+    | Record<string, string | string[] | undefined>
+    | Promise<Record<string, string | string[] | undefined>>;
 };
 
 const normalizeParam = (value?: string | string[]): string | undefined => {
@@ -13,11 +15,12 @@ const normalizeParam = (value?: string | string[]): string | undefined => {
   return value;
 };
 
-export function HomePage({ searchParams = {} }: HomePageProps) {
-  const postId = normalizeParam(searchParams.postId);
-  const action = normalizeParam(searchParams.action);
-  const code = normalizeParam(searchParams.code);
-  const email = normalizeParam(searchParams.email);
+export async function HomePage({ searchParams }: HomePageProps) {
+  const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
+  const postId = normalizeParam(resolvedSearchParams.postId);
+  const action = normalizeParam(resolvedSearchParams.action);
+  const code = normalizeParam(resolvedSearchParams.code);
+  const email = normalizeParam(resolvedSearchParams.email);
 
   return (
     <>

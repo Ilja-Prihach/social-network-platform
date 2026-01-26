@@ -176,16 +176,16 @@ export const SvgSprite = () => (
 
     <symbol id="Outline bell" viewBox="0 0 24 24">
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M2.51534 13.9989L3.69534 12.8169C4.07334 12.4389 4.28134 11.9369 4.28134 11.4029V6.72586C4.28134 5.36886 4.87134 4.07186 5.90134 3.16986C6.93934 2.25986 8.26134 1.85986 9.63834 2.04086C11.9653 2.34986 13.7203 4.45386 13.7203 6.93586V11.4029C13.7203 11.9369 13.9283 12.4389 14.3053 12.8159L15.4863 13.9989H2.51534ZM11.0003 16.3399C11.0003 17.2389 10.0843 17.9989 9.00034 17.9989C7.91634 17.9989 7.00034 17.2389 7.00034 16.3399V15.9989H11.0003V16.3399ZM17.5213 13.2069L15.7203 11.4029V6.93586C15.7203 3.45486 13.2183 0.497857 9.90034 0.0588567C7.97834 -0.197143 6.03834 0.389857 4.58334 1.66586C3.11934 2.94786 2.28134 4.79186 2.28134 6.72586L2.28034 11.4029L0.479335 13.2069C0.0103353 13.6769 -0.128665 14.3759 0.125335 14.9889C0.380335 15.6029 0.973335 15.9989 1.63734 15.9989H5.00034V16.3399C5.00034 18.3579 6.79434 19.9989 9.00034 19.9989C11.2063 19.9989 13.0003 18.3579 13.0003 16.3399V15.9989H16.3633C17.0273 15.9989 17.6193 15.6029 17.8733 14.9899C18.1283 14.3759 17.9903 13.6759 17.5213 13.2069Z"
       />
     </symbol>
 
     <symbol id="bell" viewBox="0 0 24 24">
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M14 18.3413C14 19.2403 13.084 20.0003 12 20.0003C10.916 20.0003 10 19.2403 10 18.3413V18.0003H14V18.3413ZM20.521 15.2073L18.72 13.4043V8.93629C18.72 5.45529 16.218 2.49929 12.899 2.05929C10.978 1.80429 9.038 2.39029 7.583 3.66629C6.119 4.94829 5.28 6.79329 5.28 8.72729L5.279 13.4043L3.479 15.2083C3.01 15.6773 2.871 16.3773 3.125 16.9903C3.38 17.6033 3.973 18.0003 4.637 18.0003H8V18.3413C8 20.3593 9.794 22.0003 12 22.0003C14.206 22.0003 16 20.3593 16 18.3413V18.0003H19.362C20.026 18.0003 20.619 17.6043 20.873 16.9903C21.128 16.3773 20.989 15.6773 20.521 15.2073Z"
         fill="currentColor"
       />
@@ -406,7 +406,7 @@ export const SvgSprite = () => (
     </symbol>
 
     <symbol id="Flag Italy" viewBox="0 0 640 480">
-      <g fill-rule="evenodd" stroke-width="1pt">
+      <g fillRule="evenodd" strokeWidth="1pt">
         <path fill="#fff" d="M0 0h640v480H0z" />
         <path fill="#009246" d="M0 0h213.3v480H0z" />
         <path fill="#ce2b37" d="M426.7 0H640v480H426.7z" />
@@ -429,8 +429,8 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".3"
+        strokeLinejoin="round"
+        strokeWidth=".3"
         d="m127.3 213.3-.8-.1-1-1-.7-.4-.6-.8s-.7-1.1-.4-2q.5-1.2 1.4-1.5l1.5-.5 1-.4 1.3-.3.5-.3 1-.2 1-.2 1.6.1h4.8c.4 0 1.2.3 1.4.4l2 .7c.5.1 1.6.3 2.2.6q.8.5 1.1 1l.5 1v1.1l-.5.8-.6 1-.8.6s-.5.5-1 .4-4.8-.8-7.6-.8-7.3.9-7.3.9z"
       />
       <path
@@ -440,14 +440,14 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M133.3 207q.1-2.1 1.3-2.3 1.3.1 1.4 2.4c0 1.3-.6 2.4-1.4 2.4s-1.3-1.1-1.3-2.5z"
       />
       <path fill="#c8b100" d="M134 207q0-2 .7-2.1c.3 0 .6 1 .6 2.1q0 2-.6 2.2c-.4 0-.6-1-.6-2.2" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M134 207q0-2 .7-2.1c.3 0 .6 1 .6 2.1q0 2-.6 2.2c-.4 0-.6-1-.6-2.2z"
       />
       <path fill="#c8b100" d="M133.8 204.5q.1-.7.8-.8 1 0 1 .8-.1.8-1 .9c-.9.1-.8-.4-.8-.9" />
@@ -458,20 +458,20 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M135.3 204.2v.6h-1.4v-.6h.5V203h-.7v-.6h.7v-.5h.5v.5h.6v.6h-.6v1.2h.4"
       />
       <path fill="#c8b100" d="M135.9 204.2v.6h-2.5v-.6h1V203h-.7v-.6h.7v-.5h.5v.5h.6v.6h-.6v1.2z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M135.9 204.2v.6h-2.5v-.6h1V203h-.7v-.6h.7v-.5h.5v.5h.6v.6h-.6v1.2h1"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M134.9 203.7q.6.2.6.8-.1.8-.8.9-1 0-1-.9 0-.6.7-.8"
       />
       <path
@@ -481,13 +481,13 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M134.7 213.2H130v-1.1l-.3-1.2-.2-1.5c-1.3-1.7-2.5-2.8-2.9-2.5q.1-.5.5-.7c1.1-.7 3.5 1 5.2 3.6l.5.7h3.8l.4-.7c1.8-2.7 4.1-4.3 5.2-3.6q.4.2.5.7c-.4-.3-1.6.8-2.9 2.5l-.2 1.5-.2 1.2-.1 1.1z"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M126.8 206.8c1-.5 3 1.1 4.6 3.6m11-3.6c-.8-.5-2.8 1.1-4.5 3.6"
       />
       <path
@@ -497,7 +497,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m127.8 215.3-.5-1a27 27 0 0 1 14.7 0l-.5.8-.3.8a23 23 0 0 0-6.6-.8c-2.6 0-5.2.3-6.5.8l-.3-.6"
       />
       <path
@@ -507,7 +507,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M134.6 217.7c2.4 0 5-.4 5.9-.6q1-.3 1-.8 0-.3-.4-.4c-1.4-.5-4-.8-6.5-.8s-5 .3-6.4.8q-.3 0-.4.3 0 .6 1 .9c1 .2 3.5.6 5.8.6z"
       />
       <path
@@ -517,7 +517,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m142.1 213.2-.5-.5s-.6.3-1.3.2c-.6 0-.9-1-.9-1s-.7.7-1.3.7-1-.6-1-.6-.7.5-1.3.4-1.2-.8-1.2-.8-.6.8-1.2.8c-.6.1-1-.5-1-.5s-.4.6-1.1.7-1.4-.6-1.4-.6-.5.7-1 1c-.5 0-1.2-.4-1.2-.4l-.2.5-.3.1.2.5a27 27 0 0 1 7.2-.9q4.5 0 7.4 1z"
       />
       <path
@@ -527,7 +527,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M134.7 210.7h.2v.4q0 1 1 1a1 1 0 0 0 1-.7l.2-.3v.4q.3.8 1.1.8 1 0 1-1v-.1l.4-.4.2.5-.1.4a1 1 0 0 0 1 1q.6 0 .9-.5l.2-.2v.3q0 .5.4.7l1-.4.7-.7v.4s-.5.8-1 1q-.3.4-.8.3-.5 0-.7-.6-.3.3-.7.2-1 0-1.4-.8-.5.5-1.1.5a2 2 0 0 1-1.2-.6l-1 .4a2 2 0 0 1-1.3-.6 1.6 1.6 0 0 1-2.4.2 2 2 0 0 1-1.2.6l-1.1-.5q-.4.8-1.4.8l-.7-.2q-.2.5-.7.6t-.9-.2l-1-1 .1-.5.8.7q.8.5.9.4.4-.1.4-.7v-.3l.2.2q.3.5.9.5a1 1 0 0 0 1-1v-.9l.4.4v.1q.1 1 1 1t1.1-.9v-.3l.2.3q.3.6 1 .7 1 0 1.1-1v-.3h.3z"
       />
       <path
@@ -537,22 +537,22 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".3"
+        strokeLinejoin="round"
+        strokeWidth=".3"
         d="M134.6 213.3q-4.5 0-7.3 1l-.3-.2.1-.3a27 27 0 0 1 7.5-1q4.6 0 7.6 1l.1.3-.3.2a27 27 0 0 0-7.4-1z"
       />
       <path fill="#fff" d="M131.8 214.4q0-.4.5-.4a.4.4 0 0 1 .4.4q0 .3-.4.4a.4.4 0 0 1-.5-.4" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M131.8 214.4q0-.4.5-.4a.4.4 0 0 1 .4.4q0 .3-.4.4a.4.4 0 0 1-.5-.4z"
       />
       <path fill="#ad1519" d="M134.7 214.5h-1q-.2 0-.3-.3l.3-.3h2l.2.3-.3.3h-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M134.7 214.5h-1q-.2 0-.3-.3l.3-.3h2l.2.3-.3.3h-1"
       />
       <path
@@ -562,16 +562,16 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M130 214.9h-.7q-.2 0-.3-.2l.2-.3.7-.1.7-.1q.3 0 .4.2a.3.3 0 0 1-.3.4h-.7"
       />
       <path fill="#ad1519" d="m127.3 215.3.3-.4h.7l-.4.6z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m127.3 215.3.3-.4h.7l-.4.6-.6-.2" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m127.3 215.3.3-.4h.7l-.4.6-.6-.2" />
       <path fill="#fff" d="M136.6 214.4q0-.4.4-.4a.4.4 0 0 1 .5.4.4.4 0 0 1-.5.4.4.4 0 0 1-.4-.4" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M136.6 214.4q0-.4.4-.4a.4.4 0 0 1 .5.4.4.4 0 0 1-.5.4.4.4 0 0 1-.4-.4z"
       />
       <path
@@ -581,115 +581,115 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M139.3 214.9h.6a.3.3 0 0 0 .4-.2l-.3-.3-.6-.1-.7-.1q-.3 0-.4.2 0 .3.3.4h.7"
       />
       <path fill="#ad1519" d="m142 215.4-.3-.5h-.7l.3.6z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m142 215.4-.3-.5h-.7l.3.6.6-.1" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m142 215.4-.3-.5h-.7l.3.6.6-.1" />
       <path fill="#ad1519" d="M134.6 217.1a25 25 0 0 1-6-.6 26 26 0 0 1 12.1 0q-2.5.6-6 .6" />
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".3"
+        strokeLinejoin="round"
+        strokeWidth=".3"
         d="M134.6 217.1a25 25 0 0 1-6-.6 26 26 0 0 1 12.1 0q-2.5.6-6 .6z"
       />
       <path fill="#c8b100" d="m142 212-.1-.3q-.3 0-.4.2 0 .4.2.4z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m142 212-.1-.3q-.3 0-.4.2 0 .4.2.4z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m142 212-.1-.3q-.3 0-.4.2 0 .4.2.4z" />
       <path fill="#c8b100" d="M137.3 211.2q0-.3-.2-.4l-.2.3q0 .3.2.4l.3-.3" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M137.3 211.2q0-.3-.2-.4l-.2.3q0 .3.2.4l.3-.3z"
       />
       <path fill="#c8b100" d="m132 211.2.1-.4q.3 0 .3.3t-.2.4z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m132 211.2.1-.4q.3 0 .3.3t-.2.4z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m132 211.2.1-.4q.3 0 .3.3t-.2.4z" />
       <path fill="#c8b100" d="m127.3 212 .1-.3q.3 0 .4.2 0 .4-.2.4z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m127.3 212 .1-.3q.3 0 .4.2 0 .4-.2.4z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m127.3 212 .1-.3q.3 0 .4.2 0 .4-.2.4z" />
       <path fill="#c8b100" d="m134.6 208.5-.8.5.6 1.3.2.1.2-.1.7-1.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m134.6 208.5-.8.5.6 1.3.2.1.2-.1.7-1.3-.9-.5"
       />
       <path fill="#c8b100" d="m132.8 210.5.4.5 1.3-.4.1-.2-.1-.2-1.3-.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m132.8 210.5.4.5 1.3-.4.1-.2-.1-.2-1.3-.3-.4.6"
       />
       <path fill="#c8b100" d="m136.4 210.5-.3.5-1.3-.4-.2-.2.2-.2 1.3-.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m136.4 210.5-.3.5-1.3-.4-.2-.2.2-.2 1.3-.3.3.6"
       />
       <path fill="#c8b100" d="m129.3 209-.7.7.9 1 .2.1.1-.1.3-1.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m129.3 209-.7.7.9 1 .2.1.1-.1.3-1.3-.8-.3"
       />
       <path fill="#c8b100" d="m128 211.2.4.5 1.2-.6v-.2l-.1-.2-1.3-.1-.3.6" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m128 211.2.4.5 1.2-.6v-.2l-.1-.2-1.3-.1-.3.6"
       />
       <path fill="#c8b100" d="m131.5 210.5-.3.6H130l-.2-.2.1-.3 1.2-.6z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m131.5 210.5-.3.6H130l-.2-.2.1-.3 1.2-.6.5.5"
       />
       <path fill="#c8b100" d="M126.6 211.4v.6l-1.4.2-.2-.1v-.2l1-.9z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M126.6 211.4v.6l-1.4.2-.2-.1v-.2l1-.9.6.4"
       />
       <path fill="#c8b100" d="M129.2 210.9q0-.5.5-.5t.5.5l-.5.4z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="M129.2 210.9q0-.5.5-.5t.5.5l-.5.4z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="M129.2 210.9q0-.5.5-.5t.5.5l-.5.4z" />
       <path fill="#c8b100" d="m140 209 .7.7-.9 1-.2.1-.1-.1-.3-1.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m140 209 .7.7-.9 1-.2.1-.1-.1-.3-1.3.8-.3"
       />
       <path fill="#c8b100" d="m141.4 211.2-.5.5-1.2-.6v-.2l.1-.2 1.3-.1z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m141.4 211.2-.5.5-1.2-.6v-.2l.1-.2 1.3-.1.3.6"
       />
       <path fill="#c8b100" d="m137.8 210.5.3.6h1.3l.2-.2-.1-.3-1.2-.6z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m137.8 210.5.3.6h1.3l.2-.2-.1-.3-1.2-.6-.5.5"
       />
       <path fill="#c8b100" d="m142.5 211.4.1.6 1.3.2.2-.1v-.2l-1-.9z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m142.5 211.4.1.6 1.3.2.2-.1v-.2l-1-.9-.6.4"
       />
       <path fill="#c8b100" d="m134.2 210.4.4-.4q.5 0 .5.4l-.5.5z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m134.2 210.4.4-.4q.5 0 .5.4l-.5.5z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m134.2 210.4.4-.4q.5 0 .5.4l-.5.5z" />
       <path fill="#c8b100" d="M139.1 210.9q.1-.5.5-.5l.5.5-.5.4z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="M139.1 210.9q.1-.5.5-.5l.5.5-.5.4z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="M139.1 210.9q.1-.5.5-.5l.5.5-.5.4z" />
       <path
         fill="#c8b100"
         d="m124.8 212.2-.6-.7c-.2-.2-.7-.3-.7-.3q0-.2.6-.3l.4.2v-.2s.3 0 .4.3v1"
@@ -697,32 +697,32 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m124.8 212.2-.6-.7c-.2-.2-.7-.3-.7-.3q0-.2.6-.3l.4.2v-.2s.3 0 .4.3v1z"
       />
       <path fill="#c8b100" d="M124.8 212q.3-.3.5 0t.2.5l-.5-.1q-.3-.2-.2-.5" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M124.8 212q.3-.3.5 0t.2.5l-.5-.1q-.3-.2-.2-.5z"
       />
       <path fill="#c8b100" d="m144.3 212.2.6-.7.7-.3q0-.2-.6-.3l-.4.2v-.2s-.3 0-.4.3v.7z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m144.3 212.2.6-.7.7-.3q0-.2-.6-.3l-.4.2v-.2s-.3 0-.4.3v.7z"
       />
       <path fill="#c8b100" d="M144.3 212q-.1-.3-.5 0-.3.2-.1.5l.5-.1q.3-.2.1-.5" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M144.3 212q-.1-.3-.5 0-.3.2-.1.5l.5-.1q.3-.2.1-.5z"
       />
       <path fill="#c8b100" d="M124 223h21.4v-5.5H124z" />
-      <path fill="none" stroke="#000" stroke-width=".4" d="M124 223h21.4v-5.5H124z" />
+      <path fill="none" stroke="#000" strokeWidth=".4" d="M124 223h21.4v-5.5H124z" />
       <path
         fill="#c8b100"
         d="M126.2 226.8h16.9a1.4 1.4 0 0 1-1-1.2q.1-1 1-1.3h-16.9q1 .3 1 1.3a1.3 1.3 0 0 1-1 1.2"
@@ -730,22 +730,22 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".4"
+        strokeLinejoin="round"
+        strokeWidth=".4"
         d="M126.2 226.8h16.9a1.4 1.4 0 0 1-1-1.2q.1-1 1-1.3h-16.9q1 .3 1 1.3a1.3 1.3 0 0 1-1 1.2z"
       />
       <path fill="#c8b100" d="M126.6 226.8h16q1 0 1 .7t-1 .8h-16q-.9-.1-1-.8 0-1 1-.8" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M126.6 226.8h16q1 0 1 .7t-1 .8h-16q-.9-.1-1-.8 0-1 1-.8z"
       />
       <path fill="#c8b100" d="M126.6 223h16q1 .1 1 .7t-1 .6h-16q-.9 0-1-.6.1-.5 1-.6" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M126.6 223h16q1 .1 1 .7t-1 .6h-16q-.9 0-1-.6.1-.5 1-.6z"
       />
       <path
@@ -755,7 +755,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M149.6 317.4q-2.2 0-3.7-.8a8 8 0 0 0-3.8-.8q-2.1 0-3.7.8a8 8 0 0 1-3.8.8q-2.3 0-3.7-.8a8 8 0 0 0-3.7-.8 8 8 0 0 0-3.7.8 8 8 0 0 1-3.8.8v2.4q2.3 0 3.8-.9a8 8 0 0 1 3.7-.8q2.2 0 3.7.8c1.5.8 2.2.9 3.7.9a8 8 0 0 0 3.8-.9q1.6-.8 3.7-.8 2.3 0 3.8.8c1.5.8 2.2.9 3.7.9z"
       />
       <path
@@ -765,7 +765,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M149.6 319.8a8 8 0 0 1-3.7-.9 8 8 0 0 0-3.8-.8q-2.1 0-3.7.8c-1.6.8-2.3.9-3.8.9s-2.8-.4-3.7-.9a8 8 0 0 0-3.7-.8 8 8 0 0 0-3.7.8q-1.5.8-3.8.9v2.3q2.3 0 3.8-.9a8 8 0 0 1 3.7-.7q2.2 0 3.7.7a8 8 0 0 0 7.5 0 9 9 0 0 1 7.5.1 8 8 0 0 0 3.7.8v-2.3"
       />
       <path
@@ -775,7 +775,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M149.6 322a7 7 0 0 1-3.7-.8 8 8 0 0 0-3.8-.7q-2.1 0-3.7.7-1.5.9-3.8.9c-2.3 0-2.8-.4-3.7-.9a8 8 0 0 0-3.7-.8 8 8 0 0 0-3.7.8q-1.5.8-3.8.9v2.3q2.3 0 3.8-.9a10 10 0 0 1 7.4 0 7 7 0 0 0 3.7.9 8 8 0 0 0 3.8-.8q1.6-.8 3.7-.8 2.3 0 3.8.8c1.5.8 2.2.8 3.7.8V322"
       />
       <path
@@ -785,7 +785,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M149.6 326.7a8 8 0 0 1-3.7-.8q-1.6-.8-3.7-.8a8 8 0 0 0-3.8.8q-1.5.8-3.8.8a7 7 0 0 1-3.7-.9 8 8 0 0 0-3.7-.7q-2.2 0-3.7.8c-1.5.8-2.3.8-3.8.8v-2.3a8 8 0 0 0 3.8-.9 10 10 0 0 1 7.4 0 8 8 0 0 0 3.7.9 8 8 0 0 0 3.8-.8q1.5-.8 3.8-.8t3.7.8c1.5.8 2.3.8 3.7.8v2.3"
       />
       <path
@@ -795,26 +795,26 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M149.6 329a8 8 0 0 1-3.7-.8q-1.6-.8-3.7-.8a8 8 0 0 0-3.8.8q-1.5.8-3.8.8a7 7 0 0 1-3.7-.9 8 8 0 0 0-3.7-.7q-2.2 0-3.7.8c-1.5.8-2.3.8-3.8.8v-2.3a8 8 0 0 0 3.8-.8q1.5-.8 3.7-.8t3.7.7a8 8 0 0 0 7.5 0q1.5-.6 3.8-.7t3.7.8c1.5.8 2.2.8 3.7.8z"
       />
       <path fill="#c8b100" d="m126.2 308 .2.5c0 1.5-1.3 2.6-2.7 2.6h22a3 3 0 0 1-2.7-2.6v-.5z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".4"
+        strokeLinejoin="round"
+        strokeWidth=".4"
         d="m126.2 308 .2.5c0 1.5-1.3 2.6-2.7 2.6h22a3 3 0 0 1-2.7-2.6v-.5z"
       />
       <path fill="#c8b100" d="M126.6 306.5h16q1 0 1 .8 0 .6-1 .7h-16q-.9 0-1-.8.1-.6 1-.7" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M126.6 306.5h16q1 0 1 .8 0 .6-1 .7h-16q-.9 0-1-.8.1-.6 1-.7z"
       />
       <path fill="#c8b100" d="M123.7 316.7h22V311h-22z" />
-      <path fill="none" stroke="#000" stroke-width=".4" d="M123.7 316.7h22V311h-22z" />
+      <path fill="none" stroke="#000" strokeWidth=".4" d="M123.7 316.7h22V311h-22z" />
       <path
         fill="#ad1519"
         d="M122 286.7c-2.2 1.2-3.7 2.5-3.4 3.2q.2.8 1.8 1.6c1.5 1.1 2.5 3 1.7 4a5.5 5.5 0 0 0-.1-8.8"
@@ -822,14 +822,14 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M122 286.7c-2.2 1.2-3.7 2.5-3.4 3.2q.2.8 1.8 1.6c1.5 1.1 2.5 3 1.7 4a5.5 5.5 0 0 0-.1-8.8z"
       />
       <path fill="#ccc" d="M126.8 305.6h15.6V229h-15.6v76.5z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M138 229.2v76.3m1.7-76.3v76.3m-12.9 0h15.6v-76.4h-15.6v76.5z"
       />
       <path
@@ -839,22 +839,22 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".4"
+        strokeLinejoin="round"
+        strokeWidth=".4"
         d="M158.4 257.7a50 50 0 0 0-23.3-2c-9.4 1.6-16.5 5.3-15.9 8.4v.2l-3.5-8.2c-.6-3.3 7.2-7.5 17.6-9.2a43 43 0 0 1 9.2-.7c6.6 0 12.4.8 15.8 2.1v9.4"
       />
       <path fill="#ad1519" d="M126.8 267.3c-4.3-.3-7.3-1.4-7.6-3.2q-.3-2.2 3.8-4.5l3.8.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M126.8 267.3c-4.3-.3-7.3-1.4-7.6-3.2q-.3-2.2 3.8-4.5l3.8.3v7.4"
       />
       <path fill="#ad1519" d="M142.5 261.5q4.1.6 5.7 1.9l.1.2c.5 1-1.9 3-5.9 5.4v-7.5" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M142.5 261.5q4.1.6 5.7 1.9l.1.2c.5 1-1.9 3-5.9 5.4v-7.5"
       />
       <path
@@ -864,8 +864,8 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".4"
+        strokeLinejoin="round"
+        strokeWidth=".4"
         d="M117.1 282c-.4-1.2 3.8-3.6 9.8-5.8l7.8-3.2c8.3-3.7 14.4-7.9 13.6-9.4v-.2c.4.4 1 8 1 8 .8 1.3-4.8 5.5-12.4 9.1-2.5 1.2-7.6 3-10 4-4.4 1.4-8.7 4.3-8.3 5.3l-1.5-7.7z"
       />
       <path
@@ -879,7 +879,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M277.9 211.6s-.7.8-1.3.9c-.5 0-1.1-.5-1.1-.5s-.5.5-1 .6-1.4-.6-1.4-.6l-1 1-1.1-.3c-.1-.1-.3.4-.7.6h-.4l-.6-.4-.7-.7-.5-.3-.4-1v-.5q0-1 2.2-1.7a4 4 0 0 1 2 0q.9-.8 3-.8c2.1 0 2.4.3 3 .7a6 6 0 0 1 2.9-.7q2.1 0 3 .8.8-.3 2 0 2.2.6 2.2 1.7v.5l-.4 1-.6.3-.6.7-.6.3s-.3.2-.4 0q-.6-.3-.7-.5c-.1-.2-.6.4-1 .2s-1-1-1-1-.9.8-1.4.7c-.6-.1-1-.6-1-.6s-.7.6-1.2.5-1.2-.9-1.2-.9z"
       />
       <path
@@ -889,7 +889,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M276.5 207.6c0-1 .6-2 1.3-2s1.3 1 1.3 2-.5 1.8-1.3 1.8q-1.2-.1-1.3-1.9z"
       />
       <path
@@ -899,7 +899,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M277.3 207.6q0-1.7.5-1.8.6.2.7 1.8c.1 1.6-.3 1.7-.6 1.7q-.6-.2-.6-1.8z"
       />
       <path
@@ -909,7 +909,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m271 215.3-.5-1a27 27 0 0 1 14.8 0l-.6.8-.3.8a23 23 0 0 0-6.6-.8c-2.6 0-5.2.3-6.6.8l-.2-.6"
       />
       <path
@@ -919,33 +919,33 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M277.8 217.7c2.4 0 5-.4 5.9-.6q1-.3 1-.8 0-.3-.4-.4a24 24 0 0 0-6.5-.8c-2.5 0-5 .3-6.4.8q-.3 0-.4.3 0 .6 1 .9c1 .2 3.5.6 5.8.6z"
       />
       <path fill="#fff" d="M283.5 208.4q0-.3.4-.4.5 0 .5.4t-.5.4a.4.4 0 0 1-.4-.4" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".2"
+        strokeWidth=".2"
         d="M283.5 208.4q0-.3.4-.4.5 0 .5.4t-.5.4a.4.4 0 0 1-.4-.4zm-.2-1.4a.4.4 0 0 1 .4-.4q.4 0 .4.4t-.4.4a.4.4 0 0 1-.4-.4zm-1.1-1q0-.3.4-.3t.4.4-.4.4a.4.4 0 0 1-.4-.5zm-1.4-.4q0-.3.4-.4.5 0 .5.4t-.4.4q-.5-.1-.5-.4zm-1.4 0q0-.3.5-.3t.4.4q0 .3-.4.4a.4.4 0 0 1-.5-.4z"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-linecap="round"
-        stroke-width=".3"
+        strokeLinecap="round"
+        strokeWidth=".3"
         d="m287.8 211.2.2-1a2.7 2.7 0 0 0-2.7-2.8q-.8 0-1.3.3"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m283 209.2.2-.8q-.2-1.8-2.5-2-1 0-1.6.4"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".2"
+        strokeWidth=".2"
         d="M288.2 210q0-.5.4-.5t.4.4-.4.4q-.5 0-.4-.4zm-.2-1.6q0-.3.4-.4a.4.4 0 0 1 .5.4q0 .3-.4.4-.5 0-.5-.4zm-1-1.1a.4.4 0 0 1 .5-.4q.3 0 .4.4a.4.4 0 0 1-.4.4.4.4 0 0 1-.5-.4zm-1.3-.7q0-.4.5-.4t.4.4q0 .5-.4.5a.4.4 0 0 1-.5-.5zm-1.4.1q0-.3.5-.4.6 0 .4.4t-.4.4q-.4-.1-.5-.4z"
       />
       <path
@@ -955,33 +955,33 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m285.3 213.2-.5-.5s-.6.3-1.3.2c-.6 0-.9-1-.9-1s-.7.7-1.3.7-1-.6-1-.6-.7.5-1.3.4-1.2-.8-1.2-.8-.6.8-1.2.8c-.6.1-1-.5-1-.5s-.3.6-1.1.7-1.4-.6-1.4-.6-.4.7-1 1c-.5 0-1.2-.4-1.2-.4l-.1.5-.3.1.1.5a27 27 0 0 1 7.3-.9q4.3 0 7.3 1l.2-.6z"
       />
       <path fill="#fff" d="M271.3 208.4q0-.3.4-.4.5 0 .4.4a.4.4 0 0 1-.4.4.4.4 0 0 1-.4-.4" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".2"
+        strokeWidth=".2"
         d="M271.3 208.4q0-.3.4-.4.5 0 .4.4a.4.4 0 0 1-.4.4.4.4 0 0 1-.4-.4zm.2-1.4q0-.4.4-.4t.5.4q0 .5-.5.4a.4.4 0 0 1-.4-.4zm1-1q.1-.3.5-.3t.5.4q0 .3-.5.4a.4.4 0 0 1-.4-.5zm1.4-.4q0-.3.5-.4.6 0 .4.4t-.4.4q-.4-.1-.5-.4zm1.4 0q0-.3.5-.3.3 0 .4.4 0 .3-.4.4a.4.4 0 0 1-.5-.4z"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-linecap="round"
-        stroke-width=".3"
+        strokeLinecap="round"
+        strokeWidth=".3"
         d="m267.8 211.2-.2-1a2.7 2.7 0 0 1 2.7-2.8q.8 0 1.4.3"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m272.7 209.2-.3-.8c0-1 1.2-2 2.6-2a3 3 0 0 1 1.5.4"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".2"
+        strokeWidth=".2"
         d="M266.6 210q0-.5.4-.5t.4.4a.4.4 0 0 1-.4.4q-.3 0-.4-.4zm.1-1.6q.1-.3.5-.4.5 0 .4.4t-.4.4q-.4-.1-.4-.4zm1-1.1q0-.4.5-.4a.4.4 0 0 1 .4.4.4.4 0 0 1-.4.4.4.4 0 0 1-.5-.4zm1.3-.7q0-.4.5-.4.3 0 .4.4 0 .5-.4.5a.4.4 0 0 1-.5-.5zm1.4.1q0-.3.5-.4a.4.4 0 0 1 .4.4.4.4 0 0 1-.4.4q-.5 0-.5-.4z"
       />
       <path
@@ -991,7 +991,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M277.9 210.7h.2v.4q.1 1 1 1a1 1 0 0 0 1-.7l.2-.3v.4q.3.8 1.1.8 1 0 1-1v-.1l.4-.4.2.5-.1.4a1 1 0 0 0 1 1q.6 0 .9-.5l.2-.2v.3q0 .5.4.7l1-.4c1-.5.7-.7.7-.7v.4s-.5.8-1 1q-.3.4-.8.3-.5 0-.7-.6l-.7.2q-1 0-1.4-.8l-1.1.5q-.8 0-1.2-.6l-1 .4q-.9 0-1.4-.6-.4.6-1.2.6-.6 0-1-.4a2 2 0 0 1-1.3.6q-.6 0-1.1-.5-.4.8-1.4.8-.4 0-.7-.2-.2.5-.7.6t-.9-.2l-1-1 .1-.5.8.7q.8.5.9.4.4-.1.4-.7v-.3l.2.2q.3.5.9.5a1 1 0 0 0 1-1v-.9l.4.4v.1q.1 1 1 1t1.1-.9v-.3l.2.3q.4.6 1 .7 1 0 1.1-1v-.3h.2z"
       />
       <path
@@ -1001,21 +1001,21 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M277.8 213.3q-4.5 0-7.3 1l-.3-.2.1-.3q3-1 7.5-1t7.6 1l.1.3-.3.2a27 27 0 0 0-7.4-1z"
       />
       <path fill="#fff" d="M275 214.4q0-.4.5-.4a.4.4 0 0 1 .4.4.4.4 0 0 1-.4.4q-.5 0-.5-.4" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M275 214.4q0-.4.5-.4a.4.4 0 0 1 .4.4.4.4 0 0 1-.4.4q-.5 0-.5-.4z"
       />
       <path fill="#ad1519" d="M277.9 214.5h-1q-.2 0-.3-.3l.3-.3h2l.2.3-.3.3h-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M277.9 214.5h-1q-.2 0-.3-.3l.3-.3h2l.2.3-.3.3h-1"
       />
       <path
@@ -1025,27 +1025,27 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M273.2 214.9h-.6a.3.3 0 0 1-.4-.2l.3-.3.6-.1.7-.1q.3 0 .4.2a.3.3 0 0 1-.3.4h-.7"
       />
       <path fill="#ad1519" d="m270.5 215.3.3-.4h.7l-.4.6z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m270.5 215.3.3-.4h.7l-.4.6-.6-.2" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m270.5 215.3.3-.4h.7l-.4.6-.6-.2" />
       <path fill="#fff" d="M279.8 214.4q0-.4.4-.4t.5.4q0 .3-.5.4a.4.4 0 0 1-.4-.4" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M279.8 214.4q0-.4.4-.4t.5.4q0 .3-.5.4a.4.4 0 0 1-.4-.4z"
       />
       <path fill="#058e6e" d="M282.5 214.9h.7l.3-.2-.2-.3-.7-.1-.7-.1q-.3 0-.4.2 0 .3.3.4z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M282.5 214.9h.7l.3-.2-.2-.3-.7-.1-.7-.1q-.3 0-.4.2 0 .3.3.4h.7"
       />
       <path fill="#ad1519" d="m285.1 215.4-.2-.5h-.7l.3.6z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m285.1 215.4-.2-.5h-.7l.3.6.6-.1" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m285.1 215.4-.2-.5h-.7l.3.6.6-.1" />
       <path
         fill="#ad1519"
         d="M277.8 217.1a25 25 0 0 1-6-.6 25 25 0 0 1 6-.7q3.6 0 6.1.7-2.5.6-6 .6"
@@ -1053,129 +1053,124 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".3"
+        strokeLinejoin="round"
+        strokeWidth=".3"
         d="M277.8 217.1a25 25 0 0 1-6-.6 25 25 0 0 1 6-.7q3.6 0 6.1.7-2.5.6-6 .6z"
       />
       <path fill="#c8b100" d="m285.2 212-.1-.3q-.3 0-.4.2l.1.4q.3 0 .4-.3" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m285.2 212-.1-.3q-.3 0-.4.2l.1.4q.3 0 .4-.3z"
       />
       <path fill="#c8b100" d="M280.6 211.2q0-.3-.3-.4l-.2.3q0 .3.2.4z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M280.6 211.2q0-.3-.3-.4l-.2.3q0 .3.2.4z"
       />
       <path fill="#c8b100" d="M275.2 211.2q0-.3.2-.4l.3.3-.2.4q-.3 0-.3-.3" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M275.2 211.2q0-.3.2-.4l.3.3-.2.4q-.3 0-.3-.3z"
       />
       <path fill="#c8b100" d="m270.5 212 .1-.3q.3 0 .4.2l-.1.4q-.3 0-.4-.3" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m270.5 212 .1-.3q.3 0 .4.2l-.1.4q-.3 0-.4-.3z"
       />
       <path fill="#c8b100" d="m277.8 208.5-.8.5.6 1.3.2.1.3-.1.6-1.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m277.8 208.5-.8.5.6 1.3.2.1.3-.1.6-1.3-.9-.5"
       />
       <path fill="#c8b100" d="m276 210.5.4.5 1.3-.4.1-.2-.1-.2-1.3-.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m276 210.5.4.5 1.3-.4.1-.2-.1-.2-1.3-.3-.4.6"
       />
       <path fill="#c8b100" d="m279.6 210.5-.3.5-1.3-.4-.1-.2v-.2l1.4-.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m279.6 210.5-.3.5-1.3-.4-.1-.2v-.2l1.4-.3.4.6"
       />
       <path fill="#c8b100" d="m272.5 209-.7.7.9 1 .2.1.2-.1.2-1.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m272.5 209-.7.7.9 1 .2.1.2-.1.2-1.3-.8-.3"
       />
       <path fill="#c8b100" d="m271.1 211.2.5.5 1.2-.6v-.2l-.1-.2-1.3-.1z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m271.1 211.2.5.5 1.2-.6v-.2l-.1-.2-1.3-.1-.3.6"
       />
       <path fill="#c8b100" d="m274.7 210.5-.3.6h-1.3l-.2-.2.1-.3 1.2-.6z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m274.7 210.5-.3.6h-1.3l-.2-.2.1-.3 1.2-.6.5.5"
       />
       <path fill="#c8b100" d="M269.8 211.4v.6l-1.4.2-.2-.1v-.2l1-.9z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M269.8 211.4v.6l-1.4.2-.2-.1v-.2l1-.9.6.4"
       />
       <path fill="#c8b100" d="M272.4 210.9q0-.5.5-.5l.5.5-.5.4z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="M272.4 210.9q0-.5.5-.5l.5.5-.5.4z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="M272.4 210.9q0-.5.5-.5l.5.5-.5.4z" />
       <path fill="#c8b100" d="m283.2 209 .7.7-.9 1-.2.1-.1-.1-.3-1.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m283.2 209 .7.7-.9 1-.2.1-.1-.1-.3-1.3.8-.3"
       />
       <path fill="#c8b100" d="m284.6 211.2-.5.5-1.2-.6v-.2l.1-.2 1.3-.1z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m284.6 211.2-.5.5-1.2-.6v-.2l.1-.2 1.3-.1.3.6"
       />
       <path fill="#c8b100" d="m281 210.5.3.6h1.3l.2-.2-.1-.3-1.2-.6z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m281 210.5.3.6h1.3l.2-.2-.1-.3-1.2-.6-.5.5"
       />
       <path fill="#c8b100" d="M285.7 211.4v.6l1.4.2.2-.1v-.2l-1-.9z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M285.7 211.4v.6l1.4.2.2-.1v-.2l-1-.9-.6.4"
       />
       <path fill="#c8b100" d="M277.4 210.4q0-.3.5-.4.4 0 .4.4t-.4.5z" />
-      <path
-        fill="none"
-        stroke="#000"
-        stroke-width=".3"
-        d="M277.4 210.4q0-.3.5-.4.4 0 .4.4t-.4.5z"
-      />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="M277.4 210.4q0-.3.5-.4.4 0 .4.4t-.4.5z" />
       <path fill="#c8b100" d="M282.3 210.9q.1-.5.5-.5t.5.5q0 .6-.5.4z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M282.3 210.9q.1-.5.5-.5t.5.5q0 .6-.5.4z"
       />
       <path fill="#c8b100" d="M277 205.4q.1-.8.8-.8 1 0 1 .8c0 .8-.5.8-1 .8a1 1 0 0 1-.8-.8" />
@@ -1186,28 +1181,28 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M278.5 205.1v.6H277v-.6h.4v-1.3h-.5v-.5h.5v-.6h.6v.6h.6v.6h-.6v1.2h.4z"
       />
       <path fill="#c8b100" d="M279 205.1v.6h-2.4v-.6h1v-1.3h-.7v-.5h.6v-.6h.6v.6h.6v.6h-.6v1.2h1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M278.1 204.6q.6.1.6.8t-.9.8a1 1 0 0 1-.8-.8q0-.6.6-.8"
       />
       <path fill="#c8b100" d="m268 212.2-.6-.7-.7-.3q0-.2.6-.3.3 0 .4.2v-.2s.3 0 .4.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m268 212.2-.6-.7-.7-.3q0-.2.6-.3.3 0 .4.2v-.2s.3 0 .4.3z"
       />
       <path fill="#c8b100" d="M268 212q.3-.3.5 0 .4.2.1.5l-.5-.1q-.2-.2 0-.5" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M268 212q.3-.3.5 0 .4.2.1.5l-.5-.1q-.2-.2 0-.5z"
       />
       <path
@@ -1217,18 +1212,18 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m287.5 212.2.6-.7c.2-.2.7-.3.7-.3q0-.2-.6-.3l-.4.2v-.2s-.3 0-.4.3v.7z"
       />
       <path fill="#c8b100" d="M287.5 212q-.2-.3-.5 0t-.1.5l.5-.1q.3-.2.1-.5" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M287.5 212q-.2-.3-.5 0t-.1.5l.5-.1q.3-.2.1-.5z"
       />
       <path fill="#c8b100" d="M267.2 223h21.4v-5.5h-21.4z" />
-      <path fill="none" stroke="#000" stroke-width=".4" d="M267.2 223h21.4v-5.5h-21.4z" />
+      <path fill="none" stroke="#000" strokeWidth=".4" d="M267.2 223h21.4v-5.5h-21.4z" />
       <path
         fill="#c8b100"
         d="M286.3 226.8h-16.9q1-.4 1-1.2 0-1-1-1.3h17-.1q-1 .3-1 1.3 0 .8 1 1.2"
@@ -1236,22 +1231,22 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".4"
+        strokeLinejoin="round"
+        strokeWidth=".4"
         d="M286.3 226.8h-16.9q1-.4 1-1.2 0-1-1-1.3h17-.1q-1 .3-1 1.3 0 .8 1 1.2z"
       />
       <path fill="#c8b100" d="M269.9 226.8h16q1 0 1 .7t-1 .8h-16q-1-.1-1-.8.1-1 1-.8" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M269.9 226.8h16q1 0 1 .7t-1 .8h-16q-1-.1-1-.8.1-1 1-.8z"
       />
       <path fill="#c8b100" d="M269.9 223h16q1 .1 1 .7t-1 .6h-16q-1 0-1-.6t1-.6" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M269.9 223h16q1 .1 1 .7t-1 .6h-16q-1 0-1-.6t1-.6z"
       />
       <path
@@ -1261,7 +1256,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M263 317.4q2.1 0 3.7-.8a8 8 0 0 1 3.7-.8q2.2 0 3.8.8c1.6.8 2.3.8 3.7.8q2.3 0 3.8-.8a8 8 0 0 1 3.6-.8 8 8 0 0 1 3.7.8q1.6.8 3.8.8v2.4a8 8 0 0 1-3.8-.9 8 8 0 0 0-3.7-.8q-2.2 0-3.6.8-1.5.8-3.8.9a8 8 0 0 1-3.7-.9 8 8 0 0 0-3.8-.8 8 8 0 0 0-3.7.8q-1.5.8-3.8.9v-2.4z"
       />
       <path
@@ -1271,7 +1266,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M263 319.8q2.1 0 3.7-.9c1.6-.9 2.3-.8 3.7-.8q2.2 0 3.8.8c1.6.8 2.3.9 3.7.9a8 8 0 0 0 3.8-.9 8 8 0 0 1 3.6-.8q2.3 0 3.7.8 1.6.8 3.8.9v2.3a8 8 0 0 1-3.8-.9 8 8 0 0 0-3.7-.7q-2.2 0-3.6.7-1.5.8-3.8.9a7 7 0 0 1-3.7-.9q-1.5-.6-3.8-.7a8 8 0 0 0-3.7.7 8 8 0 0 1-3.8.9v-2.3"
       />
       <path
@@ -1281,7 +1276,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M263 322q2.1 0 3.7-.8 1.6-.6 3.7-.7 2.2 0 3.8.7c1.6.7 2.3.9 3.7.9a8 8 0 0 0 3.8-.9 8 8 0 0 1 3.6-.8 8 8 0 0 1 3.7.8q1.6.8 3.8.9v2.3a8 8 0 0 1-3.8-.9 8 8 0 0 0-3.7-.7q-2.2 0-3.6.7-1.5.9-3.8.9t-3.7-.8a8 8 0 0 0-3.8-.8 8 8 0 0 0-3.7.8q-1.5.8-3.8.8V322"
       />
       <path
@@ -1291,7 +1286,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M263 326.7a8 8 0 0 0 3.7-.8q1.6-.8 3.7-.8 2.2 0 3.8.8c1.6.8 2.3.8 3.7.8q2.3 0 3.8-.9a8 8 0 0 1 3.6-.7q2.3 0 3.7.8a8 8 0 0 0 3.8.8v-2.3a8 8 0 0 1-3.8-.9 8 8 0 0 0-3.7-.7q-2.2 0-3.6.7-1.5.8-3.8.9t-3.7-.8a8 8 0 0 0-3.8-.8 8 8 0 0 0-3.7.8q-1.5.8-3.8.8v2.3"
       />
       <path
@@ -1301,7 +1296,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M263 329a8 8 0 0 0 3.7-.8q1.6-.8 3.7-.8 2.2 0 3.8.8c1.6.8 2.3.8 3.7.8a8 8 0 0 0 3.8-.9 8 8 0 0 1 3.6-.7q2.3 0 3.7.8 1.6.8 3.8.8v-2.3a8 8 0 0 1-3.8-.8 8 8 0 0 0-3.7-.8 8 8 0 0 0-3.6.7 8 8 0 0 1-3.8.9q-2.2 0-3.7-.8t-3.8-.8q-2.1 0-3.7.8c-1.6.8-2.3.8-3.8.8v2.3z"
       />
       <path
@@ -1311,19 +1306,19 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".4"
+        strokeLinejoin="round"
+        strokeWidth=".4"
         d="m286.3 308-.1.5c0 1.5 1.2 2.6 2.7 2.6h-22c1.5 0 2.7-1.2 2.7-2.6l-.1-.5z"
       />
       <path fill="#c8b100" d="M269.9 306.5h16q1 0 1 .8 0 .6-1 .7h-16q-1 0-1-.8.1-.6 1-.7" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M269.9 306.5h16q1 0 1 .8 0 .6-1 .7h-16q-1 0-1-.8.1-.6 1-.7z"
       />
       <path fill="#c8b100" d="M266.9 316.7h22V311h-22z" />
-      <path fill="none" stroke="#000" stroke-width=".4" d="M266.9 316.7h22V311h-22z" />
+      <path fill="none" stroke="#000" strokeWidth=".4" d="M266.9 316.7h22V311h-22z" />
       <path
         fill="#ad1519"
         d="M290.6 286.7c2.1 1.2 3.6 2.5 3.4 3.2q-.2.8-1.8 1.6c-1.6 1.1-2.5 3-1.8 4a5.5 5.5 0 0 1 .2-8.8"
@@ -1331,14 +1326,14 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M290.6 286.7c2.1 1.2 3.6 2.5 3.4 3.2q-.2.8-1.8 1.6c-1.6 1.1-2.5 3-1.8 4a5.5 5.5 0 0 1 .2-8.8z"
       />
       <path fill="#ccc" d="M270.1 305.6h15.6V229h-15.6v76.5z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M281.4 229.1v76.3m1.8-76.3v76.3m-13 .2h15.5V229h-15.6v76.5z"
       />
       <path
@@ -1348,22 +1343,22 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".4"
+        strokeLinejoin="round"
+        strokeWidth=".4"
         d="M254.2 257.7a50 50 0 0 1 23.3-2c9.3 1.6 16.4 5.3 15.9 8.4v.2l3.5-8.2c.6-3.3-7.3-7.5-17.6-9.2a54 54 0 0 0-9.2-.7c-6.7 0-12.4.8-15.9 2.1v9.4"
       />
       <path fill="#ad1519" d="M285.7 267.3c4.4-.3 7.3-1.4 7.7-3.2q.2-2.2-3.8-4.5l-3.9.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M285.7 267.3c4.4-.3 7.3-1.4 7.7-3.2q.2-2.2-3.8-4.5l-3.9.3v7.4"
       />
       <path fill="#ad1519" d="M270 261.5a13 13 0 0 0-5.7 1.9v.2c-.5 1 1.8 3 5.8 5.4v-7.5" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M270 261.5a13 13 0 0 0-5.7 1.9v.2c-.5 1 1.8 3 5.8 5.4v-7.5"
       />
       <path
@@ -1373,8 +1368,8 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".4"
+        strokeLinejoin="round"
+        strokeWidth=".4"
         d="M295.4 282c.4-1.2-3.8-3.6-9.7-5.8-2.8-1-5-2-7.8-3.2-8.3-3.7-14.4-7.9-13.6-9.4v-.2c-.4.4-1 8-1 8-.8 1.3 4.8 5.5 12.4 9.1 2.4 1.2 7.6 3 10 4 4.3 1.4 8.7 4.3 8.3 5.3l1.4-7.7z"
       />
       <path
@@ -1384,125 +1379,125 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".1"
+        strokeWidth=".1"
         d="M182.2 192.4c0-1 1-2 2-2s2.2 1 2.2 2c0 1.1-1 2-2.1 2a2 2 0 0 1-2.1-2z"
       />
       <path
         fill="#ad1519"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M205.7 175.4c6.3 0 12 1 15.7 2.4a32 32 0 0 0 14.6 2.3c2.7 0 6.5.8 10.3 2.4a27 27 0 0 1 7.4 4.7l-1.5 1.4-.4 3.8-4.1 4.7-2 1.8-5 3.9-2.5.2-.7 2.1-31.6-3.7-31.7 3.7-.8-2.1-2.5-.2-4.9-4-2-1.7-4.1-4.7-.5-3.8-1.5-1.4a28 28 0 0 1 7.5-4.7 26 26 0 0 1 10.2-2.4q3 .3 6.6-.2a30 30 0 0 0 8-2q5.6-2.4 15.5-2.5z"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M206.2 217.1c-11.8 0-22.4-1.4-29.9-3.6a1 1 0 0 1-.8-1.2q0-.8.8-1.2a109 109 0 0 1 29.9-3.6c11.7 0 22.3 1.4 29.8 3.6a1.3 1.3 0 0 1 0 2.4c-7.5 2.2-18 3.6-29.8 3.6"
       />
       <path
         fill="#ad1519"
         d="M206.1 215.6c-10.6 0-20.2-1.2-27.5-3.1 7.3-2 16.9-3 27.5-3.1a115 115 0 0 1 27.6 3c-7.3 2-17 3.2-27.6 3.2"
       />
-      <path fill="none" stroke="#000" stroke-width=".1" d="M206.9 215.7v-6.3m-1.7 6.3v-6.3" />
-      <path fill="none" stroke="#000" stroke-width=".2" d="M203.6 215.7v-6.3m-1.6 6.3v-6.3" />
+      <path fill="none" stroke="#000" strokeWidth=".1" d="M206.9 215.7v-6.3m-1.7 6.3v-6.3" />
+      <path fill="none" stroke="#000" strokeWidth=".2" d="M203.6 215.7v-6.3m-1.6 6.3v-6.3" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M200.6 215.7v-6.3m-2.8 5.9v-5.7m1.3 5.8v-6m-3.8 5.6v-5.2m1.3 5.4v-5.6"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M192 214.8V210m1 4.7V210m1.2 5v-5m-3.4 4.7v-4.5"
       />
-      <path fill="none" stroke="#000" stroke-width=".5" d="M189.7 214.5v-4.2m-1.2 4.1v-4" />
-      <path fill="none" stroke="#000" stroke-width=".6" d="M186 214v-3m1.3 3.2v-3.5m-2.5 3.1V211" />
+      <path fill="none" stroke="#000" strokeWidth=".5" d="M189.7 214.5v-4.2m-1.2 4.1v-4" />
+      <path fill="none" stroke="#000" strokeWidth=".6" d="M186 214v-3m1.3 3.2v-3.5m-2.5 3.1V211" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".7"
+        strokeWidth=".7"
         d="M183.7 213.6v-2.3m-1.3 2v-1.8m-1.2 1.6v-1.3"
       />
-      <path fill="none" stroke="#000" stroke-width=".9" d="M179.8 212.8v-.7" />
+      <path fill="none" stroke="#000" strokeWidth=".9" d="M179.8 212.8v-.7" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".1"
+        strokeWidth=".1"
         d="M213.7 215.3v-5.8m-2.9 6v-6.1m-2.1 6.2v-6.3"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M206 207.4a108 108 0 0 0-30 3.9c.6-.3.5-1-.3-3-1-2.5-2.4-2.4-2.4-2.4 8.3-2.5 20-4 32.8-4a123 123 0 0 1 33 4s-1.5-.1-2.5 2.3q-1.2 2.8-.2 3c-7.5-2.2-18.4-3.7-30.3-3.7"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M206.1 201.9c-12.9 0-24.5 1.5-32.8 4a1 1 0 0 1-1.3-.6 1 1 0 0 1 .7-1.3 121 121 0 0 1 33.4-4.2c13.2 0 25.2 1.7 33.5 4.2q1 .4.7 1.3t-1.3.6c-8.4-2.5-20-4-32.9-4"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".4"
+        strokeLinejoin="round"
+        strokeWidth=".4"
         d="M206.1 215.6c-10.6 0-20.2-1.2-27.5-3.1 7.3-2 16.9-3 27.5-3.1a115 115 0 0 1 27.6 3c-7.3 2-17 3.2-27.6 3.2z"
       />
       <path
         fill="#fff"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M197 204.8q0-.9 1-1 .9.1 1 1 0 1.2-1 1a1 1 0 0 1-1-1"
       />
       <path
         fill="#ad1519"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M206.1 205.6H203a1 1 0 0 1 0-2h6.4q.9.1 1 1 0 1.2-1 1h-3.2"
       />
       <path
         fill="#058e6e"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="m190.3 206.5-2.3.2q-.9 0-1.2-.8a1 1 0 0 1 1-1.1l2.2-.3 2.4-.3q.9 0 1.1.9 0 .9-.9 1l-2.3.4"
       />
       <path
         fill="#fff"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M181 206.7q.1-1 1.1-1t1 1-1 1a1 1 0 0 1-1-1"
       />
       <path
         fill="#ad1519"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="m174 208.5 1.2-1.6 3.3.4-2.6 2-1.8-.8"
       />
       <path
         fill="#058e6e"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="m222 206.5 2.3.2q.9 0 1.1-.8a1 1 0 0 0-.9-1.1l-2.2-.3-2.4-.3a1 1 0 0 0-1.1.9q0 .9.9 1l2.3.4"
       />
       <path
         fill="#fff"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M213.3 204.8q0-.9 1-1c1-.1 1 .5 1 1s-.4 1-1 1a1 1 0 0 1-1-1m15.8 1.9q.1-1 1-1t1.1 1q0 .9-1 1a1 1 0 0 1-1-1"
       />
       <path
         fill="#ad1519"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="m238.2 208.5-1.1-1.6-3.3.4 2.6 2 1.8-.8"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M177.3 212.8c7.4-2.1 17.6-3.4 28.8-3.4 11.3 0 21.4 1.3 28.9 3.4"
       />
       <path
@@ -1512,7 +1507,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="m182.3 183.8 1.4 1 2-3.2a7 7 0 0 1-3.6-7.2c.2-4.1 5.2-7.6 11.7-7.6q5 .1 8.5 2.4l.2-1.8a17 17 0 0 0-8.7-2.1c-7.4 0-13.2 4.1-13.5 9.1a9 9 0 0 0 3 7.6l-1 1.8"
       />
       <path
@@ -1522,7 +1517,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M182.4 183.8a9 9 0 0 1-4-7.3q.2-5 5.3-8a9 9 0 0 0-3.4 6.8 9 9 0 0 0 3 6.7l-.9 1.8"
       />
       <path
@@ -1532,7 +1527,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M160.1 187.1a9 9 0 0 1-2.3-5.9q0-2 1-3.8c2-4.2 8.4-7.2 16-7.2q3 0 5.9.6l-1 1.4a26 26 0 0 0-4.9-.4c-7 0-12.8 2.7-14.5 6.3a7 7 0 0 0-.7 3.1 7 7 0 0 0 2.7 5.6l-2.6 4.1-1.3-1z"
       />
       <path
@@ -1542,7 +1537,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M162.7 173.3a11 11 0 0 0-4 4.1 9 9 0 0 0-.9 3.8q.1 3.5 2.3 5.9l-1.5 2.5a10 10 0 0 1-2.3-6.5c0-4 2.5-7.5 6.4-9.8z"
       />
       <path
@@ -1552,7 +1547,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M206 164.4c1.7 0 3.2 1.1 3.5 2.6q.4 2.1.4 4.5v1.1c.1 3.3.6 6.3 1.3 8.1l-5.2 5-5.2-5c.7-1.8 1.2-4.8 1.3-8.1v-1.1q0-2.4.4-4.5c.3-1.5 1.8-2.6 3.5-2.6z"
       />
       <path
@@ -1562,7 +1557,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M206 166q1.6.1 1.8 1.4.3 1.8.4 4.2v1q.2 5 1.2 7.7l-3.4 3.2-3.4-3.2q1-2.7 1.2-7.7v-1l.4-4.2a2 2 0 0 1 1.8-1.4z"
       />
       <path
@@ -1572,7 +1567,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="m229.7 183.8-1.3 1-2-3.2a7 7 0 0 0 3.6-6.3v-.9c-.2-4.1-5.3-7.6-11.7-7.6a15 15 0 0 0-8.5 2.4l-.2-1.8a17 17 0 0 1 8.7-2.1c7.4 0 13.2 4.1 13.4 9.1a9 9 0 0 1-3 7.6l1 1.8"
       />
       <path
@@ -1582,7 +1577,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M229.6 183.8a9 9 0 0 0 4.1-7.3c0-3.2-2.1-6.1-5.3-8a9 9 0 0 1 3.4 6.8 9 9 0 0 1-3.2 6.7l1 1.8"
       />
       <path
@@ -1592,7 +1587,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M252 187.1a9 9 0 0 0 2.2-5.9 9 9 0 0 0-.9-3.8c-2-4.2-8.4-7.2-16-7.2a29 29 0 0 0-6 .6l1 1.4a25 25 0 0 1 5-.4c7 0 12.8 2.7 14.4 6.3q.7 1.5.7 3.1a7 7 0 0 1-2.6 5.6l2.5 4.1 1.3-1z"
       />
       <path
@@ -1602,7 +1597,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M249.3 173.3a11 11 0 0 1 4 4.1 9 9 0 0 1 .9 3.8 9 9 0 0 1-2.3 5.9l1.6 2.5a10 10 0 0 0 2.3-6.5c0-4-2.6-7.5-6.5-9.8z"
       />
       <path
@@ -1612,79 +1607,79 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M204.2 181.4q.1-1.7 1.8-1.8c1.7-.1 1.9.8 1.9 1.8s-.9 1.7-1.9 1.7a2 2 0 0 1-1.8-1.7z"
       />
       <path
         fill="#fff"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M204.2 178q.1-1.7 1.8-1.8c1.7-.1 1.9.8 1.9 1.8s-.9 1.7-1.9 1.7a2 2 0 0 1-1.8-1.7m.4-3.7q.1-1.2 1.4-1.3 1.4.1 1.5 1.3-.1 1.3-1.5 1.4c-1.4.1-1.4-.6-1.4-1.4m.4-3.3q0-.9 1-1c1-.1 1 .5 1 1s-.4 1-1 1a1 1 0 0 1-1-1m.2-2.8q.1-.8.8-.8t.9.8q0 .7-.9.8a1 1 0 0 1-.8-.8"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="m206.2 191.8 1.2.2a4.6 4.6 0 0 0 4.5 6 5 5 0 0 0 4.4-3c.1 0 .5-1.7.7-1.7s.1 1.8.2 1.7c.3 2.3 2.4 3.8 4.7 3.8a4.6 4.6 0 0 0 4.7-5l1.5-1.5.7 2a4 4 0 0 0-.4 1.9 4.4 4.4 0 0 0 4.5 4.2q2.5 0 3.8-1.9l.9-1.2v1.5c0 1.5.6 2.8 2 3 0 0 1.7.1 4-1.6 2.1-1.7 3.3-3.1 3.3-3.1l.2 1.7s-1.8 2.8-3.8 4c-1 .6-2.7 1.3-4 1q-2.1-.5-3-2.6a7 7 0 0 1-3.3 1 7 7 0 0 1-6.1-3.7 7 7 0 0 1-10.4-.3 7 7 0 0 1-4.6 1.8 7 7 0 0 1-5.7-3 7 7 0 0 1-5.7 3 7 7 0 0 1-4.7-1.8 7 7 0 0 1-10.4.3 7 7 0 0 1-6 3.7 7 7 0 0 1-3.4-1q-.8 2.1-3 2.7c-1.2.2-2.9-.5-4-1.1-2-1.2-3.8-4-3.8-4l.2-1.7s1.2 1.4 3.4 3.1 3.9 1.6 3.9 1.6c1.4-.2 2-1.5 2-3v-1.5l1 1.2a5 5 0 0 0 3.7 2c2.5 0 4.5-2 4.5-4.3a4 4 0 0 0-.4-2l.8-1.9 1.5 1.5v.6c0 2.4 2 4.4 4.6 4.4 2.4 0 4.4-1.5 4.7-3.8 0 0 0-1.6.2-1.7s.6 1.7.7 1.6a5 5 0 0 0 4.5 3.1 4.6 4.6 0 0 0 4.5-6l1.2-.2"
       />
       <path
         fill="#fff"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M238.6 197.7q.4-1.4-.6-1.8-.9-.2-1.5 1.1-.4 1.4.6 1.8.9.2 1.5-1.1m-20.5-4c0-.8-.3-1.6-1-1.6q-.8 0-1.2 1.4 0 1.3.9 1.6 1-.1 1.3-1.4m-23.9 0c0-.8.4-1.6 1-1.6q1 0 1.2 1.4 0 1.3-.9 1.6-1-.1-1.2-1.4m-20.6 4q-.3-1.4.6-1.8 1-.2 1.5 1.1t-.5 1.8q-1 .2-1.6-1.1"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M182.7 184a5 5 0 0 1 2.2 2.9s0-.3.6-.6 1-.3 1-.3l-.1 1.3-.3 2.2-.7 1.6a2 2 0 0 0-1.5-.4 2 2 0 0 0-1.2.9s-.7-.6-1.2-1.3l-1.1-2-.7-1.1s.5-.2 1.1 0q.9.1.8.2a5 5 0 0 1 1-3.4m.4 9.8-.6-1q0-.7.3-1.2s-.9-.5-1.8-.7c-.7-.2-2-.2-2.3-.2h-1l.2.5.5.7a5 5 0 0 0-3 2 5 5 0 0 0 3.5 1l-.2.8v.6l1-.4c.3-.1 1.5-.5 2-1 .8-.4 1.5-1.1 1.5-1.1m2.7-.5.2-1.1-.6-1 1.4-1.3 2-.9 1.1-.4v.6l-.2.8a5 5 0 0 1 3.4 1 5 5 0 0 1-2.9 2l.7 1.2h-1c-.4 0-1.6 0-2.3-.2l-1.8-.7"
       />
       <path
         fill="#ad1519"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M182.2 192.4c0-1 1-2 2-2s2.2 1 2.2 2c0 1.1-1 2-2.1 2a2 2 0 0 1-2.1-2"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M206.1 180.8a6 6 0 0 1 1.9 3.7s.2-.3.9-.5q1.1-.3 1.2-.2l-.5 1.4-.8 2.4-1 1.7a2 2 0 0 0-1.7-.7q-1 0-1.6.7-.2-.1-1-1.7l-.8-2.4-.5-1.4 1.2.2q1 .4.9.5.2-2.2 1.8-3.7"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M204.6 191.8a2 2 0 0 1-.5-1.2q0-.8.4-1.3s-.8-.7-1.8-1c-.7-.4-2-.7-2.5-.7l-1.2-.2.2.6.4.9a6 6 0 0 0-3.7 1.7q1.6 1.5 3.7 1.6l-.4 1-.2.6 1.2-.2c.4-.1 1.8-.4 2.5-.7 1-.4 1.9-1 1.9-1m3 0a2 2 0 0 0 .1-2.6s.9-.7 1.8-1a8 8 0 0 1 2.5-.7l1.2-.3-.1.7-.4.9q2.2.2 3.6 1.7a6 6 0 0 1-3.6 1.6l.5 1.6-1.2-.2-2.5-.7c-1-.4-1.8-1-1.8-1m22-8a5 5 0 0 0-2.2 3l-.7-.6-1-.3.2 1.3c0 .3 0 1.3.3 2.2q.4 1.6.6 1.6a2 2 0 0 1 1.5-.4q.9.2 1.3.9l1.1-1.3q1-1.4 1.1-2l.7-1.1s-.4-.2-1 0l-1 .2a5 5 0 0 0-1-3.4m-.3 9.8q.5-.4.6-1l-.2-1.2s.8-.5 1.7-.7c.7-.2 2-.2 2.3-.2h1.1l-.3.5-.4.7a5 5 0 0 1 2.9 2 5 5 0 0 1-3.5 1l.2.8v.6l-1-.4c-.3-.1-1.4-.5-2-1-.8-.4-1.4-1.1-1.4-1.1m-2.8-.5-.2-1.1q0-.7.6-1s-.6-.8-1.4-1.3c-.6-.4-1.7-.8-2-.9l-1-.4v.6l.2.8a5 5 0 0 0-3.5 1q1 1.4 3 2l-.5.7-.3.5h1c.4 0 1.7 0 2.3-.2l1.8-.7"
       />
       <path
         fill="#ad1519"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M226 192.4c0-1 1-2 2-2s2.1 1 2.1 2a2 2 0 0 1-2 2 2 2 0 0 1-2.1-2m23.2 4.4c-.4-.5-1.4-.4-2.2.2q-1.2 1.2-.5 2.2 1 .8 2.3-.3c.7-.6 1-1.6.5-2"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="m246.3 198 .7-1c.7-.6 1.8-.7 2.3-.2l.1.2s1-2 2.3-2.6 3.4-.5 3.4-.5a3 3 0 0 0-2.9-2.8 3 3 0 0 0-2.4 1l-.2-1s-1.3.3-1.9 1.8 0 3.6 0 3.6-.3-.9-.7-1.5a8 8 0 0 0-2.4-1.6l-1.3-.7-.1.5v.8a8 8 0 0 0-3.7.5 5 5 0 0 0 2.5 2.2l-.8.7-.4.5 1.3.2 2.5.2 1.7-.2m-80.3 0q0-.6-.7-1c-.7-.7-1.7-.8-2.2-.3l-.2.3s-1-2-2.3-2.7-3.3-.5-3.3-.5a3 3 0 0 1 2.8-2.8q1.6 0 2.4 1l.2-1s1.3.3 2 1.8c.5 1.5-.1 3.6-.1 3.6s.3-.9.8-1.5a8 8 0 0 1 2.4-1.6l1.3-.7v1.3a8 8 0 0 1 3.7.5 5 5 0 0 1-2.5 2.2l.8.7.4.5-1.2.2-2.6.2-1.7-.2"
       />
       <path
         fill="#ad1519"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M163 196.8q1-.7 2.4.3 1.2 1 .4 2c-.5.6-1.5.5-2.2-.2s-1-1.6-.5-2m41-6.3q.2-1.8 2-2c1.8-.2 2.1.9 2.1 2 0 1-1 2-2 2a2 2 0 0 1-2.1-2"
       />
       <path
         fill="#005bbf"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M201.8 160.6c0-2.2 1.9-4 4.3-4s4.2 1.8 4.2 4-1.9 4-4.3 4a4 4 0 0 1-4.2-4"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M205 149.3v2.2h-2.4v2.2h2.3v6.3H202l-.2.6q0 .9.3 1.6h7.9q.3-.7.3-1.6l-.2-.6h-2.8v-6.3h2.3v-2.2h-2.3v-2.2z"
       />
       <path
@@ -1694,49 +1689,49 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M206.5 330.6a82 82 0 0 1-35.5-8.2 23 23 0 0 1-12.8-20.4v-32h96.4v32a23 23 0 0 1-12.8 20.4 81 81 0 0 1-35.3 8.2z"
       />
       <path fill="#ccc" d="M206.3 270h48.3v-53.5h-48.3z" />
-      <path fill="none" stroke="#000" stroke-width=".5" d="M206.3 270h48.3v-53.5h-48.3z" />
+      <path fill="none" stroke="#000" strokeWidth=".5" d="M206.3 270h48.3v-53.5h-48.3z" />
       <path fill="#ad1519" d="M206.3 302c0 12.6-10.7 22.9-24 22.9s-24.2-10.3-24.2-23v-32h48.2v32" />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M168.6 320.9c1.5.8 3.6 2 5.8 2.6l-.1-54.7h-5.7z"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".5"
+        strokeLinejoin="round"
+        strokeWidth=".5"
         d="M158 301.6a24 24 0 0 0 5.5 15v-47.5h-5.4z"
       />
       <path
         fill="#c7b500"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M179.4 324.7a27 27 0 0 0 5.6 0v-55.9h-5.6v56z"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M190 323.5a19 19 0 0 0 5.8-2.5v-52.2H190z"
       />
       <path fill="#ad1519" d="M158.1 270h48.2v-53.5H158z" />
-      <path fill="none" stroke="#000" stroke-width=".5" d="M158.1 270h48.2v-53.5H158z" />
+      <path fill="none" stroke="#000" strokeWidth=".5" d="M158.1 270h48.2v-53.5H158z" />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M201 316c2.4-2 4.6-6.8 5.4-12.2l.1-35H201l.1 47.3z"
       />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M206.3 302c0 12.6-10.7 22.9-24 22.9s-24.2-10.3-24.2-23v-32h48.2v32"
       />
       <path
@@ -1746,7 +1741,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M254.6 270v32c0 12.6-10.8 22.9-24.1 22.9s-24.2-10.3-24.2-23v-32h48.3"
       />
       <path
@@ -1760,19 +1755,19 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#c8b100"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M232.7 316.3a16 16 0 0 0 3.7-1.1l.8 1.4a18 18 0 0 1-4.3 1.2 3 3 0 0 1-2.6 2 3 3 0 0 1-2.5-2 18 18 0 0 1-4.6-1.2l.8-1.4q2 .8 4 1a3 3 0 0 1 1.5-1.3v-6.7h1.6v6.7q1.1.3 1.6 1.4zm-4.7-20.4-.2-.5h-4V294h4l.2-.4-5-5.6 1.2-1 5 5.5h.2V285h1.7v7.3h.2l4.9-5.5 1.2 1-4.9 5.5.3.6h4v1.5h-4q0 .3-.3.5l4.7 5.3-1.3 1-4.6-5.3-.2.1v8.7h-1.6V297l-.2-.1-4.8 5.3-1.2-1 4.7-5.3m-12.8-16.7 6 6.8 1.3-1-6.1-6.7.3-.6h4.4V276h-4.4a3 3 0 0 0-2.5-1.7 2.6 2.6 0 0 0-2.6 2.5 3 3 0 0 0 1.7 2.4v5.2h1.6v-5.2zm6.5 34.8-.8 1.4a17 17 0 0 1-3.6-3.1q-1.4.3-2.5-.5a2.4 2.4 0 0 1-.3-3.5l.1-.1a15 15 0 0 1-1.2-4.8h1.6a13 13 0 0 0 1 4q.8 0 1.4.2l4.1-4.5 1.3 1-4.1 4.5q.8 1.5-.1 2.8a15 15 0 0 0 3.1 2.6zm-8.4-13.1V297a3 3 0 0 1-1.8-2.4q.2-1.6 1.8-2.4V287h1.6v5.3q1.3.4 1.7 1.6h4.4v1.5h-4.4a3 3 0 0 1-1.6 1.6v3.9h-1.7m2.3 8.3q.7-.7 1.6 0c.9.7.5 1 .1 1.4a1 1 0 0 1-1.6.1 1 1 0 0 1 0-1.5zm-2-4.5-1.7-.3-.3-4.3 1.7-.6v2.5q0 1.4.3 2.7zm1.4-5.3 1.6.4v2.2c0-.8.3 2.1.3 2.1l-1.7.6-.3-2.7v-2.6zm5.5 13.7a16 16 0 0 0 4.8 2.6l.4-1.6a14 14 0 0 1-4-2l-1.2 1m-.8 1.4a17 17 0 0 0 4.8 2.6l-1.2 1.1a19 19 0 0 1-4-2l.4-1.7"
       />
       <path
         fill="none"
         stroke="#c8b100"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m221.9 305.1 1.6.7 3-3.3-1-1.4-3.6 4m-1.3-1-1-1.4 3-3.3 1.6.7-3.6 4m-7.6-9.5q.1-1 1-1 1.1.1 1.2 1-.1 1-1.1 1.1a1 1 0 0 1-1.1-1zm25.7 19.4.8 1.4a17 17 0 0 0 3.6-3.1q1.4.3 2.6-.5a2.4 2.4 0 0 0 .2-3.5l-.1-.1a15 15 0 0 0 1.3-4.8h-1.7a13 13 0 0 1-1 4l-1.4.2-4.1-4.5-1.3 1 4.1 4.5a2.4 2.4 0 0 0 .1 2.8 15 15 0 0 1-3 2.6zm8.4-13.1V297a3 3 0 0 0 1.8-2.4q0-1.6-1.8-2.4V287h-1.6v5.3q-1.2.4-1.7 1.6h-4.4v1.5h4.4q.5 1.2 1.7 1.6v3.9zm-2.3 8.3a1 1 0 0 0-1.6 0 1 1 0 0 0-.1 1.4 1 1 0 0 0 1.6.1 1 1 0 0 0 0-1.5zm2-4.5 1.7-.3.3-4.3-1.7-.6v2.5q0 1.4-.2 2.7zm-1.3-5.3-1.7.4v2.2c0-.8-.3 2.1-.3 2.1l1.7.6.3-2.7v-2.6m1.6-20.1v5.2h-1.6v-5.2l-.4-.2-6 6.8-1.2-1 6-7v-.2h-4.5V276h4.4a3 3 0 0 1 2.5-1.7 2.6 2.6 0 0 1 2.6 2.5 3 3 0 0 1-1.8 2.4zm-16 0v3.2h-1.7v-3.2a3 3 0 0 1-1.7-1.6h-4V276h4q.7-1.6 2.5-1.7c1.8-.1 2.2.7 2.5 1.7h4v1.6h-4a3 3 0 0 1-1.6 1.6zm8.8 33.8a16 16 0 0 1-4.8 2.6l-.4-1.6a14 14 0 0 0 4-2l1.2 1m.8 1.4a17 17 0 0 1-4.8 2.6l1.2 1.1a19 19 0 0 0 4-2l-.4-1.7m-27.4-31.4-1.7.5v4.3l1.7.5v-5.2m1.7 0 1.6.4v4.3l-1.6.5V283m30.5 0-1.7.5v4.3l1.7.5V283"
       />
       <path
         fill="none"
         stroke="#c8b100"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m247.1 283.1 1.7.5v4.3l-1.7.5V283m-8.6 22-1.6.7-2.9-3.3 1-1.4 3.5 4m1.3-1 1-1.4-3-3.3-1.6.7 3.6 4m-18.2-20 1.6-.7 3 3.3-1 1.4-3.6-4m-1.3 1-1 1.4 3 3.3 1.6-.7-3.6-4m18.5-1.1-1.6-.7-3 3.3 1 1.4 3.6-4m1.2 1 1 1.4-3 3.2-1.5-.6 3.5-4m-20.3 9 .5-1.6h4.5l.5 1.6h-5.5m0 1.5.5 1.6h4.5l.5-1.6h-5.5M213 277q0-1 1.2-1 1 0 1 1c0 1-.4 1-1 1a1 1 0 0 1-1.2-1zm12.1.8-.5 1.6h-4.5l-.5-1.6h5.5m0-1.6-.5-1.6h-4.5l-.5 1.6h5.5m20.1 18.5q.1-.9 1.1-1 1 .1 1.1 1-.1 1-1 1.1a1 1 0 0 1-1.2-1zm-4.4-.7-.5-1.6h-4.5l-.5 1.6h5.5m0 1.5-.5 1.6h-4.5l-.5-1.6h5.5m-11.6 21.9q.1-1 1.1-1t1.1 1c.1 1-.5 1-1 1a1 1 0 0 1-1.2-1zm1.9-7.8 1.7-.4v-4.3l-1.7-.5v5.2m-1.6 0-1.7-.4v-4.3l1.7-.5v5.2m15.7-32.6q.1-1 1.1-1a1 1 0 0 1 1.1 1q-.1 1-1 1a1 1 0 0 1-1.2-1zm-16.1 0q.1-1 1.1-1a1 1 0 0 1 1.1 1q-.1 1-1 1a1 1 0 0 1-1.2-1zm6.2.8.5 1.6h4.6l.5-1.6h-5.5m0-1.6.4-1.6h4.6l.5 1.6h-5.5m-6 5-1.6.5v4.3l1.6.5V281m1.7 0 1.6.5v4.3l-1.6.5V281"
       />
       <path
@@ -1786,30 +1781,30 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M230.9 229.7v-.6l.1-.3-2.3-.1a6 6 0 0 1-2.3-1.2q-1-1-1.6-1.2c-1.3-.2-2.3.4-2.3.4s1 .4 1.7 1.3 1.5 1.3 1.8 1.4c.6.2 2.6 0 3.1.1z"
       />
       <path
         fill="#ed72aa"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M238.1 227.5v1.4c.2.6-.1 1.2 0 1.5q0 .5.3.9l.2.9-.7-.5-.6-.4v1l.6 1.1 1 1.3c.2.5.1 1.4.1 1.4s-.4-.7-.8-.8l-1.2-.7s.7.8.7 1.5l-.3 1.6c-.1.2-.3-.7-.8-1.1l-1-.9s.4 1.2.4 2v2.3l-.9-1-1-.7c0-.2.5.6.6 1.1s.3 2.3 1.8 4.5c1 1.3 2.3 3.6 5.3 2.9s1.9-4.8 1.3-6.7a17 17 0 0 1-1-4.6c0-.8.6-2.9.5-3.3a8 8 0 0 1 .2-3.1l.9-2.3.4-1.3.1-1.3.7 1.3.1 1.5s.1-1 1-1.6 1.8-1.1 2-1.4l.3-.5c-.1 0 0 1.8-.6 2.6l-1.7 2s.7-.3 1.2-.3h.9s-.6.4-1.4 1.6c-.8 1-.5 1.2-1 2.1s-1 1-1.7 1.5c-1 .8-.5 4.2-.4 4.7.2.5 2 4.5 2 5.5s.2 3.2-1.5 4.6c-1.1 1-3 1-3.4 1.2-.4.3-1.2 1.1-1.2 2.8s.6 2 1 2.4c.6.5 1.2.2 1.3.6l.5.7q.3.3.2.8c0 .3-.8 1.1-1.1 1.7l-.8 2.4c0 .2-.1 1 .1 1.3 0 0 .9 1 .3 1.2-.4.2-.8-.2-1-.2l-.9.5q-.3-.1-.4-.8l-.1-.7q-.3 0-.4.5c0 .2 0 .8-.3.8l-.8-.5c-.2 0-.8-.2-.8-.4q.1-.6.7-1 .8-.1.5-.5t-.7 0c-.3.4-.8 0-.7-.2v-.8c0-.2-.4-.5.1-.8s.8.2 1.4.1q.8 0 1-.6.3-.6-.2-1.4l-.9-.8-.3-.9v2.2l-.7-.8c-.3-.3-.6-1.3-.6-1.3v1.3l.2.8c-.1.1-.8-.7-1-.8l-1-1-.4-1.4v-1.5l.4-1h-1.4c-.7 0-1.2-.3-1.5.2q-.4.8.2 2.8.5 1.8.4 2.1l-.7.8h-.9l-1.2-.3h-1.3l-1.1-.3c-.3.1-.8.3-.6.7q.1.8-.5.7l-.9-.2q-.8 0-.8-.4t.4-.7q.3-.5 0-.5h-.6q-.3.4-.8.4-.3-.1-.4-1c-.1-.9-.7-1.2 0-1.1.5 0 1.3.4 1.4 0q.2-.4-.2-.7c-.4-.3-.8-.4-.3-.7l.7-.5c.1-.2.4-.8.7-.6.6.2 0 .7.6 1.3s1 1 2 .8q1.4 0 1.3-.5l-.1-1v-1s-.4.3-.5.6l-.4.8v-2l-.2-.8-.3.9-.1 1s-.7-.5-.5-1.5l.1-2c.2-.3.7-1.5 2-1.6h2.6l2-.3s-2.8-1.4-3.5-1.9a10 10 0 0 1-2-2l-.6-1.6s-.5 0-1 .3l-1.2 1-.7 1 .1-1.2v-.8s-.4 1.2-1 1.7l-1.4 1v-.8l.2-1s-.4.8-1.1 1c-.7 0-1.8 0-1.9.4q.2.8 0 1.4c0 .3-.4.5-.4.5l-.8-.4-.7.2c-.1.1-.3-.4-.2-.7s.7-.6.5-.8l-.8.2c-.3.1-.8.3-.8-.2q.2-.6 0-1 0-.4.2-.6l1.2-.1q0-.4-.8-.6-1-.2-.5-.8.3-.2.5-.6c.1-.2.2-.7.7-.5.5.3.4.8 1 1a4 4 0 0 0 2-.2l1.5-1 1.5-1-1-.8q-.5-.7-1-1l-1.8-.6-1.7-.5.8-.3q.4-.5.8-.6h.3-1.4c-.3-.1-1-.6-1.3-.6l-.8.1s.8-.4 1.4-.5l1-.1s-.9-.3-1.1-.6l-.6-1q-.2-.3-.6-.5l-1 .3q-.6 0-.6-.6l-.1-.5c-.2-.3-.6-.8-.2-1h1.4q-.2-.4-.8-.8c-.4-.2-1-.5-.7-.8l.8-.5c.2-.3.3-1 .7-.7.4.2.8 1.2 1.1 1.1s.3-.8.3-1c0-.4 0-1 .2-.9l1 .5q.8-.1 1 .2 0 .5-.6 1-.4.6-.3 1.4.4 1 1.2 1.4t1.7.9c.5.3 1.7 1.2 2.1 1.3l.8.4s.5-.2 1.1-.2 2.1 0 2.6-.2 1.3-.6 1-1c-.1-.6-1.3-1-1.2-1.4q0-.5 1.2-.4c.8 0 1.8.1 2-1q.5-1.4-.8-1.8c-1-.2-1.8-.2-2-1q-.4-1-.2-1.1.3-.3 1.4-.4 1.3 0 1.9-.2l.6-.9c.3-.2 1.4-.4 1.4-.4s1.4.7 2.7 1.7l2.2 2.1"
       />
       <path d="m228.1 226.8-.2-.6v-.3s.8 0 .7.3q0 .2-.3.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m228.1 226.8-.2-.6v-.3s.8 0 .7.3q0 .2-.3.3z"
       />
       <path d="M232 225.4v-.4s.7 0 1 .3c.5.4.9 1 .9 1l-.8-.4h-.5l-.3-.1v-.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".1"
+        strokeWidth=".1"
         d="M232 225.4v-.4s.7 0 1 .3c.5.4.9 1 .9 1l-.8-.4h-.5l-.3-.1v-.3z"
       />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m237.3 231.3-.4-.7-.3-.4" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m237.3 231.3-.4-.7-.3-.4" />
       <path
         fill="#db4446"
         d="M217.4 226.6s.5.4.8.4h.8s.2-.5.1-.8c-.2-1.2-1.2-1.4-1.2-1.4s.3.7.1 1z"
@@ -1817,35 +1812,35 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M217.4 226.6s.5.4.8.4h.8s.2-.5.1-.8c-.2-1.2-1.2-1.4-1.2-1.4s.3.7.1 1z"
       />
       <path fill="#db4446" d="M215.2 227.6s-.4-.7-1.3-.6-1.4.8-1.4.8h1.2c.3.3.4 1 .4 1l.7-.6z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M215.2 227.6s-.4-.7-1.3-.6-1.4.8-1.4.8h1.2c.3.3.4 1 .4 1l.7-.6z"
       />
       <path fill="#db4446" d="M214.2 230.6s-.8.1-1.2.6-.3 1.3-.3 1.3.4-.5.9-.5l1 .2-.1-.8z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M214.2 230.6s-.8.1-1.2.6-.3 1.3-.3 1.3.4-.5.9-.5l1 .2-.1-.8z"
       />
       <path d="m228.2 230.5.3-.5.3.5z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m228.2 230.5.3-.5.3.5h-.7" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m228.2 230.5.3-.5.3.5h-.7" />
       <path d="m229 230.5.3-.5.4.5z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m229 230.5.3-.5.4.5h-.8" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m229 230.5.3-.5.4.5h-.8" />
       <path d="m228.6 227.3.8.3-.7.4-.1-.6" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m228.6 227.3.8.3-.7.4-.1-.6" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m228.6 227.3.8.3-.7.4-.1-.6" />
       <path d="m229.5 227.6.7.2-.5.4z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m229.5 227.6.7.2-.5.4-.2-.6" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m229.5 227.6.7.2-.5.4-.2-.6" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M224.2 233.7s-.7.2-1 .6q-.4.9-.3 1c.1.1.6-.5 1.5-.3l1.2.3 1.3-.3s-.7.8-.7 1.3l.2 1.1c0 .7-.6 1.6-.6 1.6l1-.3 1.7-.8.9-1s-.2 1 0 1.4l.2 1.6.8-.6q.5-.2.9-.7l.3-1s0 .8.4 1.3l.6 1.6s.3-.8.6-1.1l.7-1-.1-.9.4.8m-11 .6s.5-.8 1-1l1.1-.8.9-.4m1 5 1.3-.8 1-1"
       />
       <path
@@ -1855,7 +1850,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M216.6 240.4s-.4-.5-1.1-.3c-.7 0-1.2.9-1.2.9s.6-.2 1-.1.6.4.6.4l.4-.4z"
       />
       <path
@@ -1865,21 +1860,21 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M215.8 243.2s-.6 0-1.1.3c-.5.4-.5 1.2-.5 1.2s.4-.4.8-.3l.9.2v-.6c.2-.4-.1-.8-.1-.8z"
       />
       <path fill="#db4446" d="M217.2 245.8s0 .8.3 1.3c.4.5 1.1.5 1.1.5l-.3-.7.3-.8q.1-.1-.7-.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M217.2 245.8s0 .8.3 1.3c.4.5 1.1.5 1.1.5l-.3-.7.3-.8q.1-.1-.7-.3zm16 1.3s2 1.2 1.9 2.2c0 1-1 2.3-1 2.3"
       />
       <path fill="#db4446" d="M224.2 252.6s-.4-.6-1.1-.6-1.4.7-1.4.7.8-.1 1 .2l.5.6.5-.3z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M224.2 252.6s-.4-.6-1.1-.6-1.4.7-1.4.7.8-.1 1 .2l.5.6.5-.3z"
       />
       <path
@@ -1889,7 +1884,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M222.2 255.3s-1-.1-1.4.3-.4 1.3-.4 1.3.6-.6 1-.5q.9.1 1 .3v-.7l-.3-.7z"
       />
       <path
@@ -1899,7 +1894,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M224 258.1s-.3.7 0 1.1 1 .8 1 .8-.3-.4-.2-.8c.1-.3.7-.8.7-.8l-1.4-.2z"
       />
       <path
@@ -1909,369 +1904,369 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M236 259.3s-.8-.2-1.2 0c-.5.3-.8 1.4-.8 1.4s.7-.6 1.2-.5q.9.1 1 .3v-.8z"
       />
       <path fill="#db4446" d="M236.4 262.2s-.6.6-.4 1.1l.6 1s0-.7.2-1l1-.3-.7-.5z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M236.4 262.2s-.6.6-.4 1.1l.6 1s0-.7.2-1l1-.3-.7-.5z"
       />
       <path fill="#db4446" d="M239.4 263s-.3.8.2 1.3l1 .5q-.2-.3-.2-1.1.3-.7.5-.7l-.8-.2-.7.3" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M239.4 263s-.3.8.2 1.3l1 .5q-.2-.3-.2-1.1.3-.7.5-.7l-.8-.2-.7.3z"
       />
       <path
         fill="#ffd691"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M208.8 316.4q3 1 3 3.8c0 2.3-2.2 4-5 4-3 0-5.3-1.7-5.3-4 0-1.7 1-3.6 3-3.8l-.2-.4-.7-.7h1.2l.8.5.5-.7.6-.5.6.6.3.5.7-.4.8-.3s0 .4-.2.7l-.1.7"
       />
       <path
         fill="#058e6e"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M206.3 326.7s-3.8-2.6-5.5-3c-2-.4-4.5 0-5.5 0 0 0 1.2.8 1.8 1.4.5.5 2.3 1.5 3.3 1.8 3 .8 6-.2 6-.2m1 .2s2.4-2.5 5-2.9c3-.4 5 .3 6.2.6l-1.5.8c-.5.3-2 1.5-4 1.6-2 0-4.4-.3-4.8-.2l-.9.1"
       />
       <path
         fill="#ad1519"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M206.7 323.8a5 5 0 0 1 0-7.1 5 5 0 0 1 1.5 3.5 5 5 0 0 1-1.5 3.6"
       />
       <path
         fill="#058e6e"
         stroke="#000"
-        stroke-width=".5"
+        strokeWidth=".5"
         d="M205.7 329s.6-1.5.6-2.7l-.1-2.1h.8s.3 1.1.3 2l-.1 2.4-.7.1-.8.3"
       />
       <path fill="#fff" d="M254 190.7q.1-.9 1-1 1 .1 1.1 1-.1 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M254 190.7q.1-.9 1-1 1 .1 1.1 1-.1 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M255.4 188.2q.1-1 1.1-1t1 1c0 1-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M255.4 188.2q.1-1 1.1-1t1 1c0 1-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M256.4 185.2q.1-.9 1-1 1 .1 1.1 1c.1.9-.5 1-1 1a1 1 0 0 1-1.1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M256.4 185.2q.1-.9 1-1 1 .1 1.1 1c.1.9-.5 1-1 1a1 1 0 0 1-1.1-1z"
       />
       <path fill="#fff" d="M256.5 182q.1-.9 1-1 1 .1 1.1 1-.1 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M256.5 182q.1-.9 1-1 1 .1 1.1 1-.1 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M255.7 179q.1-1 1-1 1.1 0 1.2 1c.1 1-.5 1-1.1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M255.7 179q.1-1 1-1 1.1 0 1.2 1c.1 1-.5 1-1.1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M254.1 176.1q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M254.1 176.1q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M252 173.8q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M252 173.8q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M249.4 171.8q.1-.9 1.1-1a1 1 0 0 1 0 2q-1 0-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M249.4 171.8q.1-.9 1.1-1a1 1 0 0 1 0 2q-1 0-1-1z"
       />
       <path fill="#fff" d="M246.5 170.3q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M246.5 170.3q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M243.3 169.1q.1-.9 1.1-1a1 1 0 0 1 0 2 1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M243.3 169.1q.1-.9 1.1-1a1 1 0 0 1 0 2 1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M239.9 168.5q0-.9 1-1c1-.1 1 .5 1 1s-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M239.9 168.5q0-.9 1-1c1-.1 1 .5 1 1s-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M236.6 168.3q0-.9 1-1c1-.1 1 .5 1 1s-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M236.6 168.3q0-.9 1-1c1-.1 1 .5 1 1s-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M233.3 168.5q.1-1 1-1t1.1 1c.1 1-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M233.3 168.5q.1-1 1-1t1.1 1c.1 1-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M230.1 168.5q.1-1 1-1t1.1 1c.1 1-.5 1-1 1a1 1 0 0 1-1.1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M230.1 168.5q.1-1 1-1t1.1 1c.1 1-.5 1-1 1a1 1 0 0 1-1.1-1z"
       />
       <path
         fill="#fff"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M231.7 171.2q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1m.6 3.1q0-1 1-1c1 0 1 .4 1 1q0 .9-1 1a1 1 0 0 1-1-1m0 3q.2-.9 1.1-1a1 1 0 0 1 0 2 1 1 0 0 1-1-1m-1 2.8q.1-.9 1-1 1 .1 1.1 1 0 1-1 1a1 1 0 0 1-1-1m-1.9 2.6q.1-.9 1-1 1.1.1 1.2 1 0 1.2-1.1 1-1 0-1-1"
       />
       <path fill="#fff" d="M227.6 166.5q.1-.9 1.1-1a1 1 0 0 1 0 2 1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M227.6 166.5q.1-.9 1.1-1a1 1 0 0 1 0 2 1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M224.8 165q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M224.8 165q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M221.6 164q.1-1 1-1t1.1 1q-.1.9-1 1-1-.1-1.1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M221.6 164q.1-1 1-1t1.1 1q-.1.9-1 1-1-.1-1.1-1z"
       />
       <path fill="#fff" d="M218.3 163.4q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1.1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M218.3 163.4q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1.1-1z"
       />
       <path fill="#fff" d="M215 163.5q.1-1 1.1-1t1 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M215 163.5q.1-1 1.1-1t1 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M211.7 164q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M211.7 164q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M208.6 165.1q.1-.9 1-1 1 .1 1.1 1c.1.9-.5 1-1 1a1 1 0 0 1-1.1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M208.6 165.1q.1-.9 1-1 1 .1 1.1 1c.1.9-.5 1-1 1a1 1 0 0 1-1.1-1z"
       />
       <path fill="#fff" d="M156 190.7q0-.9 1-1c1-.1 1 .5 1 1q0 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M156 190.7q0-.9 1-1c1-.1 1 .5 1 1q0 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M154.5 188.2q.1-1 1-1t1 1c0 1-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M154.5 188.2q.1-1 1-1t1 1c0 1-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M153.5 185.2q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M153.5 185.2q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M153.4 182q.1-.9 1-1 1 .1 1.1 1-.1 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M153.4 182q.1-.9 1-1 1 .1 1.1 1-.1 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M154.2 179q.1-1 1-1t1 1c0 1-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M154.2 179q.1-1 1-1t1 1c0 1-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M155.8 176.1q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M155.8 176.1q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M158 173.8q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M158 173.8q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M160.5 171.8q0-.9 1-1c1-.1 1 .5 1 1s-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M160.5 171.8q0-.9 1-1c1-.1 1 .5 1 1s-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M163.5 170.3q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M163.5 170.3q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M166.6 169.1q.1-.9 1-1a1 1 0 0 1 0 2 1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M166.6 169.1q.1-.9 1-1a1 1 0 0 1 0 2 1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M170 168.5q.1-.9 1.1-1a1 1 0 0 1 0 2q-1 0-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M170 168.5q.1-.9 1.1-1a1 1 0 0 1 0 2q-1 0-1-1z"
       />
       <path fill="#fff" d="M173.4 168.3q0-.9 1-1c1-.1 1 .5 1 1s-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M173.4 168.3q0-.9 1-1c1-.1 1 .5 1 1s-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M176.6 168.5q.1-1 1-1t1.1 1c.1 1-.5 1-1 1a1 1 0 0 1-1.1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M176.6 168.5q.1-1 1-1t1.1 1c.1 1-.5 1-1 1a1 1 0 0 1-1.1-1z"
       />
       <path fill="#fff" d="M179.8 168.5q.1-1 1-1 1.1 0 1.2 1c.1 1-.5 1-1.1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M179.8 168.5q.1-1 1-1 1.1 0 1.2 1c.1 1-.5 1-1.1 1a1 1 0 0 1-1-1z"
       />
       <path
         fill="#fff"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M178.2 171.2q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1m-.7 3.1q0-1 1-1c1 0 1 .4 1 1q0 .9-1 1a1 1 0 0 1-1-1m-.2 3q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1m.9 2.8q.1-.9 1-1 1 .1 1.1 1-.1 1-1 1a1 1 0 0 1-1.1-1m1.8 2.6q.1-.9 1-1a1 1 0 0 1 0 2 1 1 0 0 1-1-1"
       />
       <path fill="#fff" d="M182.3 166.5q.1-.9 1-1a1 1 0 0 1 0 2 1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M182.3 166.5q.1-.9 1-1a1 1 0 0 1 0 2 1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M185.2 165q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M185.2 165q0-1 1-1c1 0 1 .4 1 1s-.4 1-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M188.3 164q.1-1 1-1t1.1 1q0 .9-1 1c-1 .1-1-.5-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M188.3 164q.1-1 1-1t1.1 1q0 .9-1 1c-1 .1-1-.5-1-1z"
       />
       <path fill="#fff" d="M191.6 163.4q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M191.6 163.4q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M194.9 163.5q0-1 1-1c1 0 1 .4 1 1q0 .9-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M194.9 163.5q0-1 1-1c1 0 1 .4 1 1q0 .9-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M198.2 164q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M198.2 164q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1z"
       />
       <path fill="#fff" d="M201.3 165.1q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M201.3 165.1q.1-.9 1-1 1 .1 1.1 1 0 1.2-1 1a1 1 0 0 1-1-1z"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M174.7 228.9h-1v-1h-1.5v3.6h1.6v2.5h-3.4v7h1.8v14.3h-3.5v7.3h27.2v-7.3h-3.5V241h1.8v-7h-3.4v-2.5h1.6V228h-1.6v.9h-.8v-1h-1.6v1h-1.1v-1h-1.6v3.6h1.6v2.5H184v-7.8h1.7v-3.5H184v.9h-1v-1h-1.5v1h-.9v-1H179v3.6h1.7v7.8h-3.3v-2.5h1.6V228h-1.6v.9h-.9v-1h-1.8zm-6 33.7H196m-27.3-1.8H196m-27.3-1.8H196m-27.3-1.7H196m-27.3-2H196m-23.8-1.6h20.2m-20.2-1.8h20.2m-20.2-2h20.2m-20.2-1.7h20.2m-20.2-1.8h20.2m-20.2-1.8h20.2m-20.2-1.7h20.2m-22-1.8h23.8m-23.8-1.8h23.8m-23.8-1.8h23.8m-23.8-1.8h23.8m-20.4-1.7h17m-10.2-1.8h3.4m-3.4-1.8h3.4m-3.4-1.8h3.4m-3.4-1.7h3.4m-5.1-2.2h6.8m-12 7.5h3.6m-5-2.2h6.6m-6.7 32.6v-1.8m0-1.8v-1.7m-1.8 1.7v1.8m3.4 0V259m1.7 3.6v-1.8m0-1.8v-1.7m0-2v-1.6m0-1.8v-2m-1.7 7.4v-2m-3.4 2v-2m7 0v2m1.5-2v-1.6m-5.1-1.8v1.8m3.5-1.8v1.8m3.3-1.8v1.8M179 252v-2m1.7-1.7v1.7m0-5.3v1.8m-1.7-3.6v1.8m1.7-3.5v1.7m-3.3-1.7v1.7m-3.5-1.7v1.7m-1.6-3.5v1.8m3.3-1.8v1.8m3.4-1.8v1.8m1.7-3.6v1.8m-3.3-1.8v1.8m-3.5-1.8v1.8m-1.6-3.6v1.8m6.7-1.8v1.8m-3.4-5.3v1.8m15.3-1.8h-3.5m5-2.2h-6.6m6.7 32.6v-1.8m0-1.8v-1.7m1.8 1.7v1.8m-3.4 0V259m-1.7 3.6v-1.8m0-1.8v-1.7m0-2v-1.6m0-1.8v-2m1.7 7.4v-2m3.4 2v-2m-7 0v2m-1.5-2v-1.6m5.1-1.8v1.8m-3.5-1.8v1.8m-3.3-1.8v1.8m1.7-1.8v-2m-1.7-1.7v1.7m0-5.3v1.8m1.7-3.6v1.8m-1.7-3.5v1.7m3.3-1.7v1.7m3.5-1.7v1.7m1.6-3.5v1.8m-3.3-1.8v1.8m-3.4-1.8v1.8m-1.7-3.6v1.8m3.3-1.8v1.8m3.5-1.8v1.8m1.6-3.6v1.8m-6.7-1.8v1.8m3.4-5.3v1.8m-7 18v-2m0-5.4v-1.8m0 5.4v-1.8m0-5.3v-1.8m0-1.8v-1.7m0-3.6v-1.8m0-1.7v-1.8m-8.3 4.6h3.5m3.3-5.3h3.4m3.3 5.3h3.5"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="M186.8 262.6v-4.7c0-.8-.4-3.5-4.6-3.5-4 0-4.4 2.7-4.4 3.5v4.7z"
       />
       <path
         fill="#c8b100"
         stroke="#000"
-        stroke-width=".4"
+        strokeWidth=".4"
         d="m179.3 258.2-2.2-.3c0-.9.2-2.2.9-2.6l2 1.5c-.3.2-.7 1-.7 1.4zm6 0 2.2-.3c0-.9-.2-2.2-.9-2.6l-2 1.5c.3.2.7 1 .7 1.4zm-2.2-2.3 1-2-2-.4-1.7.4 1.1 2zm-4.2-5.5v-4.9c0-1.3-1-2.4-2.5-2.4s-2.4 1-2.4 2.4v4.9zm6.8 0v-4.9c0-1.3 1-2.4 2.5-2.4s2.4 1 2.4 2.4v4.9zm-1.7-12 .4-4.4h-4.2l.2 4.4zm3.3 0-.4-4.4h4.4l-.5 4.4zm-10 0 .2-4.4h-4.2l.5 4.4z"
       />
       <path
@@ -2285,7 +2280,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".6"
+        strokeWidth=".6"
         d="M190.8 269.8c0-9.7 7-17.6 15.6-17.6s15.6 7.9 15.6 17.6-7 17.5-15.6 17.5-15.6-7.8-15.6-17.5z"
       />
       <path
@@ -2295,7 +2290,7 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".6"
+        strokeWidth=".6"
         d="M195.4 269.7c0-7 5-12.8 11-12.8s11 5.7 11 12.8-5 13-11 13-11-5.8-11-13z"
       />
       <path
@@ -2305,12 +2300,12 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".3"
+        strokeLinejoin="round"
+        strokeWidth=".3"
         d="M201.2 260.9s-1.3 1.4-1.3 2.7a6 6 0 0 0 .6 2.4q-.4-.8-1.4-.8-1.3.1-1.4 1.3l.2.8.5.9q.2-.5 1-.5 1.1 0 1 1v.2h-1.2v1h1l-.8 1.5 1-.4.8.9.8-.9 1 .4-.7-1.5h1v-1h-1.1v-.3a1 1 0 0 1 1-1q.6 0 1 .6l.4-1 .2-.7a1.4 1.4 0 0 0-1.4-1.3q-1 0-1.4.9s.6-1.2.6-2.5-1.4-2.7-1.4-2.7z"
       />
       <path fill="#c8b100" d="M199.2 269.9h4.1v-1h-4.1z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="M199.2 269.9h4.1v-1h-4.1z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="M199.2 269.9h4.1v-1h-4.1z" />
       <path
         fill="#c8b100"
         d="M211.4 260.9s-1.3 1.4-1.3 2.7.6 2.4.6 2.4q-.3-.8-1.4-.8-1.3.1-1.4 1.3l.2.8.5.9q.3-.5 1-.5a1 1 0 0 1 1 1v.2h-1.2v1h1l-.8 1.5 1-.4.8.9.8-.9 1 .4-.7-1.5h1v-1h-1.1v-.3a1 1 0 0 1 1-1q.7 0 1 .6l.4-1 .2-.7a1.4 1.4 0 0 0-1.4-1.3q-1 0-1.4.9s.6-1.2.6-2.5-1.4-2.7-1.4-2.7"
@@ -2318,12 +2313,12 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".3"
+        strokeLinejoin="round"
+        strokeWidth=".3"
         d="M211.4 260.9s-1.3 1.4-1.3 2.7.6 2.4.6 2.4q-.3-.8-1.4-.8-1.3.1-1.4 1.3l.2.8.5.9q.3-.5 1-.5a1 1 0 0 1 1 1v.2h-1.2v1h1l-.8 1.5 1-.4.8.9.8-.9 1 .4-.7-1.5h1v-1h-1.1v-.3a1 1 0 0 1 1-1q.7 0 1 .6l.4-1 .2-.7a1.4 1.4 0 0 0-1.4-1.3q-1 0-1.4.9s.6-1.2.6-2.5-1.4-2.7-1.4-2.7z"
       />
       <path fill="#c8b100" d="M209.4 269.9h4.1v-1h-4.1z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="M209.4 269.9h4.1v-1h-4.1z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="M209.4 269.9h4.1v-1h-4.1z" />
       <path
         fill="#c8b100"
         d="M206.3 269.6s-1.3 1.5-1.3 2.8.6 2.4.6 2.4q-.3-.8-1.4-.9-1.3.1-1.4 1.4l.2.7.5 1q.2-.6 1-.6a1 1 0 0 1 1 1v.3h-1.2v1h1l-.8 1.5 1-.4.8.9.8-1 1 .5-.7-1.5h1v-1h-1.1v-.3a1 1 0 0 1 1-1q.6 0 .9.6l.5-1 .2-.7a1.4 1.4 0 0 0-1.4-1.4q-1 0-1.4 1s.6-1.2.6-2.5-1.4-2.7-1.4-2.7"
@@ -2331,12 +2326,12 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-linejoin="round"
-        stroke-width=".3"
+        strokeLinejoin="round"
+        strokeWidth=".3"
         d="M206.3 269.6s-1.3 1.5-1.3 2.8.6 2.4.6 2.4q-.3-.8-1.4-.9-1.3.1-1.4 1.4l.2.7.5 1q.2-.6 1-.6a1 1 0 0 1 1 1v.3h-1.2v1h1l-.8 1.5 1-.4.8.9.8-1 1 .5-.7-1.5h1v-1h-1.1v-.3a1 1 0 0 1 1-1q.6 0 .9.6l.5-1 .2-.7a1.4 1.4 0 0 0-1.4-1.4q-1 0-1.4 1s.6-1.2.6-2.5-1.4-2.7-1.4-2.7z"
       />
       <path fill="#c8b100" d="M204.3 278.6h4.1v-1h-4.1z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="M204.3 278.6h4.1v-1h-4.1z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="M204.3 278.6h4.1v-1h-4.1z" />
       <path
         fill="#c8b100"
         d="M237.6 223.4h-.3l-.3.4q-.4.3-.8 0l-.1-.4h-.5q-.4-.3-.1-.7v-.5h-.3l-.1.2q-.3.4-.7.2v-.2h-.3c-.5.2-.7-1-.7-1.2l-.2.2s.2.7.1 1.2l-.3 1.2a9 9 0 0 1 2.9 1.6 9 9 0 0 1 2.2 2.3l1.2-.5c.6-.2 1.3-.2 1.3-.2l.2-.2c-.3 0-1.5.1-1.5-.4v-.2h-.2q-.3-.3 0-.7l.2-.1v-.3h-.3l-.2.1q-.4.5-.8 0l-.1-.4h-.5q-.4-.3 0-.8l.2-.3z"
@@ -2344,142 +2339,132 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M237.6 223.4h-.3l-.3.4q-.4.3-.8 0l-.1-.4h-.5q-.4-.3-.1-.7v-.5h-.3l-.1.2q-.3.4-.7.2v-.2h-.3c-.5.2-.7-1-.7-1.2l-.2.2s.2.7.1 1.2l-.3 1.2a9 9 0 0 1 2.9 1.6 9 9 0 0 1 2.2 2.3l1.2-.5c.6-.2 1.3-.2 1.3-.2l.2-.2c-.3 0-1.5.1-1.5-.4v-.2h-.2q-.3-.3 0-.7l.2-.1v-.3h-.3l-.2.1q-.4.5-.8 0l-.1-.4h-.5q-.4-.3 0-.8l.2-.3z"
       />
       <path d="M235.4 224h.2v.3h-.1q-.1-.1 0-.2" />
-      <path fill="none" stroke="#000" stroke-width=".1" d="M235.4 224h.2v.3h-.1q-.1-.1 0-.2z" />
+      <path fill="none" stroke="#000" strokeWidth=".1" d="M235.4 224h.2v.3h-.1q-.1-.1 0-.2z" />
       <path d="m236.3 224.8-.3-.2v-.2h.1l.4.3.3.2v.2h-.2z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".1"
+        strokeWidth=".1"
         d="m236.3 224.8-.3-.2v-.2h.1l.4.3.3.2v.2h-.2l-.3-.3"
       />
       <path d="m234.6 223.7-.2-.2s-.1 0 0-.1l.3.1.3.1v.2h-.1z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".1"
+        strokeWidth=".1"
         d="m234.6 223.7-.2-.2s-.1 0 0-.1l.3.1.3.1v.2h-.1l-.3-.1"
       />
       <path d="M233.7 223h.2v.2h-.2s-.1-.1 0-.2" />
-      <path fill="none" stroke="#000" stroke-width=".1" d="M233.7 223h.2v.2h-.2s-.1-.1 0-.2z" />
+      <path fill="none" stroke="#000" strokeWidth=".1" d="M233.7 223h.2v.2h-.2s-.1-.1 0-.2z" />
       <path d="M237.3 225.5v-.2h-.3l.1.2z" />
-      <path fill="none" stroke="#000" stroke-width=".1" d="M237.3 225.5v-.2h-.3l.1.2z" />
+      <path fill="none" stroke="#000" strokeWidth=".1" d="M237.3 225.5v-.2h-.3l.1.2z" />
       <path d="m237.9 226.2.2.2h.1v-.2l-.2-.2-.2-.2h-.1v.2z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".1"
+        strokeWidth=".1"
         d="m237.9 226.2.2.2h.1v-.2l-.2-.2-.2-.2h-.1v.2l.2.2"
       />
       <path d="M238.8 227v-.3h-.3v.2h.3" />
-      <path fill="none" stroke="#000" stroke-width=".1" d="M238.8 227v-.3h-.3v.2h.3z" />
+      <path fill="none" stroke="#000" strokeWidth=".1" d="M238.8 227v-.3h-.3v.2h.3z" />
       <path fill="#c8b100" d="M236.2 221.1h-.6l-.1.9v.1h.2l.7-.5-.3-.5" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M236.2 221.1h-.6l-.1.9v.1h.2l.7-.5-.3-.5"
       />
       <path fill="#c8b100" d="M234.6 221.6v.5l.9.1h.1v-.2l-.5-.7z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M234.6 221.6v.5l.9.1h.1v-.2l-.5-.7-.5.3"
       />
       <path fill="#c8b100" d="m236.4 222.6-.4.3-.6-.7v-.1h1.1z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m236.4 222.6-.4.3-.6-.7v-.1h1.1v.5" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m236.4 222.6-.4.3-.6-.7v-.1h1.1v.5" />
       <path fill="#c8b100" d="M235.3 222h.4v.3h-.3z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="M235.3 222h.4v.3h-.3z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="M235.3 222h.4v.3h-.3z" />
       <path fill="#c8b100" d="m233.2 221.1-.2-.7-.4-.4s.4-.2.8.1 0 .9 0 .9z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m233.2 221.1-.2-.7-.4-.4s.4-.2.8.1 0 .9 0 .9z"
       />
       <path fill="#c8b100" d="m234.2 221.4-.4.4-.6-.6v-.2h1z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m234.2 221.4-.4.4-.6-.6v-.2h1v.4" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m234.2 221.4-.4.4-.6-.6v-.2h1v.4" />
       <path fill="#c8b100" d="m233.1 221 .3-.1v.3q0 .3-.2.2z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="m233.1 221 .3-.1v.3q0 .3-.2.2z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m233.1 221 .3-.1v.3q0 .3-.2.2z" />
       <path fill="#c8b100" d="M238.3 222.5h-.5l-.3.7v.2h.2l.8-.4z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M238.3 222.5h-.5l-.3.7v.2h.2l.8-.4-.2-.5"
       />
       <path fill="#c8b100" d="M236.7 222.8v.5l.8.2h.1v-.2l-.4-.7z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M236.7 222.8v.5l.8.2h.1v-.2l-.4-.7-.5.2"
       />
       <path fill="#c8b100" d="m238.4 224-.5.2-.4-.7v-.2h.1l.9.2z" />
-      <path
-        fill="none"
-        stroke="#000"
-        stroke-width=".3"
-        d="m238.4 224-.5.2-.4-.7v-.2h.1l.9.2-.1.5"
-      />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m238.4 224-.5.2-.4-.7v-.2h.1l.9.2-.1.5" />
       <path fill="#c8b100" d="M237.3 223.2h.4v.4h-.3z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="M237.3 223.2h.4v.4h-.3z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="M237.3 223.2h.4v.4h-.3z" />
       <path fill="#c8b100" d="m240.2 224.3.1.5-.8.3h-.2v-.2l.4-.8z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m240.2 224.3.1.5-.8.3h-.2v-.2l.4-.8.5.2"
       />
       <path fill="#c8b100" d="m240 225.8-.5.1-.3-.8v-.1h.2l.8.3z" />
-      <path
-        fill="none"
-        stroke="#000"
-        stroke-width=".3"
-        d="m240 225.8-.5.1-.3-.8v-.1h.2l.8.3-.1.5"
-      />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="m240 225.8-.5.1-.3-.8v-.1h.2l.8.3-.1.5" />
       <path fill="#c8b100" d="m238.6 224.3-.2.5.9.3h.1v-.1l-.3-.8z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m238.6 224.3-.2.5.9.3h.1v-.1l-.3-.8-.5.1"
       />
       <path fill="#c8b100" d="M239.5 225.2v-.3h-.4v.3z" />
-      <path fill="none" stroke="#000" stroke-width=".3" d="M239.5 225.2v-.3h-.4v.3z" />
+      <path fill="none" stroke="#000" strokeWidth=".3" d="M239.5 225.2v-.3h-.4v.3z" />
       <path fill="#c8b100" d="M240.8 227h.8l.5.3s.1-.4-.3-.7c-.3-.3-.8.2-.8.2z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M240.8 227h.8l.5.3s.1-.4-.3-.7c-.3-.3-.8.2-.8.2z"
       />
       <path fill="#c8b100" d="m240.3 226.1-.3.5.8.5v-.1h.2l-.1-1z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="m240.3 226.1-.3.5.8.5v-.1h.2l-.1-1-.6.1"
       />
       <path fill="#c8b100" d="M241 227s.1-.1 0-.2h-.3q-.3 0-.1.2z" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".3"
+        strokeWidth=".3"
         d="M241 227s.1-.1 0-.2h-.3q-.3 0-.1.2zm38-21.9v.6h-2.4v-.6h1v-1.3h-.7v-.5h.6v-.6h.6v.6h.6v.6h-.6v1.2h1"
       />
       <path fill="none" d="M134.4 217.1v-1.2m-.4 1.2v-1.2m-.2 1.2v-1.2m-.3 1.2v-1.2" />
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".1"
+        strokeWidth=".1"
         d="M133.2 217.1v-1.2m-.5 1.1v-1m.2 1v-1m-.7 1v-1m.2 1v-1m-.9 1v-1m.2 1v-1m.3 1v-1m-.7 1v-1m-.3.9v-.8m-.1.8v-.8m-.5.7v-.6m.2.6v-.6m-.4.5v-.5m-.2.5v-.4m-.3.3v-.3m-.3.3v-.2"
       />
-      <path fill="none" stroke="#000" stroke-width=".2" d="M129.2 216.6v-.2" />
+      <path fill="none" stroke="#000" strokeWidth=".2" d="M129.2 216.6v-.2" />
       <path
         fill="none"
         d="M135.7 217v-1m-.5 1v-1m-.4 1.2V216m143 1.1V216m-.4 1.1V216m-.3 1.1V216m-.3 1.2V216"
@@ -2487,10 +2472,10 @@ export const SvgSprite = () => (
       <path
         fill="none"
         stroke="#000"
-        stroke-width=".1"
+        strokeWidth=".1"
         d="M276.6 217.1V216m-.6 1v-1m.3 1v-1m-.8 1v-1m.3 1v-1m-.9 1v-1m.2 1v-1m.2 1v-1m-.6 1v-1m-.3.9v-.8m-.2.8v-.8m-.4.7v-.6m.2.6v-.6m-.5.6v-.6m-.2.5v-.4m-.3.4v-.4m-.2.3v-.2"
       />
-      <path fill="none" stroke="#000" stroke-width=".2" d="M272.6 216.6v-.2" />
+      <path fill="none" stroke="#000" strokeWidth=".2" d="M272.6 216.6v-.2" />
       <path fill="none" d="M279.1 217v-1m-.6 1v-1m-.4 1.1V216" />
     </symbol>
 
@@ -2501,62 +2486,62 @@ export const SvgSprite = () => (
         stroke="#F3F3F3"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M10.8599 8.10598L10.9643 7.44039L10.7316 7.43497H9.62018L10.3926 2.52344C10.395 2.50857 10.4027 2.49476 10.4141 2.48494C10.4255 2.47511 10.4401 2.46973 10.4553 2.46973H12.3294C12.9515 2.46973 13.3809 2.59954 13.605 2.8558C13.7102 2.97602 13.7771 3.10168 13.8095 3.23991C13.8434 3.38499 13.844 3.5583 13.8109 3.76972L13.8085 3.78509V3.92059L13.9136 3.9803C14.002 4.02739 14.0724 4.08126 14.1263 4.14292C14.2162 4.24575 14.2744 4.37642 14.2989 4.53126C14.3243 4.69053 14.3159 4.88013 14.2744 5.09473C14.2264 5.34155 14.1489 5.55656 14.0442 5.73246C13.9479 5.89455 13.8253 6.02903 13.6796 6.13318C13.5405 6.2322 13.3753 6.30735 13.1885 6.35543C13.0074 6.40268 12.8011 6.42652 12.5747 6.42652H12.4288C12.3246 6.42652 12.2233 6.46422 12.1438 6.53171C12.064 6.60064 12.0113 6.69482 11.9951 6.79777L11.9841 6.85773L11.7995 8.03088L11.7911 8.07391C11.7889 8.08757 11.7851 8.09435 11.7795 8.09895C11.7746 8.10317 11.7674 8.10598 11.7604 8.10598H10.8599Z"
         fill="#28356A"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M14.013 3.80078C14.0075 3.83664 14.0011 3.87327 13.9939 3.91097C13.7467 5.18351 12.9012 5.62312 11.8213 5.62312H11.2715C11.1394 5.62312 11.0281 5.71925 11.0076 5.84988L10.6463 8.14788C10.633 8.2337 10.6989 8.31096 10.7851 8.31096H11.7604C11.8758 8.31096 11.9739 8.22683 11.9921 8.11263L12.0017 8.06297L12.1853 6.89442L12.1971 6.83032C12.2151 6.7157 12.3134 6.63154 12.4289 6.63154H12.5747C13.5195 6.63154 14.2592 6.24687 14.4754 5.1336C14.5656 4.66854 14.5189 4.28024 14.28 4.00714C14.2077 3.92483 14.118 3.85645 14.013 3.80078Z"
         fill="#298FC2"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M13.7545 3.69742C13.7168 3.68636 13.6778 3.67637 13.6378 3.66733C13.5977 3.65852 13.5565 3.65072 13.5142 3.64388C13.3659 3.61986 13.2035 3.60846 13.0295 3.60846H11.5606C11.5244 3.60846 11.4901 3.61666 11.4593 3.63147C11.3915 3.66414 11.3412 3.72846 11.329 3.8072L11.0165 5.79205L11.0076 5.8499C11.0281 5.71927 11.1394 5.6231 11.2715 5.6231H11.8213C12.9012 5.6231 13.7468 5.18328 13.9939 3.91095C14.0013 3.8733 14.0075 3.83666 14.013 3.80079C13.9505 3.76751 13.8828 3.73906 13.8099 3.71482C13.7919 3.70881 13.7733 3.70303 13.7545 3.69742Z"
         fill="#22284F"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M11.329 3.8072C11.3412 3.72845 11.3915 3.66414 11.4593 3.6317C11.4903 3.61683 11.5244 3.60863 11.5606 3.60863H13.0295C13.2035 3.60863 13.3659 3.62008 13.5142 3.6441C13.5565 3.65089 13.5977 3.65875 13.6378 3.66756C13.6778 3.67654 13.7168 3.68659 13.7545 3.69759C13.7733 3.7032 13.7919 3.70904 13.8101 3.71482C13.883 3.73906 13.9508 3.76774 14.0133 3.8008C14.0868 3.33054 14.0127 3.01036 13.7591 2.72042C13.4796 2.40119 12.9752 2.26459 12.3296 2.26459H10.4555C10.3236 2.26459 10.2112 2.36073 10.1908 2.49161L9.4102 7.45364C9.39481 7.55179 9.47033 7.64038 9.56906 7.64038H10.726L11.329 3.8072Z"
         fill="#28356A"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M5.33812 9.45691H3.97173C3.87821 9.45691 3.79869 9.52502 3.78408 9.61763L3.23144 13.1314C3.22047 13.2008 3.27403 13.2632 3.34415 13.2632H3.99646C4.08996 13.2632 4.16949 13.1952 4.18409 13.1024L4.33314 12.1546C4.3475 12.0619 4.4272 11.9938 4.52055 11.9938H4.95309C5.85317 11.9938 6.3726 11.5569 6.50833 10.6914C6.56945 10.3127 6.51089 10.0152 6.33404 9.80677C6.13985 9.57794 5.7954 9.45691 5.33812 9.45691ZM5.49574 10.7403C5.421 11.232 5.0464 11.232 4.68421 11.232H4.47797L4.62263 10.3137C4.63124 10.2582 4.67916 10.2173 4.73514 10.2173H4.82965C5.0764 10.2173 5.30916 10.2173 5.4294 10.3584C5.50116 10.4425 5.52309 10.5675 5.49574 10.7403Z"
         fill="#28356A"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M9.45745 10.6978H8.80312C8.74738 10.6978 8.69917 10.7387 8.69061 10.7942L8.66164 10.9777L8.61592 10.9112C8.47428 10.705 8.15835 10.6361 7.84312 10.6361C7.12002 10.6361 6.50247 11.1853 6.38218 11.9557C6.31966 12.34 6.40854 12.7075 6.62595 12.9638C6.82535 13.1994 7.11066 13.2976 7.4501 13.2976C8.03272 13.2976 8.35573 12.9219 8.35573 12.9219L8.32659 13.1043C8.31563 13.1739 8.36917 13.2365 8.4389 13.2365H9.02826C9.12199 13.2365 9.20111 13.1684 9.21592 13.0756L9.56955 10.8297C9.58072 10.7605 9.52734 10.6978 9.45745 10.6978ZM8.54533 11.975C8.48222 12.3498 8.18557 12.6015 7.80712 12.6015C7.61715 12.6015 7.46533 12.5404 7.36775 12.4246C7.27105 12.3096 7.23435 12.1459 7.26505 11.9636C7.32406 11.5919 7.62571 11.332 7.99837 11.332C8.18417 11.332 8.3352 11.394 8.43472 11.5107C8.53436 11.6287 8.57396 11.7934 8.54533 11.975Z"
         fill="#28356A"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M12.8919 10.754H12.2343C12.1716 10.754 12.1127 10.7853 12.0771 10.8376L11.1702 12.1772L10.7858 10.8899C10.7616 10.8093 10.6875 10.754 10.6036 10.754H9.9575C9.87892 10.754 9.82442 10.831 9.84937 10.9051L10.5736 13.0366L9.89274 14.0006C9.83919 14.0765 9.89311 14.1809 9.98564 14.1809H10.6424C10.7047 14.1809 10.763 14.1504 10.7984 14.0992L12.9853 10.9334C13.0377 10.8576 12.9839 10.754 12.8919 10.754Z"
         fill="#28356A"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M15.0839 9.45691H13.7174C13.624 9.45691 13.5445 9.52502 13.5299 9.61763L12.9773 13.1314C12.9663 13.2008 13.0199 13.2632 13.0896 13.2632H13.7909C13.856 13.2632 13.9117 13.2156 13.9219 13.1507L14.0788 12.1546C14.0931 12.0619 14.1729 11.9938 14.2662 11.9938H14.6985C15.5988 11.9938 16.1181 11.5569 16.254 10.6914C16.3153 10.3127 16.2564 10.0152 16.0795 9.80677C15.8855 9.57794 15.5412 9.45691 15.0839 9.45691ZM15.2416 10.7403C15.167 11.232 14.7924 11.232 14.43 11.232H14.224L14.3689 10.3137C14.3774 10.2582 14.425 10.2173 14.4811 10.2173H14.5756C14.8222 10.2173 15.0552 10.2173 15.1754 10.3584C15.2472 10.4425 15.2689 10.5675 15.2416 10.7403Z"
         fill="#298FC2"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M19.2024 10.6978H18.5484C18.4923 10.6978 18.4446 10.7387 18.4362 10.7942L18.4072 10.9777L18.3612 10.9112C18.2196 10.705 17.9039 10.6361 17.5886 10.6361C16.8656 10.6361 16.2482 11.1853 16.128 11.9557C16.0656 12.34 16.1541 12.7075 16.3715 12.9638C16.5713 13.1994 16.8562 13.2976 17.1957 13.2976C17.7782 13.2976 18.1013 12.9219 18.1013 12.9219L18.0722 13.1043C18.0612 13.1739 18.1147 13.2365 18.1848 13.2365H18.774C18.8673 13.2365 18.9468 13.1684 18.9614 13.0756L19.3153 10.8297C19.3261 10.7605 19.2725 10.6978 19.2024 10.6978ZM18.2904 11.975C18.2276 12.3498 17.9305 12.6015 17.5521 12.6015C17.3625 12.6015 17.2103 12.5404 17.1127 12.4246C17.0161 12.3096 16.9797 12.1459 17.01 11.9636C17.0694 11.5919 17.3707 11.332 17.7433 11.332C17.9291 11.332 18.0801 11.394 18.1797 11.5107C18.2797 11.6287 18.3193 11.7934 18.2904 11.975Z"
         fill="#298FC2"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M19.9193 9.55349L19.3585 13.1316C19.3475 13.2009 19.401 13.2634 19.4707 13.2634H20.0346C20.1283 13.2634 20.2078 13.1953 20.2222 13.1026L20.7752 9.58895C20.7862 9.5196 20.7327 9.45691 20.6629 9.45691H20.0316C19.9759 9.45707 19.9279 9.498 19.9193 9.55349Z"
         fill="#298FC2"
       />
@@ -2569,8 +2554,8 @@ export const SvgSprite = () => (
         stroke="#F3F3F3"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M12.7266 5.35444L11.5074 5.61611V4.62765L12.7266 4.37085V5.35444ZM15.262 5.90198C14.7859 5.90198 14.4799 6.12484 14.31 6.27991L14.2468 5.9795H13.1782V11.6291L14.3925 11.3723L14.3974 10.0011C14.5722 10.127 14.8297 10.3063 15.2571 10.3063C16.1265 10.3063 16.9182 9.60861 16.9182 8.07264C16.9134 6.66751 16.1119 5.90198 15.262 5.90198ZM14.9705 9.24035C14.6839 9.24035 14.5139 9.13862 14.3973 9.01262L14.3925 7.21502C14.5188 7.07452 14.6936 6.97763 14.9705 6.97763C15.4125 6.97763 15.7185 7.47182 15.7185 8.10655C15.7185 8.75582 15.4173 9.24035 14.9705 9.24035ZM20.7457 8.12109C20.7457 6.8807 20.1434 5.90198 18.9923 5.90198C17.8363 5.90198 17.1369 6.8807 17.1369 8.11142C17.1369 9.56983 17.9626 10.3063 19.1477 10.3063C19.7257 10.3063 20.1629 10.1755 20.4931 9.99138V9.02232C20.1629 9.18707 19.784 9.28883 19.3032 9.28883C18.832 9.28883 18.4143 9.12408 18.3609 8.55234H20.736C20.736 8.52566 20.7378 8.46508 20.7398 8.39524C20.7425 8.30027 20.7457 8.18808 20.7457 8.12109ZM18.3463 7.6608C18.3463 7.1133 18.6814 6.88557 18.9874 6.88557C19.2837 6.88557 19.5994 7.1133 19.5994 7.6608H18.3463ZM11.5074 5.98434H12.7265V10.224H11.5074V5.98434ZM10.1232 5.98434L10.2009 6.3429C10.4875 5.81959 11.0558 5.92619 11.2112 5.98434V7.09876C11.0606 7.04544 10.5749 6.97763 10.2883 7.35072V10.224H9.07404V5.98434H10.1232ZM7.77225 4.9329L6.5871 5.18486L6.58226 9.06594C6.58226 9.78302 7.1214 10.3112 7.84024 10.3112C8.23854 10.3112 8.52996 10.2385 8.69025 10.1513V9.1677C8.53483 9.23068 7.76738 9.45357 7.76738 8.73645V7.01637H8.69025V5.98434H7.76738L7.77225 4.9329ZM4.90175 6.95342C4.6443 6.95342 4.48888 7.02607 4.48888 7.21506C4.48888 7.42139 4.75638 7.51214 5.08823 7.62474C5.62922 7.8083 6.3413 8.04988 6.34432 8.9448C6.34432 9.81213 5.64972 10.3112 4.63946 10.3112C4.22172 10.3112 3.76514 10.2288 3.31343 10.035V8.88182C3.72143 9.10471 4.2363 9.26946 4.63946 9.26946C4.91145 9.26946 5.10575 9.19677 5.10575 8.97388C5.10575 8.74536 4.81576 8.6409 4.4657 8.51479C3.93256 8.32272 3.26001 8.08043 3.26001 7.2732C3.26001 6.41558 3.91572 5.90198 4.90175 5.90198C5.30488 5.90198 5.70318 5.96496 6.10631 6.12487V7.2635C5.73715 7.06485 5.27087 6.95342 4.90175 6.95342Z"
         fill="#6461FC"
       />
@@ -2581,7 +2566,7 @@ export const SvgSprite = () => (
         d="M11.3654 0.521155C11.7342 0.218242 12.2658 0.218242 12.6346 0.521155L14.7751 2.27886C14.9697 2.43869 15.2175 2.5192 15.4689 2.50429L18.2337 2.34039C18.7101 2.31215 19.1402 2.62457 19.2605 3.08645L19.959 5.76657C20.0225 6.01028 20.1757 6.22105 20.3878 6.35676L22.7209 7.84927C23.123 8.10648 23.2872 8.61199 23.1131 9.05641L22.1029 11.6352C22.011 11.8697 22.011 12.1303 22.1029 12.3648L23.1131 14.9436C23.2872 15.388 23.123 15.8935 22.7209 16.1507L20.3878 17.6432C20.1757 17.779 20.0225 17.9897 19.959 18.2334L19.2605 20.9136C19.1402 21.3754 18.7101 21.6879 18.2337 21.6596L15.4689 21.4957C15.2175 21.4808 14.9697 21.5613 14.7751 21.7211L12.6346 23.4788C12.2658 23.7818 11.7342 23.7818 11.3654 23.4788L9.22494 21.7211C9.03031 21.5613 8.78254 21.4808 8.53113 21.4957L5.76633 21.6596C5.28986 21.6879 4.85985 21.3754 4.73948 20.9136L4.04099 18.2334C3.97747 17.9897 3.82434 17.779 3.61219 17.6432L1.27908 16.1507C0.877008 15.8935 0.712758 15.388 0.886858 14.9436L1.89711 12.3648C1.98897 12.1303 1.98897 11.8697 1.89711 11.6352L0.886858 9.05641C0.712757 8.61199 0.877008 8.10648 1.27908 7.84927L3.61219 6.35676C3.82434 6.22105 3.97747 6.01028 4.04099 5.76657L4.73948 3.08645C4.85985 2.62457 5.28986 2.31215 5.76633 2.34039L8.53113 2.50429C8.78254 2.5192 9.03031 2.43869 9.22494 2.27886L11.3654 0.521155Z"
         fill="#397DF6"
       />
-      <g clip-path="url(#clip0_4700_12135)">
+      <g clipPath="url(#clip0_4700_12135)">
         <path
           d="M15.08 8.14001C15.011 8.08537 14.9318 8.04494 14.8471 8.02105C14.7624 7.99716 14.6738 7.99029 14.5864 8.00083C14.499 8.01136 14.4146 8.0391 14.3379 8.08244C14.2613 8.12578 14.1941 8.18387 14.14 8.25334L9.47333 14.2533L7.18667 11.4667C7.13303 11.3953 7.0656 11.3354 6.98837 11.2906C6.91114 11.2457 6.82569 11.2169 6.73709 11.2057C6.64849 11.1945 6.55855 11.2012 6.47261 11.2255C6.38667 11.2497 6.30647 11.291 6.23678 11.3468C6.16709 11.4027 6.10933 11.472 6.06693 11.5505C6.02453 11.6291 5.99835 11.7154 5.98994 11.8044C5.98154 11.8933 5.99108 11.9829 6.018 12.0681C6.04493 12.1532 6.08868 12.2321 6.14667 12.3L8.92667 15.7533C8.98941 15.8307 9.06869 15.893 9.15868 15.9357C9.24866 15.9784 9.34707 16.0003 9.44667 16C9.55239 16.0047 9.65771 15.9842 9.75393 15.9402C9.85015 15.8961 9.9345 15.8298 10 15.7467L15.22 9.08001C15.2732 9.00936 15.3118 8.92883 15.3336 8.8431C15.3554 8.75738 15.3599 8.66817 15.3469 8.58069C15.3339 8.4932 15.3036 8.40918 15.2577 8.33352C15.2119 8.25787 15.1515 8.19209 15.08 8.14001Z"
           fill="white"
@@ -2638,7 +2623,7 @@ export const SvgSprite = () => (
       <path
         d="M18 35C27.3888 35 35 27.3888 35 18C35 8.61116 27.3888 1 18 1C8.61116 1 1 8.61116 1 18C1 27.3888 8.61116 35 18 35Z"
         stroke="white"
-        stroke-width="2"
+        strokeWidth="2"
       />
       <path d="M9.6375 7.13101L6.456 10.3125L15.756 19.6133V30.6698H20.256V19.6013L29.5448 10.3125L26.3633 7.13101L18 15.4943L9.6375 7.13101Z" />
     </symbol>
@@ -2647,40 +2632,40 @@ export const SvgSprite = () => (
       <path
         d="M15.5 32C19.0899 32 22 29.5376 22 26.5C22 23.4624 19.0899 21 15.5 21C11.9101 21 9 23.4624 9 26.5C9 29.5376 11.9101 32 15.5 32Z"
         stroke="white"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path d="M22.0382 28.935C22.0382 28.935 26.5269 28.1114 26.5269 31.875H12.3929C7.75515 31.875 3.99548 28.1153 3.99548 23.4775C3.99548 21.3016 4.81973 19.3159 6.18068 17.8273C8.8131 14.9476 10.0058 13.9316 10.0058 11.5462C10.0058 9.16073 7.04085 7.70302 3.99548 9.55837C6.60443 5.00843 8.68057 4.125 12.9213 4.125C17.162 4.125 19.1498 7.65892 19.1498 10.7511C19.1498 16.8913 9.25193 17.4214 9.25193 26.4387" />
       <path
         d="M22.0382 28.935C22.0382 28.935 26.5269 28.1114 26.5269 31.875H12.3929C7.75515 31.875 3.99548 28.1153 3.99548 23.4775C3.99548 21.3016 4.81973 19.3159 6.18068 17.8273C8.8131 14.9476 10.0058 13.9316 10.0058 11.5462C10.0058 9.16072 7.04085 7.70302 3.99548 9.55837C6.60443 5.00843 8.68058 4.125 12.9213 4.125C17.162 4.125 19.1498 7.65892 19.1498 10.7511C19.1498 16.8913 9.25193 17.4214 9.25193 26.4387"
         stroke="white"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path d="M22.0382 28.935C22.6174 27.9299 22.9488 26.7639 22.9488 25.5205C22.9488 21.7383 19.8826 18.6721 16.1004 18.6721C13.6924 18.6721 11.5747 19.915 10.3536 21.7941" />
       <path
         d="M22.0382 28.935C22.6174 27.9299 22.9488 26.7639 22.9488 25.5205C22.9488 21.7383 19.8826 18.6721 16.1004 18.6721C13.6924 18.6721 11.5747 19.915 10.3536 21.7941"
         stroke="white"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M13.606 19.1407C17.5596 16.3612 23.0372 17.4655 26.5269 20.7786C30.5468 20.0718 32.0044 22.5455 32.0044 22.5455C30.2947 22.4119 28.2294 23.0377 26.864 23.5533C25.9843 23.8855 24.9936 23.6578 24.3619 22.9611C21.6675 19.9894 17.5126 17.2717 13.606 19.1407Z"
         stroke="white"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path d="M17.2355 17.68C17.2355 17.68 19.3266 15.5329 23.9648 13.0481C23.7881 10.7953 23.8986 9.9504 25.025 9.24915C27.0128 9.75165 27.4104 12.1204 27.4104 12.1204C31.0768 13.3573 32.5346 18.349 31.1652 19.0558C29.7959 19.7626 25.3597 19.2481 22.6507 18.3205" />
       <path
         d="M17.2355 17.68C17.2355 17.68 19.3266 15.5329 23.9648 13.0481C23.7881 10.7953 23.8986 9.9504 25.025 9.24915C27.0128 9.75165 27.4104 12.1204 27.4104 12.1204C31.0768 13.3573 32.5346 18.349 31.1652 19.0558C29.7959 19.7626 25.3597 19.2481 22.6507 18.3205"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M14.6883 28.4081C15.776 28.4081 16.6577 27.5264 16.6577 26.4387C16.6577 25.351 15.776 24.4693 14.6883 24.4693C13.6006 24.4693 12.7189 25.351 12.7189 26.4387C12.7189 27.5264 13.6006 28.4081 14.6883 28.4081Z"
         stroke="white"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </symbol>
   </svg>
