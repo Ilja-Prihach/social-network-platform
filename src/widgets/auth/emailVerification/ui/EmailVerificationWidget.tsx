@@ -46,12 +46,11 @@ export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
 
     if (!nextEmail) return;
 
-    const mutation = isSignUp ? resendVerification : resendRecovery;
     const successMessage = isSignUp
       ? `We have sent a link to confirm your email to ${nextEmail}`
       : `We have sent a password recovery link to ${nextEmail}`;
 
-    mutation(nextEmail, {
+    const mutationOptions = {
       onSuccess: () => {
         showModal({
           title: 'Email sent',
@@ -63,14 +62,20 @@ export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
           setEmail('');
         }
       },
-      onError: (error) => {
+      onError: (error: unknown) => {
         showModal({
           title: 'Error',
           description: (error as Error).message,
           confirmText: 'OK',
         });
       },
-    });
+    };
+
+    if (isSignUp) {
+      resendVerification(nextEmail, mutationOptions);
+    } else {
+      resendRecovery({ email: nextEmail }, mutationOptions);
+    }
   };
 
   const title = isSignUp ? 'Email verification link expired' : 'Password Recovery';

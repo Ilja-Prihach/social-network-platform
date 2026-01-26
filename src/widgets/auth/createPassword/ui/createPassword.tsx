@@ -33,22 +33,25 @@ export function CreatePasswordWidget() {
       return;
     }
 
-    mutate(email, {
-      onSuccess: () => {
-        showModal({
-          title: 'Email sent',
-          description: `We have sent a link to confirm your email to ${email}`,
-          confirmText: 'OK',
-        });
+    mutate(
+      { email },
+      {
+        onSuccess: () => {
+          showModal({
+            title: 'Email sent',
+            description: `We have sent a link to confirm your email to ${email}`,
+            confirmText: 'OK',
+          });
+        },
+        onError: (error) => {
+          showModal({
+            title: 'Error',
+            description: (error as Error).message,
+            confirmText: 'OK',
+          });
+        },
       },
-      onError: (error) => {
-        showModal({
-          title: 'Error',
-          description: (error as Error).message,
-          confirmText: 'OK',
-        });
-      },
-    });
+    );
   };
 
   return (

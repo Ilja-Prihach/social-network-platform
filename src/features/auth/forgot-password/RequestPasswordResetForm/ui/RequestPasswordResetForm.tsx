@@ -26,26 +26,29 @@ export function RequestPasswordResetForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    mutate(email, {
-      onSuccess: () => {
-        showModal({
-          title: 'Email sent',
-          description: `We have sent a link to confirm your email to ${email}`,
-          confirmText: 'OK',
-        });
+    mutate(
+      { email, recaptcha: recaptchaToken || undefined },
+      {
+        onSuccess: () => {
+          showModal({
+            title: 'Email sent',
+            description: `We have sent a link to confirm your email to ${email}`,
+            confirmText: 'OK',
+          });
 
-        window.localStorage.setItem(STORAGE_KEY, email);
-        setEmail('');
-        setRecaptchaToken('');
+          window.localStorage.setItem(STORAGE_KEY, email);
+          setEmail('');
+          setRecaptchaToken('');
+        },
+        onError: (error) => {
+          showModal({
+            title: 'Error',
+            description: (error as Error).message,
+            confirmText: 'OK',
+          });
+        },
       },
-      onError: (error) => {
-        showModal({
-          title: 'Error',
-          description: (error as Error).message,
-          confirmText: 'OK',
-        });
-      },
-    });
+    );
   };
 
   return (
