@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { useLocale } from 'next-intlayer';
 import { usePathname, useRouter } from 'next/navigation';
 
-type LanguageCode = 'en' | 'ru' | 'it' | 'es' | 'fr';
+type LanguageCode = 'en' | 'ru' | 'it' | 'es' | 'fr' | 'he';
 
 type LanguageSelectProps = {
   onChange?: (value: LanguageCode) => void;
@@ -38,6 +38,11 @@ const LANGUAGE_OPTIONS = [
     value: 'fr',
     title: 'French',
     icon: <Icon iconId="Flag France" width="20" height="20" />,
+  },
+  {
+    value: 'he',
+    title: 'Hebrew',
+    icon: <Icon iconId="Flag Israel" width="20" height="20" />,
   },
 ];
 

@@ -46,3 +46,24 @@
 .privacy_policy_item span {
   font-style: italic;
 }
+
+:dir(rtl) .back_link {
+  padding-left: 0;
+  padding-right: 64px;
+}
+
+:dir(rtl) .wrapper_items {
+  text-align: right;
+  padding-left: 0;
+  padding-right: 161px;
+}
+
+:dir(rtl) .title_policy_item {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+:dir(rtl) .privacy_policy_item ul {
+  padding-left: 0;
+  padding-right: 20px;
+}

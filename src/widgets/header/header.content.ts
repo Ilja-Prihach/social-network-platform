@@ -5,6 +5,7 @@ const headerContent = {
   content: {
     logIn: t({
       en: 'Log in',
+      he: 'התחבר',
       fr: 'Se connecter',
       es: 'Iniciar sesión',
       ru: 'Войти',
@@ -12,6 +13,7 @@ const headerContent = {
     }),
     signUp: t({
       en: 'Sign up',
+      he: 'הירשם',
       fr: "S'inscrire",
       es: 'Registrarse',
       ru: 'Зарегистрироваться',

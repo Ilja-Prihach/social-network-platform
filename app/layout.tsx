@@ -7,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
-  return children;
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
 }

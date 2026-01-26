@@ -5,6 +5,7 @@ const privacyPolicyContent = {
   content: {
     backToSignUp: t({
       en: '← Back to Sign Up',
+      he: '← חזרה להרשמה',
       fr: "← Retour à l'inscription",
       es: '← Volver al registro',
       ru: '← Назад к регистрации',
@@ -12,6 +13,7 @@ const privacyPolicyContent = {
     }),
     title: t({
       en: 'Privacy Policy',
+      he: 'מדיניות פרטיות',
       fr: 'Politique de confidentialité',
       es: 'Política de privacidad',
       ru: 'Политика конфиденциальности',
@@ -19,6 +21,7 @@ const privacyPolicyContent = {
     }),
     introTitle: t({
       en: 'Introduction',
+      he: 'מבוא',
       fr: 'Introduction',
       es: 'Introducción',
       ru: 'Введение',
@@ -26,13 +29,15 @@ const privacyPolicyContent = {
     }),
     introText: t({
       en: 'This Privacy Policy explains how we collect, use, store, and protect your personal information when you use our application (the "Service"). By accessing or using the Service, you agree to the practices described in this Privacy Policy.',
-      fr: "Cette politique de confidentialité explique comment nous collectons, utilisons, stockons et protégeons vos informations personnelles lorsque vous utilisez notre application (le \"Service\"). En accédant au Service ou en l'utilisant, vous acceptez les pratiques décrites dans cette politique.",
+      he: 'מדיניות פרטיות זו מסבירה כיצד אנו אוספים, משתמשים, מאחסנים ומגנים על המידע האישי שלך בעת השימוש באפליקציה שלנו ("השירות"). בעת גישה לשירות או שימוש בו, אתה מסכים לפרקטיקות המתוארות במדיניות זו.',
+      fr: 'Cette politique de confidentialité explique comment nous collectons, utilisons, stockons et protégeons vos informations personnelles lorsque vous utilisez notre application (le "Service"). En accédant au Service ou en l\'utilisant, vous acceptez les pratiques décrites dans cette politique.',
       es: 'Esta Política de privacidad explica cómo recopilamos, usamos, almacenamos y protegemos su información personal cuando utiliza nuestra aplicación (el "Servicio"). Al acceder o usar el Servicio, usted acepta las prácticas descritas en esta Política de privacidad.',
       ru: 'В этой Политике конфиденциальности описано, как мы собираем, используем, храним и защищаем ваши персональные данные при использовании нашего приложения ("Сервис"). Получая доступ к Сервису или используя его, вы соглашаетесь с описанными здесь практиками.',
-      it: "Questa Informativa sulla privacy spiega come raccogliamo, utilizziamo, conserviamo e proteggiamo le tue informazioni personali quando usi la nostra applicazione (il \"Servizio\"). Accedendo o utilizzando il Servizio, accetti le pratiche descritte in questa Informativa.",
+      it: 'Questa Informativa sulla privacy spiega come raccogliamo, utilizziamo, conserviamo e proteggiamo le tue informazioni personali quando usi la nostra applicazione (il "Servizio"). Accedendo o utilizzando il Servizio, accetti le pratiche descritte in questa Informativa.',
     }),
     collectTitle: t({
       en: 'Information We Collect',
+      he: 'מידע שאנו אוספים',
       fr: 'Informations que nous collectons',
       es: 'Información que recopilamos',
       ru: 'Какие данные мы собираем',
@@ -40,6 +45,7 @@ const privacyPolicyContent = {
     }),
     collectLead: t({
       en: 'We may collect the following types of information:',
+      he: 'ייתכן שנאסוף את סוגי המידע הבאים:',
       fr: 'Nous pouvons collecter les types d’informations suivants :',
       es: 'Podemos recopilar los siguientes tipos de información:',
       ru: 'Мы можем собирать следующие виды информации:',
@@ -47,20 +53,23 @@ const privacyPolicyContent = {
     }),
     collectAccountLabel: t({
       en: 'Account Information:',
+      he: 'מידע על החשבון:',
       fr: 'Informations de compte :',
       es: 'Información de la cuenta:',
       ru: 'Данные учетной записи:',
-      it: "Informazioni sull’account:",
+      it: 'Informazioni sull’account:',
     }),
     collectAccountText: t({
       en: 'username, email address, profile photo, and other information you provide when creating an account.',
+      he: 'שם משתמש, כתובת אימייל, תמונת פרופיל ומידע נוסף שאתה מספק בעת יצירת חשבון.',
       fr: "nom d'utilisateur, adresse e-mail, photo de profil et autres informations fournies lors de la création d’un compte.",
       es: 'nombre de usuario, correo electrónico, foto de perfil y otra información que proporciona al crear una cuenta.',
       ru: 'имя пользователя, адрес электронной почты, фото профиля и другая информация, которую вы предоставляете при создании аккаунта.',
-      it: "nome utente, indirizzo email, foto profilo e altre informazioni fornite durante la creazione di un account.",
+      it: 'nome utente, indirizzo email, foto profilo e altre informazioni fornite durante la creazione di un account.',
     }),
     collectContentLabel: t({
       en: 'Content:',
+      he: 'תוכן:',
       fr: 'Contenu :',
       es: 'Contenido:',
       ru: 'Контент:',
@@ -68,6 +77,7 @@ const privacyPolicyContent = {
     }),
     collectContentText: t({
       en: 'photos, videos, comments, likes, and messages you post or send through the Service.',
+      he: 'תמונות, סרטונים, תגובות, לייקים והודעות שאתה מפרסם או שולח דרך השירות.',
       fr: 'photos, vidéos, commentaires, mentions J’aime et messages publiés ou envoyés via le Service.',
       es: 'fotos, videos, comentarios, me gusta y mensajes que publica o envía a través del Servicio.',
       ru: 'фотографии, видео, комментарии, лайки и сообщения, которые вы публикуете или отправляете через Сервис.',
@@ -75,6 +85,7 @@ const privacyPolicyContent = {
     }),
     collectUsageLabel: t({
       en: 'Usage Data:',
+      he: 'נתוני שימוש:',
       fr: 'Données d’utilisation :',
       es: 'Datos de uso:',
       ru: 'Данные об использовании:',
@@ -82,6 +93,7 @@ const privacyPolicyContent = {
     }),
     collectUsageText: t({
       en: 'viewed content, interactions, and activity timestamps.',
+      he: 'תוכן שנצפה, אינטראקציות וחותמות זמן של פעילות.',
       fr: 'contenu consulté, interactions et horodatages d’activité.',
       es: 'contenido visto, interacciones y marcas de tiempo de actividad.',
       ru: 'просмотренный контент, взаимодействия и временные метки активности.',
@@ -89,6 +101,7 @@ const privacyPolicyContent = {
     }),
     collectTechLabel: t({
       en: 'Technical Data:',
+      he: 'נתונים טכניים:',
       fr: 'Données techniques :',
       es: 'Datos técnicos:',
       ru: 'Технические данные:',
@@ -96,13 +109,15 @@ const privacyPolicyContent = {
     }),
     collectTechText: t({
       en: 'device type, OS, browser type, IP address, and log data.',
-      fr: "type d’appareil, système d’exploitation, type de navigateur, adresse IP et données de journal.",
+      he: 'סוג מכשיר, מערכת הפעלה, סוג דפדפן, כתובת IP ונתוני לוג.',
+      fr: 'type d’appareil, système d’exploitation, type de navigateur, adresse IP et données de journal.',
       es: 'tipo de dispositivo, sistema operativo, tipo de navegador, dirección IP y datos de registro.',
       ru: 'тип устройства, ОС, тип браузера, IP-адрес и данные журналов.',
       it: 'tipo di dispositivo, sistema operativo, tipo di browser, indirizzo IP e dati di log.',
     }),
     useTitle: t({
       en: 'How We Use Your Information',
+      he: 'כיצד אנו משתמשים במידע שלך',
       fr: 'Comment nous utilisons vos informations',
       es: 'Cómo usamos su información',
       ru: 'Как мы используем ваши данные',
@@ -110,6 +125,7 @@ const privacyPolicyContent = {
     }),
     useItem1: t({
       en: 'Provide, operate, and maintain the Service',
+      he: 'לספק, להפעיל ולתחזק את השירות',
       fr: 'Fournir, exploiter et maintenir le Service',
       es: 'Proveer, operar y mantener el Servicio',
       ru: 'Предоставлять, поддерживать и обеспечивать работу Сервиса',
@@ -117,13 +133,15 @@ const privacyPolicyContent = {
     }),
     useItem2: t({
       en: 'Personalize user experience and recommendations',
-      fr: "Personnaliser l’expérience utilisateur et les recommandations",
+      he: 'להתאים אישית חוויית משתמש והמלצות',
+      fr: 'Personnaliser l’expérience utilisateur et les recommandations',
       es: 'Personalizar la experiencia del usuario y las recomendaciones',
       ru: 'Персонализировать пользовательский опыт и рекомендации',
       it: "Personalizzare l'esperienza utente e i consigli",
     }),
     useItem3: t({
       en: 'Enable likes, comments, and messaging',
+      he: 'לאפשר לייקים, תגובות והודעות',
       fr: 'Permettre les likes, les commentaires et la messagerie',
       es: 'Permitir me gusta, comentarios y mensajería',
       ru: 'Обеспечивать лайки, комментарии и сообщения',
@@ -131,6 +149,7 @@ const privacyPolicyContent = {
     }),
     useItem4: t({
       en: 'Improve performance, security, and reliability',
+      he: 'לשפר ביצועים, אבטחה ואמינות',
       fr: 'Améliorer les performances, la sécurité et la fiabilité',
       es: 'Mejorar el rendimiento, la seguridad y la fiabilidad',
       ru: 'Улучшать производительность, безопасность и надежность',
@@ -138,6 +157,7 @@ const privacyPolicyContent = {
     }),
     useItem5: t({
       en: 'Communicate about updates and support',
+      he: 'לתקשר לגבי עדכונים ותמיכה',
       fr: 'Communiquer sur les mises à jour et le support',
       es: 'Comunicar actualizaciones y soporte',
       ru: 'Сообщать об обновлениях и поддержке',
@@ -145,6 +165,7 @@ const privacyPolicyContent = {
     }),
     shareTitle: t({
       en: 'Sharing of Information',
+      he: 'שיתוף מידע',
       fr: 'Partage des informations',
       es: 'Compartición de información',
       ru: 'Передача информации',
@@ -152,6 +173,7 @@ const privacyPolicyContent = {
     }),
     shareItem1: t({
       en: 'With service providers supporting the Service',
+      he: 'עם ספקי שירות התומכים בשירות',
       fr: 'Avec des prestataires qui soutiennent le Service',
       es: 'Con proveedores que apoyan el Servicio',
       ru: 'С поставщиками услуг, поддерживающими Сервис',
@@ -159,6 +181,7 @@ const privacyPolicyContent = {
     }),
     shareItem2: t({
       en: 'To comply with legal obligations',
+      he: 'כדי לעמוד בהתחייבויות חוקיות',
       fr: 'Pour se conformer aux obligations légales',
       es: 'Para cumplir con obligaciones legales',
       ru: 'Для соблюдения правовых требований',
@@ -166,6 +189,7 @@ const privacyPolicyContent = {
     }),
     shareItem3: t({
       en: 'To protect users, rights, and security',
+      he: 'כדי להגן על משתמשים, זכויות ואבטחה',
       fr: 'Pour protéger les utilisateurs, les droits et la sécurité',
       es: 'Para proteger a los usuarios, los derechos y la seguridad',
       ru: 'Для защиты пользователей, прав и безопасности',
@@ -173,6 +197,7 @@ const privacyPolicyContent = {
     }),
     storageTitle: t({
       en: 'Data Storage and Security',
+      he: 'אחסון מידע ואבטחה',
       fr: 'Stockage et sécurité des données',
       es: 'Almacenamiento y seguridad de datos',
       ru: 'Хранение и безопасность данных',
@@ -180,13 +205,15 @@ const privacyPolicyContent = {
     }),
     storageText: t({
       en: 'We use reasonable technical and organizational measures to protect your data. However, no Internet transmission is 100% secure.',
+      he: 'אנו משתמשים באמצעים טכניים וארגוניים סבירים כדי להגן על הנתונים שלך. עם זאת, אף העברה באינטרנט אינה מאובטחת ב־100%.',
       fr: "Nous appliquons des mesures techniques et organisationnelles raisonnables pour protéger vos données. Toutefois, aucune transmission sur Internet n'est sûre à 100 %.",
       es: 'Aplicamos medidas técnicas y organizativas razonables para proteger sus datos. Sin embargo, ninguna transmisión por Internet es 100 % segura.',
       ru: 'Мы применяем разумные технические и организационные меры для защиты данных. Однако ни одна передача данных в Интернете не является на 100% безопасной.',
-      it: "Adottiamo misure tecniche e organizzative ragionevoli per proteggere i tuoi dati. Tuttavia, nessuna trasmissione via Internet è sicura al 100%.",
+      it: 'Adottiamo misure tecniche e organizzative ragionevoli per proteggere i tuoi dati. Tuttavia, nessuna trasmissione via Internet è sicura al 100%.',
     }),
     rightsTitle: t({
       en: 'User Rights',
+      he: 'זכויות משתמש',
       fr: 'Droits des utilisateurs',
       es: 'Derechos del usuario',
       ru: 'Права пользователей',
@@ -194,6 +221,7 @@ const privacyPolicyContent = {
     }),
     rightsItem1: t({
       en: 'Access your personal data',
+      he: 'גישה לנתונים האישיים שלך',
       fr: 'Accéder à vos données personnelles',
       es: 'Acceder a sus datos personales',
       ru: 'Получать доступ к персональным данным',
@@ -201,6 +229,7 @@ const privacyPolicyContent = {
     }),
     rightsItem2: t({
       en: 'Request correction or deletion',
+      he: 'בקשת תיקון או מחיקה',
       fr: 'Demander la correction ou la suppression',
       es: 'Solicitar corrección o eliminación',
       ru: 'Запрашивать исправление или удаление',
@@ -208,6 +237,7 @@ const privacyPolicyContent = {
     }),
     rightsItem3: t({
       en: 'Restrict or object to processing',
+      he: 'הגבלת עיבוד או התנגדות',
       fr: 'Restreindre ou s’opposer au traitement',
       es: 'Restringir u oponerse al tratamiento',
       ru: 'Ограничивать или возражать против обработки',
@@ -215,6 +245,7 @@ const privacyPolicyContent = {
     }),
     cookiesTitle: t({
       en: 'Cookies and Tracking',
+      he: 'עוגיות ומעקב',
       fr: 'Cookies et suivi',
       es: 'Cookies y seguimiento',
       ru: 'Файлы cookie и отслеживание',
@@ -222,6 +253,7 @@ const privacyPolicyContent = {
     }),
     cookiesText: t({
       en: 'We may use cookies to improve functionality and analyze usage. You can control cookies via browser settings.',
+      he: 'אנו עשויים להשתמש בעוגיות כדי לשפר פונקציונליות ולנתח שימוש. ניתן לשלוט בעוגיות דרך הגדרות הדפדפן.',
       fr: "Nous pouvons utiliser des cookies pour améliorer la fonctionnalité et analyser l'utilisation. Vous pouvez contrôler les cookies via les paramètres du navigateur.",
       es: 'Podemos usar cookies para mejorar la funcionalidad y analizar el uso. Puede controlar las cookies mediante la configuración del navegador.',
       ru: 'Мы можем использовать файлы cookie для улучшения функциональности и анализа использования. Вы можете управлять cookie через настройки браузера.',
@@ -229,6 +261,7 @@ const privacyPolicyContent = {
     }),
     childrenTitle: t({
       en: "Children's Privacy",
+      he: 'פרטיות ילדים',
       fr: 'Confidentialité des enfants',
       es: 'Privacidad de los menores',
       ru: 'Конфиденциальность детей',
@@ -236,6 +269,7 @@ const privacyPolicyContent = {
     }),
     childrenText: t({
       en: 'The Service is not intended for users under 13 years old.',
+      he: 'השירות אינו מיועד למשתמשים מתחת לגיל 13.',
       fr: "Le Service n'est pas destiné aux utilisateurs de moins de 13 ans.",
       es: 'El Servicio no está destinado a usuarios menores de 13 años.',
       ru: 'Сервис не предназначен для пользователей младше 13 лет.',
@@ -243,6 +277,7 @@ const privacyPolicyContent = {
     }),
     changesTitle: t({
       en: 'Changes to This Policy',
+      he: 'שינויים במדיניות זו',
       fr: 'Modifications de cette politique',
       es: 'Cambios en esta política',
       ru: 'Изменения в политике',
@@ -250,6 +285,7 @@ const privacyPolicyContent = {
     }),
     changesText: t({
       en: 'We may update this Privacy Policy from time to time.',
+      he: 'ייתכן שנעדכן את מדיניות הפרטיות מעת לעת.',
       fr: 'Nous pouvons mettre à jour cette politique de confidentialité de temps à autre.',
       es: 'Podemos actualizar esta Política de privacidad de vez en cuando.',
       ru: 'Мы можем время от времени обновлять эту Политику конфиденциальности.',
@@ -257,6 +293,7 @@ const privacyPolicyContent = {
     }),
     contactTitle: t({
       en: 'Contact Us',
+      he: 'יצירת קשר',
       fr: 'Contactez-nous',
       es: 'Contáctenos',
       ru: 'Связаться с нами',
@@ -264,6 +301,7 @@ const privacyPolicyContent = {
     }),
     contactText: t({
       en: 'If you have any questions about these Terms, please contact us at:',
+      he: 'אם יש לך שאלות לגבי תנאים אלה, אנא צור קשר ב:',
       fr: 'Si vous avez des questions sur ces conditions, contactez-nous à :',
       es: 'Si tiene preguntas sobre estos términos, contáctenos en:',
       ru: 'Если у вас есть вопросы по этим условиям, свяжитесь с нами:',
@@ -271,6 +309,7 @@ const privacyPolicyContent = {
     }),
     emailLabel: t({
       en: 'Email:',
+      he: 'אימייל:',
       fr: 'E-mail :',
       es: 'Correo:',
       ru: 'Email:',

@@ -5,6 +5,7 @@ const homeContent = {
   content: {
     selectPlaceholder: t({
       en: 'Select value',
+      he: 'בחר ערך',
       fr: 'Sélectionner une valeur',
       es: 'Selecciona un valor',
       ru: 'Выберите значение',
@@ -12,6 +13,7 @@ const homeContent = {
     }),
     selectLabel: t({
       en: 'Select box',
+      he: 'תיבת בחירה',
       fr: 'Liste déroulante',
       es: 'Selector',
       ru: 'Выпадающий список',
@@ -19,6 +21,7 @@ const homeContent = {
     }),
     selectOptionSelectBox: t({
       en: 'Select box',
+      he: 'תיבת בחירה',
       fr: 'Sélecteur',
       es: 'Selector',
       ru: 'Выбор',
@@ -26,6 +29,7 @@ const homeContent = {
     }),
     selectOptionMister: t({
       en: 'Mister',
+      he: 'אדון',
       fr: 'Monsieur',
       es: 'Señor',
       ru: 'Мистер',
@@ -33,6 +37,7 @@ const homeContent = {
     }),
     openModalButton: t({
       en: 'Open modal',
+      he: 'פתח חלון',
       fr: 'Ouvrir la modale',
       es: 'Abrir modal',
       ru: 'Открыть модальное окно',
@@ -40,6 +45,7 @@ const homeContent = {
     }),
     modalTitle: t({
       en: 'Email sent',
+      he: 'האימייל נשלח',
       fr: 'E-mail envoyé',
       es: 'Correo enviado',
       ru: 'Письмо отправлено',
@@ -47,6 +53,7 @@ const homeContent = {
     }),
     modalDescription: t({
       en: 'We have sent a link to confirm your email to epam@epam.com',
+      he: 'שלחנו קישור לאישור האימייל שלך ל־epam@epam.com',
       fr: 'Nous avons envoyé un lien de confirmation à epam@epam.com',
       es: 'Hemos enviado un enlace de confirmación a epam@epam.com',
       ru: 'Мы отправили ссылку для подтверждения вашего email на epam@epam.com',
@@ -54,6 +61,7 @@ const homeContent = {
     }),
     heading: t({
       en: 'Home Page',
+      he: 'עמוד הבית',
       fr: "Page d'accueil",
       es: 'Página de inicio',
       ru: 'Главная',
@@ -61,6 +69,7 @@ const homeContent = {
     }),
     intro: t({
       en: 'Entry point stub wired through the Feature-Sliced Design layout. Replace with the actual landing or feed content.',
+      he: 'עמוד פתיחה זמני המחובר למבנה FSD. החלף בתוכן אמיתי של דף נחיתה או פיד.',
       fr: "Page d'entrée factice liée au découpage FSD. Remplacez par la page d'accueil ou le fil.",
       es: 'Plantilla de entrada conectada a FSD. Sustitúyela por el landing o el feed.',
       ru: 'Заглушка стартовой страницы по FSD. Замените на реальный лендинг или ленту.',
@@ -68,6 +77,7 @@ const homeContent = {
     }),
     postModalPrefix: t({
       en: 'Post modal placeholder for id',
+      he: 'חלון פוסט זמני עבור מזהה',
       fr: "Espace réservé de modale du post pour l'id",
       es: 'Marcador de posición del modal del post para id',
       ru: 'Заглушка модального окна поста для id',
@@ -75,6 +85,7 @@ const homeContent = {
     }),
     createModal: t({
       en: 'Create post modal placeholder',
+      he: 'חלון יצירת פוסט זמני',
       fr: 'Espace réservé de modale de création de post',
       es: 'Marcador de posición del modal de creación de post',
       ru: 'Заглушка модального окна создания поста',
@@ -82,6 +93,7 @@ const homeContent = {
     }),
     modalHint: t({
       en: 'Query-driven modal state. If both postId and action are present, postId takes precedence.',
+      he: 'מצב חלון לפי פרמטרים. אם יש גם postId וגם action, ל־postId יש עדיפות.',
       fr: 'État de modale piloté par la requête. Si postId et action sont présents, postId a priorité.',
       es: 'Estado del modal controlado por la URL. Si hay postId y action, postId tiene prioridad.',
       ru: 'Состояние модалки определяется параметрами запроса. Если заданы postId и action, приоритет у postId.',
@@ -89,6 +101,7 @@ const homeContent = {
     }),
     noModal: t({
       en: 'No modal active. Add ?postId=42 or ?action=create to the URL to preview modal handling.',
+      he: 'אין חלון פעיל. הוסף ‎?postId=42‎ או ‎?action=create‎ לכתובת כדי לראות.',
       fr: 'Aucune modale active. Ajoutez ?postId=42 ou ?action=create pour prévisualiser.',
       es: 'No hay modal activo. Añade ?postId=42 o ?action=create para ver el manejo.',
       ru: 'Модальное окно неактивно. Добавьте ?postId=42 или ?action=create, чтобы посмотреть.',

@@ -5,6 +5,7 @@ const createPasswordFormContent = {
   content: {
     errorTitle: t({
       en: 'Error',
+      he: 'שגיאה',
       fr: 'Erreur',
       es: 'Error',
       ru: 'Ошибка',
@@ -12,6 +13,7 @@ const createPasswordFormContent = {
     }),
     ok: t({
       en: 'OK',
+      he: 'אישור',
       fr: 'OK',
       es: 'OK',
       ru: 'ОК',
@@ -19,6 +21,7 @@ const createPasswordFormContent = {
     }),
     mismatchError: t({
       en: 'Passwords must match',
+      he: 'הסיסמאות חייבות להיות זהות',
       fr: 'Les mots de passe doivent correspondre',
       es: 'Las contraseñas deben coincidir',
       ru: 'Пароли должны совпадать',
@@ -26,6 +29,7 @@ const createPasswordFormContent = {
     }),
     lengthError: t({
       en: 'Password must be between 6 and 20 characters',
+      he: 'הסיסמה חייבת להיות בין 6 ל־20 תווים',
       fr: 'Le mot de passe doit contenir 6 à 20 caractères',
       es: 'La contraseña debe tener 6 a 20 caracteres',
       ru: 'Пароль должен быть от 6 до 20 символов',
@@ -33,6 +37,7 @@ const createPasswordFormContent = {
     }),
     title: t({
       en: 'Create New Password',
+      he: 'צור סיסמה חדשה',
       fr: 'Créer un nouveau mot de passe',
       es: 'Crear nueva contraseña',
       ru: 'Создать новый пароль',
@@ -40,6 +45,7 @@ const createPasswordFormContent = {
     }),
     newPasswordLabel: t({
       en: 'New password',
+      he: 'סיסמה חדשה',
       fr: 'Nouveau mot de passe',
       es: 'Nueva contraseña',
       ru: 'Новый пароль',
@@ -47,6 +53,7 @@ const createPasswordFormContent = {
     }),
     newPasswordPlaceholder: t({
       en: 'New Password',
+      he: 'סיסמה חדשה',
       fr: 'Nouveau mot de passe',
       es: 'Nueva contraseña',
       ru: 'Новый пароль',
@@ -54,6 +61,7 @@ const createPasswordFormContent = {
     }),
     confirmLabel: t({
       en: 'Confirm password',
+      he: 'אשר סיסמה',
       fr: 'Confirmer le mot de passe',
       es: 'Confirmar contraseña',
       ru: 'Подтвердите пароль',
@@ -61,6 +69,7 @@ const createPasswordFormContent = {
     }),
     confirmPlaceholder: t({
       en: 'Password confirmation',
+      he: 'אימות סיסמה',
       fr: 'Confirmation du mot de passe',
       es: 'Confirmación de contraseña',
       ru: 'Подтверждение пароля',
@@ -68,6 +77,7 @@ const createPasswordFormContent = {
     }),
     hint: t({
       en: 'Your password must be between 6 and 20 characters',
+      he: 'הסיסמה חייבת להיות בין 6 ל־20 תווים',
       fr: 'Votre mot de passe doit contenir 6 à 20 caractères',
       es: 'Tu contraseña debe tener 6 a 20 caracteres',
       ru: 'Пароль должен быть от 6 до 20 символов',
@@ -75,6 +85,7 @@ const createPasswordFormContent = {
     }),
     submit: t({
       en: 'Create new password',
+      he: 'צור סיסמה חדשה',
       fr: 'Créer un nouveau mot de passe',
       es: 'Crear nueva contraseña',
       ru: 'Создать новый пароль',

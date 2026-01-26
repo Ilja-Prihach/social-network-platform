@@ -5,6 +5,7 @@ const emailVerificationContent = {
   content: {
     modalTitle: t({
       en: 'Email sent',
+      he: 'האימייל נשלח',
       fr: 'E-mail envoyé',
       es: 'Correo enviado',
       ru: 'Письмо отправлено',
@@ -12,6 +13,7 @@ const emailVerificationContent = {
     }),
     ok: t({
       en: 'OK',
+      he: 'אישור',
       fr: 'OK',
       es: 'OK',
       ru: 'ОК',
@@ -19,6 +21,7 @@ const emailVerificationContent = {
     }),
     errorTitle: t({
       en: 'Error',
+      he: 'שגיאה',
       fr: 'Erreur',
       es: 'Error',
       ru: 'Ошибка',
@@ -26,6 +29,7 @@ const emailVerificationContent = {
     }),
     confirmEmailPrefix: t({
       en: 'We have sent a link to confirm your email to',
+      he: 'שלחנו קישור לאישור האימייל שלך ל־',
       fr: 'Nous avons envoyé un lien de confirmation à',
       es: 'Hemos enviado un enlace de confirmación a',
       ru: 'Мы отправили ссылку для подтверждения вашего email на',
@@ -33,6 +37,7 @@ const emailVerificationContent = {
     }),
     recoveryPrefix: t({
       en: 'We have sent a password recovery link to',
+      he: 'שלחנו קישור לשחזור סיסמה ל־',
       fr: 'Nous avons envoyé un lien de récupération de mot de passe à',
       es: 'Hemos enviado un enlace de recuperación de contraseña a',
       ru: 'Мы отправили ссылку для восстановления пароля на',
@@ -40,6 +45,7 @@ const emailVerificationContent = {
     }),
     titleSignUp: t({
       en: 'Email verification link expired',
+      he: 'קישור אימות האימייל פג תוקף',
       fr: 'Le lien de vérification a expiré',
       es: 'El enlace de verificación ha caducado',
       ru: 'Ссылка подтверждения устарела',
@@ -47,6 +53,7 @@ const emailVerificationContent = {
     }),
     titleRecovery: t({
       en: 'Password Recovery',
+      he: 'שחזור סיסמה',
       fr: 'Récupération de mot de passe',
       es: 'Recuperación de contraseña',
       ru: 'Восстановление пароля',
@@ -54,6 +61,7 @@ const emailVerificationContent = {
     }),
     description: t({
       en: 'Looks like the verification link has expired. Not to worry, we can send the link again',
+      he: 'נראה שקישור האימות פג תוקף. אל דאגה, נוכל לשלוח אותו שוב',
       fr: "Le lien de vérification a expiré. Pas d'inquiétude, nous pouvons l'envoyer à nouveau",
       es: 'Parece que el enlace de verificación expiró. Podemos enviarlo de nuevo',
       ru: 'Похоже, ссылка подтверждения истекла. Мы можем отправить её снова',
@@ -61,6 +69,7 @@ const emailVerificationContent = {
     }),
     emailLabel: t({
       en: 'Email',
+      he: 'אימייל',
       fr: 'E-mail',
       es: 'Correo',
       ru: 'Email',
@@ -68,6 +77,7 @@ const emailVerificationContent = {
     }),
     emailPlaceholder: t({
       en: 'Epam@epam.com',
+      he: 'Epam@epam.com',
       fr: 'Epam@epam.com',
       es: 'Epam@epam.com',
       ru: 'Epam@epam.com',
@@ -75,6 +85,7 @@ const emailVerificationContent = {
     }),
     resend: t({
       en: 'Resend verification link',
+      he: 'שלח מחדש קישור אימות',
       fr: 'Renvoyer le lien de vérification',
       es: 'Reenviar enlace de verificación',
       ru: 'Отправить ссылку снова',
@@ -82,6 +93,7 @@ const emailVerificationContent = {
     }),
     imageAlt: t({
       en: 'Resend verification',
+      he: 'שליחת אימות מחדש',
       fr: 'Renvoyer la vérification',
       es: 'Reenviar verificación',
       ru: 'Повторная отправка подтверждения',

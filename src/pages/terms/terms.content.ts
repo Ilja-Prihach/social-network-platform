@@ -5,6 +5,7 @@ const termsContent = {
   content: {
     backToSignUp: t({
       en: '← Back to Sign Up',
+      he: '← חזרה להרשמה',
       fr: "← Retour à l'inscription",
       es: '← Volver al registro',
       ru: '← Назад к регистрации',
@@ -12,6 +13,7 @@ const termsContent = {
     }),
     title: t({
       en: 'Terms of Service',
+      he: 'תנאי שימוש',
       fr: "Conditions d'utilisation",
       es: 'Términos del servicio',
       ru: 'Условия использования',
@@ -19,6 +21,7 @@ const termsContent = {
     }),
     acceptanceTitle: t({
       en: 'Acceptance of Terms',
+      he: 'קבלת תנאים',
       fr: 'Acceptation des conditions',
       es: 'Aceptación de los términos',
       ru: 'Принятие условий',
@@ -26,6 +29,7 @@ const termsContent = {
     }),
     welcome: t({
       en: 'Welcome to SocialNetwork.',
+      he: 'ברוכים הבאים ל־SocialNetwork.',
       fr: 'Bienvenue sur SocialNetwork.',
       es: 'Bienvenido a SocialNetwork.',
       ru: 'Добро пожаловать в SocialNetwork.',
@@ -33,13 +37,15 @@ const termsContent = {
     }),
     acceptanceText: t({
       en: 'By accessing or using the SocialNetwork application, website, or any related services (collectively, the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not use the Service.',
-      fr: "En accédant ou en utilisant l'application SocialNetwork, le site web ou tout service associé (collectivement, le \"Service\"), vous acceptez d'être lié par ces Conditions d'utilisation (les \"Conditions\"). Si vous n'acceptez pas ces Conditions, vous ne pouvez pas utiliser le Service.",
+      he: 'בעת גישה או שימוש באפליקציית SocialNetwork, באתר או בכל שירות קשור (ביחד, "השירות"), אתה מסכים להיות כפוף לתנאי שימוש אלה ("התנאים"). אם אינך מסכים לתנאים אלה, אינך רשאי להשתמש בשירות.',
+      fr: 'En accédant ou en utilisant l\'application SocialNetwork, le site web ou tout service associé (collectivement, le "Service"), vous acceptez d\'être lié par ces Conditions d\'utilisation (les "Conditions"). Si vous n\'acceptez pas ces Conditions, vous ne pouvez pas utiliser le Service.',
       es: 'Al acceder o utilizar la aplicación SocialNetwork, el sitio web o cualquier servicio relacionado (colectivamente, el "Servicio"), usted acepta quedar sujeto a estos Términos del servicio ("Términos"). Si no está de acuerdo con estos Términos, no puede usar el Servicio.',
       ru: 'Получая доступ к приложению SocialNetwork, сайту или любым связанным сервисам (далее — "Сервис"), вы соглашаетесь соблюдать эти Условия использования ("Условия"). Если вы не согласны с Условиями, вы не можете использовать Сервис.',
-      it: "Accedendo o utilizzando l'applicazione SocialNetwork, il sito web o qualsiasi servizio correlato (collettivamente, il \"Servizio\"), accetti di essere vincolato da questi Termini di servizio (i \"Termini\"). Se non accetti questi Termini, non puoi utilizzare il Servizio.",
+      it: 'Accedendo o utilizzando l\'applicazione SocialNetwork, il sito web o qualsiasi servizio correlato (collettivamente, il "Servizio"), accetti di essere vincolato da questi Termini di servizio (i "Termini"). Se non accetti questi Termini, non puoi utilizzare il Servizio.',
     }),
     eligibilityTitle: t({
       en: 'Eligibility',
+      he: 'כשירות',
       fr: 'Éligibilité',
       es: 'Elegibilidad',
       ru: 'Право на использование',
@@ -47,13 +53,15 @@ const termsContent = {
     }),
     eligibilityText: t({
       en: 'You must be at least 13 years old to use SocialNetwork. By using the Service, you confirm that you have the legal capacity to enter into this agreement.',
-      fr: "Vous devez avoir au moins 13 ans pour utiliser SocialNetwork. En utilisant le Service, vous confirmez que vous avez la capacité juridique de conclure cet accord.",
+      he: 'עליך להיות לפחות בן/בת 13 כדי להשתמש ב‑SocialNetwork. בשימוש בשירות אתה מאשר שיש לך את הכשירות המשפטית להתקשר בהסכם זה.',
+      fr: 'Vous devez avoir au moins 13 ans pour utiliser SocialNetwork. En utilisant le Service, vous confirmez que vous avez la capacité juridique de conclure cet accord.',
       es: 'Debe tener al menos 13 años para usar SocialNetwork. Al usar el Servicio, confirma que tiene la capacidad legal para celebrar este acuerdo.',
       ru: 'Для использования SocialNetwork вам должно быть не менее 13 лет. Используя Сервис, вы подтверждаете, что обладаете необходимой правоспособностью для заключения этого соглашения.',
       it: 'Devi avere almeno 13 anni per usare SocialNetwork. Utilizzando il Servizio, confermi di avere la capacità legale per concludere questo accordo.',
     }),
     accountsTitle: t({
       en: 'User Accounts',
+      he: 'חשבונות משתמש',
       fr: 'Comptes utilisateurs',
       es: 'Cuentas de usuario',
       ru: 'Учетные записи пользователей',
@@ -61,6 +69,7 @@ const termsContent = {
     }),
     accountsText: t({
       en: 'To access certain features of the Service, you must create an account.',
+      he: 'כדי לגשת לתכונות מסוימות של השירות, עליך ליצור חשבון.',
       fr: 'Pour accéder à certaines fonctionnalités du Service, vous devez créer un compte.',
       es: 'Para acceder a ciertas funciones del Servicio, debe crear una cuenta.',
       ru: 'Чтобы получить доступ к определенным функциям Сервиса, необходимо создать учетную запись.',
@@ -68,6 +77,7 @@ const termsContent = {
     }),
     accountsItem1: t({
       en: 'You agree to provide accurate and current information',
+      he: 'אתה מסכים לספק מידע מדויק ועדכני',
       fr: 'Vous acceptez de fournir des informations exactes et à jour',
       es: 'Usted acepta proporcionar información precisa y actualizada',
       ru: 'Вы соглашаетесь предоставлять точную и актуальную информацию',
@@ -75,6 +85,7 @@ const termsContent = {
     }),
     accountsItem2: t({
       en: 'You are responsible for maintaining the confidentiality of your account',
+      he: 'אתה אחראי לשמור על סודיות החשבון שלך',
       fr: 'Vous êtes responsable de la confidentialité de votre compte',
       es: 'Usted es responsable de mantener la confidencialidad de su cuenta',
       ru: 'Вы несете ответственность за конфиденциальность своей учетной записи',
@@ -82,6 +93,7 @@ const termsContent = {
     }),
     accountsItem3: t({
       en: 'You accept responsibility for all activities that occur under your account',
+      he: 'אתה מקבל אחריות לכל הפעילויות המתבצעות תחת חשבונך',
       fr: 'Vous assumez la responsabilité de toutes les activités effectuées sous votre compte',
       es: 'Usted acepta responsabilidad por todas las actividades que ocurran en su cuenta',
       ru: 'Вы принимаете ответственность за все действия, выполняемые под вашей учетной записью',
@@ -89,6 +101,7 @@ const termsContent = {
     }),
     acceptableTitle: t({
       en: 'Acceptable Use',
+      he: 'שימוש מותר',
       fr: 'Utilisation acceptable',
       es: 'Uso aceptable',
       ru: 'Допустимое использование',
@@ -96,6 +109,7 @@ const termsContent = {
     }),
     acceptableText: t({
       en: 'You agree not to misuse the Service. Prohibited activities include, but are not limited to:',
+      he: 'אתה מסכים לא לעשות שימוש לרעה בשירות. פעילויות אסורות כוללות, בין היתר:',
       fr: 'Vous vous engagez à ne pas utiliser le Service de manière abusive. Les activités interdites incluent, sans s’y limiter :',
       es: 'Usted acepta no hacer un uso indebido del Servicio. Las actividades prohibidas incluyen, entre otras:',
       ru: 'Вы соглашаетесь не злоупотреблять Сервисом. К запрещенным действиям относятся, помимо прочего:',
@@ -103,6 +117,7 @@ const termsContent = {
     }),
     acceptableItem1: t({
       en: 'Violating any applicable laws or regulations',
+      he: 'הפרת חוקים או תקנות חלים',
       fr: 'Enfreindre les lois ou règlements applicables',
       es: 'Violar leyes o regulaciones aplicables',
       ru: 'Нарушение применимых законов и нормативных актов',
@@ -110,6 +125,7 @@ const termsContent = {
     }),
     acceptableItem2: t({
       en: 'Posting illegal, abusive, hateful, or harmful content',
+      he: 'פרסום תוכן בלתי חוקי, פוגעני, שונא או מזיק',
       fr: 'Publier du contenu illégal, abusif, haineux ou nuisible',
       es: 'Publicar contenido ilegal, abusivo, de odio o dañino',
       ru: 'Публикация незаконного, оскорбительного, разжигающего ненависть или вредоносного контента',
@@ -117,6 +133,7 @@ const termsContent = {
     }),
     acceptableItem3: t({
       en: 'Impersonating another person or entity',
+      he: 'התחזות לאדם או לגוף אחר',
       fr: 'Usurper l’identité d’une personne ou d’une entité',
       es: 'Suplantar a otra persona o entidad',
       ru: 'Выдача себя за другое лицо или организацию',
@@ -124,6 +141,7 @@ const termsContent = {
     }),
     acceptableItem4: t({
       en: 'Distributing spam, malware, or malicious software',
+      he: 'הפצת ספאם, תוכנות זדוניות או תוכנה מזיקה',
       fr: 'Distribuer du spam, des malwares ou des logiciels malveillants',
       es: 'Distribuir spam, malware o software malicioso',
       ru: 'Распространение спама, вредоносного ПО или вредоносных программ',
@@ -131,6 +149,7 @@ const termsContent = {
     }),
     acceptableItem5: t({
       en: 'Attempting to disrupt or compromise the Service',
+      he: 'ניסיון לשבש או לפגוע בשירות',
       fr: 'Tenter de perturber ou de compromettre le Service',
       es: 'Intentar interrumpir o comprometer el Servicio',
       ru: 'Попытки нарушить работу или безопасность Сервиса',
@@ -138,6 +157,7 @@ const termsContent = {
     }),
     userContentTitle: t({
       en: 'User Content',
+      he: 'תוכן משתמש',
       fr: 'Contenu utilisateur',
       es: 'Contenido del usuario',
       ru: 'Пользовательский контент',
@@ -145,6 +165,7 @@ const termsContent = {
     }),
     userContentText1: t({
       en: 'SocialNetwork allows users to post content such as photos, videos, text, and comments ("User Content").',
+      he: 'SocialNetwork מאפשר למשתמשים לפרסם תוכן כגון תמונות, סרטונים, טקסטים ותגובות ("תוכן משתמש").',
       fr: 'SocialNetwork permet aux utilisateurs de publier du contenu tel que des photos, vidéos, textes et commentaires ("Contenu utilisateur").',
       es: 'SocialNetwork permite a los usuarios publicar contenido como fotos, videos, texto y comentarios ("Contenido del usuario").',
       ru: 'SocialNetwork позволяет пользователям публиковать контент, такой как фото, видео, текст и комментарии ("Пользовательский контент").',
@@ -152,6 +173,7 @@ const termsContent = {
     }),
     userContentText2: t({
       en: 'You retain ownership of your content. By posting content, you grant SocialNetwork a non-exclusive, worldwide, royalty-free license to host, display, reproduce, and distribute your content within the Service.',
+      he: 'אתה שומר על הבעלות על התוכן שלך. בפרסום תוכן אתה מעניק ל‑SocialNetwork רישיון לא בלעדי, עולמי וללא תמלוגים לאחסן, להציג, לשכפל ולהפיץ את התוכן שלך במסגרת השירות.',
       fr: 'Vous conservez la propriété de votre contenu. En publiant du contenu, vous accordez à SocialNetwork une licence non exclusive, mondiale et sans redevance pour héberger, afficher, reproduire et distribuer votre contenu dans le Service.',
       es: 'Usted mantiene la propiedad de su contenido. Al publicar contenido, otorga a SocialNetwork una licencia no exclusiva, mundial y libre de regalías para alojar, mostrar, reproducir y distribuir su contenido en el Servicio.',
       ru: 'Вы сохраняете права на свой контент. Размещая контент, вы предоставляете SocialNetwork неисключительную, всемирную и безвозмездную лицензию на хранение, отображение, воспроизведение и распространение вашего контента в рамках Сервиса.',
@@ -159,6 +181,7 @@ const termsContent = {
     }),
     userContentText3: t({
       en: 'You are solely responsible for the content you post.',
+      he: 'אתה אחראי בלעדית לתוכן שאתה מפרסם.',
       fr: 'Vous êtes seul responsable du contenu que vous publiez.',
       es: 'Usted es el único responsable del contenido que publica.',
       ru: 'Вы несете полную ответственность за контент, который публикуете.',
@@ -166,6 +189,7 @@ const termsContent = {
     }),
     ipTitle: t({
       en: 'Intellectual Property',
+      he: 'קניין רוחני',
       fr: 'Propriété intellectuelle',
       es: 'Propiedad intelectual',
       ru: 'Интеллектуальная собственность',
@@ -173,6 +197,7 @@ const termsContent = {
     }),
     ipText1: t({
       en: 'All content and materials provided by SocialNetwork, excluding User Content, including software, design, logos, and trademarks, are the property of SocialNetwork.',
+      he: 'כל התוכן והחומרים המסופקים על ידי SocialNetwork, למעט תוכן משתמש, לרבות תוכנה, עיצוב, לוגואים וסימני מסחר, הם רכושה של SocialNetwork.',
       fr: 'Tous les contenus et matériels fournis par SocialNetwork, à l’exclusion du Contenu utilisateur, y compris les logiciels, le design, les logos et les marques, sont la propriété de SocialNetwork.',
       es: 'Todos los contenidos y materiales proporcionados por SocialNetwork, excluyendo el Contenido del usuario, incluyendo software, diseño, logotipos y marcas, son propiedad de SocialNetwork.',
       ru: 'Все содержимое и материалы, предоставляемые SocialNetwork, за исключением Пользовательского контента, включая программное обеспечение, дизайн, логотипы и товарные знаки, являются собственностью SocialNetwork.',
@@ -180,6 +205,7 @@ const termsContent = {
     }),
     ipText2: t({
       en: 'You may not copy, modify, or distribute any part of the Service without prior written permission.',
+      he: 'אין להעתיק, לשנות או להפיץ כל חלק מהשירות ללא אישור כתוב מראש.',
       fr: 'Vous ne pouvez pas copier, modifier ou distribuer une quelconque partie du Service sans autorisation écrite préalable.',
       es: 'No puede copiar, modificar o distribuir ninguna parte del Servicio sin autorización previa por escrito.',
       ru: 'Вы не можете копировать, изменять или распространять любую часть Сервиса без предварительного письменного разрешения.',
@@ -187,6 +213,7 @@ const termsContent = {
     }),
     terminationTitle: t({
       en: 'Termination',
+      he: 'סיום',
       fr: 'Résiliation',
       es: 'Terminación',
       ru: 'Прекращение доступа',
@@ -194,6 +221,7 @@ const termsContent = {
     }),
     terminationText: t({
       en: 'We reserve the right to suspend or terminate your account at any time if you violate these Terms or engage in behavior that harms the Service or other users.',
+      he: 'אנו שומרים לעצמנו את הזכות להשעות או לסיים את חשבונך בכל עת אם תפר את התנאים או תפעל באופן הפוגע בשירות או במשתמשים אחרים.',
       fr: 'Nous nous réservons le droit de suspendre ou de résilier votre compte à tout moment si vous violez ces Conditions ou adoptez un comportement qui nuit au Service ou aux autres utilisateurs.',
       es: 'Nos reservamos el derecho de suspender o terminar su cuenta en cualquier momento si viola estos Términos o participa en conductas que dañen el Servicio o a otros usuarios.',
       ru: 'Мы оставляем за собой право приостановить или прекратить ваш аккаунт в любое время, если вы нарушаете эти Условия или наносите вред Сервису или другим пользователям.',
@@ -201,6 +229,7 @@ const termsContent = {
     }),
     warrantyTitle: t({
       en: 'Disclaimer of Warranties',
+      he: 'ויתור על אחריות',
       fr: 'Exclusion de garanties',
       es: 'Descargo de garantías',
       ru: 'Отказ от гарантий',
@@ -208,6 +237,7 @@ const termsContent = {
     }),
     warrantyText: t({
       en: 'The Service is provided on an "AS IS" and "AS AVAILABLE" basis. We make no warranties regarding availability, reliability, or accuracy.',
+      he: 'השירות מסופק על בסיס "כמות שהוא" ו"כפי שזמין". איננו נותנים אחריות לגבי זמינות, אמינות או דיוק.',
       fr: 'Le Service est fourni « TEL QUEL » et « TEL QUE DISPONIBLE ». Nous ne donnons aucune garantie quant à la disponibilité, la fiabilité ou l’exactitude.',
       es: 'El Servicio se proporciona "TAL CUAL" y "SEGÚN DISPONIBILIDAD". No ofrecemos garantías sobre la disponibilidad, fiabilidad o exactitud.',
       ru: 'Сервис предоставляется на условиях "КАК ЕСТЬ" и "КАК ДОСТУПНО". Мы не даем гарантий относительно доступности, надежности или точности.',
@@ -215,6 +245,7 @@ const termsContent = {
     }),
     liabilityTitle: t({
       en: 'Limitation of Liability',
+      he: 'הגבלת אחריות',
       fr: 'Limitation de responsabilité',
       es: 'Limitación de responsabilidad',
       ru: 'Ограничение ответственности',
@@ -222,13 +253,15 @@ const termsContent = {
     }),
     liabilityText: t({
       en: 'To the maximum extent permitted by law, SocialNetwork shall not be liable for any indirect, incidental, or consequential damages arising from your use of the Service.',
-      fr: "Dans la mesure maximale permise par la loi, SocialNetwork ne sera pas responsable des dommages indirects, accessoires ou consécutifs résultant de votre utilisation du Service.",
+      he: 'במידה המרבית המותרת בחוק, SocialNetwork לא תהיה אחראית לכל נזק עקיף, מקרי או תוצאתי הנובע מהשימוש שלך בשירות.',
+      fr: 'Dans la mesure maximale permise par la loi, SocialNetwork ne sera pas responsable des dommages indirects, accessoires ou consécutifs résultant de votre utilisation du Service.',
       es: 'En la máxima medida permitida por la ley, SocialNetwork no será responsable de ningún daño indirecto, incidental o consecuente derivado de su uso del Servicio.',
       ru: 'В максимально допустимой законом степени SocialNetwork не несет ответственности за любые косвенные, случайные или последующие убытки, возникающие в связи с использованием Сервиса.',
       it: 'Nella massima misura consentita dalla legge, SocialNetwork non sarà responsabile di danni indiretti, incidentali o consequenziali derivanti dall’uso del Servizio.',
     }),
     privacyTitle: t({
       en: 'Privacy Policy',
+      he: 'מדיניות פרטיות',
       fr: 'Politique de confidentialité',
       es: 'Política de privacidad',
       ru: 'Политика конфиденциальности',
@@ -236,6 +269,7 @@ const termsContent = {
     }),
     privacyText: t({
       en: 'Your use of the Service is also governed by our Privacy Policy, which explains how we collect and process personal data.',
+      he: 'השימוש בשירות כפוף גם למדיניות הפרטיות שלנו, המסבירה כיצד אנו אוספים ומעבדים נתונים אישיים.',
       fr: 'Votre utilisation du Service est également régie par notre Politique de confidentialité, qui explique comment nous collectons et traitons les données personnelles.',
       es: 'Su uso del Servicio también está regido por nuestra Política de privacidad, que explica cómo recopilamos y procesamos los datos personales.',
       ru: 'Использование Сервиса также регулируется нашей Политикой конфиденциальности, которая объясняет, как мы собираем и обрабатываем персональные данные.',
@@ -243,6 +277,7 @@ const termsContent = {
     }),
     changesTitle: t({
       en: 'Changes to These Terms',
+      he: 'שינויים בתנאים אלה',
       fr: 'Modifications de ces conditions',
       es: 'Cambios en estos términos',
       ru: 'Изменения условий',
@@ -250,6 +285,7 @@ const termsContent = {
     }),
     changesText: t({
       en: 'We may update these Terms from time to time. Continued use of the Service after changes indicates acceptance of the updated Terms.',
+      he: 'ייתכן שנעדכן תנאים אלה מעת לעת. המשך השימוש בשירות לאחר השינויים מציין קבלת התנאים המעודכנים.',
       fr: 'Nous pouvons mettre à jour ces conditions de temps à autre. L’utilisation continue du Service après des modifications indique l’acceptation des conditions mises à jour.',
       es: 'Podemos actualizar estos Términos de vez en cuando. El uso continuado del Servicio después de los cambios indica la aceptación de los Términos actualizados.',
       ru: 'Мы можем время от времени обновлять эти Условия. Продолжение использования Сервиса после изменений означает принятие обновленных Условий.',
@@ -257,6 +293,7 @@ const termsContent = {
     }),
     lawTitle: t({
       en: 'Governing Law',
+      he: 'דין חל',
       fr: 'Droit applicable',
       es: 'Ley aplicable',
       ru: 'Применимое право',
@@ -264,6 +301,7 @@ const termsContent = {
     }),
     lawText: t({
       en: 'These Terms shall be governed and interpreted in accordance with applicable laws.',
+      he: 'תנאים אלה יפורשו ויוסדרו בהתאם לדינים החלים.',
       fr: 'Ces conditions sont régies et interprétées conformément aux lois applicables.',
       es: 'Estos Términos se regirán e interpretarán de acuerdo con las leyes aplicables.',
       ru: 'Эти Условия регулируются и толкуются в соответствии с применимым законодательством.',
@@ -271,6 +309,7 @@ const termsContent = {
     }),
     contactTitle: t({
       en: 'Contact Us',
+      he: 'יצירת קשר',
       fr: 'Contactez-nous',
       es: 'Contáctenos',
       ru: 'Связаться с нами',
@@ -278,6 +317,7 @@ const termsContent = {
     }),
     contactText: t({
       en: 'If you have any questions about these Terms, please contact us at:',
+      he: 'אם יש לך שאלות לגבי תנאים אלה, אנא צור קשר ב:',
       fr: 'Si vous avez des questions sur ces conditions, contactez-nous à :',
       es: 'Si tiene preguntas sobre estos términos, contáctenos en:',
       ru: 'Если у вас есть вопросы по этим Условиям, свяжитесь с нами:',
@@ -285,6 +325,7 @@ const termsContent = {
     }),
     emailLabel: t({
       en: 'Email:',
+      he: 'אימייל:',
       fr: 'E-mail :',
       es: 'Correo:',
       ru: 'Email:',

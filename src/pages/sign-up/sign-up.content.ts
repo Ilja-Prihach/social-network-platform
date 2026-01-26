@@ -5,6 +5,7 @@ const signUpContent = {
   content: {
     title: t({
       en: 'Sign Up',
+      he: 'הירשם',
       fr: "S'inscrire",
       es: 'Registrarse',
       ru: 'Регистрация',
@@ -12,6 +13,7 @@ const signUpContent = {
     }),
     hasAccount: t({
       en: 'Do you have an account?',
+      he: 'יש לך חשבון?',
       fr: 'Vous avez déjà un compte ?',
       es: '¿Ya tienes una cuenta?',
       ru: 'У вас уже есть аккаунт?',
@@ -19,6 +21,7 @@ const signUpContent = {
     }),
     signIn: t({
       en: 'Sign In',
+      he: 'התחבר',
       fr: 'Se connecter',
       es: 'Iniciar sesión',
       ru: 'Войти',

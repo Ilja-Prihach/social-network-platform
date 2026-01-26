@@ -5,6 +5,7 @@ const signInFormContent = {
   content: {
     emailLabel: t({
       en: 'Email',
+      he: 'אימייל',
       fr: 'E-mail',
       es: 'Correo',
       ru: 'Email',
@@ -12,6 +13,7 @@ const signInFormContent = {
     }),
     emailPlaceholder: t({
       en: 'Email',
+      he: 'אימייל',
       fr: 'E-mail',
       es: 'Correo',
       ru: 'Email',
@@ -19,6 +21,7 @@ const signInFormContent = {
     }),
     emailRequired: t({
       en: 'Email is required',
+      he: 'נדרש אימייל',
       fr: "L'e-mail est obligatoire",
       es: 'El correo es obligatorio',
       ru: 'Email обязателен',
@@ -26,6 +29,7 @@ const signInFormContent = {
     }),
     emailInvalid: t({
       en: 'Invalid email',
+      he: 'אימייל לא תקין',
       fr: 'E-mail invalide',
       es: 'Correo inválido',
       ru: 'Некорректный email',
@@ -33,6 +37,7 @@ const signInFormContent = {
     }),
     passwordLabel: t({
       en: 'Password',
+      he: 'סיסמה',
       fr: 'Mot de passe',
       es: 'Contraseña',
       ru: 'Пароль',
@@ -40,6 +45,7 @@ const signInFormContent = {
     }),
     passwordPlaceholder: t({
       en: 'Password',
+      he: 'סיסמה',
       fr: 'Mot de passe',
       es: 'Contraseña',
       ru: 'Пароль',
@@ -47,6 +53,7 @@ const signInFormContent = {
     }),
     passwordRequired: t({
       en: 'Password is required',
+      he: 'נדרשת סיסמה',
       fr: 'Le mot de passe est obligatoire',
       es: 'La contraseña es obligatoria',
       ru: 'Пароль обязателен',
@@ -54,6 +61,7 @@ const signInFormContent = {
     }),
     passwordMin: t({
       en: 'Minimum 6 characters',
+      he: 'מינימום 6 תווים',
       fr: 'Minimum 6 caractères',
       es: 'Mínimo 6 caracteres',
       ru: 'Минимум 6 символов',
@@ -61,6 +69,7 @@ const signInFormContent = {
     }),
     forgotPassword: t({
       en: 'Forgot Password',
+      he: 'שכחת סיסמה',
       fr: 'Mot de passe oublié',
       es: 'Olvidé mi contraseña',
       ru: 'Забыли пароль',
@@ -68,6 +77,7 @@ const signInFormContent = {
     }),
     signIn: t({
       en: 'Sign In',
+      he: 'התחבר',
       fr: 'Se connecter',
       es: 'Iniciar sesión',
       ru: 'Войти',

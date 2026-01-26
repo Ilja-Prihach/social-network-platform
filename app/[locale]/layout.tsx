@@ -23,12 +23,10 @@ export default async function LocaleLayout({
   const p = await params;
   const locale = p.locale;
   return (
-    <html lang={locale} dir={getHTMLTextDir(locale)} className={inter.variable}>
-      <body>
-        <IntlayerClientProvider locale={locale}>
-          <AppShell>{children}</AppShell>
-        </IntlayerClientProvider>
-      </body>
-    </html>
+    <IntlayerClientProvider locale={locale}>
+      <div lang={locale} dir={getHTMLTextDir(locale)} className={inter.variable}>
+        <AppShell>{children}</AppShell>
+      </div>
+    </IntlayerClientProvider>
   );
 }

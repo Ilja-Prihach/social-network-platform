@@ -39,3 +39,7 @@
   justify-content: center;
   white-space: nowrap;
 }
+
+:dir(rtl) .actions {
+  direction: ltr;
+}

@@ -5,6 +5,7 @@ const signUpFormContent = {
   content: {
     userName: t({
       en: 'Username',
+      he: 'שם משתמש',
       fr: "Nom d'utilisateur",
       es: 'Nombre de usuario',
       ru: 'Имя пользователя',
@@ -12,6 +13,7 @@ const signUpFormContent = {
     }),
     email: t({
       en: 'Email',
+      he: 'אימייל',
       fr: 'E-mail',
       es: 'Correo',
       ru: 'Email',
@@ -19,6 +21,7 @@ const signUpFormContent = {
     }),
     password: t({
       en: 'Password',
+      he: 'סיסמה',
       fr: 'Mot de passe',
       es: 'Contraseña',
       ru: 'Пароль',
@@ -26,6 +29,7 @@ const signUpFormContent = {
     }),
     passwordConfirm: t({
       en: 'Password confirmation',
+      he: 'אימות סיסמה',
       fr: 'Confirmation du mot de passe',
       es: 'Confirmación de contraseña',
       ru: 'Подтверждение пароля',
@@ -33,6 +37,7 @@ const signUpFormContent = {
     }),
     agreePrefix: t({
       en: 'I agree to the',
+      he: 'אני מסכים/ה ל',
       fr: "J'accepte les",
       es: 'Acepto los',
       ru: 'Я согласен(на) с',
@@ -40,6 +45,7 @@ const signUpFormContent = {
     }),
     terms: t({
       en: 'Terms of Service',
+      he: 'תנאי שימוש',
       fr: "Conditions d'utilisation",
       es: 'Términos del servicio',
       ru: 'Условия использования',
@@ -47,6 +53,7 @@ const signUpFormContent = {
     }),
     privacy: t({
       en: 'Privacy Policy',
+      he: 'מדיניות פרטיות',
       fr: 'Politique de confidentialité',
       es: 'Política de privacidad',
       ru: 'Политика конфиденциальности',
@@ -54,6 +61,7 @@ const signUpFormContent = {
     }),
     signUp: t({
       en: 'Sign Up',
+      he: 'הירשם',
       fr: "S'inscrire",
       es: 'Registrarse',
       ru: 'Зарегистрироваться',
@@ -61,6 +69,7 @@ const signUpFormContent = {
     }),
     userNameRequired: t({
       en: 'Username required',
+      he: 'נדרש שם משתמש',
       fr: "Nom d'utilisateur obligatoire",
       es: 'Se requiere nombre de usuario',
       ru: 'Имя пользователя обязательно',
@@ -68,6 +77,7 @@ const signUpFormContent = {
     }),
     invalidEmail: t({
       en: 'Invalid email',
+      he: 'אימייל לא תקין',
       fr: 'E-mail invalide',
       es: 'Correo inválido',
       ru: 'Некорректный email',
@@ -75,6 +85,7 @@ const signUpFormContent = {
     }),
     passwordMin: t({
       en: 'Min 6 chars',
+      he: 'מינימום 6 תווים',
       fr: 'Min 6 caractères',
       es: 'Mínimo 6 caracteres',
       ru: 'Минимум 6 символов',
@@ -82,6 +93,7 @@ const signUpFormContent = {
     }),
     passwordMismatch: t({
       en: 'Passwords do not match',
+      he: 'הסיסמאות אינן תואמות',
       fr: 'Les mots de passe ne correspondent pas',
       es: 'Las contraseñas no coinciden',
       ru: 'Пароли не совпадают',

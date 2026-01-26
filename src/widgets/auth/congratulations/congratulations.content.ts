@@ -5,6 +5,7 @@ const congratulationsContent = {
   content: {
     title: t({
       en: 'Congratulations!',
+      he: 'מזל טוב!',
       fr: 'Félicitations !',
       es: '¡Felicidades!',
       ru: 'Поздравляем!',
@@ -12,6 +13,7 @@ const congratulationsContent = {
     }),
     description: t({
       en: 'Your email has been confirmed',
+      he: 'האימייל שלך אומת',
       fr: 'Votre e-mail a été confirmé',
       es: 'Tu correo ha sido confirmado',
       ru: 'Ваш email подтверждён',
@@ -19,6 +21,7 @@ const congratulationsContent = {
     }),
     signIn: t({
       en: 'Sign In',
+      he: 'התחבר',
       fr: 'Se connecter',
       es: 'Iniciar sesión',
       ru: 'Войти',
@@ -26,6 +29,7 @@ const congratulationsContent = {
     }),
     imageAlt: t({
       en: 'Congratulations',
+      he: 'מזל טוב',
       fr: 'Félicitations',
       es: 'Felicidades',
       ru: 'Поздравления',
