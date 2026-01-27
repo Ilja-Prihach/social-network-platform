@@ -2,26 +2,30 @@
 
 import { Button } from '@/shared/ui/Button';
 import styles from './EmailVerificationExpired.module.scss';
+import { useDictionary } from 'next-intlayer';
+import emailVerificationExpiredContent from '../email-verification-expired.content';
 
 type Props = {
   onResendAction: () => void; // Server Action или client callback
 };
 
 export const EmailVerificationExpired = ({ onResendAction }: Props) => {
+  const content = useDictionary(emailVerificationExpiredContent);
+
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Email verification link expired</h2>
+      <h2 className={styles.title}>{content.title}</h2>
 
       <p className={styles.text}>
-        Looks like the verification link has expired. Not to worry, we can send the link again
+        {content.description}
       </p>
 
       <Button className={styles.button} variant="primary" onClick={onResendAction}>
-        Resend link
+        {content.resend}
       </Button>
 
       <div className={styles.image_placeholder}>
-        <span>Image 473x352</span>
+        <span>{content.imagePlaceholder}</span>
       </div>
     </div>
   );

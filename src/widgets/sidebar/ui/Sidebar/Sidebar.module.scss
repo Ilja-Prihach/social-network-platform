@@ -49,3 +49,12 @@
   color: var(--light-100-color) !important;
   outline: 1px solid var(--accent-700-color);
 }
+
+:dir(rtl) .sidebar {
+  padding: 72px 60px 36px 0;
+}
+
+:dir(rtl) .sidebar span {
+  padding-left: 0;
+  padding-right: 12px;
+}

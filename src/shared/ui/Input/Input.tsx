@@ -10,6 +10,7 @@ export type InputProps = {
   disabled?: boolean;
   placeholder?: string;
   error?: string;
+  dir?: 'ltr' | 'rtl';
 
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -26,6 +27,7 @@ export const Input = ({
   disabled = false,
   placeholder,
   error,
+  dir = 'ltr',
   leftIcon,
   rightIcon,
   onLeftIconClick,
@@ -82,6 +84,7 @@ export const Input = ({
           disabled={disabled}
           value={value}
           onChange={handleChange}
+          dir={dir}
         />
 
         {rightIcon && (

@@ -7,7 +7,7 @@ import { Button } from '@/shared/ui/Button';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { Select } from '@/shared/ui/Select/Select';
 import { Header } from '@/widgets/header/ui/Header';
-import { LanguageSelect } from '@/shared/ui/Select/LanguageSelect/LanguageSelect';
+import { LanguageSelect } from '@/features/i18n/LanguageSelect/LanguageSelect';
 
 type HomePageClientProps = {
   postId?: string;

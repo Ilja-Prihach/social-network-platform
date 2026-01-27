@@ -8,6 +8,8 @@ import { Button } from '@/shared/ui/Button';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { useResendVerification } from '@/features/emailVerification/model/useResendVerification';
 import { useRecoverPassword } from '@/features/auth/forgot-password/model/useRecoverPassword';
+import { useDictionary } from 'next-intlayer';
+import emailVerificationContent from '../email-verification.content';
 
 type Variant = 'sign-up' | 'password-recovery';
 
@@ -19,6 +21,7 @@ type Props = {
 const STORAGE_KEY = 'forgotPasswordEmail';
 
 export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
+  const content = useDictionary(emailVerificationContent);
   const searchParams = useSearchParams();
   const [email, setEmail] = useState(emailProp ?? '');
 
@@ -48,15 +51,15 @@ export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
 
     const mutation = isSignUp ? resendVerification : resendRecovery;
     const successMessage = isSignUp
-      ? `We have sent a link to confirm your email to ${nextEmail}`
-      : `We have sent a password recovery link to ${nextEmail}`;
+      ? `${content.confirmEmailPrefix.value} ${nextEmail}`
+      : `${content.recoveryPrefix.value} ${nextEmail}`;
 
     mutation(nextEmail, {
       onSuccess: () => {
         showModal({
-          title: 'Email sent',
+          title: content.modalTitle.value,
           description: successMessage,
-          confirmText: 'OK',
+          confirmText: content.ok.value,
         });
 
         if (isSignUp) {
@@ -65,15 +68,15 @@ export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
       },
       onError: (error) => {
         showModal({
-          title: 'Error',
+          title: content.errorTitle.value,
           description: (error as Error).message,
-          confirmText: 'OK',
+          confirmText: content.ok.value,
         });
       },
     });
   };
 
-  const title = isSignUp ? 'Email verification link expired' : 'Password Recovery';
+  const title = isSignUp ? content.titleSignUp : content.titleRecovery;
 
   return (
     <section className={styles.page}>
@@ -81,14 +84,14 @@ export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
         <div className={styles.verif}>
           <h2 className={styles.verif_title}>{title}</h2>
           <p className={styles.verif_text}>
-            Looks like the verification link has expired. Not to worry, we can send the link again
+            {content.description}
           </p>
           <div className={styles.verification}>
             {isSignUp && (
               <Input
                 type="text"
-                placeholder="Epam@epam.com"
-                label="Email"
+                placeholder={content.emailPlaceholder.value}
+                label={content.emailLabel.value}
                 value={email}
                 onChange={setEmail}
               />
@@ -100,14 +103,14 @@ export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
               disabled={isDisabled}
               onClick={handleResend}
             >
-              Resend verification link
+              {content.resend}
             </Button>
           </div>
           <div className={styles.verif_resend}></div>
           <div className={styles.verif_image}>
             <img
               src="/email-verification.svg"
-              alt="Resend verification"
+              alt={content.imageAlt.value}
               className={styles.verif_img}
             />
           </div>

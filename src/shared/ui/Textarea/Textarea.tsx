@@ -7,6 +7,7 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
   error?: boolean;
   errorMessage?: string;
   className?: string;
+  dir?: 'ltr' | 'rtl';
 }
 
 export const Textarea: React.FC<TextareaProps> = ({
@@ -18,6 +19,7 @@ export const Textarea: React.FC<TextareaProps> = ({
   className = '',
   id,
   placeholder = 'Введите текст...',
+  dir = 'ltr',
   ...textareaProps
 }) => {
   // Используем useId для генерации стабильного уникального ID
@@ -51,6 +53,7 @@ export const Textarea: React.FC<TextareaProps> = ({
           aria-invalid={error}
           aria-describedby={showHelper ? `${textareaId}-helper` : undefined}
           placeholder={placeholder}
+          dir={dir}
           {...textareaProps}
         />
       </div>

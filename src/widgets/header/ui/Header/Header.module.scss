@@ -27,3 +27,19 @@
   display: flex;
   gap: 5px;
 }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.action_button {
+  min-width: 110px;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+:dir(rtl) .actions {
+  direction: ltr;
+}

@@ -10,10 +10,13 @@ import styles from './RequestPasswordResetForm.module.scss';
 import { Input } from '@/shared/ui/Input';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { useRecoverPassword } from '@/features/auth/forgot-password/model/useRecoverPassword';
+import { useDictionary } from 'next-intlayer';
+import requestPasswordResetContent from '../request-password-reset.content';
 
 const STORAGE_KEY = 'forgotPasswordEmail';
 
 export function RequestPasswordResetForm() {
+  const content = useDictionary(requestPasswordResetContent);
   const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const isRecaptchaEnabled = Boolean(recaptchaSiteKey);
 
@@ -29,9 +32,9 @@ export function RequestPasswordResetForm() {
     mutate(email, {
       onSuccess: () => {
         showModal({
-          title: 'Email sent',
-          description: `We have sent a link to confirm your email to ${email}`,
-          confirmText: 'OK',
+          title: content.modalTitle.value,
+          description: `${content.sentPrefix.value} ${email}`,
+          confirmText: content.modalConfirm.value,
         });
 
         window.localStorage.setItem(STORAGE_KEY, email);
@@ -40,9 +43,9 @@ export function RequestPasswordResetForm() {
       },
       onError: (error) => {
         showModal({
-          title: 'Error',
+          title: content.errorTitle.value,
           description: (error as Error).message,
-          confirmText: 'OK',
+          confirmText: content.modalConfirm.value,
         });
       },
     });
@@ -50,28 +53,28 @@ export function RequestPasswordResetForm() {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <h2 className={styles.title}>Forgot Password</h2>
+      <h2 className={styles.title}>{content.title}</h2>
 
       <div className={styles.email_wrapper}>
         <Input
-          label="Email"
+          label={content.emailLabel.value}
           type="email"
-          placeholder="Enter your email"
+          placeholder={content.emailPlaceholder.value}
           value={email}
           onChange={setEmail}
         />
         <p className={styles.description}>
-          Enter your email and we will send you further instruction
+          {content.description}
         </p>
       </div>
 
       <div className={styles.button_wrapper}>
         <Button className={styles.button} variant="primary" type="submit" disabled={isDisabled}>
-          Send link
+          {content.sendLink}
         </Button>
 
         <Button href="/sign-in" variant="text">
-          Back to Sign In
+          {content.backToSignIn}
         </Button>
       </div>
       <div className={styles.recaptcha}>
