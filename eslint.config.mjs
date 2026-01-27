@@ -1,7 +1,7 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
-/*import importPlugin from 'eslint-plugin-import';*/
+import importPlugin from 'eslint-plugin-import';
 import boundaries from 'eslint-plugin-boundaries';
 
 export default defineConfig([
@@ -10,7 +10,7 @@ export default defineConfig([
 
   {
     plugins: {
-      /* import: importPlugin,*/
+      import: importPlugin,
       boundaries,
     },
 

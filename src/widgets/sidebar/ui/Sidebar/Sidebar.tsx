@@ -6,6 +6,7 @@ import { Icon } from '@/shared/ui/Icon';
 import { usePathname } from 'next/navigation';
 import { useDictionary } from 'next-intlayer';
 import sidebarContent from '../../sidebar.content';
+import { SignOutButton } from '@/features/auth/sign-out';
 
 export const Sidebar = () => {
   const pathname = usePathname();
@@ -54,13 +55,6 @@ export const Sidebar = () => {
     },
   ];
 
-  const logoutItem = {
-    href: '/sign-in',
-    label: content.logOut.value,
-    icon: 'log-out-outline',
-    iconActive: 'log-out-outline',
-  };
-
   const renderNavItem = (href: string, label: string, icon: string, iconActive: string) => {
     const isActive = pathname === href;
     // const isActive = true;
@@ -91,7 +85,13 @@ export const Sidebar = () => {
       </ul>
 
       <ul className={styles.sidebar_logout}>
-        {renderNavItem(logoutItem.href, logoutItem.label, logoutItem.icon, logoutItem.iconActive)}
+        <li>
+          <SignOutButton
+            label={content.logOut.value}
+            className={styles.sidebar_button}
+            iconClassName={styles.svg}
+          />
+        </li>
       </ul>
     </nav>
   );
