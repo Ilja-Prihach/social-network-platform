@@ -1,5 +1,5 @@
 import styles from './forgotPassword.module.scss';
-import { RequestPasswordResetForm } from '@/features/auth/forgot-password/RequestPasswordResetForm';
+import { RequestPasswordResetForm } from '@/features/auth/forgot-password/request-password-reset-form';
 
 export function ForgotPasswordWidget() {
   return (

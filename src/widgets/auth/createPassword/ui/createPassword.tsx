@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './createPassword.module.scss';
-import { CreatePasswordForm } from '@/features/auth/forgot-password/ResetPasswordForm';
+import { CreatePasswordForm } from '@/features/auth/forgot-password/reset-password-form';
 import { EmailVerificationExpired } from '@/features/emailVerification/ui/EmailVerificationExpired';
 import { useRecoverPassword } from '@/features/auth/forgot-password/model/useRecoverPassword';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';

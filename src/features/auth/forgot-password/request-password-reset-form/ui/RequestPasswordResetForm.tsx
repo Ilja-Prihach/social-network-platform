@@ -63,9 +63,7 @@ export function RequestPasswordResetForm() {
           value={email}
           onChange={setEmail}
         />
-        <p className={styles.description}>
-          {content.description}
-        </p>
+        <p className={styles.description}>{content.description}</p>
       </div>
 
       <div className={styles.button_wrapper}>

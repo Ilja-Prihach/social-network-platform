@@ -3,7 +3,7 @@
 import { Button } from '@/shared/ui/Button/Button';
 import { Icon } from '@/shared/ui/Icon/Icon';
 import styles from './Header.module.scss';
-import { LanguageSelect } from '@/features/i18n/LanguageSelect/LanguageSelect';
+import { LanguageSelect } from '@/features/i18n/language-select/ui/LanguageSelect';
 import { useDictionary } from 'next-intlayer';
 import headerContent from '../../header.content';
 
