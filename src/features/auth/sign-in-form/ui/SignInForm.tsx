@@ -104,7 +104,7 @@ export const SignInForm = () => {
         </Button>
       </p>
       <Button variant="primary" className={styles.button} type={'submit'} disabled={isLoading}>
-        {isLoading ? 'Signing In...' : 'Sign In'}
+        {isLoading ? content.signingIn : content.signIn}
       </Button>
     </form>
   );

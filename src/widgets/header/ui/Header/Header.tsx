@@ -20,7 +20,7 @@ export const Header = () => {
           <Icon iconId="Outline bell" />
           <LanguageSelect />
           <div className={styles.actions}>
-            <Button href="/privacy-policy" variant="text" className={styles.action_button}>
+            <Button href="/sign-in" variant="text" className={styles.action_button}>
               {content.logIn}
             </Button>
             <Button href="/sign-up" variant="primary" className={styles.action_button}>

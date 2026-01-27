@@ -83,6 +83,14 @@ const signInFormContent = {
       ru: 'Войти',
       it: 'Accedi',
     }),
+    signingIn: t({
+      en: 'Signing In...',
+      he: 'מתחבר...',
+      fr: 'Connexion...',
+      es: 'Iniciando sesión...',
+      ru: 'Вход...',
+      it: 'Accesso...',
+    }),
   },
 } satisfies Dictionary;
 
