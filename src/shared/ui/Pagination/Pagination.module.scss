@@ -269,3 +269,17 @@
     }
   }
 }
+
+:dir(rtl) .selected_value {
+  padding-right: 0;
+  padding-left: 2px;
+}
+
+:dir(rtl) .select_dropdown {
+  left: auto;
+  right: 0;
+}
+
+:dir(rtl) .select_option {
+  text-align: right;
+}

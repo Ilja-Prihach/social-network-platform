@@ -1,8 +1,15 @@
+'use client';
+
 import { Button } from '@/shared/ui/Button/Button';
 import { Icon } from '@/shared/ui/Icon/Icon';
 import styles from './Header.module.scss';
+import { LanguageSelect } from '@/features/i18n/language-select/ui/LanguageSelect';
+import { useDictionary } from 'next-intlayer';
+import headerContent from '../../header.content';
 
 export const Header = () => {
+  const content = useDictionary(headerContent);
+
   return (
     <header>
       <div className={styles.header}>
@@ -11,16 +18,15 @@ export const Header = () => {
         </div>
         <div className={styles.wrapper}>
           <Icon iconId="Outline bell" />
-          <div className={styles.select}>
-            <Icon iconId="Flag United Kingdom" />
-            <p>Select</p>
+          <LanguageSelect />
+          <div className={styles.actions}>
+            <Button href="/sign-in" variant="text" className={styles.action_button}>
+              {content.logIn}
+            </Button>
+            <Button href="/sign-up" variant="primary" className={styles.action_button}>
+              {content.signUp}
+            </Button>
           </div>
-          <Button href="/sign-in" variant="text">
-            Log in
-          </Button>
-          <Button href="/sign-up" variant="primary">
-            Sign up
-          </Button>
         </div>
       </div>
     </header>

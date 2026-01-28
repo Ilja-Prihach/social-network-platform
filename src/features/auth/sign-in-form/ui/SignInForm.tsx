@@ -5,6 +5,8 @@ import { Input } from '@/shared/ui/Input';
 import { InputPassword } from '@/features/auth/input-password';
 import styles from './SignInForm.module.scss';
 import { Button } from '@/shared/ui/Button';
+import { useDictionary } from 'next-intlayer';
+import signInFormContent from '../sign-in-form.content';
 import { useSignIn } from '../model/useSignIn';
 import { useEffect } from 'react';
 
@@ -14,6 +16,7 @@ type SignInFormValues = {
 };
 
 export const SignInForm = () => {
+  const content = useDictionary(signInFormContent);
   const { mutate, isPending, error: serverError } = useSignIn();
 
   const {
@@ -69,16 +72,16 @@ export const SignInForm = () => {
           control={control}
           name="email"
           rules={{
-            required: 'Email обязателен',
+            required: content.emailRequired.value,
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: 'Некорректный email',
+              message: content.emailInvalid.value,
             },
           }}
           render={({ field }) => (
             <Input
-              label="Email"
-              placeholder="Email"
+              label={content.emailLabel.value}
+              placeholder={content.emailPlaceholder.value}
               type="email"
               value={field.value}
               onChange={(value) => field.onChange(value)}
@@ -92,13 +95,13 @@ export const SignInForm = () => {
           control={control}
           name="password"
           rules={{
-            required: 'Пароль обязателен',
-            minLength: { value: 6, message: 'Минимум 6 символов' },
+            required: content.passwordRequired.value,
+            minLength: { value: 6, message: content.passwordMin.value },
           }}
           render={({ field }) => (
             <InputPassword
-              label="Password"
-              placeholder="Password"
+              label={content.passwordLabel.value}
+              placeholder={content.passwordPlaceholder.value}
               value={field.value}
               onChange={(value) => field.onChange(value)}
               disabled={isLoading}
@@ -109,11 +112,11 @@ export const SignInForm = () => {
       </div>
       <p className={styles.term_text}>
         <Button href="/forgot-password" variant="text" disabled={isLoading}>
-          Forgot Password
+          {content.forgotPassword}
         </Button>
       </p>
       <Button variant="primary" className={styles.button} type={'submit'} disabled={isLoading}>
-        {isLoading ? 'Signing In...' : 'Sign In'}
+        {isLoading ? content.signingIn : content.signIn}
       </Button>
     </form>
   );

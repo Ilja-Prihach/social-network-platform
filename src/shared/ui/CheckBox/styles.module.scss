@@ -83,6 +83,11 @@
   background: var(--dark-100-color);
 }
 
+:dir(rtl) .wrapper::before {
+  left: auto;
+  right: 18px;
+}
+
 .wrapper:has(.input:disabled)::before {
   background: transparent !important;
 }
@@ -99,6 +104,6 @@
   color: var(--light-900-color);
 }
 
-.error{
+.error {
   border-color: var(--danger-500-color) !important;
 }

@@ -15,6 +15,30 @@ body {
   font-family: Inter, sans-serif;
 }
 
+/* RTL best practices: keep the layout RTL, but keep LTR for neutral data */
+:dir(rtl) input[type='email'],
+:dir(rtl) input[type='url'],
+:dir(rtl) input[type='tel'],
+:dir(rtl) input[type='number'],
+:dir(rtl) input[type='password'],
+:dir(rtl) input[type='search'],
+:dir(rtl) textarea,
+:dir(rtl) code,
+:dir(rtl) pre {
+  direction: ltr;
+  text-align: left;
+}
+
+.ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
 a {
   text-decoration: none;
   cursor: pointer;
