@@ -49,12 +49,11 @@ export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
 
     if (!nextEmail) return;
 
-    const mutation = isSignUp ? resendVerification : resendRecovery;
     const successMessage = isSignUp
       ? `${content.confirmEmailPrefix.value} ${nextEmail}`
       : `${content.recoveryPrefix.value} ${nextEmail}`;
 
-    mutation(nextEmail, {
+    const mutationOptions = {
       onSuccess: () => {
         showModal({
           title: content.modalTitle.value,
@@ -66,14 +65,20 @@ export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
           setEmail('');
         }
       },
-      onError: (error) => {
+      onError: (error: unknown) => {
         showModal({
           title: content.errorTitle.value,
           description: (error as Error).message,
           confirmText: content.ok.value,
         });
       },
-    });
+    };
+
+    if (isSignUp) {
+      resendVerification(nextEmail, mutationOptions);
+    } else {
+      resendRecovery({ email: nextEmail }, mutationOptions);
+    }
   };
 
   const title = isSignUp ? content.titleSignUp : content.titleRecovery;
@@ -83,9 +88,7 @@ export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
       <div className={styles.container}>
         <div className={styles.verif}>
           <h2 className={styles.verif_title}>{title}</h2>
-          <p className={styles.verif_text}>
-            {content.description}
-          </p>
+          <p className={styles.verif_text}>{content.description}</p>
           <div className={styles.verification}>
             {isSignUp && (
               <Input

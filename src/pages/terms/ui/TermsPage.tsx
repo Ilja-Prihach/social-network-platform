@@ -19,19 +19,13 @@ export function TermsPage() {
       <div className={styles.wrapper_items}>
         <div className={styles.privacy_policy_item}>
           <h3 className={styles.title_policy_item}>{content.acceptanceTitle}</h3>
-          <p>
-            {content.welcome}
-          </p>
-          <p>
-            {content.acceptanceText}
-          </p>
+          <p>{content.welcome}</p>
+          <p>{content.acceptanceText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
           <h3 className={styles.title_policy_item}>{content.eligibilityTitle}</h3>
-          <p>
-            {content.eligibilityText}
-          </p>
+          <p>{content.eligibilityText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
@@ -46,9 +40,7 @@ export function TermsPage() {
 
         <div className={styles.privacy_policy_item}>
           <h3 className={styles.title_policy_item}>{content.acceptableTitle}</h3>
-          <p>
-            {content.acceptableText}
-          </p>
+          <p>{content.acceptableText}</p>
           <ul>
             <li>{content.acceptableItem1}</li>
             <li>{content.acceptableItem2}</li>
@@ -60,58 +52,40 @@ export function TermsPage() {
 
         <div className={styles.privacy_policy_item}>
           <h3 className={styles.title_policy_item}>{content.userContentTitle}</h3>
-          <p>
-            {content.userContentText1}
-          </p>
-          <p>
-            {content.userContentText2}
-          </p>
+          <p>{content.userContentText1}</p>
+          <p>{content.userContentText2}</p>
           <p>{content.userContentText3}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
           <h3 className={styles.title_policy_item}>{content.ipTitle}</h3>
-          <p>
-            {content.ipText1}
-          </p>
-          <p>
-            {content.ipText2}
-          </p>
+          <p>{content.ipText1}</p>
+          <p>{content.ipText2}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
           <h3 className={styles.title_policy_item}>{content.terminationTitle}</h3>
-          <p>
-            {content.terminationText}
-          </p>
+          <p>{content.terminationText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
           <h3 className={styles.title_policy_item}>{content.warrantyTitle}</h3>
-          <p>
-            {content.warrantyText}
-          </p>
+          <p>{content.warrantyText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
           <h3 className={styles.title_policy_item}>{content.liabilityTitle}</h3>
-          <p>
-            {content.liabilityText}
-          </p>
+          <p>{content.liabilityText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
           <h3 className={styles.title_policy_item}>{content.privacyTitle}</h3>
-          <p>
-            {content.privacyText}
-          </p>
+          <p>{content.privacyText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
           <h3 className={styles.title_policy_item}>{content.changesTitle}</h3>
-          <p>
-            {content.changesText}
-          </p>
+          <p>{content.changesText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>

@@ -36,22 +36,25 @@ export function CreatePasswordWidget() {
       return;
     }
 
-    mutate(email, {
-      onSuccess: () => {
-        showModal({
-          title: content.modalTitle.value,
-          description: `${content.sentPrefix.value} ${email}`,
-          confirmText: content.ok.value,
-        });
+    mutate(
+      { email },
+      {
+        onSuccess: () => {
+          showModal({
+            title: content.modalTitle.value,
+            description: `${content.sentPrefix.value} ${email}`,
+            confirmText: content.ok.value,
+          });
+        },
+        onError: (error) => {
+          showModal({
+            title: content.errorTitle.value,
+            description: (error as Error).message,
+            confirmText: content.ok.value,
+          });
+        },
       },
-      onError: (error) => {
-        showModal({
-          title: content.errorTitle.value,
-          description: (error as Error).message,
-          confirmText: content.ok.value,
-        });
-      },
-    });
+    );
   };
 
   return (

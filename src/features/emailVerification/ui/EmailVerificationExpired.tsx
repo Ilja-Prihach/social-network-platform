@@ -16,9 +16,7 @@ export const EmailVerificationExpired = ({ onResendAction }: Props) => {
     <div className={styles.container}>
       <h2 className={styles.title}>{content.title}</h2>
 
-      <p className={styles.text}>
-        {content.description}
-      </p>
+      <p className={styles.text}>{content.description}</p>
 
       <Button className={styles.button} variant="primary" onClick={onResendAction}>
         {content.resend}

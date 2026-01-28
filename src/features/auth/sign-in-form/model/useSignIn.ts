@@ -25,8 +25,12 @@ export const useSignIn = () => {
 
       if (status === 401) {
         showAlert('Invalid email or password', 'error');
-      } else if (status === 400 && data.messages?.length) {
-        showAlert(data.messages[0].message, 'error');
+      } else if (status === 400 && data?.messages) {
+        if (typeof data.messages === 'string') {
+          showAlert(data.messages, 'error');
+        } else if (Array.isArray(data.messages) && data.messages.length) {
+          showAlert(data.messages[0].message, 'error');
+        }
       } else if (status === 429) {
         showAlert('Too many requests. Please try again later.', 'error');
       } else {

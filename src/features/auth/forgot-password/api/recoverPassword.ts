@@ -1,21 +1,41 @@
+import { BASE_URL } from '@/shared/api/baseApi';
+
 type ErrorResponse = {
-  errorsMessages?: Array<{ message?: string }>;
+  messages?: Array<{ message?: string; field?: string }>;
+  error?: string;
+  statusCode?: number;
 };
 
 const getErrorMessage = async (response: Response, fallback: string) => {
   try {
     const data = (await response.json()) as ErrorResponse;
-    return data?.errorsMessages?.[0]?.message || fallback;
+    if (Array.isArray(data?.messages) && data.messages.length) {
+      return data.messages[0]?.message || fallback;
+    }
+    return fallback;
   } catch {
     return fallback;
   }
 };
 
-export const recoverPassword = async (email: string): Promise<void> => {
-  const response = await fetch(`/api/auth/recover-password`, {
+export type RecoverPasswordPayload = {
+  email: string;
+  recaptcha?: string;
+  baseUrl?: string;
+};
+
+export const recoverPassword = async ({
+  email,
+  recaptcha,
+  baseUrl,
+}: RecoverPasswordPayload): Promise<void> => {
+  const resolvedBaseUrl =
+    baseUrl ?? (typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin);
+  console.log(recaptcha);
+  const response = await fetch(`${BASE_URL}/api/v1/auth/password-recovery`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email }),
+    body: JSON.stringify({ email, baseUrl: resolvedBaseUrl, recaptcha: recaptcha ?? '' }),
   });
 
   if (!response.ok) {

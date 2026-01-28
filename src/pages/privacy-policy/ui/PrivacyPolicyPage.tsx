@@ -20,9 +20,7 @@ export function PrivacyPolicyPage() {
       <div className={styles.wrapper_items}>
         <div className={styles.privacy_policy_item}>
           <h3 className={`h3 ${styles.title_policy_item}`}>{content.introTitle}</h3>
-          <p>
-            {content.introText}
-          </p>
+          <p>{content.introText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
@@ -66,9 +64,7 @@ export function PrivacyPolicyPage() {
 
         <div className={styles.privacy_policy_item}>
           <h3 className={`h3 ${styles.title_policy_item}`}>{content.storageTitle}</h3>
-          <p>
-            {content.storageText}
-          </p>
+          <p>{content.storageText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
@@ -82,9 +78,7 @@ export function PrivacyPolicyPage() {
 
         <div className={styles.privacy_policy_item}>
           <h3 className={`h3 ${styles.title_policy_item}`}>{content.cookiesTitle}</h3>
-          <p>
-            {content.cookiesText}
-          </p>
+          <p>{content.cookiesText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
