@@ -23,6 +23,21 @@ const getLocaleFromParams = (params: ReturnType<typeof useParams>) => {
   return undefined;
 };
 
+const getRecoveryBaseUrl = (locale?: string) => {
+  const origin = typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
+  return `${origin}${locale ? `/${locale}` : ''}/create-password`;
+};
+
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) return error.message;
+  if (typeof error === 'string') return error;
+  if (error && typeof error === 'object' && 'message' in error) {
+    const message = (error as { message?: unknown }).message;
+    if (typeof message === 'string' && message) return message;
+  }
+  return fallback;
+};
+
 export function RequestPasswordResetForm() {
   const content = useDictionary(requestPasswordResetContent);
   const params = useParams();
@@ -31,35 +46,40 @@ export function RequestPasswordResetForm() {
   const isRecaptchaEnabled = Boolean(recaptchaSiteKey);
 
   const [email, setEmail] = useState('');
-  const [recaptchaToken, setRecaptchaToken] = useState('');
+  const [recaptchaToken, setRecaptchaToken] = useState<string | undefined>(undefined);
 
   const { mutate, isPending } = useRecoverPassword();
-  const isDisabled = !email || (isRecaptchaEnabled && !recaptchaToken) || isPending;
+  const trimmedEmail = email.trim();
+  const isDisabled = !trimmedEmail || (isRecaptchaEnabled && !recaptchaToken) || isPending;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const origin = typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
-    const baseUrl = `${origin}${locale ? `/${locale}` : ''}/create-password`;
+    if (!trimmedEmail) return;
+    if (isRecaptchaEnabled && !recaptchaToken) return;
+
+    const baseUrl = getRecoveryBaseUrl(locale);
 
     mutate(
-      { email, recaptcha: recaptchaToken || undefined, baseUrl },
+      { email: trimmedEmail, recaptcha: recaptchaToken, baseUrl },
       {
         onSuccess: () => {
           showModal({
             title: content.modalTitle.value,
-            description: `${content.sentPrefix.value} ${email}`,
+            description: `${content.sentPrefix.value} ${trimmedEmail}`,
             confirmText: content.modalConfirm.value,
           });
 
-          window.localStorage.setItem(STORAGE_KEY, email);
+          if (typeof window !== 'undefined') {
+            window.localStorage.setItem(STORAGE_KEY, trimmedEmail);
+          }
           setEmail('');
-          setRecaptchaToken('');
+          setRecaptchaToken(undefined);
         },
         onError: (error) => {
           showModal({
             title: content.errorTitle.value,
-            description: (error as Error).message,
+            description: getErrorMessage(error, content.errorTitle.value),
             confirmText: content.modalConfirm.value,
           });
         },
@@ -93,7 +113,10 @@ export function RequestPasswordResetForm() {
       </div>
       <div className={styles.recaptcha}>
         {isRecaptchaEnabled && (
-          <Recaptcha siteKey={recaptchaSiteKey!} onChange={(token) => setRecaptchaToken(token)} />
+          <Recaptcha
+            siteKey={recaptchaSiteKey!}
+            onChange={(token) => setRecaptchaToken(token || undefined)}
+          />
         )}
       </div>
     </form>
