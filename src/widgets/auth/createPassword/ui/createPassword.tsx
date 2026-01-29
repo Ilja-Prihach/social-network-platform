@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import styles from './createPassword.module.scss';
 import { CreatePasswordForm } from '@/features/auth/forgot-password/reset-password-form';
 import { EmailVerificationExpired } from '@/features/emailVerification/ui/EmailVerificationExpired';
@@ -12,8 +12,17 @@ import createPasswordWidgetContent from '../create-password-widget.content';
 
 const STORAGE_KEY = 'forgotPasswordEmail';
 
+const getLocaleFromParams = (params: ReturnType<typeof useParams>) => {
+  const locale = params?.locale;
+  if (typeof locale === 'string') return locale;
+  if (Array.isArray(locale)) return locale[0];
+  return undefined;
+};
+
 export function CreatePasswordWidget() {
   const content = useDictionary(createPasswordWidgetContent);
+  const params = useParams();
+  const locale = getLocaleFromParams(params);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -36,8 +45,11 @@ export function CreatePasswordWidget() {
       return;
     }
 
+    const origin = typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
+    const baseUrl = `${origin}${locale ? `/${locale}` : ''}/create-password`;
+
     mutate(
-      { email },
+      { email, baseUrl },
       {
         onSuccess: () => {
           showModal({

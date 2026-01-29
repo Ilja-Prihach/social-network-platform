@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import styles from './EmailVerificationWidget.module.scss';
 import { Input } from '@/shared/ui/Input';
 import { Button } from '@/shared/ui/Button';
@@ -20,8 +20,17 @@ type Props = {
 
 const STORAGE_KEY = 'forgotPasswordEmail';
 
+const getLocaleFromParams = (params: ReturnType<typeof useParams>) => {
+  const locale = params?.locale;
+  if (typeof locale === 'string') return locale;
+  if (Array.isArray(locale)) return locale[0];
+  return undefined;
+};
+
 export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
   const content = useDictionary(emailVerificationContent);
+  const params = useParams();
+  const locale = getLocaleFromParams(params);
   const searchParams = useSearchParams();
   const [email, setEmail] = useState(emailProp ?? '');
 
@@ -77,7 +86,10 @@ export function EmailVerificationWidget({ variant, email: emailProp }: Props) {
     if (isSignUp) {
       resendVerification(nextEmail, mutationOptions);
     } else {
-      resendRecovery({ email: nextEmail }, mutationOptions);
+      const origin =
+        typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
+      const baseUrl = `${origin}${locale ? `/${locale}` : ''}/create-password`;
+      resendRecovery({ email: nextEmail, baseUrl }, mutationOptions);
     }
   };
 

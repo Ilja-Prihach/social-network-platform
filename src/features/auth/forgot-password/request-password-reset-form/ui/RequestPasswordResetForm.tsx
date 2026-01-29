@@ -4,6 +4,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import { Button } from '@/shared/ui/Button';
 import { Recaptcha } from '@/shared/ui/Recaptcha/Recaptcha';
 import styles from './RequestPasswordResetForm.module.scss';
@@ -15,8 +16,17 @@ import requestPasswordResetContent from '../request-password-reset.content';
 
 const STORAGE_KEY = 'forgotPasswordEmail';
 
+const getLocaleFromParams = (params: ReturnType<typeof useParams>) => {
+  const locale = params?.locale;
+  if (typeof locale === 'string') return locale;
+  if (Array.isArray(locale)) return locale[0];
+  return undefined;
+};
+
 export function RequestPasswordResetForm() {
   const content = useDictionary(requestPasswordResetContent);
+  const params = useParams();
+  const locale = getLocaleFromParams(params);
   const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const isRecaptchaEnabled = Boolean(recaptchaSiteKey);
 
@@ -29,8 +39,11 @@ export function RequestPasswordResetForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const origin = typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
+    const baseUrl = `${origin}${locale ? `/${locale}` : ''}/create-password`;
+
     mutate(
-      { email, recaptcha: recaptchaToken || undefined },
+      { email, recaptcha: recaptchaToken || undefined, baseUrl },
       {
         onSuccess: () => {
           showModal({
