@@ -2555,10 +2555,10 @@ export const SvgSprite = () => (
     <symbol id="Flag Israel" viewBox="0 0 640 480">
       <defs>
         <clipPath id="flag-il-a">
-          <path fill-opacity=".7" d="M-87.6 0H595v512H-87.6z" />
+          <path fillOpacity=".7" d="M-87.6 0H595v512H-87.6z" />
         </clipPath>
       </defs>
-      <g fill-rule="evenodd" clip-path="url(#flag-il-a)" transform="translate(82.1)scale(.94)">
+      <g fillRule="evenodd" clipPath="url(#flag-il-a)" transform="translate(82.1)scale(.94)">
         <path fill="#fff" d="M619.4 512H-112V0h731.4z" />
         <path
           fill="#0038b8"
