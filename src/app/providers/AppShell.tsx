@@ -6,11 +6,13 @@ import { Alert } from '@/shared/ui/Alert/Alert';
 import { SvgSprite } from '@/shared/ui/SvgSprite';
 import { ModalWindow } from '@/shared/ui/ModalWindow';
 import Script from 'next/script';
+import { Header } from '@/widgets/header/ui/Header';
 
 export const AppShell = ({ children }: PropsWithChildren) => (
   <ReactQueryProvider>
     <Alert />
     <SvgSprite />
+    <Header />
     <ModalWindow />
     {children}
     <Script

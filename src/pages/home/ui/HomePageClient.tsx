@@ -6,7 +6,7 @@ import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
 import { Button } from '@/shared/ui/Button';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { Select } from '@/shared/ui/Select/Select';
-import { Header } from '@/widgets/header/ui/Header';
+
 import { LanguageSelect } from '@/features/i18n/language-select/ui/LanguageSelect';
 
 type HomePageClientProps = {
@@ -65,7 +65,6 @@ export function HomePageClient({ postId, action }: HomePageClientProps) {
           No modal active. Add ?postId=42 or ?action=create to the URL to preview modal handling.
         </p>
       )}
-      <Header />
     </section>
   );
 }
