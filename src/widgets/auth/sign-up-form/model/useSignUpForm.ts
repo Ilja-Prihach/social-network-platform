@@ -82,14 +82,10 @@ export function useSignUpForm() {
     if (!validate()) return;
 
     try {
-      const baseUrl =
-        typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
-
       await mutateAsync({
         userName,
         email,
         password,
-        baseUrl,
       });
 
       router.push('/congratulations');

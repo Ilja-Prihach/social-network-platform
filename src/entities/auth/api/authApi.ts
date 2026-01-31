@@ -1,11 +1,9 @@
 import { baseApi } from '@/shared/api/baseApi';
-import { getToken } from '@/entities/auth/model/tokenStorage';
-
 export interface SignUpRequest {
   userName: string;
   email: string;
   password: string;
-  baseUrl: string;
+  baseUrl?: string;
 }
 
 export interface SignUpResponse {
@@ -18,7 +16,7 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  accessToken: string;
+  ok: boolean;
 }
 
 export interface RegistrationConfirmationRequest {
@@ -56,9 +54,7 @@ export function confirmRegistration(data: RegistrationConfirmationRequest) {
 }
 
 export function logout() {
-  const token = getToken();
   return baseApi<void>('/api/v1/auth/logout', {
     method: 'POST',
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
   });
 }

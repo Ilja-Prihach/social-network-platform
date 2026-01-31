@@ -5,7 +5,6 @@ import { AuthErrorResponse, login, LoginRequest, LoginResponse } from '@/entitie
 
 import { showAlert } from '@/shared/ui/Alert';
 import { useRouter } from 'next/navigation';
-import { saveToken } from '@/entities/auth/model/tokenStorage';
 import type { ApiError } from '@/shared/api/types';
 
 export const useSignIn = () => {
@@ -14,8 +13,7 @@ export const useSignIn = () => {
   return useMutation<LoginResponse, ApiError<AuthErrorResponse>, LoginRequest>({
     mutationFn: login,
 
-    onSuccess: (data) => {
-      saveToken(data.accessToken);
+    onSuccess: () => {
       showAlert('Login successful!', 'success');
       router.replace('/');
     },
