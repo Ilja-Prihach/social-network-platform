@@ -1,27 +1,17 @@
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 import { bffFetch } from '@/shared/api/server/bffFetch';
-
-const isProd = process.env.NODE_ENV === 'production';
-const COOKIE_NAME = isProd ? '__Host-access_token' : 'access_token';
+import { forwardSetCookie } from '@/shared/api/server/cookies';
 
 export async function POST() {
-  try {
-    await bffFetch('/api/v1/auth/logout', { method: 'POST' });
-  } catch {
-    // Ignore upstream errors; client cookie cleanup still required.
-  }
-
-  (await cookies()).set({
-    name: COOKIE_NAME,
-    value: '',
-    httpOnly: true,
-    secure: isProd,
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 0,
+  const { res, setCookie } = await bffFetch('/api/v1/auth/logout', { method: 'POST' });
+  const text = await res.text();
+  const nextResponse = new NextResponse(text, {
+    status: res.status,
+    headers: { 'Content-Type': 'application/json' },
   });
 
-  return NextResponse.json({ ok: true });
+  if (setCookie?.length) forwardSetCookie(nextResponse, setCookie);
+
+  return nextResponse;
 }
