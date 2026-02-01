@@ -6,14 +6,20 @@ import { AuthErrorResponse, login, LoginRequest, LoginResponse } from '@/entitie
 import { showAlert } from '@/shared/ui/Alert';
 import { useRouter } from 'next/navigation';
 import type { ApiError } from '@/shared/api/types';
+import { useAuthStore } from '@/features/auth/model/store';
+import { useMe } from '@/features/auth/model/useMe';
 
 export const useSignIn = () => {
   const router = useRouter();
+  const setAuth = useAuthStore((s) => s.setAuth);
+  const { refetch: refetchMe } = useMe();
 
   return useMutation<LoginResponse, ApiError<AuthErrorResponse>, LoginRequest>({
     mutationFn: login,
 
     onSuccess: () => {
+      setAuth(true);
+      refetchMe();
       showAlert('Login successful!', 'success');
       router.replace('/');
     },
