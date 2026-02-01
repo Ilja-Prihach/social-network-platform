@@ -1,7 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { logout } from '@/entities/auth/api/authApi';
-import { removeToken } from '@/entities/auth/model/tokenStorage';
 import { useLocale } from 'next-intlayer';
 
 export const useSignOut = () => {
@@ -17,7 +16,6 @@ export const useSignOut = () => {
     } catch {
       // Ignore server errors; client cleanup still required.
     } finally {
-      removeToken();
       router.push(`/${locale}/sign-in`);
       setIsLoading(false);
     }

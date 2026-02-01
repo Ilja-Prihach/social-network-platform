@@ -45,11 +45,8 @@ export function CreatePasswordWidget() {
       return;
     }
 
-    const origin = typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
-    const baseUrl = `${origin}${locale ? `/${locale}` : ''}/create-password`;
-
     mutate(
-      { email, baseUrl },
+      { email, locale },
       {
         onSuccess: () => {
           showModal({
