@@ -21,16 +21,22 @@ const getErrorMessage = async (response: Response, fallback: string) => {
 export type RecoverPasswordPayload = {
   email: string;
   recaptcha?: string;
+  locale?: string;
 };
 
 export const recoverPassword = async ({
   email,
   recaptcha,
+  locale,
 }: RecoverPasswordPayload): Promise<void> => {
   const response = await fetch(`${BASE_URL}/api/v1/auth/password-recovery`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, recaptcha: recaptcha ?? '' }),
+    body: JSON.stringify({
+      email,
+      recaptcha: recaptcha ?? '',
+      ...(locale ? { locale } : {}),
+    }),
   });
 
   if (!response.ok) {

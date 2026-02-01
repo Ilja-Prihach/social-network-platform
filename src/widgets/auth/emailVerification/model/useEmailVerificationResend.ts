@@ -89,10 +89,7 @@ export const useEmailVerificationResend = ({ variant, email: emailProp, copy }: 
     if (isSignUp) {
       resendVerification(nextEmail, mutationOptions);
     } else {
-      const origin =
-        typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
-      const baseUrl = `${origin}${locale ? `/${locale}` : ''}/create-password`;
-      resendRecovery({ email: nextEmail, baseUrl }, mutationOptions);
+      resendRecovery({ email: nextEmail, locale }, mutationOptions);
     }
   };
 

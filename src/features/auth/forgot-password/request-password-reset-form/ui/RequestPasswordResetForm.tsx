@@ -23,11 +23,6 @@ const getLocaleFromParams = (params: ReturnType<typeof useParams>) => {
   return undefined;
 };
 
-const getRecoveryBaseUrl = (locale?: string) => {
-  const origin = typeof window === 'undefined' ? 'http://localhost:3000' : window.location.origin;
-  return `${origin}${locale ? `/${locale}` : ''}/create-password`;
-};
-
 const getErrorMessage = (error: unknown, fallback: string) => {
   if (error instanceof Error && error.message) return error.message;
   if (typeof error === 'string') return error;
@@ -58,10 +53,8 @@ export function RequestPasswordResetForm() {
     if (!trimmedEmail) return;
     if (isRecaptchaEnabled && !recaptchaToken) return;
 
-    const baseUrl = getRecoveryBaseUrl(locale);
-
     mutate(
-      { email: trimmedEmail, recaptcha: recaptchaToken, baseUrl },
+      { email: trimmedEmail, recaptcha: recaptchaToken, locale },
       {
         onSuccess: () => {
           showModal({
