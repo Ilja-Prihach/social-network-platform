@@ -3,7 +3,7 @@ import { CreatePasswordWidget } from '@/widgets/auth/createPassword/ui/createPas
 
 export function CreatePasswordPage() {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<div />}>
       <CreatePasswordWidget />
     </Suspense>
   );

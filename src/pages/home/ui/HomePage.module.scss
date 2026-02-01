@@ -1,5 +1,6 @@
 .page {
-  padding: 48px 32px;
+  padding: 60px 32px;
+  padding-top: calc(var(--header-h) + 24px);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -12,7 +13,7 @@
 
 .sidebar {
   position: fixed;
-  top: 72px;
+  top: var(--header-h);
   left: 60px;
   width: var(--sidebar-w);
   height: calc(100vh - var(--header-h));
@@ -23,8 +24,15 @@
   min-width: 0;
 }
 
+.user_count {
+  padding-top: 24px;
+  width: 972px;
+}
+
 /* === POSTS GRID === */
 .grid {
+  width: 972px;
+  padding-top: 36px;
   display: grid;
   gap: 18px;
   grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -1,107 +1,101 @@
+'use client';
+
 import styles from './PrivacyPolicyPage.module.scss';
 
 import { Button } from '@/shared/ui/Button';
+import { useDictionary } from 'next-intlayer';
+import privacyPolicyContent from '../privacy-policy.content';
 
 export function PrivacyPolicyPage() {
+  const content = useDictionary(privacyPolicyContent);
+
   return (
     <section className={styles.page}>
       <div className={styles.back_link}>
         <Button href="/sign-up" variant={'text'} style={{ color: 'var(--light-100-color)' }}>
-          ← Back to Sign Up
+          {content.backToSignUp}
         </Button>
       </div>
-      <h2 className={styles.title}>Privacy Policy</h2>
+      <h2 className={styles.title}>{content.title}</h2>
       <div className={styles.wrapper_items}>
         <div className={styles.privacy_policy_item}>
-          <h3 className={`h3 ${styles.title_policy_item}`}>Introduction</h3>
-          <p>
-            This Privacy Policy explains how we collect, use, store, and protect your personal
-            information when you use our application (the “Service”). By accessing or using the
-            Service, you agree to the practices described in this Privacy Policy.
-          </p>
+          <h3 className={`h3 ${styles.title_policy_item}`}>{content.introTitle}</h3>
+          <p>{content.introText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
-          <h3 className={`h3 ${styles.title_policy_item}`}>Information We Collect</h3>
-          <p>We may collect the following types of information:</p>
+          <h3 className={`h3 ${styles.title_policy_item}`}>{content.collectTitle}</h3>
+          <p>{content.collectLead}</p>
           <ul>
             <li>
-              <span>Account Information:</span> username, email address, profile photo, and other
-              information you provide when creating an account.
+              <span>{content.collectAccountLabel}</span> {content.collectAccountText}
             </li>
             <li>
-              <span>Content:</span> photos, videos, comments, likes, and messages you post or send
-              through the Service.
+              <span>{content.collectContentLabel}</span> {content.collectContentText}
             </li>
             <li>
-              <span>Usage Data:</span> viewed content, interactions, and activity timestamps.
+              <span>{content.collectUsageLabel}</span> {content.collectUsageText}
             </li>
             <li>
-              <span>Technical Data:</span> device type, OS, browser type, IP address, and log data.
+              <span>{content.collectTechLabel}</span> {content.collectTechText}
             </li>
           </ul>
         </div>
 
         <div className={styles.privacy_policy_item}>
-          <h3 className={`h3 ${styles.title_policy_item}`}>How We Use Your Information</h3>
+          <h3 className={`h3 ${styles.title_policy_item}`}>{content.useTitle}</h3>
           <ul>
-            <li>Provide, operate, and maintain the Service</li>
-            <li>Personalize user experience and recommendations</li>
-            <li>Enable likes, comments, and messaging</li>
-            <li>Improve performance, security, and reliability</li>
-            <li>Communicate about updates and support</li>
+            <li>{content.useItem1}</li>
+            <li>{content.useItem2}</li>
+            <li>{content.useItem3}</li>
+            <li>{content.useItem4}</li>
+            <li>{content.useItem5}</li>
           </ul>
         </div>
 
         <div className={styles.privacy_policy_item}>
-          <h3 className={`h3 ${styles.title_policy_item}`}> Sharing of Information </h3>
+          <h3 className={`h3 ${styles.title_policy_item}`}>{content.shareTitle}</h3>
           <ul>
-            <li>With service providers supporting the Service</li>
-            <li>To comply with legal obligations</li>
-            <li>To protect users, rights, and security</li>
+            <li>{content.shareItem1}</li>
+            <li>{content.shareItem2}</li>
+            <li>{content.shareItem3}</li>
           </ul>
         </div>
 
         <div className={styles.privacy_policy_item}>
-          <h3 className={`h3 ${styles.title_policy_item}`}> Data Storage and Security </h3>
-          <p>
-            We use reasonable technical and organizational measures to protect your data. However,
-            no Internet transmission is 100% secure.
-          </p>
+          <h3 className={`h3 ${styles.title_policy_item}`}>{content.storageTitle}</h3>
+          <p>{content.storageText}</p>
         </div>
 
         <div className={styles.privacy_policy_item}>
-          <h3 className={`h3 ${styles.title_policy_item}`}>User Rights</h3>
+          <h3 className={`h3 ${styles.title_policy_item}`}>{content.rightsTitle}</h3>
           <ul>
-            <li>Access your personal data</li>
-            <li>Request correction or deletion</li>
-            <li>Restrict or object to processing</li>
+            <li>{content.rightsItem1}</li>
+            <li>{content.rightsItem2}</li>
+            <li>{content.rightsItem3}</li>
           </ul>
         </div>
 
         <div className={styles.privacy_policy_item}>
-          <h3 className={`h3 ${styles.title_policy_item}`}>Cookies and Tracking</h3>
+          <h3 className={`h3 ${styles.title_policy_item}`}>{content.cookiesTitle}</h3>
+          <p>{content.cookiesText}</p>
+        </div>
+
+        <div className={styles.privacy_policy_item}>
+          <h3 className={styles.title_policy_item}>{content.childrenTitle}</h3>
+          <p>{content.childrenText}</p>
+        </div>
+
+        <div className={styles.privacy_policy_item}>
+          <h3 className={styles.title_policy_item}>{content.changesTitle}</h3>
+          <p>{content.changesText}</p>
+        </div>
+
+        <div className={styles.privacy_policy_item}>
+          <h3 className={styles.title_policy_item}>{content.contactTitle}</h3>
+          <p>{content.contactText}</p>
           <p>
-            We may use cookies to improve functionality and analyze usage. You can control cookies
-            via browser settings.
-          </p>
-        </div>
-
-        <div className={styles.privacy_policy_item}>
-          <h3 className={styles.title_policy_item}>Children’s Privacy</h3>
-          <p>The Service is not intended for users under 13 years old.</p>
-        </div>
-
-        <div className={styles.privacy_policy_item}>
-          <h3 className={styles.title_policy_item}>Changes to This Policy</h3>
-          <p>We may update this Privacy Policy from time to time.</p>
-        </div>
-
-        <div className={styles.privacy_policy_item}>
-          <h3 className={styles.title_policy_item}> Contact Us</h3>
-          <p>If you have any questions about these Terms, please contact us at:</p>
-          <p>
-            <strong>Email: </strong>
+            <strong>{content.emailLabel} </strong>
 
             <a className={`regular_link`} href="mailto:social.network.incubator@gmail.com">
               social.network.incubator@gmail.com

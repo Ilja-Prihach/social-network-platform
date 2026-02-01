@@ -6,53 +6,71 @@ import { Button } from '@/shared/ui/Button';
 import { InputPassword } from '@/features/auth/input-password';
 import { CheckBoxAgreeTerms } from '@/features/auth/check-box-agree-terms';
 import { useSignUpForm } from '../model/useSignUpForm';
+import { useDictionary } from 'next-intlayer';
+import signUpFormContent from '../sign-up-form.content';
 
 export function SignUpForm() {
-  const { values, errors, agree, setAgree, submit } = useSignUpForm();
+  const content = useDictionary(signUpFormContent);
+  const { values, errors, agree, setAgree, submit, isSubmitting } = useSignUpForm();
 
   return (
     <form className={styles.form} onSubmit={submit}>
       <div className={styles.wrapper}>
         <Input
-          label="Username"
+          label={content.userName.value}
           value={values.userName}
           onChange={values.setUserName}
           error={errors.userName}
+          disabled={isSubmitting}
         />
 
-        <Input label="Email" value={values.email} onChange={values.setEmail} error={errors.email} />
+        <Input
+          label={content.email.value}
+          type="email"
+          value={values.email}
+          onChange={values.setEmail}
+          error={errors.email}
+          disabled={isSubmitting}
+        />
 
         <InputPassword
-          label="Password"
+          label={content.password.value}
           value={values.password}
           onChange={values.setPassword}
           error={errors.password}
+          disabled={isSubmitting}
         />
 
         <InputPassword
-          label="Password confirmation"
+          label={content.passwordConfirm.value}
           value={values.passwordConfirm}
           onChange={values.setPasswordConfirm}
           error={errors.passwordConfirm}
+          disabled={isSubmitting}
         />
       </div>
 
       <div className={styles.checkbox}>
-        <CheckBoxAgreeTerms checked={agree} error={errors.agree} onChangeAction={setAgree} />
+        <CheckBoxAgreeTerms
+          checked={agree}
+          error={errors.agree}
+          onChangeAction={setAgree}
+          disabled={isSubmitting}
+        />
         <p className={styles.term_text}>
-          I agree to the{' '}
-          <Button href="/sign-in" variant="text">
-            Terms of Service
+          {content.agreePrefix}{' '}
+          <Button href="/terms" variant="text">
+            {content.terms}
           </Button>{' '}
           and{' '}
-          <Button href="/sign-in" variant="text">
-            Privacy Policy
+          <Button href="/privacy-policy" variant="text">
+            {content.privacy}
           </Button>
         </p>
       </div>
 
-      <Button type="submit" variant="primary" className={styles.button}>
-        Sign Up
+      <Button type="submit" variant="primary" className={styles.button} disabled={isSubmitting}>
+        {content.signUp}
       </Button>
     </form>
   );

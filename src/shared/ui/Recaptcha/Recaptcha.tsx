@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useRef } from 'react';
 
 type RecaptchaProps = {
@@ -9,13 +7,19 @@ type RecaptchaProps = {
 
 export function Recaptcha({ siteKey, onChange }: RecaptchaProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<number | null>(null);
+  const onChangeRef = useRef(onChange);
+
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (window.grecaptcha && ref.current) {
-        window.grecaptcha.render(ref.current, {
+      if (window.grecaptcha && ref.current && widgetIdRef.current === null) {
+        widgetIdRef.current = window.grecaptcha.render(ref.current, {
           sitekey: siteKey,
-          callback: onChange,
+          callback: (token: string) => onChangeRef.current(token),
         });
 
         clearInterval(interval);
@@ -23,7 +27,7 @@ export function Recaptcha({ siteKey, onChange }: RecaptchaProps) {
     }, 300);
 
     return () => clearInterval(interval);
-  }, [siteKey, onChange]);
+  }, [siteKey]);
 
   return <div ref={ref} />;
 }

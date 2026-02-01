@@ -59,6 +59,15 @@
   }
 }
 
+:dir(rtl) .radio {
+  flex-direction: row-reverse;
+}
+
+:dir(rtl) .radio::before {
+  left: auto;
+  right: -6px;
+}
+
 /* Checked */
 .radio[data-checked='true'] .control::after {
   opacity: 1;

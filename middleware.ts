@@ -1,6 +1,5 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+export { intlayerMiddleware as middleware } from 'next-intlayer/middleware';
 
-export function middleware(_request: NextRequest) {
-  return NextResponse.next();
-}
+export const config = {
+  matcher: '/((?!api|static|assets|robots|sitemap|sw|service-worker|manifest|.*\\..*|_next).*)',
+};
