@@ -1,28 +1,19 @@
 import { NextResponse } from 'next/server';
 
+import { bffFetch } from '@/shared/api/server/bffFetch';
 import { forwardSetCookie } from '@/shared/api/server/cookies';
-
-const API_URL = process.env.API_URL;
+import { buildJsonResponse } from '@/shared/api/server/bffResponse';
 
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const res = await fetch(`${API_URL}/api/v1/auth/login`, {
+  const cookieCarrier = new NextResponse();
+  const res = await bffFetch(cookieCarrier, '/api/v1/auth/login', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
+    json: body,
   });
 
-  const text = await res.text();
-
-  const nextResponse = res.ok
-    ? NextResponse.json({ ok: true })
-    : new NextResponse(text, {
-        status: res.status,
-        headers: { 'Content-Type': 'application/json' },
-      });
-  forwardSetCookie(nextResponse, res);
+  const nextResponse = res.ok ? NextResponse.json({ ok: true }) : await buildJsonResponse(res);
+  forwardSetCookie(nextResponse, cookieCarrier);
   return nextResponse;
 }
