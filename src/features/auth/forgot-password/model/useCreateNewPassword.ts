@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { createNewPassword } from '@/features/auth/forgot-password/api/createNewPassword';
+import { createNewPassword } from '@/entities/auth/api/authApi';
 
 type NewPasswordPayload = {
   newPassword: string;
