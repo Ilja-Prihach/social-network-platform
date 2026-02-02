@@ -10,7 +10,7 @@ export const mockPosts: Post[] = [
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     media: [
       { id: 'p1-1', type: 'image', src: '/mock/Post1.jpg' },
-      { id: 'p1-2', type: 'image', src: '/mock/Post2.jpg' },
+      { id: 'p1-2', type: 'image', src: '/mock/Post5.jpg' },
       { id: 'p1-3', type: 'image', src: '/mock/Post3.jpg' },
     ],
   },
@@ -19,7 +19,7 @@ export const mockPosts: Post[] = [
     authorId: 'mock-user-2',
     createdAt: minutesAgo(22),
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    media: [{ id: 'p2-1', type: 'image', src: '/mock/Post2.jpg' }],
+    media: [{ id: 'p2-1', type: 'image', src: '/mock/Post4.jpg' }],
   },
   {
     id: 'mock-post-3',
@@ -33,6 +33,6 @@ export const mockPosts: Post[] = [
     authorId: 'mock-user-4',
     createdAt: minutesAgo(22),
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    media: [{ id: 'p4-1', type: 'image', src: '/mock/Post4.jpg' }],
+    media: [{ id: 'p4-1', type: 'image', src: '/mock/Post5.jpg' }],
   },
 ];
