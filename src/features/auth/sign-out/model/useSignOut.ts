@@ -2,7 +2,6 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { logout } from '@/entities/auth/api/authApi';
 import { useLocale } from 'next-intlayer';
-import { useMe } from '@/features/auth/model/useMe';
 import { useQueryClient } from '@tanstack/react-query';
 
 export const useSignOut = () => {
