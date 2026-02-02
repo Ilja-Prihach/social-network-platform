@@ -8,6 +8,16 @@ export const buildJsonResponse = async (
   res: Response,
   fallbackMessage: string = DEFAULT_ERROR_MESSAGE,
 ): Promise<NextResponse> => {
+  if (res.status === 204 || res.status === 205 || res.status === 304) {
+    const headers = new Headers(res.headers);
+    headers.delete('content-length');
+    return new NextResponse(null, {
+      status: res.status,
+      statusText: res.statusText,
+      headers,
+    });
+  }
+
   const cloned = res.clone();
   const headers = new Headers(res.headers);
   headers.delete('content-length');
