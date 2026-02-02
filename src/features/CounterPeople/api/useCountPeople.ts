@@ -7,6 +7,18 @@ export const useCountPeople = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const getErrorMessage = (err: unknown) => {
+    if (err instanceof Error && err.message) return err.message;
+    if (err && typeof err === 'object') {
+      const data = (err as { data?: { message?: string; error?: string } }).data;
+      if (data?.message) return data.message;
+      if (data?.error) return data.error;
+      const status = (err as { status?: number }).status;
+      if (typeof status === 'number') return `Request failed (${status})`;
+    }
+    return 'Unknown error';
+  };
+
   useEffect(() => {
     const fetchCount = async () => {
       try {
@@ -15,7 +27,8 @@ export const useCountPeople = () => {
         setCount(data);
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        const message = getErrorMessage(err);
+        setError(message);
         console.error('Failed to fetch count:', err);
       } finally {
         setLoading(false);

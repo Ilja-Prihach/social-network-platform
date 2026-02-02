@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import type { User } from '../model/types';
 import { formatRelativeTime } from '@/shared/lib/date/formatRelativeTime';
@@ -10,6 +13,11 @@ type Props = {
 
 export function UserBadge({ user, createdAt }: Props) {
   const avatarSrc = user.avatarUrl || '/mock/Avatar1.jpg';
+  const [relativeTime, setRelativeTime] = useState('');
+
+  useEffect(() => {
+    setRelativeTime(formatRelativeTime(createdAt));
+  }, [createdAt]);
 
   return (
     <div className={s.root}>
@@ -19,7 +27,7 @@ export function UserBadge({ user, createdAt }: Props) {
 
       <div className={s.meta}>
         <div className={s.username}>{user.username}</div>
-        <div className={s.time}>{formatRelativeTime(createdAt)}</div>
+        <div className={s.time}>{relativeTime}</div>
       </div>
     </div>
   );

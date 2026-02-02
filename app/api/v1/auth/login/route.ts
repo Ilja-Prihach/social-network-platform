@@ -1,22 +1,19 @@
 import { NextResponse } from 'next/server';
 
+import { bffFetch } from '@/shared/api/server/bffFetch';
+import { forwardSetCookie } from '@/shared/api/server/cookies';
+import { buildJsonResponse } from '@/shared/api/server/bffResponse';
+
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const res = await fetch('https://inctagram.work/api/v1/auth/login', {
+  const cookieCarrier = new NextResponse();
+  const res = await bffFetch(cookieCarrier, '/api/v1/auth/login', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
+    json: body,
   });
 
-  const data = await res.text();
-
-  return new NextResponse(data, {
-    status: res.status,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const nextResponse = res.ok ? NextResponse.json({ ok: true }) : await buildJsonResponse(res);
+  forwardSetCookie(nextResponse, cookieCarrier);
+  return nextResponse;
 }

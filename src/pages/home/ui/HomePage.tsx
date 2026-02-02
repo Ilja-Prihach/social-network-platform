@@ -8,6 +8,7 @@ import { mockPosts } from '@/entities/post';
 import { mockUsers } from '@/entities/user';
 import { buildPostCards, PostCard } from '@/widgets/post-card';
 import { CounterPeople } from '@/widgets/counterPeople';
+import { useMe } from '@/features/auth/model/useMe';
 
 export function HomePage() {
   const searchParams = useSearchParams();
@@ -15,14 +16,18 @@ export function HomePage() {
   const email = searchParams?.get('email') ?? undefined;
   const items = buildPostCards(mockPosts, mockUsers);
 
+  const { data: me, isLoading } = useMe();
+
   return (
     <>
       <RegistrationConfirmationHandler code={code} email={email} />
       <section className={styles.page}>
         <div className={styles.content}>
-          <aside className={styles.sidebar}>
-            <Sidebar />
-          </aside>
+          {!isLoading && me && (
+            <aside className={styles.sidebar}>
+              <Sidebar />
+            </aside>
+          )}
           <div className={styles.user_count}>
             <CounterPeople />
           </div>

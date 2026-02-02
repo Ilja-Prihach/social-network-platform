@@ -1,8 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import {
-  recoverPassword,
-  type RecoverPasswordPayload,
-} from '@/features/auth/forgot-password/api/recoverPassword';
+import { recoverPassword, type RecoverPasswordPayload } from '@/entities/auth/api/authApi';
 
 export const useRecoverPassword = () => {
   return useMutation({
