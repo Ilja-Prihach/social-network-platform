@@ -1,81 +1,45 @@
 'use client';
 
+import { Suspense } from 'react';
 import styles from './HomePage.module.scss';
-
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
-import { Button } from '@/shared/ui/Button';
-import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
-import { Select } from '@/shared/ui/Select/Select';
-import { useState } from 'react';
-import { Header } from '@/widgets/header/ui/Header';
-import { LanguageSelect } from '@/shared/ui/Select/LanguageSelect/LanguageSelect';
+import { mockPosts } from '@/entities/post';
+import { mockUsers } from '@/entities/user';
+import { buildPostCards, PostCard } from '@/widgets/post-card';
+import { CounterPeople } from '@/widgets/counterPeople';
+import { useMe } from '@/features/auth/model/useMe';
+import { HomeQueryBridge } from './HomeQueryBridge';
 
-type HomePageProps = {
-  searchParams?: Record<string, string | string[] | undefined>;
-};
+export function HomePage() {
+  const items = buildPostCards(mockPosts, mockUsers);
 
-const normalizeParam = (value?: string | string[]): string | undefined => {
-  if (Array.isArray(value)) {
-    return value[0];
-  }
-
-  return value;
-};
-
-export function HomePage({ searchParams = {} }: HomePageProps) {
-  const [value, setValue] = useState('');
-  const postId = normalizeParam(searchParams.postId);
-  const action = normalizeParam(searchParams.action);
-  const modalMessage = postId
-    ? `Post modal placeholder for id ${postId}`
-    : action === 'create'
-      ? 'Create post modal placeholder'
-      : null;
+  const { data: me, isLoading } = useMe();
 
   return (
-    <section className={styles.page}>
-      <Sidebar />
-      <Select
-        value={value}
-        options={[
-          { value: 'Hello', title: 'Select-box' },
-          { value: 'Mr', title: 'Mister' },
-        ]}
-        placeholder={'select ВАЛУЕ'}
-        onChange={setValue}
-        label={'Select-box'}
-      />
-      <LanguageSelect />
-      <Button
-        variant="primary"
-        onClick={() =>
-          showModal({
-            title: 'Email sent',
-            description: 'We have sent a link to confirm your email to epam@epam.com',
-          })
-        }
-      >
-        open modal
-      </Button>
-      /<h1>Home Page</h1>
-      <p className={'bold_text_16'}>
-        Entry point stub wired through the Feature-Sliced Design layout. Replace with the actual
-        landing or feed content.
-      </p>
-      {modalMessage ? (
-        <div className={styles.modal}>
-          <p>{modalMessage}</p>
-          <p className={styles.modalHint}>
-            Query-driven modal state. If both postId and action are present, postId takes
-            precedence.
-          </p>
+    <>
+      <Suspense fallback={null}>
+        <HomeQueryBridge />
+      </Suspense>
+      <section className={styles.page}>
+        <div className={styles.content}>
+          {!isLoading && me && (
+            <aside className={styles.sidebar}>
+              <Sidebar />
+            </aside>
+          )}
+          <div className={styles.user_count}>
+            <CounterPeople />
+          </div>
+
+          <main className={styles.main}>
+            <div className={styles.grid}>
+              {items.map((vm) => (
+                <PostCard key={vm.post.id} vm={vm} />
+              ))}
+            </div>
+          </main>
         </div>
-      ) : (
-        <p className="large">
-          No modal active. Add ?postId=42 or ?action=create to the URL to preview modal handling.
-        </p>
-      )}
-      <Header />
-    </section>
+      </section>
+    </>
   );
 }

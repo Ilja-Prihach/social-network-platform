@@ -1,4 +1,4 @@
-export const BASE_URL = '/api';
+export const BASE_URL = '';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -19,7 +19,14 @@ export async function baseApi<T>(url: string, options: RequestOptions = {}): Pro
   });
 
   const text = await response.text();
-  const data = text ? JSON.parse(text) : null;
+  let data: unknown = null;
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = text;
+    }
+  }
 
   if (!response.ok) {
     throw {

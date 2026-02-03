@@ -1,6 +1,10 @@
 @use '@/shared/styles/tokens/colors' as *;
 @use '@/shared/styles/tokens/typography' as *;
 
+:root {
+  --header-h: 72px;
+}
+
 *,
 *::before,
 *::after {
@@ -13,6 +17,30 @@ body {
   background-color: var(--dark-900-color);
   color: var(--light-100-color);
   font-family: Inter, sans-serif;
+}
+
+/* RTL best practices: keep the layout RTL, but keep LTR for neutral data */
+:dir(rtl) input[type='email'],
+:dir(rtl) input[type='url'],
+:dir(rtl) input[type='tel'],
+:dir(rtl) input[type='number'],
+:dir(rtl) input[type='password'],
+:dir(rtl) input[type='search'],
+:dir(rtl) textarea,
+:dir(rtl) code,
+:dir(rtl) pre {
+  direction: ltr;
+  text-align: left;
+}
+
+.ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+.rtl {
+  direction: rtl;
+  text-align: right;
 }
 
 a {

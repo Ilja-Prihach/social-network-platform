@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import { useSignUpMutation } from '@/entities/auth/model/useSignUpMutation';
 import { ApiError, isApiError } from '@/shared/api/types';
 import { AuthErrorResponse } from '@/entities/auth/api/authApi';
+import { showAlert } from '@/shared/ui/Alert/Alert';
+import { useDictionary } from 'next-intlayer';
+import signUpFormContent from '../sign-up-form.content';
 
 type FormErrors = {
   userName: string;
@@ -27,6 +31,7 @@ const initialErrors: FormErrors = {
 };
 
 export function useSignUpForm() {
+  const content = useDictionary(signUpFormContent);
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,13 +40,14 @@ export function useSignUpForm() {
 
   const [errors, setErrors] = useState<FormErrors>(initialErrors);
   const { mutateAsync, isPending } = useSignUpMutation();
+  const router = useRouter();
 
   const validate = () => {
     const nextErrors: FormErrors = {
-      userName: userName ? '' : 'Username required',
-      email: /\S+@\S+\.\S+/.test(email) ? '' : 'Invalid email',
-      password: password.length >= 6 ? '' : 'Min 6 chars',
-      passwordConfirm: password === passwordConfirm ? '' : 'Passwords do not match',
+      userName: userName ? '' : content.userNameRequired.value,
+      email: /\S+@\S+\.\S+/.test(email) ? '' : content.invalidEmail.value,
+      password: password.length >= 6 ? '' : content.passwordMin.value,
+      passwordConfirm: password === passwordConfirm ? '' : content.passwordMismatch.value,
       agree: !agree,
     };
 
@@ -67,6 +73,9 @@ export function useSignUpForm() {
     });
   };
 
+  const getApiErrorMessage = (apiError: ApiError<AuthErrorResponse>) =>
+    apiError.data.messages?.[0]?.message || apiError.data.error || 'Registration failed';
+
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -74,17 +83,21 @@ export function useSignUpForm() {
 
     try {
       await mutateAsync({
-        login: userName,
+        userName,
         email,
         password,
       });
 
-      console.log('Ура');
+      router.push('/congratulations');
     } catch (err) {
-      console.log(err);
       if (isApiError<AuthErrorResponse>(err)) {
         applyServerErrors(err);
+        showAlert(getApiErrorMessage(err), 'error');
+        return;
       }
+
+      const message = err instanceof Error ? err.message : 'Registration failed';
+      showAlert(message, 'error');
     }
   };
 

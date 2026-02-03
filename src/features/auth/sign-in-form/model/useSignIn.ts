@@ -5,17 +5,21 @@ import { AuthErrorResponse, login, LoginRequest, LoginResponse } from '@/entitie
 
 import { showAlert } from '@/shared/ui/Alert';
 import { useRouter } from 'next/navigation';
-import { saveToken } from '@/entities/auth/model/tokenStorage';
 import type { ApiError } from '@/shared/api/types';
+import { useAuthStore } from '@/features/auth/model/store';
+import { useMe } from '@/features/auth/model/useMe';
 
 export const useSignIn = () => {
   const router = useRouter();
+  const setAuth = useAuthStore((s) => s.setAuth);
+  const { refetch: refetchMe } = useMe();
 
   return useMutation<LoginResponse, ApiError<AuthErrorResponse>, LoginRequest>({
     mutationFn: login,
 
-    onSuccess: (data) => {
-      saveToken(data.accessToken);
+    onSuccess: () => {
+      setAuth(true);
+      refetchMe();
       showAlert('Login successful!', 'success');
       router.replace('/');
     },
@@ -25,8 +29,12 @@ export const useSignIn = () => {
 
       if (status === 401) {
         showAlert('Invalid email or password', 'error');
-      } else if (status === 400 && data.messages?.length) {
-        showAlert(data.messages[0].message, 'error');
+      } else if (status === 400 && data?.messages) {
+        if (typeof data.messages === 'string') {
+          showAlert(data.messages, 'error');
+        } else if (Array.isArray(data.messages) && data.messages.length) {
+          showAlert(data.messages[0].message, 'error');
+        }
       } else if (status === 429) {
         showAlert('Too many requests. Please try again later.', 'error');
       } else {

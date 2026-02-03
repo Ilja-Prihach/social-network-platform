@@ -4,39 +4,56 @@ import styles from './Sidebar.module.scss';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import { usePathname } from 'next/navigation';
+import { useDictionary } from 'next-intlayer';
+import sidebarContent from '../../sidebar.content';
+import { SignOutButton } from '@/features/auth/sign-out';
 
 export const Sidebar = () => {
   const pathname = usePathname();
+  const content = useDictionary(sidebarContent);
 
   const navItems = [
-    { href: '/feed', label: 'Feed', icon: 'home-outline', iconActive: 'home' },
-    { href: '/create', label: 'Create', icon: 'plus-square-outline', iconActive: 'plus-square' },
-    { href: '/my-profile', label: 'My Profile', icon: 'person-outline', iconActive: 'person' },
+    { href: '/feed', label: content.feed.value, icon: 'home-outline', iconActive: 'home' },
+    {
+      href: '/create',
+      label: content.create.value,
+      icon: 'plus-square-outline',
+      iconActive: 'plus-square',
+    },
+    {
+      href: '/my-profile',
+      label: content.myProfile.value,
+      icon: 'person-outline',
+      iconActive: 'person',
+    },
     {
       href: '/messenger',
-      label: 'Messanger',
+      label: content.messenger.value,
       icon: 'message-circle-outline',
       iconActive: 'message-circle',
     },
-    { href: '/search', label: 'Search', icon: 'search-outline', iconActive: 'search-outline' },
+    {
+      href: '/search',
+      label: content.search.value,
+      icon: 'search-outline',
+      iconActive: 'search-outline',
+    },
   ];
 
   const toolsItems = [
     {
       href: '/statistics',
-      label: 'Statistics',
+      label: content.statistics.value,
       icon: 'trending-up-outline',
       iconActive: 'trending-up-outline',
     },
-    { href: '/favorites', label: 'Favorites', icon: 'bookmark-outline', iconActive: 'bookmark' },
+    {
+      href: '/favorites',
+      label: content.favorites.value,
+      icon: 'bookmark-outline',
+      iconActive: 'bookmark',
+    },
   ];
-
-  const logoutItem = {
-    href: '/sign-in',
-    label: 'Log Out',
-    icon: 'log-out-outline',
-    iconActive: 'log-out-outline',
-  };
 
   const renderNavItem = (href: string, label: string, icon: string, iconActive: string) => {
     const isActive = pathname === href;
@@ -45,7 +62,7 @@ export const Sidebar = () => {
       <li key={href}>
         <Button
           href={href}
-          variant="text"
+          variant="sidebar"
           className={`${styles.sidebar_button} ${isActive ? styles.active : ''}`}
         >
           <div className={styles.svg}>
@@ -68,7 +85,13 @@ export const Sidebar = () => {
       </ul>
 
       <ul className={styles.sidebar_logout}>
-        {renderNavItem(logoutItem.href, logoutItem.label, logoutItem.icon, logoutItem.iconActive)}
+        <li>
+          <SignOutButton
+            label={content.logOut.value}
+            className={styles.sidebar_button}
+            iconClassName={styles.svg}
+          />
+        </li>
       </ul>
     </nav>
   );

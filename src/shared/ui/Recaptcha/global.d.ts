@@ -6,8 +6,8 @@ interface Window {
         sitekey: string;
         callback: (token: string) => void;
       },
-    ) => void;
-    reset?: () => void;
+    ) => number;
+    reset?: (widgetId?: number) => void;
     execute?: () => void;
   };
 }

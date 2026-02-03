@@ -1,6 +1,4 @@
-import styles from "./UserFeaturePage.module.scss";
-
-import { UserPresenceControl } from "@/features/user-presence-control";
+import styles from './UserFeaturePage.module.scss';
 
 export function UserFeaturePage() {
   return (
@@ -13,8 +11,6 @@ export function UserFeaturePage() {
           the shared User entity reflects changes.
         </p>
       </header>
-
-      <UserPresenceControl />
     </section>
   );
 }

@@ -1,16 +1,28 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import styles from './createPassword.module.scss';
-import { CreatePasswordForm } from '@/features/auth/forgot-password/ResetPasswordForm';
+import { CreatePasswordForm } from '@/features/auth/forgot-password/reset-password-form';
 import { EmailVerificationExpired } from '@/features/emailVerification/ui/EmailVerificationExpired';
 import { useRecoverPassword } from '@/features/auth/forgot-password/model/useRecoverPassword';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
+import { useDictionary } from 'next-intlayer';
+import createPasswordWidgetContent from '../create-password-widget.content';
 
 const STORAGE_KEY = 'forgotPasswordEmail';
 
+const getLocaleFromParams = (params: ReturnType<typeof useParams>) => {
+  const locale = params?.locale;
+  if (typeof locale === 'string') return locale;
+  if (Array.isArray(locale)) return locale[0];
+  return undefined;
+};
+
 export function CreatePasswordWidget() {
+  const content = useDictionary(createPasswordWidgetContent);
+  const params = useParams();
+  const locale = getLocaleFromParams(params);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -33,22 +45,25 @@ export function CreatePasswordWidget() {
       return;
     }
 
-    mutate(email, {
-      onSuccess: () => {
-        showModal({
-          title: 'Email sent',
-          description: `We have sent a link to confirm your email to ${email}`,
-          confirmText: 'OK',
-        });
+    mutate(
+      { email, locale },
+      {
+        onSuccess: () => {
+          showModal({
+            title: content.modalTitle.value,
+            description: `${content.sentPrefix.value} ${email}`,
+            confirmText: content.ok.value,
+          });
+        },
+        onError: (error) => {
+          showModal({
+            title: content.errorTitle.value,
+            description: (error as Error).message,
+            confirmText: content.ok.value,
+          });
+        },
       },
-      onError: (error) => {
-        showModal({
-          title: 'Error',
-          description: (error as Error).message,
-          confirmText: 'OK',
-        });
-      },
-    });
+    );
   };
 
   return (

@@ -1,14 +1,20 @@
+'use client';
+
 import styles from './SignUpPage.module.scss';
 import { Icon } from '@/shared/ui/Icon';
 import { SignUpForm } from '@/widgets/auth/sign-up-form';
 import { Button } from '@/shared/ui/Button';
+import { useDictionary } from 'next-intlayer';
+import signUpContent from '../sign-up.content';
 
 export function SignUpPage() {
+  const content = useDictionary(signUpContent);
+
   return (
     <section className={styles.page}>
       <div className={styles.container}>
         <div className={styles.sign}>
-          <h2 className={styles.title}>Sign Up</h2>
+          <h2 className={styles.title}>{content.title}</h2>
 
           <div className={styles.head}>
             <a href="#" className={styles.soc_enter}>
@@ -26,9 +32,9 @@ export function SignUpPage() {
 
           <SignUpForm />
 
-          <p className={styles.text}>Do you have an account?</p>
+          <p className={styles.text}>{content.hasAccount}</p>
           <Button href="/sign-in" variant="text">
-            Sign In
+            {content.signIn}
           </Button>
         </div>
       </div>

@@ -1,3 +1,10 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
 .container {
   display: flex;
   align-items: center;
@@ -10,8 +17,7 @@
   background: var(--dark-500-color);
   border: 1px solid #333;
   border-radius: 2px;
-  max-width: 378px;
-  width: 95%;
+  width: 378px;
   padding: 30px 20px;
   gap: 19px;
   display: flex;
