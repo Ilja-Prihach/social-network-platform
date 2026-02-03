@@ -1,26 +1,25 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import styles from './HomePage.module.scss';
-import { RegistrationConfirmationHandler } from '@/features/auth/registration-confirmation';
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
 import { mockPosts } from '@/entities/post';
 import { mockUsers } from '@/entities/user';
 import { buildPostCards, PostCard } from '@/widgets/post-card';
 import { CounterPeople } from '@/widgets/counterPeople';
 import { useMe } from '@/features/auth/model/useMe';
+import { HomeQueryBridge } from './HomeQueryBridge';
 
 export function HomePage() {
-  const searchParams = useSearchParams();
-  const code = searchParams?.get('code') ?? undefined;
-  const email = searchParams?.get('email') ?? undefined;
   const items = buildPostCards(mockPosts, mockUsers);
 
   const { data: me, isLoading } = useMe();
 
   return (
     <>
-      <RegistrationConfirmationHandler code={code} email={email} />
+      <Suspense fallback={null}>
+        <HomeQueryBridge />
+      </Suspense>
       <section className={styles.page}>
         <div className={styles.content}>
           {!isLoading && me && (
