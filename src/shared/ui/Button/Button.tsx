@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import { useLocale } from 'next-intlayer';
 import { getLocalizedUrl } from 'intlayer';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'text';
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'text' | 'sidebar';
 
 type CommonProps = {
   children: ReactNode;

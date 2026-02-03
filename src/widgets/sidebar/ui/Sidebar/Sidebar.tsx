@@ -62,7 +62,7 @@ export const Sidebar = () => {
       <li key={href}>
         <Button
           href={href}
-          variant="text"
+          variant="sidebar"
           className={`${styles.sidebar_button} ${isActive ? styles.active : ''}`}
         >
           <div className={styles.svg}>

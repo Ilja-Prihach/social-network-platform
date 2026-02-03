@@ -114,6 +114,32 @@
   }
 }
 
+/* SIDEBAR */
+.sidebar {
+  width: fit-content;
+  background-color: transparent;
+  color: var(--light-100-color);
+  padding: 0;
+  height: fit-content;
+
+  &:disabled {
+    color: var(--light-900-color);
+  }
+
+  &:hover:not(:disabled) {
+    color: var(--accent-100-color);
+  }
+
+  &:focus:not(:disabled) {
+    border: 1px solid var(--accent-700-color);
+    color: var(--accent-700-color);
+  }
+
+  &:active:not(:disabled) {
+    color: var(--accent-700-color);
+  }
+}
+
 /* отдельное состояние через класс */
 .button.disabled {
   opacity: 0.5;

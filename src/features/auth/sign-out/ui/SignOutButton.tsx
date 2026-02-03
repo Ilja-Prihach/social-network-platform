@@ -15,7 +15,7 @@ export const SignOutButton = ({ label, className, iconClassName }: SignOutButton
 
   return (
     <Button
-      variant="text"
+      variant="sidebar"
       className={className}
       onClick={signOut}
       disabled={isLoading}
