@@ -1,0 +1,36 @@
+.root {
+  display: grid;
+  gap: 8px;
+}
+
+.text {
+  margin: 0;
+  line-height: 24px;
+}
+
+.text_content {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.text_clamped {
+  max-height: 72px;
+  overflow: hidden;
+}
+
+.ellipsis {
+  margin-left: 2px;
+}
+
+.toggle {
+  display: inline;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #0070f3;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 0;
+  vertical-align: baseline;
+}

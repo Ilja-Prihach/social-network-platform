@@ -8,7 +8,7 @@ export interface CountPeopleResponse {
 import { baseApi } from '@/shared/api/baseApi';
 
 export const getCountPeople = async (): Promise<number> => {
-  const data = await baseApi<CountPeopleResponse>('/api/v1/public-user');
+  const data = await baseApi<CountPeopleResponse>('/api/public-user');
   return data.totalCount;
 };
 

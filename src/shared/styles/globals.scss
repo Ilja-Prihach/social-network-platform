@@ -1,6 +1,10 @@
 @use '@/shared/styles/tokens/colors' as *;
 @use '@/shared/styles/tokens/typography' as *;
 
+:root {
+  --header-h: 72px;
+}
+
 *,
 *::before,
 *::after {
