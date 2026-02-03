@@ -5,6 +5,8 @@ import { Input } from '@/shared/ui/Input';
 import { InputPassword } from '@/features/auth/input-password';
 import styles from './SignInForm.module.scss';
 import { Button } from '@/shared/ui/Button';
+import { useDictionary } from 'next-intlayer';
+import signInFormContent from '../sign-in-form.content';
 import { useSignIn } from '../model/useSignIn';
 import { useEffect } from 'react';
 
@@ -14,6 +16,7 @@ type SignInFormValues = {
 };
 
 export const SignInForm = () => {
+  const content = useDictionary(signInFormContent);
   const { mutate, isPending, error: serverError } = useSignIn();
 
   const {
@@ -32,14 +35,26 @@ export const SignInForm = () => {
   useEffect(() => {
     if (!serverError) return;
 
-    if (serverError.status === 400 && serverError.data.messages) {
-      serverError.data.messages.forEach((msg) => {
+    const { status, data } = serverError;
+    const messages = Array.isArray(data?.messages) ? data.messages : [];
+    const messageText = typeof data?.messages === 'string' ? data.messages : undefined;
+
+    if (status === 400 && messages.length) {
+      messages.forEach((msg) => {
         if (msg.field === 'email' || msg.field === 'password') {
           setError(msg.field, {
             type: 'server',
             message: msg.message,
           });
         }
+      });
+      return;
+    }
+
+    if (status === 400 && messageText) {
+      setError('password', {
+        type: 'server',
+        message: messageText,
       });
     }
   }, [serverError, setError]);
@@ -57,16 +72,16 @@ export const SignInForm = () => {
           control={control}
           name="email"
           rules={{
-            required: 'Email обязателен',
+            required: content.emailRequired.value,
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: 'Некорректный email',
+              message: content.emailInvalid.value,
             },
           }}
           render={({ field }) => (
             <Input
-              label="Email"
-              placeholder="Email"
+              label={content.emailLabel.value}
+              placeholder={content.emailPlaceholder.value}
               type="email"
               value={field.value}
               onChange={(value) => field.onChange(value)}
@@ -80,13 +95,13 @@ export const SignInForm = () => {
           control={control}
           name="password"
           rules={{
-            required: 'Пароль обязателен',
-            minLength: { value: 6, message: 'Минимум 6 символов' },
+            required: content.passwordRequired.value,
+            minLength: { value: 6, message: content.passwordMin.value },
           }}
           render={({ field }) => (
             <InputPassword
-              label="Password"
-              placeholder="Password"
+              label={content.passwordLabel.value}
+              placeholder={content.passwordPlaceholder.value}
               value={field.value}
               onChange={(value) => field.onChange(value)}
               disabled={isLoading}
@@ -96,12 +111,17 @@ export const SignInForm = () => {
         />
       </div>
       <p className={styles.term_text}>
-        <Button href="/forgot-password" variant="text" disabled={isLoading}>
-          Forgot Password
+        <Button
+          href="/forgot-password"
+          variant="text"
+          disabled={isLoading}
+          className={styles.forgot_password}
+        >
+          {content.forgotPassword}
         </Button>
       </p>
       <Button variant="primary" className={styles.button} type={'submit'} disabled={isLoading}>
-        {isLoading ? 'Signing In...' : 'Sign In'}
+        {isLoading ? content.signingIn : content.signIn}
       </Button>
     </form>
   );
