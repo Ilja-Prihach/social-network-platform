@@ -2,25 +2,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  margin-top: 110px;
 }
 
 .container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.content {
   background: var(--dark-500-color);
   border: 1px solid #333;
   border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 504px;
+}
+
+.content {
   width: 378px;
-  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   gap: 19px;
   align-items: center;
+  padding: 24px;
+  min-height: 456px;
 }
 
 .title {

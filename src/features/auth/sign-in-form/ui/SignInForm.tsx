@@ -111,7 +111,12 @@ export const SignInForm = () => {
         />
       </div>
       <p className={styles.term_text}>
-        <Button href="/forgot-password" variant="text" disabled={isLoading}>
+        <Button
+          href="/forgot-password"
+          variant="text"
+          disabled={isLoading}
+          className={styles.forgot_password}
+        >
           {content.forgotPassword}
         </Button>
       </p>
