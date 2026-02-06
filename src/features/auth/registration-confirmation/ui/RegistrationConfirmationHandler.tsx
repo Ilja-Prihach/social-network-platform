@@ -41,9 +41,16 @@ export function RegistrationConfirmationHandler({
 
         if (isApiError<AuthErrorResponse>(err)) {
           const apiError = err as ApiError<AuthErrorResponse>;
-          message = apiError.data?.messages?.[0]?.message || apiError.data?.error || message;
-        } else if (err instanceof Error) {
-          message = err.message;
+
+          const messages = apiError.data?.messages;
+
+          if (Array.isArray(messages)) {
+            message = messages[0]?.message || message;
+          } else if (typeof messages === 'string') {
+            message = messages;
+          } else {
+            message = apiError.data?.error || message;
+          }
         }
 
         showModal({
