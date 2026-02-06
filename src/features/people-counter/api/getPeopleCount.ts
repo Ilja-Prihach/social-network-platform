@@ -1,4 +1,3 @@
-// /Users/egorgoroh/Desktop/socialNetwork/frontend/src/features/people-counter/api/getCountPeople.ts
 import { baseApi } from '@/shared/api/baseApi';
 
 // ДОБАВЬ export 👇
@@ -7,6 +6,6 @@ export interface CountPeopleResponse {
 }
 
 export const getCountPeople = async (): Promise<number> => {
-  const data = await baseApi<CountPeopleResponse>('/api/v1/auth/public-user');
+  const data = await baseApi<CountPeopleResponse>('/api/v1/public-user');
   return data.totalCount;
 };
