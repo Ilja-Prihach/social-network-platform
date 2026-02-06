@@ -58,7 +58,7 @@ export function useSignUpForm() {
 
   const applyServerErrors = (apiError: ApiError<AuthErrorResponse>) => {
     const messages = apiError.data.messages;
-    if (!messages?.length) return;
+    if (!Array.isArray(messages) || !messages.length) return;
 
     setErrors((prev) => {
       const next: FormErrors = { ...prev };
@@ -74,7 +74,9 @@ export function useSignUpForm() {
   };
 
   const getApiErrorMessage = (apiError: ApiError<AuthErrorResponse>) =>
-    apiError.data.messages?.[0]?.message || apiError.data.error || 'Registration failed';
+    Array.isArray(apiError.data.messages)
+      ? apiError.data.messages[0]?.message || apiError.data.error || 'Registration failed'
+      : apiError.data.messages || apiError.data.error || 'Registration failed';
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
