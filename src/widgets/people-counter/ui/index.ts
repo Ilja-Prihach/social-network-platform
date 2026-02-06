@@ -1,1 +1,1 @@
-export { default } from './CounterPeople';
+export { default } from './PeopleCounter';

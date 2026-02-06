@@ -1,11 +1,10 @@
-// /Users/egorgoroh/Desktop/socialNetwork/frontend/app/api/v1/auth/public-user/route.ts
-import { NextResponse } from 'next/server';
+import { buildJsonResponse } from '@/shared/api/server/bffResponse';
+import { bffFetch } from '@/shared/api/server/bffFetch';
 
 export async function GET() {
-  const response = await fetch('https://socialnetwork-ai.com/api/v1/public-user', {
+  const { res } = await bffFetch('/api/v1/public-user', {
     method: 'GET',
   });
 
-  const data = await response.json();
-  return NextResponse.json(data);
+  return buildJsonResponse(res);
 }

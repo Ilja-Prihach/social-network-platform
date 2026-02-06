@@ -6,7 +6,7 @@ import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
 import { mockPosts } from '@/entities/post';
 import { mockUsers } from '@/entities/user';
 import { buildPostCards, PostCard } from '@/widgets/post-card';
-import { CounterPeople } from '@/widgets/counterPeople';
+import { PeopleCounter } from '@/widgets/people-counter';
 import { useMe } from '@/features/auth/model/useMe';
 import { HomeQueryBridge } from './HomeQueryBridge';
 
@@ -28,7 +28,7 @@ export function HomePage() {
             </aside>
           )}
           <div className={styles.user_count}>
-            <CounterPeople />
+            <PeopleCounter />
           </div>
 
           <main className={styles.main}>

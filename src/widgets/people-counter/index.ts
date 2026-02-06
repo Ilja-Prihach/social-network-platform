@@ -1,2 +1,2 @@
-import CounterPeople from './ui/CounterPeople';
-export { CounterPeople };
+import PeopleCounter from './ui/PeopleCounter';
+export { PeopleCounter };

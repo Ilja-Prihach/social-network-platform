@@ -7,13 +7,12 @@ import { buildJsonResponse } from '@/shared/api/server/bffResponse';
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const cookieCarrier = new NextResponse();
-  const res = await bffFetch(cookieCarrier, '/api/v1/auth/login', {
+  const { res, setCookie } = await bffFetch('/api/v1/auth/login', {
     method: 'POST',
     json: body,
   });
 
   const nextResponse = res.ok ? NextResponse.json({ ok: true }) : await buildJsonResponse(res);
-  forwardSetCookie(nextResponse, cookieCarrier);
+  if (setCookie) forwardSetCookie(nextResponse, setCookie);
   return nextResponse;
 }

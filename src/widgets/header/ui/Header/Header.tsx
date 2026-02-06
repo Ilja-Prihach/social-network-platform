@@ -11,7 +11,7 @@ import { usePathname } from 'next/navigation';
 
 export const Header = () => {
   const content = useDictionary(headerContent);
-  const { data: me } = useMe();
+  const { data: me, isPending } = useMe();
   const pathname = usePathname();
   const hideAuthActions = Boolean(
     pathname?.includes('/sign-in') ||
@@ -28,7 +28,7 @@ export const Header = () => {
         <div className={styles.wrapper}>
           {me && <Icon iconId="Outline bell" />}
           <LanguageSelect />
-          {!me && !hideAuthActions && (
+          {!me && !isPending && !hideAuthActions && (
             <div className={styles.actions}>
               <Button href="/sign-in" variant="text" className={styles.action_button}>
                 {content.logIn}

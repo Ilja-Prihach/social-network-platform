@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getPeopleCount } from './getPeopleCount';
+import { getPeopleCount } from '@/features/people-counter/api/getPeopleCount';
 
 export const usePeopleCount = () => {
   return useQuery({

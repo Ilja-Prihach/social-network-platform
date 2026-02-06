@@ -1,11 +1,10 @@
-// /Users/egorgoroh/Desktop/socialNetwork/frontend/src/widgets/counterPeople/ui/CounterPeople.tsx
 import React from 'react';
 import Counter from '@/shared/ui/Counter';
-import { useCountPeople } from '@/features/people-counter/api/useCountPeople';
-import styles from './CounterPeople.module.scss';
+import styles from './PeopleCounter.module.scss';
+import { usePeopleCount } from '@/features/people-counter';
 
-const CounterPeople: React.FC = () => {
-  const { data, isLoading, error } = useCountPeople();
+const PeopleCounter: React.FC = () => {
+  const { data, isLoading, error } = usePeopleCount();
 
   if (isLoading) {
     return (
@@ -33,4 +32,4 @@ const CounterPeople: React.FC = () => {
   );
 };
 
-export default CounterPeople;
+export default PeopleCounter;

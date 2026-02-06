@@ -1,3 +1,2 @@
-export type { CountPeopleResponse } from './getCountPeople';
-export { getCountPeople } from './getCountPeople';
-export { useCountPeople } from './useCountPeople';
+export type { PeopleCountResponse } from './api/getPeopleCount';
+export { usePeopleCount } from './model/usePeopleCount';
