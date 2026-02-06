@@ -1,13 +1,13 @@
-// CounterPeople.tsx
+// /Users/egorgoroh/Desktop/socialNetwork/frontend/src/widgets/counterPeople/ui/CounterPeople.tsx
 import React from 'react';
 import Counter from '@/shared/ui/Counter';
-import { useCountPeople } from '@/features/CounterPeople/api/useCountPeople';
+import { useCountPeople } from '@/features/people-counter/api/useCountPeople';
 import styles from './CounterPeople.module.scss';
 
 const CounterPeople: React.FC = () => {
-  const { count, loading, error } = useCountPeople();
+  const { data, isLoading, error } = useCountPeople();
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className={styles.counter_people}>
         <span className={styles.label}>Registered users:</span>
@@ -17,7 +17,6 @@ const CounterPeople: React.FC = () => {
   }
 
   if (error) {
-    console.error('Error loading count:', error);
     return (
       <div className={styles.counter_people}>
         <span className={styles.label}>Registered users:</span>
@@ -29,7 +28,7 @@ const CounterPeople: React.FC = () => {
   return (
     <div className={styles.counter_people}>
       <span className={styles.label}>Registered users:</span>
-      <Counter value={count} />
+      <Counter value={data || 0} />
     </div>
   );
 };
