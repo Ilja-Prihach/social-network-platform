@@ -6,9 +6,11 @@ import { SignUpForm } from '@/widgets/auth/sign-up-form';
 import { Button } from '@/shared/ui/Button';
 import { useDictionary } from 'next-intlayer';
 import signUpContent from '../sign-up.content';
+import { useOauthLogin } from '@/features/auth/oauth';
 
 export function SignUpPage() {
   const content = useDictionary(signUpContent);
+  const { startGithubLogin, startGoogleLogin } = useOauthLogin();
 
   return (
     <section className={styles.page}>
@@ -17,10 +19,24 @@ export function SignUpPage() {
           <h2 className={styles.title}>{content.title}</h2>
 
           <div className={styles.head}>
-            <a href="#" className={styles.soc_enter}>
+            <a
+              href="#"
+              className={styles.soc_enter}
+              onClick={(event) => {
+                event.preventDefault();
+                startGoogleLogin();
+              }}
+            >
               <Icon iconId={'google-svgrepo-com 1'} width={'36px'} height={'36px'} />
             </a>
-            <a href="#" className={styles.soc_enter}>
+            <a
+              href="#"
+              className={styles.soc_enter}
+              onClick={(event) => {
+                event.preventDefault();
+                startGithubLogin();
+              }}
+            >
               <Icon
                 iconId={'github-svgrepo-com (3) 1'}
                 width={'36px'}

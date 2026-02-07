@@ -19,7 +19,7 @@ export const useSignIn = () => {
 
     onSuccess: () => {
       setAuth(true);
-      refetchMe();
+      refetchMe().then(() => {});
       showAlert('Login successful!', 'success');
       router.replace('/');
     },

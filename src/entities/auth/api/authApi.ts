@@ -19,6 +19,24 @@ export interface LoginResponse {
   ok: boolean;
 }
 
+export type GithubUpdateTokensResponse = {
+  accessToken: string;
+};
+
+export type GithubAcceptRequest = {
+  accessToken: string;
+};
+
+export type GoogleLoginRequest = {
+  redirectUrl: string;
+  code: string;
+};
+
+export type GoogleLoginResponse = {
+  accessToken: string;
+  email: string;
+};
+
 export interface RegistrationConfirmationRequest {
   code: string;
 }
@@ -52,6 +70,26 @@ export function signUp(data: SignUpRequest) {
 
 export function login(data: LoginRequest) {
   return baseApi<LoginResponse>('/api/v1/auth/login', {
+    method: 'POST',
+    body: data,
+  });
+}
+
+export function acceptGithubAccessToken(data: GithubAcceptRequest) {
+  return baseApi<{ ok: boolean }>('/api/auth/github/accept', {
+    method: 'POST',
+    body: data,
+  });
+}
+
+export function githubUpdateTokens() {
+  return baseApi<GithubUpdateTokensResponse>('/api/v1/auth/github/update-tokens', {
+    method: 'POST',
+  });
+}
+
+export function googleLogin(data: GoogleLoginRequest) {
+  return baseApi<GoogleLoginResponse>('/api/v1/auth/google/login', {
     method: 'POST',
     body: data,
   });
