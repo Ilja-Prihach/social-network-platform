@@ -25,10 +25,7 @@ export interface RegistrationConfirmationRequest {
 
 export type AuthErrorResponse = {
   statusCode: number;
-  messages?: {
-    message: string;
-    field: string;
-  }[];
+  messages?: string | { message: string; field: string }[];
   error: string;
 };
 
