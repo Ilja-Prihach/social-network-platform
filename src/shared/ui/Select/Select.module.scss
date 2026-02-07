@@ -55,6 +55,7 @@
 .icon {
   display: inline-flex;
   align-items: center;
+  flex: 0 0 auto;
 }
 
 .label_title {
@@ -99,6 +100,9 @@
 
 .option {
   padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   cursor: pointer;
   color: var(--light-100-color);
   transition: background-color 0.15s;

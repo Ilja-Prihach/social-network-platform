@@ -1,5 +1,3 @@
-import { NextResponse } from 'next/server';
-
 import { bffFetch } from '@/shared/api/server/bffFetch';
 import { forwardSetCookie } from '@/shared/api/server/cookies';
 import { buildJsonResponse } from '@/shared/api/server/bffResponse';
@@ -13,8 +11,7 @@ export async function POST(req: Request) {
   const origin = forwardedHost ? `${forwardedProto}://${forwardedHost}` : new URL(req.url).origin;
   const baseUrl = `${origin}${typeof locale === 'string' && locale ? `/${locale}` : ''}/create-password`;
 
-  const cookieCarrier = new NextResponse();
-  const res = await bffFetch(cookieCarrier, '/api/v1/auth/password-recovery', {
+  const { res, setCookie } = await bffFetch('/api/v1/auth/password-recovery', {
     method: 'POST',
     json: {
       ...rest,
@@ -24,6 +21,6 @@ export async function POST(req: Request) {
 
   const nextResponse = await buildJsonResponse(res);
 
-  forwardSetCookie(nextResponse, cookieCarrier);
+  if (setCookie) forwardSetCookie(nextResponse, setCookie);
   return nextResponse;
 }
