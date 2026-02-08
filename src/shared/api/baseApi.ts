@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://socialnetwork-ai.com';
+export const BASE_URL = '';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

@@ -6,7 +6,7 @@ import { forwardSetCookie } from '@/shared/api/server/cookies';
 
 export async function POST(req: Request) {
   const body = await req.json();
-
+  console.log(body);
   const cookieCarrier = new NextResponse();
   const res = await bffFetch(cookieCarrier, '/api/v1/auth/google/login', {
     method: 'POST',

@@ -73,7 +73,7 @@ export function login(data: LoginRequest) {
 }
 
 export function acceptGithubAccessToken(data: GithubAcceptRequest) {
-  return baseApi<{ ok: boolean }>('/api/auth/github/accept', {
+  return baseApi<{ ok: boolean }>('/api/v1/auth/github/accept', {
     method: 'POST',
     body: data,
   });
