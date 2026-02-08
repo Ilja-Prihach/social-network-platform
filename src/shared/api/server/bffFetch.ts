@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 
 import { forwardSetCookie, getSetCookie } from './cookies';
 
-const API_URL = 'https://socialnetwork-ai.com';
+const API_URL = 'https://inctagram.work';
 const isProd = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = isProd ? '__Host-access_token' : 'access_token';
 const REFRESH_PATH = '/api/v1/auth/update';
