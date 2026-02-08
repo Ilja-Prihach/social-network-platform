@@ -8,27 +8,34 @@ import { useRouter } from 'next/navigation';
 import type { ApiError } from '@/shared/api/types';
 import { useAuthStore } from '@/features/auth/model/store';
 import { useMe } from '@/features/auth/model/useMe';
+import { useDictionary } from 'next-intlayer';
+import signInFormContent from '../sign-in-form.content';
 
 export const useSignIn = () => {
   const router = useRouter();
   const setAuth = useAuthStore((s) => s.setAuth);
   const { refetch: refetchMe } = useMe();
+  const content = useDictionary(signInFormContent);
 
   return useMutation<LoginResponse, ApiError<AuthErrorResponse>, LoginRequest>({
     mutationFn: login,
 
-    onSuccess: () => {
-      setAuth(true);
-      refetchMe();
-      showAlert('Login successful!', 'success');
-      router.replace('/');
+    onSuccess: async () => {
+      try {
+        await refetchMe();
+        setAuth(true);
+        showAlert(content.loginSuccess.value, 'success');
+        router.replace('/');
+      } catch {
+        showAlert(content.profileLoadError.value, 'error');
+      }
     },
 
     onError: (error) => {
       const { status, data } = error;
 
       if (status === 401) {
-        showAlert('Invalid email or password', 'error');
+        showAlert(content.invalidCredentials.value, 'error');
       } else if (status === 400 && data?.messages) {
         if (typeof data.messages === 'string') {
           showAlert(data.messages, 'error');
@@ -36,9 +43,9 @@ export const useSignIn = () => {
           showAlert(data.messages[0].message, 'error');
         }
       } else if (status === 429) {
-        showAlert('Too many requests. Please try again later.', 'error');
+        showAlert(content.tooManyRequests.value, 'error');
       } else {
-        showAlert('An error occurred. Please try again.', 'error');
+        showAlert(content.unknownError.value, 'error');
       }
     },
   });

@@ -23,6 +23,17 @@ type RefreshResult = { setCookie: string[]; accessToken?: string } | null;
 
 let refreshPromise: Promise<RefreshResult> | null = null;
 
+const buildAccessCookie = (token: string): string => {
+  const attrs = ['Path=/', 'HttpOnly', 'SameSite=Lax'];
+  if (isProd) attrs.push('Secure');
+  return `${COOKIE_NAME}=${token}; ${attrs.join('; ')}`;
+};
+
+const hasCookie = (cookies: string[] | undefined, name: string): boolean => {
+  if (!cookies || !cookies.length) return false;
+  return cookies.some((cookie) => cookie.startsWith(`${name}=`));
+};
+
 export async function bffFetch(
   nextRes: NextResponse,
   path: string,
@@ -67,10 +78,14 @@ export async function bffFetch(
   const shouldAttemptJson = shouldAttemptJsonParse(res, path);
   const { accessToken, sanitized } = await extractAccessToken(res, shouldAttemptJson);
   if (accessToken) setAccessCookie(nextRes, accessToken);
+  const baseSetCookie =
+    !nextRes && accessToken && !hasCookie(normalizedSetCookie, COOKIE_NAME)
+      ? [...(normalizedSetCookie ?? []), buildAccessCookie(accessToken)]
+      : normalizedSetCookie;
 
   const initialRes = sanitized ?? res;
   if (res.status !== 401 || path === REFRESH_PATH) {
-    return nextRes ? initialRes : { res: initialRes, setCookie: normalizedSetCookie };
+    return nextRes ? initialRes : { res: initialRes, setCookie: baseSetCookie };
   }
 
   const refreshed = await refreshTokens();
@@ -79,9 +94,9 @@ export async function bffFetch(
 
   if (!refreshed?.accessToken) {
     const merged =
-      normalizedSetCookie && refreshed?.setCookie?.length
-        ? [...normalizedSetCookie, ...refreshed.setCookie]
-        : normalizedSetCookie;
+      baseSetCookie && refreshed?.setCookie?.length
+        ? [...baseSetCookie, ...refreshed.setCookie]
+        : baseSetCookie;
     return nextRes ? initialRes : { res: initialRes, setCookie: merged };
   }
 
@@ -95,7 +110,7 @@ export async function bffFetch(
 
   if (!nextRes) {
     const merged = [
-      ...(normalizedSetCookie ?? []),
+      ...(baseSetCookie ?? []),
       ...(refreshed.setCookie ?? []),
       ...(retrySetCookie ?? []),
     ];

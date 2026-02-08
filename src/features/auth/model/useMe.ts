@@ -9,5 +9,9 @@ export const useMe = () => {
     queryKey: ['me'],
     queryFn: getMe,
     retry: false,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 };

@@ -1,31 +1,45 @@
-import { RegistrationConfirmationHandler } from '@/features/auth/registration-confirmation';
-import { HomePageClient } from './HomePageClient';
+'use client';
 
-type HomePageProps = {
-  searchParams?:
-    | Record<string, string | string[] | undefined>
-    | Promise<Record<string, string | string[] | undefined>>;
-};
+import { Suspense } from 'react';
+import styles from './HomePage.module.scss';
+import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
+import { mockPosts } from '@/entities/post';
+import { mockUsers } from '@/entities/user';
+import { buildPostCards, PostCard } from '@/widgets/post-card';
+import { PeopleCounter } from '@/widgets/people-counter';
+import { useMe } from '@/features/auth/model/useMe';
+import { HomeQueryBridge } from './HomeQueryBridge';
 
-const normalizeParam = (value?: string | string[]): string | undefined => {
-  if (Array.isArray(value)) {
-    return value[0];
-  }
+export function HomePage() {
+  const items = buildPostCards(mockPosts, mockUsers);
 
-  return value;
-};
-
-export async function HomePage({ searchParams }: HomePageProps) {
-  const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
-  const postId = normalizeParam(resolvedSearchParams.postId);
-  const action = normalizeParam(resolvedSearchParams.action);
-  const code = normalizeParam(resolvedSearchParams.code);
-  const email = normalizeParam(resolvedSearchParams.email);
+  const { data: me, isLoading } = useMe();
 
   return (
     <>
-      <RegistrationConfirmationHandler code={code} email={email} />
-      <HomePageClient postId={postId} action={action} />
+      <Suspense fallback={null}>
+        <HomeQueryBridge />
+      </Suspense>
+      <section className={styles.page}>
+        <div className={styles.content}>
+          {!isLoading && me && (
+            <aside className={styles.sidebar}>
+              <Sidebar />
+            </aside>
+          )}
+          <div className={styles.user_count}>
+            <PeopleCounter />
+          </div>
+
+          <main className={styles.main}>
+            <div className={styles.grid}>
+              {items.map((vm) => (
+                <PostCard key={vm.post.id} vm={vm} />
+              ))}
+            </div>
+          </main>
+        </div>
+      </section>
     </>
   );
 }

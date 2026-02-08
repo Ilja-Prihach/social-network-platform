@@ -1,0 +1,31 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 100%;
+  min-height: 391px;
+  padding: 10px;
+  border-radius: 16px;
+  background: var(--dark-900-color);
+  color: var(--light-100-color);
+}
+
+.media {
+  height: 240px;
+  width: calc(100% + 20px);
+  margin: 0 -10px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.body {
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 72px;
+}
