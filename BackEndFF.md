@@ -1,99 +1,90 @@
-# BackEndFF (BFF) — описание реализации
+# BackEndFF (BFF) — описание слоя прокси
 
-Этот файл — точка входа для понимания BFF‑слоя в проекте. Здесь собраны основные файлы, потоки, правила работы с токенами и примеры использования.
+Этот документ объясняет, как устроен BFF в проекте: где лежит код, как работают токены/куки и как добавлять новые маршруты.
 
-## Зачем здесь BFF
+## Зачем нужен BFF
 
-BFF (Backend‑For‑Frontend) нужен, чтобы:
+BFF (Backend‑For‑Frontend) решает несколько задач:
 
-- проксировать запросы к бэкенду,
-- хр анить `accessToken` **только** в HttpOnly cookie (неотдавать его в тело ответа),
-- прокидывать `Set‑Cookie` от бэка в браузер (refresh‑rotation),
-- централизованно обрабатывать `401` и делать single‑flight refresh.
+- проксирует запросы к бэкенду;
+- хранит `accessToken` только в HttpOnly cookie (не отдаёт его в body ответа);
+- форвардит `Set-Cookie` от бэкенда в браузер (включая refresh‑rotation);
+- централизованно обрабатывает `401` и делает single‑flight refresh.
 
 ## Основные файлы
 
-- `src/shared/api/server/bffFetch.ts` — ядро BFF‑логики
-- `src/shared/api/server/cookies.ts` — извлечение/форвард `Set‑Cookie` и нормализация имени access cookie
-- `src/shared/api/server/bffResponse.ts` — нормализация ответа в JSON
-- `app/api/v1/auth/*/route.ts` — App Router маршруты (BFF‑эндпоинты)
+- `src/shared/api/server/bffFetch.ts` — центральная функция BFF‑прокси.
+- `src/shared/api/server/cookies.ts` — извлечение/форвард `Set-Cookie` и нормализация имени access cookie.
+- `src/shared/api/server/bffResponse.ts` — нормализация ответов в JSON.
+- `app/api/v1/auth/*/route.ts` — App Router маршруты (BFF‑эндпоинты).
 
-## Имя cookie
+## Имя access cookie
 
 - dev: `access_token`
 - prod: `__Host-access_token` (Secure + Path=/, без Domain)
 
-Это имя используется при установке access токена и при нормализации входящих `Set‑Cookie`.
+Это имя используется при установке access токена и при нормализации входящих `Set-Cookie`.
 
-## bffFetch — как работает
+## Как работает `bffFetch`
 
-Сигнатура:
+Сигнатуры:
 
-- `bffFetch(nextRes, path, options)` — основной вариант (сам ставит cookies в `nextRes`)
-- `bffFetch(path, options)` — совместимость для мест, где нет `NextResponse`
+- `bffFetch(nextRes, path, options)` — основной вариант (сам ставит cookies в `nextRes`).
+- `bffFetch(path, options)` — режим совместимости; возвращает `{ res, setCookie }`.
 
-Основные шаги внутри:
+Шаги внутри:
 
-1. Берёт access токен из cookie.
-2. Добавляет `Authorization: Bearer <token>`.
-3. Делает запрос к `API_URL + path`.
-4. Форвардит все `Set‑Cookie` от бэка.
-5. Если в JSON есть `{ accessToken }` — кладёт его в HttpOnly cookie **и удаляет из тела ответа**.
-6. Если ответ 401 и это не refresh — делает single‑flight refresh и повторяет запрос.
+1. Берёт access токен из cookie и добавляет `Authorization: Bearer <token>`.
+2. Делает запрос на `API_URL + path`.
+3. Форвардит `Set-Cookie` от бэка (если есть `NextResponse`).
+4. Если в JSON есть `{ accessToken }`, кладёт его в HttpOnly cookie и удаляет из body.
+5. Если ответ `401` и это не refresh‑роут, делает refresh (single‑flight) и повторяет запрос.
+
+Особенность безопасности:
+
+- `accessToken` никогда не должен уходить в body. `bffFetch` вырезает его из JSON.
+- Для `/api/v1/auth/*` JSON парсится даже если бэк не выставил `Content-Type: application/json`.
 
 ## Refresh (single‑flight)
 
-Путь refresh: `/api/v1/auth/update`.
+Refresh‑путь: `/api/v1/auth/update`.
 
-- При 401 (кроме refresh) создаётся один refresh‑запрос для всех параллельных 401.
-- В refresh отправляются только cookies `refreshToken` и `access_token/__Host-access_token`.
-- Все `Set‑Cookie` из refresh прокидываются в ответ.
-- Если пришёл новый accessToken — он ставится в HttpOnly cookie.
+Поведение:
 
-## Защита от утечек токена
+- При первом `401` создаётся один refresh‑запрос для всех параллельных 401.
+- В refresh отправляются только `refreshToken` и access cookie (`access_token` / `__Host-access_token`).
+- Все `Set-Cookie` из refresh прокидываются в ответ.
+- Если пришёл новый accessToken, он ставится в HttpOnly cookie.
 
-- `bffFetch` вырезает `accessToken` из JSON‑ответа через `res.clone().json()`.
-- Дополнительно, даже если backend не выставил `Content‑Type: application/json`, на `/api/v1/auth/*` bffFetch всё равно пытается парсить JSON и удалять `accessToken`.
+## Нормализация JSON‑ответов (`buildJsonResponse`)
 
-## Нормализация JSON‑ответов
+`buildJsonResponse(res)` возвращает корректный JSON‑ответ клиенту:
 
-Через `buildJsonResponse(res)`:
-
-- если бэк прислал JSON → возвращается JSON как есть;
-- если бэк прислал текст → возвращается `{ "message": "<текст>" }`;
+- если бэк прислал JSON → вернуть его как есть;
+- если бэк прислал текст → `{ "message": "<текст>" }`;
 - если бэк ничего не прислал:
   - при успехе → `{ "ok": true }`
   - при ошибке → `{ "message": "Request failed" }`
 
-Это удобно для отображения ошибок на клиенте.
+Это удобно для единообразной обработки ошибок на клиенте.
 
 ## App Router маршруты (BFF эндпоинты)
 
-Сейчас есть:
+Текущие auth‑маршруты в `app/api/v1/auth/*/route.ts` используют:
 
-- `app/api/v1/auth/login` — login, ставит access cookie, на успех отдаёт `{ ok: true }`
-- `app/api/v1/auth/update` — refresh
-- `app/api/v1/auth/me` — получить пользователя
-- `app/api/v1/auth/registration`
-- `app/api/v1/auth/registration-confirmation`
-- `app/api/v1/auth/password-recovery`
-- `app/api/v1/auth/logout`
+- `bffFetch` или прямой `fetch` при необходимости;
+- `buildJsonResponse` для JSON‑ответа;
+- `forwardSetCookie` для прокидывания куки в браузер.
 
-Все они:
-
-- используют `bffFetch` или прямой fetch + cookie
-- возвращают JSON через `buildJsonResponse`
-- форвардят `Set‑Cookie` в браузер
-
-## Как пользоваться BFF в новых маршрутах
+## Как добавлять новые BFF‑маршруты
 
 ### Базовый шаблон (универсальный)
 
-1. Создать API route в `app/api/.../route.ts`.
-2. Создать `cookieCarrier` — временный `NextResponse`, в который `bffFetch` сможет записать cookies.
-3. Вызвать `bffFetch(cookieCarrier, path, options)`.
-4. Сформировать ответ через `buildJsonResponse(res)`.
-5. Прокинуть cookies в ответ клиенту через `forwardSetCookie(nextResponse, cookieCarrier)`.
+1. Создайте API route в `app/api/.../route.ts`.
+2. Создайте `cookieCarrier` — временный `NextResponse`, куда `bffFetch` запишет cookies.
+3. Вызовите `bffFetch(cookieCarrier, path, options)`.
+4. Сформируйте JSON через `buildJsonResponse(res)`.
+5. Скопируйте cookies в итоговый ответ через `forwardSetCookie`.
 
 Пример:
 
@@ -114,59 +105,41 @@ export async function GET() {
 }
 ```
 
-### Почему нужен `cookieCarrier`
+### Зачем нужен `cookieCarrier`
 
-`bffFetch` сам ставит `HttpOnly` cookies (access token) и форвардит `Set‑Cookie` от бэкенда.\n
-Но он не должен напрямую трогать финальный `NextResponse`, чтобы можно было безопасно\n
-перехватывать/модифицировать body. Поэтому используется «временный» `NextResponse` —\n
-`cookieCarrier`, куда складываются cookies, а потом они копируются в итоговый ответ.
+`bffFetch` сам ставит HttpOnly cookies и форвардит `Set-Cookie`,
+но он не должен напрямую изменять финальный `NextResponse`,
+чтобы можно было безопасно модифицировать тело ответа.
+Поэтому используется временный `NextResponse` (cookie carrier).
 
 ### Аргументы `bffFetch`
 
-Сигнатуры:
-
-- `bffFetch(nextRes, path, options)` — основной режим, где `nextRes` получает cookies.
-- `bffFetch(path, options)` — режим совместимости, если `NextResponse` недоступен.
-
-Аргументы:
-
-- `nextRes`: `NextResponse` — сюда bffFetch ставит HttpOnly access cookie.
-- `path`: строка, путь на бэкенде (например `/api/v1/auth/me`).
+- `nextRes`: `NextResponse`, куда ставятся HttpOnly cookies.
+- `path`: путь на бэкенде (например `/api/v1/auth/me`).
 - `options`: `RequestInit` + `json`:
-  - `json`: объект тела; bffFetch сам сделает `JSON.stringify` и выставит `Content-Type`.
+  - `json`: объект тела; `bffFetch` сам делает `JSON.stringify` и выставляет `Content-Type`.
   - `headers`: дополнительные заголовки.
   - `method`: HTTP метод.
 
-### Когда нужно форвардить cookies, а когда нет
+### Когда форвардить cookies
 
-**Правило по умолчанию:** всегда форвардить cookies, если используете `cookieCarrier`.\n
-Это безопасно и универсально.
+В проекте есть два корректных паттерна:
 
-#### Обязательно (auth и refresh):
+1. **С `cookieCarrier`** — вы передаёте `NextResponse` в `bffFetch`, а затем копируете
+   куки из `cookieCarrier` в финальный ответ через `forwardSetCookie`.
 
-- `/api/v1/auth/login` — приходит refresh cookie + access cookie
-- `/api/v1/auth/update` — refresh rotation, приходит новый refresh cookie
-- любые auth‑методы, где бэкенд может вернуть `Set‑Cookie`
+2. **Без `cookieCarrier` (как сейчас в большинстве роутов)** — вы вызываете
+   `bffFetch(path, options)` и получаете `{ res, setCookie }`, после чего
+   добавляете `setCookie` в итоговый `NextResponse` через `forwardSetCookie`.
 
-#### Можно не форвардить:
+Правило по умолчанию: если у вас есть `cookieCarrier` или вы получили `setCookie`
+из `bffFetch`, форвардите cookies. Это безопасно и не ломает ответы.
 
-- для чисто публичных read‑эндпоинтов (например `/posts`, `/public-feed`), где бэкенд\n
-  точно не отдаёт `Set‑Cookie`.\n
-  Однако для единообразия проще всегда прокидывать cookies — это не ломает ответы.
+Обязательно для auth‑эндпоинтов:
 
-### Когда нужен `buildJsonResponse`
-
-Используйте всегда для BFF‑роутов, чтобы:\n
-
-- гарантировать JSON‑ответ клиенту;\n
-- иметь `message` в ошибках (удобно для snackbar);\n
-- избежать «пустых» или невалидных ответов.
-
-### Важно по безопасности
-
-- `accessToken` никогда не должен уходить в body ответа.\n
-  `bffFetch` удаляет его из JSON (через `res.clone().json()`), особенно на auth‑путях.\n
-- refresh cookie должен приходить только через `Set‑Cookie` (HttpOnly).
+- login / logout
+- refresh (`/api/v1/auth/update`)
+- любые auth‑методы, где бэк может вернуть `Set-Cookie`
 
 ## Что делает каждый серверный файл
 
@@ -174,45 +147,46 @@ export async function GET() {
 
 Назначение: центральная функция BFF‑прокси.
 
-- Читает access cookie и добавляет `Authorization: Bearer ...`
-- Форвардит `Set‑Cookie` от бэка
-- Ставит `accessToken` в HttpOnly cookie
-- Удаляет `accessToken` из JSON‑ответа
-- Делает single‑flight refresh и повторяет запрос
+- Читает access cookie и добавляет `Authorization: Bearer ...`.
+- Делает запрос к `API_URL + path`.
+- Форвардит `Set-Cookie` от бэкенда (через `forwardSetCookie`).
+- Вытаскивает `accessToken` из JSON и кладёт его в HttpOnly cookie.
+- Удаляет `accessToken` из body ответа (возвращает sanitized `Response`).
+- При `401` делает single‑flight refresh и повторяет запрос.
 
 ### `src/shared/api/server/bffResponse.ts`
 
 Назначение: единый JSON‑ответ BFF.
 
-- Всегда возвращает корректный JSON
-- Если бэк прислал текст → `{ message: "<text>" }`
-- Если бэк не прислал ничего → `{ message: "Request failed" }`
-- Удобно для snackbar и统一ного UI
+- Превращает любой ответ в корректный JSON.
+- На ошибке гарантирует наличие `message`.
+- Корректно обрабатывает пустые ответы (204/205/304).
 
 ### `src/shared/api/server/cookies.ts`
 
-Назначение: работа с `Set‑Cookie` и нормализация имени access cookie.
+Назначение: работа с `Set-Cookie` и нормализация имени access cookie.
 
-- `getSetCookie` — надёжно читает все `Set‑Cookie` из Response
-- `forwardSetCookie` — добавляет cookies в NextResponse
-- `rewriteAccessCookieForProd` — превращает `access_token` в `__Host-access_token` с корректными атрибутами
+- `getSetCookie` — надёжно читает все `Set-Cookie` из `Response`.
+- `rewriteAccessCookieForProd` — превращает `access_token` в `__Host-access_token`
+  и добавляет обязательные атрибуты для продакшена.
+- `forwardSetCookie` — добавляет cookies в `NextResponse`.
 
 ## Где смотреть ошибки на клиенте
 
-Snackbar реализован в `src/shared/ui/Alert/Alert.tsx` и вызывается через `showAlert(text, variant)`.
-Типовой паттерн:
+Snackbar реализован в `src/shared/ui/Alert/Alert.tsx` и вызывается через
+`showAlert(text, variant)`. Типовой паттерн:
 
-- прочитать `message` из JSON ответа
-- отобразить в `showAlert(message, 'error')`
+- прочитать `message` из JSON ответа;
+- отобразить `showAlert(message, 'error')`.
 
 ## Ключевые параметры окружения
 
-- `API_URL` — базовый URL бэкенда (обязателен, если бэк не на том же хосте)
-- `NODE_ENV` — определяет имя cookie (`access_token` vs `__Host-access_token`)
+- `API_URL` — базовый URL бэкенда (обязателен, если бэк не на том же хосте).
+- `NODE_ENV` — определяет имя cookie (`access_token` vs `__Host-access_token`).
 
 ## Краткий чек‑лист
 
-- accessToken не попадает в body
-- refreshToken остаётся HttpOnly и приходит только из `Set‑Cookie`
-- все auth‑ответы нормализованы в JSON
-- single‑flight refresh работает на конкурентных 401
+- `accessToken` не попадает в body.
+- `refreshToken` остаётся HttpOnly и приходит только через `Set-Cookie`.
+- все auth‑ответы нормализованы в JSON.
+- single‑flight refresh работает на конкурентных `401`.
