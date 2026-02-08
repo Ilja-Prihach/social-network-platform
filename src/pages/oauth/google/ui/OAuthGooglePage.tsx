@@ -27,8 +27,9 @@ export function OAuthGooglePage() {
     if (didRun.current) return;
     didRun.current = true;
 
-    const error = searchParams.get('error');
-    const code = searchParams.get('code') ?? '';
+    const params = searchParams ?? new URLSearchParams();
+    const error = params.get('error');
+    const code = params.get('code') ?? '';
 
     const finish = async () => {
       if (error) {

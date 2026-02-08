@@ -31,7 +31,8 @@ export function OAuthGithubPage() {
     if (didRun.current) return;
     didRun.current = true;
 
-    const accessToken = searchParams.get('accessToken') ?? searchParams.get('access_token') ?? '';
+    const params = searchParams ?? new URLSearchParams();
+    const accessToken = params.get('accessToken') ?? params.get('access_token') ?? '';
 
     const finish = async () => {
       try {
