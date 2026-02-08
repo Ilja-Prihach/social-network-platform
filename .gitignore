@@ -46,7 +46,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env.local
+.env.loc
 .env.development.local
 .env.test.local
 .env.production.local
@@ -59,7 +59,7 @@ lerna-debug.log*
 next-env.d.ts
 
 # env files
-.env.local
+.env.loc
 .env.development.local
 .env.test.local
 .env.production.local
