@@ -1,5 +1,3 @@
-export const BASE_URL = '';
-
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 interface RequestOptions {
@@ -9,7 +7,7 @@ interface RequestOptions {
 }
 
 export async function baseApi<T>(url: string, options: RequestOptions = {}): Promise<T> {
-  const response = await fetch(`${BASE_URL}${url}`, {
+  const response = await fetch(`${url}`, {
     method: options.method ?? 'GET',
     headers: {
       'Content-Type': 'application/json',

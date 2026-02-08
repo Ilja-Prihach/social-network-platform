@@ -6,6 +6,6 @@ export interface PeopleCountResponse {
 }
 
 export const getPeopleCount = async (): Promise<number> => {
-  const data = await baseApi<PeopleCountResponse>('/api/v1/public-user');
+  const data = await baseApi<PeopleCountResponse>('/api/public-user');
   return data.totalCount;
 };

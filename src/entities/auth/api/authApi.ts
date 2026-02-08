@@ -59,48 +59,48 @@ export type CreateNewPasswordPayload = {
 };
 
 export function signUp(data: SignUpRequest) {
-  return baseApi<SignUpResponse>('/api/v1/auth/registration', {
+  return baseApi<SignUpResponse>('/api/auth/registration', {
     method: 'POST',
     body: data,
   });
 }
 
 export function login(data: LoginRequest) {
-  return baseApi<LoginResponse>('/api/v1/auth/login', {
+  return baseApi<LoginResponse>('/api/auth/login', {
     method: 'POST',
     body: data,
   });
 }
 
 export function acceptGithubAccessToken(data: GithubAcceptRequest) {
-  return baseApi<{ ok: boolean }>('/api/v1/auth/github/accept', {
+  return baseApi<{ ok: boolean }>('/api/auth/github/accept', {
     method: 'POST',
     body: data,
   });
 }
 
 export function githubUpdateTokens() {
-  return baseApi<GithubUpdateTokensResponse>('/api/v1/auth/github/update-tokens', {
+  return baseApi<GithubUpdateTokensResponse>('/api/auth/github/update-tokens', {
     method: 'POST',
   });
 }
 
 export function googleLogin(data: GoogleLoginRequest) {
-  return baseApi<GoogleLoginResponse>('/api/v1/auth/google/login', {
+  return baseApi<GoogleLoginResponse>('/api/auth/google/login', {
     method: 'POST',
     body: data,
   });
 }
 
 export function confirmRegistration(data: RegistrationConfirmationRequest) {
-  return baseApi<void>('/api/v1/auth/registration-confirmation', {
+  return baseApi<void>('/api/auth/registration-confirmation', {
     method: 'POST',
     body: { confirmationCode: data.code },
   });
 }
 
 export function logout() {
-  return baseApi<void>('/api/v1/auth/logout', {
+  return baseApi<void>('/api/auth/logout', {
     method: 'POST',
   });
 }
@@ -142,7 +142,7 @@ export const recoverPassword = async ({
   locale,
 }: RecoverPasswordPayload): Promise<void> => {
   try {
-    await baseApi<void>('/api/v1/auth/password-recovery', {
+    await baseApi<void>('/api/auth/password-recovery', {
       method: 'POST',
       body: {
         email,
@@ -160,7 +160,7 @@ export const createNewPassword = async ({
   recoveryCode,
 }: CreateNewPasswordPayload): Promise<void> => {
   try {
-    await baseApi<void>('/api/v1/auth/new-password', {
+    await baseApi<void>('/api/auth/new-password', {
       method: 'POST',
       body: { newPassword, recoveryCode },
     });

@@ -13,7 +13,7 @@ const getErrorMessage = async (response: Response, fallback: string) => {
 };
 
 export const resendVerification = async (email: string): Promise<void> => {
-  const response = await fetch('/api/v1/auth/registration-email-resending', {
+  const response = await fetch('/api/auth/registration-email-resending', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),

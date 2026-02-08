@@ -11,7 +11,7 @@ export const useAuthStatus = () => {
   useEffect(() => {
     let active = true;
 
-    baseApi('/api/v1/auth/me')
+    baseApi('/api/auth/me')
       .then(() => {
         if (active) setStatus('auth');
       })

@@ -8,7 +8,7 @@ import { forwardSetCookie, getSetCookie } from './cookies';
 const API_URL = 'https://inctagram.work';
 const isProd = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = isProd ? '__Host-access_token' : 'access_token';
-const REFRESH_PATH = '/api/v1/auth/update';
+const REFRESH_PATH = '/api/auth/update';
 
 type BffFetchOptions = RequestInit & {
   json?: unknown;
@@ -189,7 +189,7 @@ const isJsonResponse = (res: Response): boolean => {
 
 const shouldAttemptJsonParse = (res: Response, path: string): boolean => {
   if (isJsonResponse(res)) return true;
-  return path.startsWith('/api/v1/auth/');
+  return path.startsWith('/api/auth/');
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> => {

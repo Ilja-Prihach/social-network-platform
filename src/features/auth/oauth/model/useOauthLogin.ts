@@ -17,7 +17,7 @@ export const useOauthLogin = () => {
     if (typeof window === 'undefined') return;
     const origin = window.location.origin;
     const redirectUrl = buildRedirectUrl(origin, locale, 'github');
-    const url = `/api/v1/auth/github/login?redirect_url=${encodeURIComponent(redirectUrl)}`;
+    const url = `/api/auth/github/login?redirect_url=${encodeURIComponent(redirectUrl)}`;
     window.location.assign(url);
   };
 

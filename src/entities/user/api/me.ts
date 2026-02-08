@@ -7,4 +7,4 @@ export type MeResponse = {
   isBlocked: boolean;
 };
 
-export const getMe = () => baseApi<MeResponse>('/api/v1/auth/me');
+export const getMe = () => baseApi<MeResponse>('/api/auth/me');
