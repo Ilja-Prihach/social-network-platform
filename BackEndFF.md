@@ -189,4 +189,4 @@ Snackbar реализован в `src/shared/ui/Alert/Alert.tsx` и вызыва
 - `accessToken` не попадает в body.
 - `refreshToken` остаётся HttpOnly и приходит только через `Set-Cookie`.
 - все auth‑ответы нормализованы в JSON.
-- single‑flight refresh работает на конкурентных `401`.
+- single‑flight refresh работает на конкурентных `401`.!
