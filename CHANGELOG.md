@@ -11,4 +11,3 @@
     11.Cleaned corrupted node_modules, reinstalled deps; dev server start blocked in sandbox by port permissions.
     12.Fixed imports that referenced `@/src/*` to use the configured `@/*` alias (Button, user entity, privacy policy page).
     13.ok
-11. zhopa
