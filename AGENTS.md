@@ -23,6 +23,22 @@ Prefer imports via alias `@/*` (mapped to `src/*`) instead of relative deep path
 - `npm run stylelint:fix`: auto-fix SCSS issues where possible.
 
 Current repo does not define a dedicated automated test script yet.
+After completing each task, verify changes with `npm run build`.
+
+## Key Dependencies
+
+- `next` (App Router): framework and routing entrypoints.
+- `react`/`react-dom` 19.x: runtime UI library version for components.
+- `@tanstack/react-query`: data fetching and caching.
+- `@tanstack/react-query-devtools`: devtools for React Query debugging.
+- `zustand`: global client state.
+- `react-hook-form`: forms and validation.
+- `sass`: SCSS support.
+- `intlayer` + `next-intlayer`: localization and i18n.
+- `eslint` + `eslint-plugin-boundaries`: linting and FSD boundary enforcement.
+- `stylelint`: SCSS linting.
+- `prettier`: formatting.
+- `husky` + `lint-staged`: pre-commit checks.
 
 ## Coding Style & Naming Conventions
 
