@@ -37,7 +37,7 @@ export function RequestPasswordResetForm() {
   const content = useDictionary(requestPasswordResetContent);
   const params = useParams();
   const locale = getLocaleFromParams(params);
-  const recaptchaSiteKey = 'REDACTED_PUBLIC_KEY';
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const isRecaptchaEnabled = Boolean(recaptchaSiteKey);
 
   const [email, setEmail] = useState('');
