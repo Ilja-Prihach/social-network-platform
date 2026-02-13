@@ -37,5 +37,31 @@
 
 - Confirm first-page rule in backend:
   - `.../posts/user/{userId}` or `.../posts/user/{userId}/0`
-- Decide whether to keep or remove legacy route:
-  `app/api/public-user/profile/[profileId]/posts/route.ts`
+- Legacy route status:
+  - `app/api/public-user/profile/[profileId]/posts/route.ts` removed
+
+## Resume Block
+
+- Current branch: `fill-me`
+- Last commit: `fill-me`
+- Local status check:
+  - `git status --short`
+  - `npm run dev`
+  - `npm run build`
+- What works now:
+  - profile header is loaded from `/api/public-user/profile/{id}`
+  - profile posts are requested via BFF `app/api/posts/user/[userId]/route.ts`
+  - posts UI uses `PostMediaCarousel` in `ProfileDetailsPage`
+- Known risks:
+  - backend first-page cursor rule may differ (`no cursor` vs `0`)
+  - environment-dependent build issues (fonts/network/sandbox)
+- First step on resume:
+  - validate first-page cursor contract in browser network
+  - if contract changed, update `app/api/posts/user/[userId]/route.ts`
+  - if response shape changed, update mapping in `src/entities/profile/api/profileApi.ts`
+- Evidence to bring into next chat:
+  - first request URL + status from Network for profile posts
+  - response body snippet for first page (`totalCount`, `items[0].id`)
+  - whether endpoint works without cursor or only with `/0`
+- Start prompt for next chat:
+  - `Read TASKS.md and context/profile-status.md, then continue from Next section without refactoring unrelated files.`
