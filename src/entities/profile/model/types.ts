@@ -34,18 +34,19 @@ export type ProfilePost = {
   createdAt: string;
   text: string;
   media: ProfilePostMedia[];
+  userName: string;
+  avatarOwner?: string;
 };
 
 export type ProfilePostsPage = {
   items: ProfilePost[];
-  pageNumber: number;
+  nextCursorPostId: number | null;
   pageSize: number;
   totalCount: number;
-  hasMore: boolean;
 };
 
 export type GetPublicProfilePostsParams = {
   profileId: number;
-  pageNumber: number;
+  endCursorPostId?: number | null;
   pageSize?: number;
 };

@@ -4,18 +4,30 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getPublicProfilePostsPage, PROFILE_POSTS_PAGE_SIZE } from '../api/profileApi';
 import type { ProfilePostsPage } from './types';
 import type { ApiError } from '@/shared/api/types';
+import type { InfiniteData } from '@tanstack/react-query';
 
 export const useProfilePostsInfiniteQuery = (profileId: number | null, enabled: boolean = true) => {
-  return useInfiniteQuery<ProfilePostsPage, ApiError>({
+  return useInfiniteQuery<
+    ProfilePostsPage,
+    ApiError,
+    InfiniteData<ProfilePostsPage>,
+    [string, number | null],
+    number | null
+  >({
     queryKey: ['profile-posts', profileId],
     queryFn: ({ pageParam }) =>
       getPublicProfilePostsPage({
         profileId: profileId as number,
-        pageNumber: Number(pageParam),
+        endCursorPostId: pageParam,
         pageSize: PROFILE_POSTS_PAGE_SIZE,
       }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.pageNumber + 1 : undefined),
+    initialPageParam: null as number | null,
+    getNextPageParam: (lastPage, allPages) => {
+      const loaded = allPages.reduce((acc, page) => acc + page.items.length, 0);
+      if (loaded >= lastPage.totalCount) return undefined;
+      if (lastPage.items.length === 0) return undefined;
+      return lastPage.nextCursorPostId;
+    },
     enabled: enabled && Number.isFinite(profileId),
     staleTime: 30 * 1000,
     gcTime: 10 * 60 * 1000,

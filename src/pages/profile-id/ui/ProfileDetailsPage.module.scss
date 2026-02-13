@@ -111,6 +111,62 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.post_item {
+  background: transparent;
+}
+
+.post_media {
+  margin-bottom: 8px;
+}
+
+.post_meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.post_author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post_avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.post_avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post_author_text {
+  min-width: 0;
+}
+
+.post_username {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.post_time {
+  margin: 0;
+  color: var(--light-700-color);
+  font-size: 12px;
+}
+
+.post_description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
 .state {
   padding: 20px 0;
   color: var(--light-700-color);

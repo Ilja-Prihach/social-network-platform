@@ -6,11 +6,11 @@ import { usePublicProfileQuery, useProfilePostsInfiniteQuery } from '@/entities/
 import { useMe } from '@/features/auth/model/useMe';
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
 import { Button } from '@/shared/ui/Button';
-import { PostCard } from '@/widgets/post-card';
-import type { PostCardVM } from '@/widgets/post-card';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import type { ProfileAvatar } from '@/entities/profile';
+import { PostMediaCarousel } from '@/entities/post';
+import { formatRelativeTime } from '@/shared/lib/date/formatRelativeTime';
 
 const formatCount = (value: number) => new Intl.NumberFormat('en-US').format(value);
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
@@ -36,28 +36,10 @@ export function ProfileDetailsPage() {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const { hasNextPage, isFetchingNextPage, fetchNextPage } = postsQuery;
 
-  const posts = useMemo(() => {
-    const profilePosts = postsQuery.data?.pages.flatMap((page) => page.items) ?? [];
-    const authorName = profileQuery.data?.userName ?? 'UserName';
-    const authorAvatar = pickProfileAvatar(profileQuery.data?.avatars);
-
-    return profilePosts.map(
-      (post): PostCardVM => ({
-        post: {
-          id: post.id,
-          authorId: String(profileId),
-          createdAt: post.createdAt,
-          text: post.text,
-          media: post.media,
-        },
-        author: {
-          id: String(profileId),
-          username: authorName,
-          avatarUrl: authorAvatar,
-        },
-      }),
-    );
-  }, [postsQuery.data, profileId, profileQuery.data]);
+  const posts = useMemo(
+    () => postsQuery.data?.pages.flatMap((page) => page.items) ?? [],
+    [postsQuery.data],
+  );
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -156,8 +138,12 @@ export function ProfileDetailsPage() {
               </div>
 
               <div className={styles.posts_grid}>
-                {posts.map((vm) => (
-                  <PostCard key={vm.post.id} vm={vm} />
+                {posts.map((post) => (
+                  <article key={post.id} className={styles.post_item}>
+                    <div className={styles.post_media}>
+                      <PostMediaCarousel media={post.media} />
+                    </div>
+                  </article>
                 ))}
               </div>
 

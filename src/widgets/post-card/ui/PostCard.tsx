@@ -17,13 +17,13 @@ export function PostCard({ vm }: Props) {
         <PostMediaCarousel media={post.media} />
       </div>
 
-      {/*<header className={s.header}>*/}
-      {/*  <UserBadge user={author} createdAt={post.createdAt} />*/}
-      {/*</header>*/}
+      <header className={s.header}>
+        <UserBadge user={author} createdAt={post.createdAt} />
+      </header>
 
-      {/*<div className={s.body}>*/}
-      {/*  <PostText text={post.text} />*/}
-      {/*</div>*/}
+      <div className={s.body}>
+        <PostText text={post.text} />
+      </div>
     </article>
   );
 }
