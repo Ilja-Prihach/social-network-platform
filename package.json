@@ -3,11 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/ensure-intlayer-main.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/ensure-intlayer-main.mjs",
-    "build": "next build",
-    "build:production": "next build",
+    "build": "next build --webpack",
+    "build:production": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
     "prepare": "husky",
