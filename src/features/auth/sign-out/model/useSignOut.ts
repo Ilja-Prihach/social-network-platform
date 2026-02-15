@@ -19,6 +19,7 @@ export const useSignOut = () => {
       // Ignore server errors; client cleanup still required.
     } finally {
       queryClient.setQueryData(['me'], null);
+      queryClient.removeQueries({ queryKey: ['home-posts'] });
       router.push(`/${locale}/`);
       setIsLoading(false);
     }
