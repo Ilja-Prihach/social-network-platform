@@ -8,16 +8,6 @@
 
 .content {
   position: relative;
-  padding-left: 280px;
-}
-
-.sidebar {
-  position: fixed;
-  top: var(--header-h);
-  left: 60px;
-  width: var(--sidebar-w);
-  height: calc(100vh - var(--header-h));
-  overflow-y: auto;
 }
 
 .main {

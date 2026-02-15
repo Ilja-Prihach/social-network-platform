@@ -1,0 +1,31 @@
+.layout {
+  min-height: 100vh;
+}
+
+.sidebar_slot {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  z-index: 900;
+}
+
+.content,
+.content_with_sidebar {
+  min-height: 100vh;
+}
+
+.content_with_sidebar {
+  padding-left: 280px;
+}
+
+:dir(rtl) .sidebar_slot {
+  left: auto;
+  right: 0;
+}
+
+:dir(rtl) .content_with_sidebar {
+  padding-left: 0;
+  padding-right: 280px;
+}
