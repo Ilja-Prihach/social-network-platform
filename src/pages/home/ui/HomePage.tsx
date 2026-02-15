@@ -3,17 +3,15 @@
 import { Suspense } from 'react';
 import styles from './HomePage.module.scss';
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
-import { mockPosts } from '@/entities/post';
-import { mockUsers } from '@/entities/user';
-import { buildPostCards, PostCard } from '@/widgets/post-card';
+import { PostCard } from '@/widgets/post-card';
 import { PeopleCounter } from '@/widgets/people-counter';
 import { useMe } from '@/features/auth/model/useMe';
 import { HomeQueryBridge } from './HomeQueryBridge';
+import { useHomePosts } from '../model/useHomePosts';
 
 export function HomePage() {
-  const items = buildPostCards(mockPosts, mockUsers);
-
   const { data: me, isLoading } = useMe();
+  const { data: items = [] } = useHomePosts();
 
   return (
     <>
