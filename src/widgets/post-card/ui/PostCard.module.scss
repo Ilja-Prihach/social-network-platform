@@ -1,31 +1,31 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
   width: 100%;
-  min-height: 391px;
-  padding: 10px;
-  border-radius: 16px;
-  background: var(--dark-900-color);
+  min-height: 308px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--light-100-color);
 }
 
 .media {
-  height: 240px;
-  width: calc(100% + 20px);
-  margin: 0 -10px;
-  border-radius: 12px;
+  height: 178px;
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
   overflow: hidden;
 }
 
 .header {
   display: flex;
   align-items: center;
-  min-height: 44px;
+  min-height: 28px;
 }
 
 .body {
-  font-size: 16px;
-  line-height: 1.5;
-  min-height: 72px;
+  font-size: 12px;
+  line-height: 1.35;
+  min-height: 34px;
 }

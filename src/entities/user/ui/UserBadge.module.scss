@@ -1,12 +1,12 @@
 .root {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .avatar {
-  width: 44px;
-  height: 44px;
+  width: 24px;
+  height: 24px;
   border-radius: 999px;
   overflow: hidden;
   flex: 0 0 auto;
@@ -21,16 +21,16 @@
 
 .meta {
   display: grid;
-  gap: 4px;
+  gap: 1px;
 }
 
 .username {
   font-weight: 600;
-  font-size: 18px;
+  font-size: 12px;
   line-height: 1.2;
 }
 
 .time {
-  font-size: 14px;
+  font-size: 10px;
   opacity: 0.7;
 }

@@ -1,11 +1,12 @@
 .root {
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 
 .text {
   margin: 0;
-  line-height: 24px;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .text_content {
@@ -15,7 +16,7 @@
 }
 
 .text_clamped {
-  max-height: 72px;
+  max-height: 32px;
   overflow: hidden;
 }
 
@@ -28,9 +29,9 @@
   padding: 0;
   border: none;
   background: none;
-  color: #0070f3;
+  color: #4c8dff;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   margin-left: 0;
   vertical-align: baseline;
 }
