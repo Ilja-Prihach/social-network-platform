@@ -15,6 +15,7 @@ export function useHomePosts(initialPosts: PostCardVM[] = []) {
     },
     initialData: initialPosts.length ? initialPosts : undefined,
     staleTime: 60 * 1000,
+    refetchOnMount: 'always',
     refetchInterval: 60 * 1000,
     refetchIntervalInBackground: true,
   });
