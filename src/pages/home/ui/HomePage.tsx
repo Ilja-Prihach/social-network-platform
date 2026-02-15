@@ -10,8 +10,8 @@ import { HomeQueryBridge } from './HomeQueryBridge';
 import { useHomePosts } from '../model/useHomePosts';
 
 export function HomePage() {
-  const { data: me, isLoading } = useMe();
-  const { data: items = [] } = useHomePosts();
+  const { data: me, isLoading: isMeLoading } = useMe();
+  const { data: items = [], isLoading: isPostsLoading } = useHomePosts();
 
   return (
     <>
@@ -20,7 +20,7 @@ export function HomePage() {
       </Suspense>
       <section className={styles.page}>
         <div className={styles.content}>
-          {!isLoading && me && (
+          {!isMeLoading && me && (
             <aside className={styles.sidebar}>
               <Sidebar />
             </aside>
@@ -31,9 +31,15 @@ export function HomePage() {
 
           <main className={styles.main}>
             <div className={styles.grid}>
-              {items.map((vm) => (
-                <PostCard key={vm.post.id} vm={vm} />
-              ))}
+              {isPostsLoading
+                ? Array.from({ length: 4 }).map((_, index) => (
+                    <div
+                      key={`post-skeleton-${index}`}
+                      className={styles.post_skeleton}
+                      aria-hidden
+                    />
+                  ))
+                : items.map((vm) => <PostCard key={vm.post.id} vm={vm} />)}
             </div>
           </main>
         </div>
