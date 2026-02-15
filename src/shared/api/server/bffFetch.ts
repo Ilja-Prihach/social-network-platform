@@ -8,9 +8,7 @@ import { forwardSetCookie, getSetCookie } from './cookies';
 const API_URL = process.env.API_URL;
 const isProd = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = isProd ? '__Host-access_token' : 'access_token';
-const REFRESH_PATH = '/api/v1/auth/update';
-const REFRESH_COOKIE_NAME = isProd ? '__Host-refreshToken' : 'refreshToken';
-const REFRESH_TIMEOUT_MS = 5_000;
+const REFRESH_PATH = '/api/auth/update';
 
 type BffFetchOptions = RequestInit & {
   json?: unknown;
@@ -127,35 +125,19 @@ const refreshTokens = async (): Promise<RefreshResult> => {
 
   // Single-flight: concurrent 401s await the same refresh request.
   refreshPromise = (async () => {
-    if (!API_URL) return null;
-
     const cookieStore = await cookies();
-    const refreshCookie = cookieStore.get(REFRESH_COOKIE_NAME) ?? cookieStore.get('refreshToken');
-    if (!refreshCookie?.value) return null;
+    const cookieHeader = cookieStore
+      .getAll()
+      .filter(({ name }) => name === 'refreshToken' || name === COOKIE_NAME)
+      .map(({ name, value }) => `${name}=${value}`)
+      .join('; ');
 
-    const accessCookie = cookieStore.get(COOKIE_NAME);
-    const cookieHeader = [
-      `${refreshCookie.name}=${refreshCookie.value}`,
-      ...(accessCookie?.value ? [`${accessCookie.name}=${accessCookie.value}`] : []),
-    ].join('; ');
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), REFRESH_TIMEOUT_MS);
-
-    let res: Response;
-    try {
-      res = await fetch(`${API_URL}${REFRESH_PATH}`, {
-        method: 'POST',
-        headers: {
-          Cookie: cookieHeader,
-        },
-        signal: controller.signal,
-      });
-    } catch {
-      return null;
-    } finally {
-      clearTimeout(timeoutId);
-    }
+    const res = await fetch(`${API_URL}${REFRESH_PATH}`, {
+      method: 'POST',
+      headers: {
+        Cookie: cookieHeader,
+      },
+    });
 
     const setCookie = forwardIfNeeded(undefined, res) ?? [];
     if (!res.ok) return { setCookie };

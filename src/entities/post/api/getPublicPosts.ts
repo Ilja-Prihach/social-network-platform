@@ -48,14 +48,14 @@ export async function getPublicPosts(params: GetPublicPostsParams = {}): Promise
     sortDirection = 'desc',
   } = params;
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? '';
   const query = new URLSearchParams({
     pageSize: String(pageSize),
     sortBy,
     sortDirection,
-    endCursorPostId: String(endCursorPostId),
   });
 
-  const url = `/api/posts/public?${query.toString()}`;
+  const url = `${apiUrl}/api/v1/posts/all/${endCursorPostId}?${query.toString()}`;
   const response = await baseApi<PublicPostsResponse>(url);
 
   return response.items;
