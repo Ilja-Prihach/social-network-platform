@@ -25,7 +25,11 @@ export const useSignIn = () => {
     onSuccess: async () => {
       try {
         await refetchMe();
-        queryClient.removeQueries({ queryKey: ['home-posts'] });
+        queryClient.setQueryData(['home-posts'], []);
+        await queryClient.invalidateQueries({
+          queryKey: ['home-posts'],
+          refetchType: 'active',
+        });
         setAuth(true);
         showAlert(content.loginSuccess.value, 'success');
         router.replace('/');
