@@ -1,7 +1,5 @@
 .card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: block;
   width: 234px;
   height: 391px;
   padding: 0;
@@ -21,11 +19,14 @@
 .header {
   display: flex;
   align-items: flex-start;
+  margin-top: 12px;
 }
 
 .body {
   width: 234px;
   height: 72px;
+  margin-top: 3px;
+  overflow: hidden;
   font-size: 14px;
   line-height: 171%;
   color: var(--light-100-color);
