@@ -13,7 +13,8 @@
 
 .content,
 .content_with_sidebar {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--header-h));
+  padding-top: var(--header-h);
 }
 
 .content_with_sidebar {
