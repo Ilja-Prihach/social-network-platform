@@ -52,21 +52,21 @@ export function PostMediaCarousel({ media }: Props) {
             </button>
           </>
         )}
-      </div>
 
-      {hasMany && (
-        <div className={s.dots} role="tablist" aria-label="Media pagination">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              className={i === safeIndex ? s.dot_active : s.dot}
-              aria-label={`Go to media ${i + 1}`}
-              onClick={() => setIndex(i)}
-            />
-          ))}
-        </div>
-      )}
+        {hasMany && (
+          <div className={s.dots} role="tablist" aria-label="Media pagination">
+            {items.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                className={i === safeIndex ? s.dot_active : s.dot}
+                aria-label={`Go to media ${i + 1}`}
+                onClick={() => setIndex(i)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

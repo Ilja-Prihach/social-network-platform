@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import s from './PostText.module.scss';
 
-const CLAMP_HEIGHT = 32;
+const CLAMP_HEIGHT = 72;
 
 type Props = {
   text: string;

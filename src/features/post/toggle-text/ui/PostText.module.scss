@@ -1,12 +1,14 @@
 .root {
   display: grid;
-  gap: 4px;
+  gap: 0;
 }
 
 .text {
   margin: 0;
-  font-size: 12px;
-  line-height: 16px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 171%;
+  color: var(--light-100-color);
 }
 
 .text_content {
@@ -16,7 +18,7 @@
 }
 
 .text_clamped {
-  max-height: 32px;
+  max-height: 72px;
   overflow: hidden;
 }
 
@@ -29,9 +31,12 @@
   padding: 0;
   border: none;
   background: none;
-  color: #4c8dff;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  color: var(--accent-500-color);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
+  line-height: 171%;
   margin-left: 0;
   vertical-align: baseline;
 }

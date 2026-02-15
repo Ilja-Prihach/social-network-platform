@@ -21,14 +21,14 @@ export function UserBadge({ user, createdAt }: Props) {
 
   return (
     <div className={s.root}>
-      <div className={s.avatar}>
-        <Image src={avatarSrc} alt={user.username} width={44} height={44} priority={false} />
+      <div className={s.top}>
+        <div className={s.avatar}>
+          <Image src={avatarSrc} alt={user.username} width={36} height={36} priority={false} />
+        </div>
+        <div className={s.username}>{user.username}</div>
       </div>
 
-      <div className={s.meta}>
-        <div className={s.username}>{user.username}</div>
-        <div className={s.time}>{relativeTime}</div>
-      </div>
+      <div className={s.time}>{relativeTime}</div>
     </div>
   );
 }

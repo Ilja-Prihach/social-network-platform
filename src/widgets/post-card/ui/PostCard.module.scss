@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: 100%;
-  min-height: 308px;
+  width: 234px;
+  height: 391px;
   padding: 0;
   border-radius: 0;
   background: transparent;
@@ -11,8 +11,8 @@
 }
 
 .media {
-  height: 178px;
-  width: 100%;
+  width: 234px;
+  height: 240px;
   margin: 0;
   border-radius: 0;
   overflow: hidden;
@@ -20,12 +20,13 @@
 
 .header {
   display: flex;
-  align-items: center;
-  min-height: 28px;
+  align-items: flex-start;
 }
 
 .body {
-  font-size: 12px;
-  line-height: 1.35;
-  min-height: 34px;
+  width: 234px;
+  height: 72px;
+  font-size: 14px;
+  line-height: 171%;
+  color: var(--light-100-color);
 }
