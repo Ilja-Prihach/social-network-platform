@@ -26,6 +26,10 @@
   - hidden visual scrollbar in content container
   - owner-only `Profile Settings` button
   - avatar selection: prefer `192x192`, fallback to first, then mock
+  - profile header decomposition:
+    - `src/widgets/profile-header/ui/ProfileHeader.tsx`
+    - `src/widgets/profile-header/ui/ProfileAvatar.tsx`
+    - `src/widgets/profile-header/ui/ProfileMeta.tsx`
   - post grid uses `PostMediaCarousel` + lightweight post meta (not `PostCard`)
 
 ## Active Contract (Posts)
@@ -50,6 +54,7 @@
   - `npm run build`
 - What works now:
   - profile header is loaded from `/api/public-user/profile/{id}`
+  - profile header UI is decomposed to `ProfileAvatar + ProfileMeta`
   - profile posts are requested via BFF `app/api/posts/user/[userId]/route.ts`
   - posts UI uses `PostMediaCarousel` in `ProfileDetailsPage`
 - Known risks:

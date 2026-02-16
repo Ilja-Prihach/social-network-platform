@@ -11,6 +11,8 @@
 - В шапке профиля отображаются данные из API:
   `userName`, `aboutMe`, counters, avatar из `avatars[]` с fallback.
 - Кнопка `Profile Settings` показывается только владельцу профиля.
+- Декомпозиция шапки профиля выполнена:
+  `ProfileHeader` собран из `ProfileAvatar` + `ProfileMeta` (`src/widgets/profile-header/*`).
 - Скролл у страницы только в контентном блоке, sidebar фиксированный.
 - На странице профиля используется `PostMediaCarousel` (без `PostCard`).
 - Посты подключены к реальному endpoint `GET /api/v1/posts/user/{userId}/{endCursorPostId}`
@@ -22,6 +24,7 @@
 - В `ProfileDetailsPage` рендер постов идет напрямую из response полей:
   `images`, `description`, `createdAt`, `userName`, `avatarOwner`.
 - Курсор пагинации берется из последнего `items[].id`.
+- После декомпозиции шапки профиля `npm run build` проходит успешно.
 
 ## Next
 
