@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { DatePicker } from '@/shared/ui/DatePicker';
 import styles from './FeedPage.module.scss';
+import { useDictionary } from 'next-intlayer';
+import feedContent from '../feed.content';
 
 type DateRange = {
   start: Date | null;
@@ -10,6 +12,8 @@ type DateRange = {
 };
 
 export const DatePickerPreview = () => {
+  const content = useDictionary(feedContent);
+
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const month_start = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -29,20 +33,20 @@ export const DatePickerPreview = () => {
   });
 
   const range_presets: { label: string; value: DateRange }[] = [
-    { label: 'Today', value: { start: today, end: today } },
+    { label: content.presetToday, value: { start: today, end: today } },
     {
-      label: 'Last 7 days',
+      label: content.presetLast7Days,
       value: {
         start: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6),
         end: today,
       },
     },
-    { label: 'This month', value: { start: month_start, end: month_end } },
-    { label: 'Clear', value: { start: null, end: null } },
+    { label: content.presetThisMonth, value: { start: month_start, end: month_end } },
+    { label: content.presetClear, value: { start: null, end: null } },
   ];
   const get_range_error = (value: DateRange) => {
     if (!value.start || !value.end) {
-      return 'Please choose an end date to complete the range.';
+      return content.rangeErrorMessage;
     }
     return undefined;
   };
@@ -50,38 +54,32 @@ export const DatePickerPreview = () => {
   return (
     <div className={styles.picker_preview}>
       <DatePicker
-        label="Date select (range)"
+        label={content.rangeLabel}
         value={range_value}
         onChange={set_range_value}
         presets={range_presets}
         error={get_range_error(range_value)}
       />
       <DatePicker
-        label="Date select (single)"
+        label={content.singleLabel}
         value={single_value}
         onChange={set_single_value}
         selectionMode="single"
       />
       <DatePicker
-        label="Date select (error)"
+        label={content.errorLabel}
         value={error_value}
         onChange={set_error_value}
         error={get_range_error(error_value)}
       />
-      <p className={styles.keyboard_hint}>
-        Error reason: this example has only a start date selected, but the validation rule requires
-        a complete range with both start and end dates.
-      </p>
+      <p className={styles.keyboard_hint}>{content.errorReason}</p>
       <DatePicker
-        label="Date select (disabled)"
+        label={content.disabledLabel}
         value={{ start: new Date(2022, 11, 22), end: null }}
         onChange={() => undefined}
         disabled
       />
-      <p className={styles.keyboard_hint}>
-        Keyboard: Enter/Space to open and select, arrows to move, Home/End by week, PageUp/PageDown
-        by month, Esc to close. Click month/year label to open year picker.
-      </p>
+      <p className={styles.keyboard_hint}>{content.keyboardHint}</p>
     </div>
   );
 };
