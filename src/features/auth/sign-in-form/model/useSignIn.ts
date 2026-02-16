@@ -25,7 +25,6 @@ export const useSignIn = () => {
     onSuccess: async () => {
       try {
         await refetchMe();
-        queryClient.setQueryData(['home-posts'], []);
         await queryClient.invalidateQueries({
           queryKey: ['home-posts'],
           refetchType: 'active',

@@ -1,0 +1,134 @@
+.page {
+  width: 100%;
+  max-width: 972px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 36px 0 40px;
+}
+
+.tabs_row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-bottom: 1px solid #333;
+}
+
+.tab {
+  height: 36px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #8d9094;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.tab_active {
+  color: #397df6;
+  border-bottom-color: #397df6;
+}
+
+.content_layout {
+  display: grid;
+  grid-template-columns: 192px minmax(0, 740px);
+  align-items: start;
+  column-gap: 40px;
+}
+
+.avatar_col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.photo_button {
+  align-self: flex-start;
+  padding: 6px 24px;
+  border-radius: 2px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.avatar_placeholder {
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
+  background: #171717;
+  border: 1px solid #333;
+}
+
+.form_grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 740px;
+}
+
+.selects_row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.select_field {
+  width: 100%;
+}
+
+.actions_row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.save_button {
+  white-space: nowrap;
+}
+
+@media (width <= 1024px) {
+  .page {
+    padding: 24px 16px;
+  }
+
+  .tabs_row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 8px;
+    border-bottom: 0;
+  }
+
+  .tab {
+    border-bottom-width: 1px;
+    border-bottom-color: #333;
+  }
+
+  .content_layout {
+    grid-template-columns: 1fr;
+    row-gap: 24px;
+  }
+
+  .avatar_col {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (width <= 768px) {
+  .selects_row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .actions_row {
+    justify-content: stretch;
+  }
+
+  .save_button {
+    width: 100%;
+  }
+}

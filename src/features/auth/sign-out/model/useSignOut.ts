@@ -19,7 +19,6 @@ export const useSignOut = () => {
       // Ignore server errors; client cleanup still required.
     } finally {
       queryClient.setQueryData(['me'], null);
-      queryClient.setQueryData(['home-posts'], []);
       await queryClient.invalidateQueries({
         queryKey: ['home-posts'],
         refetchType: 'active',
