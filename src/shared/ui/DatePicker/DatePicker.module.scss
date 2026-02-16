@@ -3,6 +3,14 @@
   width: 300px;
 }
 
+.wrapper_range {
+  width: 255px;
+}
+
+.wrapper_single {
+  width: 158px;
+}
+
 .label {
   display: block;
   margin-bottom: 4px;
@@ -161,9 +169,14 @@
 }
 
 .grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.week {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 0;
 }
 
 .grid_viewport {
@@ -231,8 +244,21 @@
   border-bottom-left-radius: 0;
 }
 
+.day_selected_single {
+  border-radius: 18px;
+}
+
 .day_focused {
   box-shadow: inset 0 0 0 1px var(--accent-300-color);
+}
+
+.day_disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+
+  &:hover {
+    background-color: transparent;
+  }
 }
 
 .preset_list {
