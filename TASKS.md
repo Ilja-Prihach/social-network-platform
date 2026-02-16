@@ -25,14 +25,15 @@
   `images`, `description`, `createdAt`, `userName`, `avatarOwner`.
 - Курсор пагинации берется из последнего `items[].id`.
 - После декомпозиции шапки профиля `npm run build` проходит успешно.
+- `ProfileHeader` сверен с Figma node `304:3572` и подогнан по ключевым параметрам:
+  аватар `204x204`, gap `38`, `title 20/1.8`, stats `14px` и `light-100`, about `730px`.
 
 ## Next
 
-- [x] Зафиксирован финальный контракт first-page запроса для постов пользователя.
-  - подтверждено: `GET /api/v1/posts/user/{userId}` без cursor возвращает первую страницу;
-  - `app/api/posts/user/[userId]/route.ts`: fallback на `/0` удален, оставлен один путь first-page;
-  - `context/profile-status.md` обновлен;
-  - live-check: `userId=26`, status `200`, `totalCount=24`, `items=8` (при `pageSize=8`).
+- [x] Сверка `ProfileHeader` с Figma через MCP выполнена.
+  - проверен node: `304:3572` (страница My profile);
+  - внесены правки только в `src/widgets/profile-header/*`;
+  - `npm run build` (elevated) проходит.
 
 ## Notes
 

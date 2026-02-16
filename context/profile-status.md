@@ -30,6 +30,12 @@
     - `src/widgets/profile-header/ui/ProfileHeader.tsx`
     - `src/widgets/profile-header/ui/ProfileAvatar.tsx`
     - `src/widgets/profile-header/ui/ProfileMeta.tsx`
+  - figma alignment for profile header (node `304:3572`):
+    - avatar size `204x204`
+    - gap between avatar/meta `38px`
+    - title `20px` with `1.8` line-height
+    - stats typography `14px` with `var(--light-100-color)`
+    - about width `730px`
   - post grid uses `PostMediaCarousel` + lightweight post meta (not `PostCard`)
 
 ## Active Contract (Posts)
