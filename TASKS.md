@@ -25,20 +25,11 @@
 
 ## Next
 
-- [ ] Зафиксировать финальный контракт first-page запроса для постов пользователя.
-      Цель:
-      убрать неоднозначность первого запроса и оставить один стабильный путь.
-      Проверить:
-  - работает ли `GET /api/v1/posts/user/{userId}` без cursor;
-  - или backend требует `GET /api/v1/posts/user/{userId}/0`.
-    Что собрать для решения:
-  - скрин/лог из Network первого запроса на профиль (Request URL + Status + Response);
-  - при возможности ответ backend-команды по swagger/контракту;
-  - пример `items[0].id` из первой страницы (для cursor-перехода).
-    Критерий готовности:
-  - в `app/api/posts/user/[userId]/route.ts` остается один подтвержденный first-page путь;
-  - fallback-логика для first page удалена или оставлена осознанно с комментарием;
-  - `context/profile-status.md` обновлен.
+- [x] Зафиксирован финальный контракт first-page запроса для постов пользователя.
+  - подтверждено: `GET /api/v1/posts/user/{userId}` без cursor возвращает первую страницу;
+  - `app/api/posts/user/[userId]/route.ts`: fallback на `/0` удален, оставлен один путь first-page;
+  - `context/profile-status.md` обновлен;
+  - live-check: `userId=26`, status `200`, `totalCount=24`, `items=8` (при `pageSize=8`).
 
 ## Notes
 

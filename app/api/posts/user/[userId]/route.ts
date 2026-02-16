@@ -20,12 +20,7 @@ export async function GET(req: Request, { params }: RouteContext) {
     ? `${basePath}/${endCursorPostId}?${query}`
     : `${basePath}?${query}`;
 
-  let result = await bffFetch(directPath, { method: 'GET' });
-
-  // Some environments require a path cursor for the first page; retry with cursor=0.
-  if (!endCursorPostId && !result.res.ok && result.res.status === 404) {
-    result = await bffFetch(`${basePath}/0?${query}`, { method: 'GET' });
-  }
+  const result = await bffFetch(directPath, { method: 'GET' });
 
   const nextResponse = await buildJsonResponse(result.res);
   if (result.setCookie) forwardSetCookie(nextResponse, result.setCookie);
