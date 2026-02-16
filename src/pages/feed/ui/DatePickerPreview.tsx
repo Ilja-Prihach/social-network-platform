@@ -33,20 +33,20 @@ export const DatePickerPreview = () => {
   });
 
   const range_presets: { label: string; value: DateRange }[] = [
-    { label: content.presetToday, value: { start: today, end: today } },
+    { label: content.presetToday.value, value: { start: today, end: today } },
     {
-      label: content.presetLast7Days,
+      label: content.presetLast7Days.value,
       value: {
         start: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6),
         end: today,
       },
     },
-    { label: content.presetThisMonth, value: { start: month_start, end: month_end } },
-    { label: content.presetClear, value: { start: null, end: null } },
+    { label: content.presetThisMonth.value, value: { start: month_start, end: month_end } },
+    { label: content.presetClear.value, value: { start: null, end: null } },
   ];
   const get_range_error = (value: DateRange) => {
     if (!value.start || !value.end) {
-      return content.rangeErrorMessage;
+      return content.rangeErrorMessage.value;
     }
     return undefined;
   };
@@ -54,32 +54,32 @@ export const DatePickerPreview = () => {
   return (
     <div className={styles.picker_preview}>
       <DatePicker
-        label={content.rangeLabel}
+        label={content.rangeLabel.value}
         value={range_value}
         onChange={set_range_value}
         presets={range_presets}
         error={get_range_error(range_value)}
       />
       <DatePicker
-        label={content.singleLabel}
+        label={content.singleLabel.value}
         value={single_value}
         onChange={set_single_value}
         selectionMode="single"
       />
       <DatePicker
-        label={content.errorLabel}
+        label={content.errorLabel.value}
         value={error_value}
         onChange={set_error_value}
         error={get_range_error(error_value)}
       />
-      <p className={styles.keyboard_hint}>{content.errorReason}</p>
+      <p className={styles.keyboard_hint}>{content.errorReason.value}</p>
       <DatePicker
-        label={content.disabledLabel}
+        label={content.disabledLabel.value}
         value={{ start: new Date(2022, 11, 22), end: null }}
         onChange={() => undefined}
         disabled
       />
-      <p className={styles.keyboard_hint}>{content.keyboardHint}</p>
+      <p className={styles.keyboard_hint}>{content.keyboardHint.value}</p>
     </div>
   );
 };
