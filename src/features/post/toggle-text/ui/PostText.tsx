@@ -34,7 +34,7 @@ export function PostText({ text }: Props) {
           <>
             {' '}
             <button type="button" className={s.toggle} onClick={toggle}>
-              {isExpanded ? 'Hidden' : 'Show more'}
+              {isExpanded ? 'Hide' : 'Show more'}
             </button>
           </>
         )}
