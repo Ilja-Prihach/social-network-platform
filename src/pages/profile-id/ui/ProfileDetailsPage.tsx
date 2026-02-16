@@ -5,14 +5,10 @@ import styles from './ProfileDetailsPage.module.scss';
 import { usePublicProfileQuery, useProfilePostsInfiniteQuery } from '@/entities/profile';
 import { useMe } from '@/features/auth/model/useMe';
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
-import { Button } from '@/shared/ui/Button';
-import Image from 'next/image';
+import { ProfileHeader } from '@/widgets/profile-header';
 import { useParams } from 'next/navigation';
 import type { ProfileAvatar } from '@/entities/profile';
 import { PostMediaCarousel } from '@/entities/post';
-import { formatRelativeTime } from '@/shared/lib/date/formatRelativeTime';
-
-const formatCount = (value: number) => new Intl.NumberFormat('en-US').format(value);
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
 const pickProfileAvatar = (avatars?: ProfileAvatar[]) => {
@@ -93,49 +89,7 @@ export function ProfileDetailsPage() {
 
           {profile && (
             <>
-              {/*<div className={styles.profile_header}>*/}
-              {/*  <div className={styles.avatar_wrap}>*/}
-              {/*    <Image*/}
-              {/*      src={avatarUrl}*/}
-              {/*      alt={profile.userName}*/}
-              {/*      width={192}*/}
-              {/*      height={192}*/}
-              {/*      className={styles.avatar}*/}
-              {/*    />*/}
-              {/*  </div>*/}
-
-              {/*  <div className={styles.profile_meta}>*/}
-              {/*    <div className={styles.profile_row}>*/}
-              {/*      <h1 className={styles.title}>{profile.userName}</h1>*/}
-              {/*      {isOwner && (*/}
-              {/*        <Button*/}
-              {/*          href="/settings"*/}
-              {/*          variant="secondary"*/}
-              {/*          className={styles.settings_button}*/}
-              {/*        >*/}
-              {/*          Profile Settings*/}
-              {/*        </Button>*/}
-              {/*      )}*/}
-              {/*    </div>*/}
-
-              {/*    <ul className={styles.stats}>*/}
-              {/*      <li className={styles.stat_item}>*/}
-              {/*        <strong>{formatCount(profile.userMetadata.following)}</strong>*/}
-              {/*        <span>Following</span>*/}
-              {/*      </li>*/}
-              {/*      <li className={styles.stat_item}>*/}
-              {/*        <strong>{formatCount(profile.userMetadata.followers)}</strong>*/}
-              {/*        <span>Followers</span>*/}
-              {/*      </li>*/}
-              {/*      <li className={styles.stat_item}>*/}
-              {/*        <strong>{formatCount(profile.userMetadata.publications)}</strong>*/}
-              {/*        <span>Publications</span>*/}
-              {/*      </li>*/}
-              {/*    </ul>*/}
-
-              {/*    {profile.aboutMe && <p className={styles.about}>{profile.aboutMe}</p>}*/}
-              {/*  </div>*/}
-              {/*</div>*/}
+              <ProfileHeader profile={profile} avatarUrl={avatarUrl} isOwner={isOwner} />
 
               <div className={styles.posts_grid}>
                 {posts.map((post) => (
