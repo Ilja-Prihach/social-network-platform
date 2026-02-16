@@ -392,17 +392,21 @@ export const DatePicker = ({
     }
   };
 
-  const fallback_label =
-    selectionMode === 'single' ? content.defaultLabelSingle : content.defaultLabelRange;
-  const fallback_placeholder =
-    selectionMode === 'single' ? content.placeholderSingle : content.placeholderRange;
+  const fallback_label_text =
+    selectionMode === 'single' ? content.defaultLabelSingle.value : content.defaultLabelRange.value;
+  const fallback_placeholder_text =
+    selectionMode === 'single' ? content.placeholderSingle.value : content.placeholderRange.value;
+  const calendar_label = content.calendar.value;
+  const prev_month_label = content.previousMonth.value;
+  const next_month_label = content.nextMonth.value;
+  const select_year_label = content.selectYear.value;
 
   return (
     <div
       className={`${styles.wrapper} ${selectionMode === 'single' ? styles.wrapper_single : styles.wrapper_range}`}
       ref={root_ref}
     >
-      <label className={styles.label}>{label ?? fallback_label}</label>
+      <label className={styles.label}>{label ?? fallback_label_text}</label>
       <button
         ref={trigger_ref}
         type="button"
@@ -412,10 +416,10 @@ export const DatePicker = ({
         disabled={disabled}
         aria-expanded={is_open}
         aria-haspopup="dialog"
-        aria-label={label ?? fallback_label}
+        aria-label={label ?? fallback_label_text}
       >
         <span className={styles.value}>
-          {to_input_value(value, date_formatter) || placeholder || fallback_placeholder}
+          {to_input_value(value, date_formatter) || placeholder || fallback_placeholder_text}
         </span>
         <span className={styles.icon} aria-hidden>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -441,7 +445,7 @@ export const DatePicker = ({
           className={styles.popup}
           role="dialog"
           aria-modal="false"
-          aria-label={content.calendar}
+          aria-label={calendar_label}
           onKeyDown={handle_popup_key_down}
         >
           <div className={styles.header}>
@@ -449,7 +453,7 @@ export const DatePicker = ({
               type="button"
               className={styles.chevron}
               onClick={() => move_month(-1)}
-              aria-label={content.previousMonth}
+              aria-label={prev_month_label}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path
@@ -474,7 +478,7 @@ export const DatePicker = ({
               type="button"
               className={styles.chevron}
               onClick={() => move_month(1)}
-              aria-label={content.nextMonth}
+              aria-label={next_month_label}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path
@@ -489,7 +493,7 @@ export const DatePicker = ({
           </div>
 
           {is_year_picker_open && (
-            <div className={styles.year_picker} role="listbox" aria-label={content.selectYear}>
+            <div className={styles.year_picker} role="listbox" aria-label={select_year_label}>
               {year_options.map((year) => (
                 <button
                   key={year}
@@ -519,7 +523,7 @@ export const DatePicker = ({
           <div className={styles.grid_viewport}>
             <div
               role="grid"
-              aria-label={content.calendar}
+              aria-label={calendar_label}
               className={`${styles.grid} ${month_animation === 'next' ? styles.grid_slide_next : ''} ${month_animation === 'prev' ? styles.grid_slide_prev : ''}`}
               onAnimationEnd={() => set_month_animation(null)}
             >
