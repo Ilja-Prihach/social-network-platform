@@ -23,6 +23,14 @@ type RefreshResult = { setCookie: string[]; accessToken?: string } | null;
 
 let refreshPromise: Promise<RefreshResult> | null = null;
 
+const getApiUrl = (): string => {
+  if (!API_URL) {
+    throw new Error('API_URL is not configured');
+  }
+
+  return API_URL;
+};
+
 const buildAccessCookie = (token: string): string => {
   const attrs = ['Path=/', 'HttpOnly', 'SameSite=Lax'];
   if (isProd) attrs.push('Secure');
@@ -53,6 +61,7 @@ export async function bffFetch(
       : ((arg3 ?? {}) as BffFetchOptions);
 
   const doFetch = async (tokenOverride?: string) => {
+    const apiUrl = getApiUrl();
     const cookieStore = await cookies();
     const token = tokenOverride ?? cookieStore.get(COOKIE_NAME)?.value;
     const headers = new Headers(options.headers);
@@ -65,7 +74,7 @@ export async function bffFetch(
       headers.set('Content-Type', 'application/json');
     }
 
-    return fetch(`${API_URL}${path}`, {
+    return fetch(`${apiUrl}${path}`, {
       ...options,
       headers,
       body: options.json !== undefined ? JSON.stringify(options.json) : options.body,
@@ -132,7 +141,7 @@ const refreshTokens = async (): Promise<RefreshResult> => {
       .map(({ name, value }) => `${name}=${value}`)
       .join('; ');
 
-    const res = await fetch(`${API_URL}${REFRESH_PATH}`, {
+    const res = await fetch(`${getApiUrl()}${REFRESH_PATH}`, {
       method: 'POST',
       headers: {
         Cookie: cookieHeader,

@@ -1,7 +1,7 @@
 'use client';
 
 import { useDictionary, useLocale } from 'next-intlayer';
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import datePickerContent from './DatePicker.content';
 import styles from './DatePicker.module.scss';
@@ -158,10 +158,6 @@ export const DatePicker = ({
   const trigger_ref = useRef<HTMLButtonElement>(null);
   const day_refs = useRef<Record<string, HTMLButtonElement | null>>({});
   const year_refs = useRef<Record<number, HTMLButtonElement | null>>({});
-
-  const label_id = useId();
-  const popup_id = useId();
-  const error_id = useId();
 
   const [is_open, set_is_open] = useState(false);
   const [is_year_picker_open, set_is_year_picker_open] = useState(false);
@@ -406,9 +402,7 @@ export const DatePicker = ({
       className={`${styles.wrapper} ${selectionMode === 'single' ? styles.wrapper_single : styles.wrapper_range}`}
       ref={root_ref}
     >
-      <label id={label_id} className={styles.label}>
-        {label ?? fallback_label}
-      </label>
+      <label className={styles.label}>{label ?? fallback_label}</label>
       <button
         ref={trigger_ref}
         type="button"
@@ -418,9 +412,7 @@ export const DatePicker = ({
         disabled={disabled}
         aria-expanded={is_open}
         aria-haspopup="dialog"
-        aria-controls={is_open ? popup_id : undefined}
-        aria-labelledby={label_id}
-        aria-describedby={error ? error_id : undefined}
+        aria-label={label ?? fallback_label}
       >
         <span className={styles.value}>
           {to_input_value(value, date_formatter) || placeholder || fallback_placeholder}
@@ -438,7 +430,7 @@ export const DatePicker = ({
         </span>
       </button>
       {error && (
-        <span id={error_id} className={styles.error} role="alert">
+        <span className={styles.error} role="alert">
           {error}
         </span>
       )}
@@ -446,7 +438,6 @@ export const DatePicker = ({
       {is_open && (
         <div
           ref={popup_ref}
-          id={popup_id}
           className={styles.popup}
           role="dialog"
           aria-modal="false"
