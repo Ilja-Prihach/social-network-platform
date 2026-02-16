@@ -7,8 +7,10 @@ import { mapPublicPostsToPostCardVM } from '@/widgets/post-card';
 import type { PostCardVM } from '@/widgets/post-card';
 
 export function useHomePosts(initialPosts: PostCardVM[] = []) {
+  const initialSnapshotKey = initialPosts.map((item) => item.post.id).join(',');
+
   return useQuery<PostCardVM[], ApiError>({
-    queryKey: ['home-posts'],
+    queryKey: ['home-posts', initialSnapshotKey],
     queryFn: async () => {
       const data = await getPublicPosts({ pageSize: 4 });
       return mapPublicPostsToPostCardVM(data);
