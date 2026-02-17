@@ -72,9 +72,10 @@ export async function POST(request: Request) {
       },
       accessType: ['public'],
     });
+    const { messages: _messages, ...aiConfigWithoutMessages } = aiConfig;
 
     const { text: translatedRaw } = await generateText({
-      ...aiConfig,
+      ...aiConfigWithoutMessages,
       prompt: [
         `Translate the following post text to ${outputLanguage}.`,
         'Return only translated text, without comments, quotes, or explanation.',
