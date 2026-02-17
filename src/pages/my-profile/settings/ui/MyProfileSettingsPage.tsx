@@ -20,22 +20,7 @@ const city_options = [
 
 export function MyProfileSettingsPage() {
   return (
-    <section className={styles.page}>
-      <div className={styles.tabs_row}>
-        <button className={`${styles.tab} ${styles.tab_active}`} type="button">
-          General information
-        </button>
-        <button className={styles.tab} type="button">
-          Devices
-        </button>
-        <button className={styles.tab} type="button">
-          Account Management
-        </button>
-        <button className={styles.tab} type="button">
-          My payments
-        </button>
-      </div>
-
+    <>
       <div className={styles.content_layout}>
         <div className={styles.avatar_col}>
           <div className={styles.avatar_placeholder} aria-hidden="true" />
@@ -74,6 +59,6 @@ export function MyProfileSettingsPage() {
           Save Changes
         </Button>
       </div>
-    </section>
+    </>
   );
 }
