@@ -23,7 +23,7 @@ export const Header = () => {
     <header>
       <div className={styles.header}>
         <div>
-          <p className={styles.logo}>SocialNetwork-AI?</p>
+          <p className={styles.logo}>SocialNetwork-AI</p>
         </div>
         <div className={styles.wrapper}>
           {me && <Icon iconId="Outline bell" />}

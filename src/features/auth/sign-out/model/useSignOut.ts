@@ -19,7 +19,11 @@ export const useSignOut = () => {
       // Ignore server errors; client cleanup still required.
     } finally {
       queryClient.setQueryData(['me'], null);
-      router.push(`/${locale}/`);
+      await queryClient.invalidateQueries({
+        queryKey: ['home-posts'],
+        refetchType: 'active',
+      });
+      router.replace(`/${locale}/`);
       setIsLoading(false);
     }
   };
