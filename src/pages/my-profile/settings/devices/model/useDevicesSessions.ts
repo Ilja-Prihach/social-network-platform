@@ -4,60 +4,19 @@ import {
   getSessions,
   terminateAllSessions,
   terminateSessionByDeviceId,
-  type SessionItem,
 } from '@/entities/auth/api/authApi';
+import { normalizeSessions, type SessionsQueryData } from './lib/normalizeSessions';
 import type { ApiError } from '@/shared/api/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-type SessionsQueryData = {
-  current: SessionItem;
-  others: SessionItem[];
-};
-
 const SESSIONS_QUERY_KEY = ['auth-sessions'];
-
-const as_string = (value: unknown): string => {
-  if (typeof value === 'string') return value.trim();
-  if (typeof value === 'number') return String(value);
-  return '';
-};
-
-const as_number = (value: unknown): number => {
-  if (typeof value === 'number' && Number.isFinite(value)) return value;
-  const from_string = Number(value);
-  return Number.isFinite(from_string) ? from_string : -1;
-};
-
-const normalize_session = (raw: unknown): SessionItem => {
-  const session = (raw ?? {}) as Record<string, unknown>;
-
-  return {
-    deviceId: as_number(session.deviceId ?? session.device_id),
-    ip: as_string(session.ip),
-    lastActive: as_string(session.lastActive ?? session.last_active),
-    browserName: as_string(session.browserName ?? session.browser_name),
-    browserVersion: as_string(session.browserVersion ?? session.browser_version),
-    deviceName: as_string(session.deviceName ?? session.device_name),
-    osName: as_string(session.osName ?? session.os_name),
-    osVersion: as_string(session.osVersion ?? session.os_version),
-    deviceType: as_string(session.deviceType ?? session.device_type),
-  };
-};
-
-const normalize_sessions = (raw: unknown): SessionsQueryData => {
-  const data = (raw ?? {}) as Record<string, unknown>;
-  const current = normalize_session(data.current);
-  const others_raw = Array.isArray(data.others) ? data.others : [];
-  const others = others_raw.map(normalize_session);
-  return { current, others };
-};
 
 export const useDevicesSessions = () => {
   const queryClient = useQueryClient();
 
   const sessionsQuery = useQuery<SessionsQueryData, ApiError>({
     queryKey: SESSIONS_QUERY_KEY,
-    queryFn: async () => normalize_sessions(await getSessions()),
+    queryFn: async () => normalizeSessions(await getSessions()),
     staleTime: 30 * 1000,
   });
 
