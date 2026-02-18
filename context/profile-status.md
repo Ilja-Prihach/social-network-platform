@@ -37,6 +37,16 @@
     - stats typography `14px` with `var(--light-100-color)`
     - about width `730px`
   - post grid uses `PostMediaCarousel` + lightweight post meta (not `PostCard`)
+- Server/client split for profile-id page:
+  - `src/pages/profile-id/ui/ProfileDetailsPage.tsx` is now server-first and loads initial profile + first posts page
+  - `src/pages/profile-id/ui/ProfileDetailsPageClient.tsx` keeps client interactivity (`useMe`, sidebar toggle, infinite scroll, carousel)
+  - dynamic SEO metadata added in `src/pages/profile-id/index.ts` via `generateMetadata`
+  - route re-export updated: `app/[locale]/profile/[id]/page.tsx` -> `default, generateMetadata`
+- Reusable API split pattern introduced for profile entity:
+  - `src/entities/profile/api/profileApi.client.ts` (`baseApi` + `/api/...`)
+  - `src/entities/profile/api/profileApi.server.ts` (`serverApi` + `/api/v1/...`)
+  - shared mapping extracted to `src/entities/profile/api/profileApi.shared.ts`
+  - shared server helper added: `src/shared/api/server/serverApi.ts`
 
 ## Active Contract (Posts)
 
