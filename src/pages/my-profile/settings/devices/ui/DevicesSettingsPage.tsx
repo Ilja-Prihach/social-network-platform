@@ -5,6 +5,7 @@ import { useDevicesSessions } from '../model/useDevicesSessions';
 import {
   buildSessionsView,
   formatLastActive,
+  getSessionFingerprint,
   toSessionTitle,
   type DevicesTexts as SessionViewTexts,
 } from '../model/lib/sessionViewModel';
@@ -34,7 +35,7 @@ const render_session = (
   texts: DevicesPageTexts,
   on_terminate?: (deviceId: number) => void,
 ) => (
-  <article key={`${session.deviceId}-${session.lastActive}`} className={styles.session_card}>
+  <article key={getSessionFingerprint(session)} className={styles.session_card}>
     <div className={styles.session_main}>
       <div className={styles.session_title_row}>
         <h3 className={styles.session_device}>{toSessionTitle(session, texts)}</h3>

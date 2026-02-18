@@ -14,6 +14,11 @@ export type SessionsView = {
   others: SessionItem[];
 };
 
+export const getSessionFingerprint = (session: SessionItem): string => {
+  if (session.deviceId > 0) return `id:${session.deviceId}`;
+  return `fp:${session.ip}|${session.lastActive}|${session.browserName}|${session.deviceName}`;
+};
+
 export const formatLastActive = (iso: string, texts: DevicesTexts): string => {
   if (!iso) return texts.na;
   const date = new Date(iso);
@@ -51,10 +56,7 @@ const isSameSession = (a: SessionItem, b: SessionItem): boolean => {
 const dedupeSessions = (sessions: SessionItem[]): SessionItem[] => {
   const seen = new Set<string>();
   return sessions.filter((session) => {
-    const key =
-      session.deviceId > 0
-        ? `id:${session.deviceId}`
-        : `fp:${session.ip}|${session.lastActive}|${session.browserName}|${session.deviceName}`;
+    const key = getSessionFingerprint(session);
 
     if (seen.has(key)) return false;
     seen.add(key);
