@@ -14,11 +14,17 @@ export async function GET(req: Request, { params }: RouteContext) {
   const sortDirection = requestUrl.searchParams.get('sortDirection') ?? 'desc';
   const endCursorPostId = requestUrl.searchParams.get('endCursorPostId');
 
-  const query = `pageSize=${encodeURIComponent(pageSize)}&sortBy=${encodeURIComponent(sortBy)}&sortDirection=${encodeURIComponent(sortDirection)}`;
+  const searchParams = new URLSearchParams({
+    pageSize,
+    sortBy,
+    sortDirection,
+  }).toString();
+
   const basePath = `/api/v1/posts/user/${userId}`;
+
   const directPath = endCursorPostId
-    ? `${basePath}/${endCursorPostId}?${query}`
-    : `${basePath}?${query}`;
+    ? `${basePath}/${endCursorPostId}?${searchParams}`
+    : `${basePath}?${searchParams}`;
 
   const result = await bffFetch(directPath, { method: 'GET' });
 
