@@ -67,14 +67,6 @@ const devicesSettingsContent = {
       ru: 'IP',
       it: 'IP',
     }),
-    typeLabel: t({
-      en: 'Type',
-      he: 'Type',
-      fr: 'Type',
-      es: 'Tipo',
-      ru: 'Тип',
-      it: 'Tipo',
-    }),
     lastVisitLabel: t({
       en: 'Last visit',
       he: 'Last visit',

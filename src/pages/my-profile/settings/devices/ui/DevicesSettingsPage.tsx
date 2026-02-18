@@ -18,7 +18,6 @@ import styles from './DevicesSettingsPage.module.scss';
 type DevicesPageTexts = SessionViewTexts & {
   current: string;
   ipLabel: string;
-  typeLabel: string;
   lastVisitLabel: string;
   terminate: string;
   activeSessions: string;
@@ -43,9 +42,6 @@ const render_session = (
       </div>
       <p className={styles.session_meta}>
         {texts.ipLabel}: {session.ip || texts.unknown}
-      </p>
-      <p className={styles.session_meta}>
-        {texts.typeLabel}: {session.deviceType || texts.unknown}
       </p>
       <p className={styles.session_meta}>
         {texts.lastVisitLabel}: {formatLastActive(session.lastActive, texts)}
