@@ -6,7 +6,6 @@ export type DevicesTexts = {
   unknownBrowser: string;
   unknownOs: string;
   unknownDevice: string;
-  on: string;
 };
 
 export type SessionsView = {

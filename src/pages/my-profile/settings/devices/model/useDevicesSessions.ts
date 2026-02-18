@@ -33,14 +33,14 @@ const normalize_session = (raw: unknown): SessionItem => {
 
   return {
     deviceId: as_number(session.deviceId ?? session.device_id),
-    ip: as_string(session.ip) || 'unknown',
+    ip: as_string(session.ip),
     lastActive: as_string(session.lastActive ?? session.last_active),
-    browserName: as_string(session.browserName ?? session.browser_name) || 'Unknown browser',
-    browserVersion: as_string(session.browserVersion ?? session.browser_version) || 'n/a',
-    deviceName: as_string(session.deviceName ?? session.device_name) || 'Unknown device',
-    osName: as_string(session.osName ?? session.os_name) || 'Unknown OS',
-    osVersion: as_string(session.osVersion ?? session.os_version) || 'n/a',
-    deviceType: as_string(session.deviceType ?? session.device_type) || 'unknown',
+    browserName: as_string(session.browserName ?? session.browser_name),
+    browserVersion: as_string(session.browserVersion ?? session.browser_version),
+    deviceName: as_string(session.deviceName ?? session.device_name),
+    osName: as_string(session.osName ?? session.os_name),
+    osVersion: as_string(session.osVersion ?? session.os_version),
+    deviceType: as_string(session.deviceType ?? session.device_type),
   };
 };
 

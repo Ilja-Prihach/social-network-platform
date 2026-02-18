@@ -43,14 +43,6 @@ const devicesSettingsContent = {
       ru: 'Неизвестное устройство',
       it: 'Dispositivo sconosciuto',
     }),
-    on: t({
-      en: 'on',
-      he: 'על',
-      fr: 'sur',
-      es: 'en',
-      ru: 'на',
-      it: 'su',
-    }),
     current: t({
       en: 'Current',
       he: 'Current',
@@ -114,22 +106,6 @@ const devicesSettingsContent = {
       es: 'Error al cargar las sesiones.',
       ru: 'Не удалось загрузить сессии.',
       it: 'Impossibile caricare le sessioni.',
-    }),
-    terminatedSessions: t({
-      en: 'Terminated sessions',
-      he: 'Terminated sessions',
-      fr: 'Sessions terminées',
-      es: 'Sesiones finalizadas',
-      ru: 'Завершенные сессии',
-      it: 'Sessioni terminate',
-    }),
-    terminatedSessionsHistoryUnavailable: t({
-      en: 'Backend currently does not return terminated sessions history.',
-      he: 'Backend currently does not return terminated sessions history.',
-      fr: "Le backend ne renvoie pas encore l'historique des sessions terminées.",
-      es: 'El backend aún no devuelve el historial de sesiones finalizadas.',
-      ru: 'Бэкенд пока не возвращает историю завершенных сессий.',
-      it: 'Il backend attualmente non restituisce la cronologia delle sessioni terminate.',
     }),
   },
 } satisfies Dictionary;

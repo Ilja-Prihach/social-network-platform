@@ -7,7 +7,6 @@ import {
   formatLastActive,
   getSessionFingerprint,
   toSessionTitle,
-  type DevicesTexts as SessionViewTexts,
 } from '../model/lib/sessionViewModel';
 import type { SessionItem } from '@/entities/auth/api/authApi';
 import { Button } from '@/shared/ui/Button';
@@ -15,55 +14,8 @@ import { useDictionary } from 'next-intlayer';
 import devicesSettingsContent from '../devices-settings.content';
 import styles from './DevicesSettingsPage.module.scss';
 
-type DevicesPageTexts = SessionViewTexts & {
-  current: string;
-  ipLabel: string;
-  lastVisitLabel: string;
-  terminate: string;
-  activeSessions: string;
-  terminateAllOtherSessions: string;
-  loadingSessions: string;
-  failedToLoadSessions: string;
-  terminatedSessions: string;
-  terminatedSessionsHistoryUnavailable: string;
-};
-
-const render_session = (
-  session: SessionItem,
-  is_current: boolean,
-  texts: DevicesPageTexts,
-  on_terminate?: (deviceId: number) => void,
-) => (
-  <article key={getSessionFingerprint(session)} className={styles.session_card}>
-    <div className={styles.session_main}>
-      <div className={styles.session_title_row}>
-        <h3 className={styles.session_device}>{toSessionTitle(session, texts)}</h3>
-        {is_current && <span className={styles.current_badge}>{texts.current}</span>}
-      </div>
-      <p className={styles.session_meta}>
-        {texts.ipLabel}: {session.ip || texts.unknown}
-      </p>
-      <p className={styles.session_meta}>
-        {texts.lastVisitLabel}: {formatLastActive(session.lastActive, texts)}
-      </p>
-    </div>
-
-    {on_terminate && (
-      <Button
-        type="button"
-        variant="text"
-        className={styles.terminate_button}
-        disabled={session.deviceId <= 0}
-        onClick={() => on_terminate(session.deviceId)}
-      >
-        {texts.terminate}
-      </Button>
-    )}
-  </article>
-);
-
 export function DevicesSettingsPage() {
-  const content = useDictionary(devicesSettingsContent) as DevicesPageTexts;
+  const content = useDictionary(devicesSettingsContent);
 
   const {
     currentSession,
@@ -100,10 +52,51 @@ export function DevicesSettingsPage() {
       {isError && <p className={styles.state_text}>{content.failedToLoadSessions}</p>}
       {!isLoading && !isError && sessions_view.current && (
         <div className={styles.sessions_list}>
-          {render_session(sessions_view.current, true, content)}
-          {sessions_view.others.map((session) =>
-            render_session(session, false, content, terminateSession),
-          )}
+          <article
+            key={getSessionFingerprint(sessions_view.current)}
+            className={styles.session_card}
+          >
+            <div className={styles.session_main}>
+              <div className={styles.session_title_row}>
+                <h3 className={styles.session_device}>
+                  {toSessionTitle(sessions_view.current, content)}
+                </h3>
+                <span className={styles.current_badge}>{content.current}</span>
+              </div>
+              <p className={styles.session_meta}>
+                {content.ipLabel}: {sessions_view.current.ip || content.unknown}
+              </p>
+              <p className={styles.session_meta}>
+                {content.lastVisitLabel}:{' '}
+                {formatLastActive(sessions_view.current.lastActive, content)}
+              </p>
+            </div>
+          </article>
+          {sessions_view.others.map((session: SessionItem) => (
+            <article key={getSessionFingerprint(session)} className={styles.session_card}>
+              <div className={styles.session_main}>
+                <div className={styles.session_title_row}>
+                  <h3 className={styles.session_device}>{toSessionTitle(session, content)}</h3>
+                </div>
+                <p className={styles.session_meta}>
+                  {content.ipLabel}: {session.ip || content.unknown}
+                </p>
+                <p className={styles.session_meta}>
+                  {content.lastVisitLabel}: {formatLastActive(session.lastActive, content)}
+                </p>
+              </div>
+
+              <Button
+                type="button"
+                variant="text"
+                className={styles.terminate_button}
+                disabled={session.deviceId <= 0}
+                onClick={() => terminateSession(session.deviceId)}
+              >
+                {content.terminate}
+              </Button>
+            </article>
+          ))}
         </div>
       )}
     </section>
