@@ -38,28 +38,17 @@ const isUnknownLike = (value: string): boolean => {
   return !normalized || normalized === 'n/a' || normalized.includes('unknown');
 };
 
-const isLowQualitySession = (session: SessionItem): boolean => {
+const hasDisplayData = (session: SessionItem): boolean => {
   return (
-    isUnknownLike(session.browserName) &&
-    isUnknownLike(session.deviceName) &&
-    isUnknownLike(session.osName)
+    !isUnknownLike(session.browserName) ||
+    !isUnknownLike(session.deviceName) ||
+    !isUnknownLike(session.osName)
   );
 };
 
 const isSameSession = (a: SessionItem, b: SessionItem): boolean => {
   if (a.deviceId > 0 && b.deviceId > 0) return a.deviceId === b.deviceId;
   return a.ip === b.ip && a.lastActive === b.lastActive;
-};
-
-const dedupeSessions = (sessions: SessionItem[]): SessionItem[] => {
-  const seen = new Set<string>();
-  return sessions.filter((session) => {
-    const key = getSessionFingerprint(session);
-
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
 };
 
 export const buildSessionsView = (
@@ -71,22 +60,17 @@ export const buildSessionsView = (
   const othersWithoutCurrent = otherSessions.filter(
     (session) => !isSameSession(session, currentSession),
   );
-
-  let current = currentSession;
-  let others = othersWithoutCurrent;
-
-  // If backend gives low-quality "current", but there is a richer session with same IP in others,
-  // prefer that richer record for display as current.
-  if (isLowQualitySession(currentSession)) {
-    const replacement = othersWithoutCurrent.find((session) => session.ip === currentSession.ip);
-    if (replacement) {
-      current = replacement;
-      others = othersWithoutCurrent.filter((session) => !isSameSession(session, replacement));
-    }
-  }
+  const replacement = othersWithoutCurrent.find(
+    (session) => session.ip === currentSession.ip && hasDisplayData(session),
+  );
+  const current = hasDisplayData(currentSession) ? currentSession : (replacement ?? currentSession);
+  const others =
+    replacement && isSameSession(current, replacement)
+      ? othersWithoutCurrent.filter((session) => !isSameSession(session, replacement))
+      : othersWithoutCurrent;
 
   return {
     current,
-    others: dedupeSessions(others),
+    others,
   };
 };

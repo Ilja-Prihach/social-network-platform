@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
 import { useDevicesSessions } from '../model/useDevicesSessions';
 import {
   buildSessionsView,
@@ -9,24 +8,13 @@ import {
   toSessionTitle,
   type DevicesTexts,
 } from '../model/lib/sessionViewModel';
-import type { SessionItem } from '@/entities/auth/api/authApi';
 import { Button } from '@/shared/ui/Button';
 import { useDictionary } from 'next-intlayer';
 import devicesSettingsContent from '../devices-settings.content';
 import styles from './DevicesSettingsPage.module.scss';
 
-const toText = (value: unknown): string => {
-  if (typeof value === 'string') return value;
-  if (
-    typeof value === 'object' &&
-    value !== null &&
-    'value' in value &&
-    typeof (value as { value: unknown }).value === 'string'
-  ) {
-    return (value as { value: string }).value;
-  }
-  return '';
-};
+type DictionaryText = string | { value: string };
+const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
 
 export function DevicesSettingsPage() {
   const content = useDictionary(devicesSettingsContent);
@@ -49,10 +37,7 @@ export function DevicesSettingsPage() {
     isTerminatingOne,
   } = useDevicesSessions();
 
-  const sessions_view = useMemo(
-    () => buildSessionsView(currentSession, otherSessions),
-    [currentSession, otherSessions],
-  );
+  const sessions_view = buildSessionsView(currentSession, otherSessions);
 
   return (
     <section className={styles.page}>
@@ -93,7 +78,7 @@ export function DevicesSettingsPage() {
               </p>
             </div>
           </article>
-          {sessions_view.others.map((session: SessionItem) => (
+          {sessions_view.others.map((session) => (
             <article key={getSessionFingerprint(session)} className={styles.session_card}>
               <div className={styles.session_main}>
                 <div className={styles.session_title_row}>
