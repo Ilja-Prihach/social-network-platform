@@ -31,7 +31,7 @@ export const toSessionTitle = (session: SessionItem, texts: DevicesTexts): strin
   const os = `${session.osName || texts.unknownOs} ${session.osVersion || texts.na}`.trim();
   const device = session.deviceName || texts.unknownDevice;
 
-  return `${browser} ${texts.on} ${device} (${os})`;
+  return `${browser} ${device} (${os})`;
 };
 
 const isUnknownLike = (value: string): boolean => {
