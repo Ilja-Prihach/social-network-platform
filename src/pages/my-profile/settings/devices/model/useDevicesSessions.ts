@@ -90,7 +90,10 @@ export const useDevicesSessions = () => {
     isLoading: sessionsQuery.isLoading,
     isError: sessionsQuery.isError,
     terminateAllOtherSessions: () => terminateAllMutation.mutate(),
-    terminateSession: (deviceId: number) => terminateOneMutation.mutate(deviceId),
+    terminateSession: (deviceId: number) => {
+      if (deviceId <= 0) return;
+      terminateOneMutation.mutate(deviceId);
+    },
     isTerminatingAll: terminateAllMutation.isPending,
     isTerminatingOne: terminateOneMutation.isPending,
   };

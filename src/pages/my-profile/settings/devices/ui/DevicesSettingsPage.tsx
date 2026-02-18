@@ -73,6 +73,7 @@ const render_session = (
         type="button"
         variant="text"
         className={styles.terminate_button}
+        disabled={session.deviceId <= 0}
         onClick={() => on_terminate(session.deviceId)}
       >
         Terminate
