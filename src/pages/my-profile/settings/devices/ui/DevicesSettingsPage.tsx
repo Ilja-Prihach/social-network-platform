@@ -68,6 +68,7 @@ const render_session = (
 
 export function DevicesSettingsPage() {
   const content = useDictionary(devicesSettingsContent) as DevicesPageTexts;
+  const terminatedSessions: SessionItem[] = [];
 
   const {
     currentSession,
@@ -111,11 +112,15 @@ export function DevicesSettingsPage() {
         </div>
       )}
 
-      <header className={styles.section_header}>
-        <h2 className={styles.section_title}>{content.terminatedSessions}</h2>
-      </header>
+      {terminatedSessions.length > 0 && (
+        <>
+          <header className={styles.section_header}>
+            <h2 className={styles.section_title}>{content.terminatedSessions}</h2>
+          </header>
 
-      <p className={styles.state_text}>{content.terminatedSessionsHistoryUnavailable}</p>
+          <p className={styles.state_text}>{content.terminatedSessionsHistoryUnavailable}</p>
+        </>
+      )}
     </section>
   );
 }
