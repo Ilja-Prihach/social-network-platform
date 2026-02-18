@@ -4,21 +4,43 @@ import { useMemo } from 'react';
 import { useDevicesSessions } from '../model/useDevicesSessions';
 import type { SessionItem } from '@/entities/auth/api/authApi';
 import { Button } from '@/shared/ui/Button';
+import { useDictionary } from 'next-intlayer';
+import devicesSettingsContent from '../devices-settings.content';
 import styles from './DevicesSettingsPage.module.scss';
 
-const format_last_active = (iso: string): string => {
-  if (!iso) return 'n/a';
+type DevicesTexts = {
+  na: string;
+  unknown: string;
+  unknownBrowser: string;
+  unknownOs: string;
+  unknownDevice: string;
+  on: string;
+  current: string;
+  ipLabel: string;
+  typeLabel: string;
+  lastVisitLabel: string;
+  terminate: string;
+  activeSessions: string;
+  terminateAllOtherSessions: string;
+  loadingSessions: string;
+  failedToLoadSessions: string;
+  terminatedSessions: string;
+  terminatedSessionsHistoryUnavailable: string;
+};
+
+const format_last_active = (iso: string, texts: DevicesTexts): string => {
+  if (!iso) return texts.na;
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return iso;
   return date.toLocaleString();
 };
 
-const to_title = (session: SessionItem): string => {
+const to_title = (session: SessionItem, texts: DevicesTexts): string => {
   const browser =
-    `${session.browserName || 'Unknown browser'} ${session.browserVersion || 'n/a'}`.trim();
-  const os = `${session.osName || 'Unknown OS'} ${session.osVersion || 'n/a'}`.trim();
-  const device = session.deviceName || 'Unknown device';
-  return `${browser} on ${device} (${os})`;
+    `${session.browserName || texts.unknownBrowser} ${session.browserVersion || texts.na}`.trim();
+  const os = `${session.osName || texts.unknownOs} ${session.osVersion || texts.na}`.trim();
+  const device = session.deviceName || texts.unknownDevice;
+  return `${browser} ${texts.on} ${device} (${os})`;
 };
 
 const is_unknown_like = (value: string): boolean => {
@@ -55,17 +77,24 @@ const dedupe_sessions = (sessions: SessionItem[]): SessionItem[] => {
 const render_session = (
   session: SessionItem,
   is_current: boolean,
+  texts: DevicesTexts,
   on_terminate?: (deviceId: number) => void,
 ) => (
   <article key={`${session.deviceId}-${session.lastActive}`} className={styles.session_card}>
     <div className={styles.session_main}>
       <div className={styles.session_title_row}>
-        <h3 className={styles.session_device}>{to_title(session)}</h3>
-        {is_current && <span className={styles.current_badge}>Current</span>}
+        <h3 className={styles.session_device}>{to_title(session, texts)}</h3>
+        {is_current && <span className={styles.current_badge}>{texts.current}</span>}
       </div>
-      <p className={styles.session_meta}>IP: {session.ip || 'unknown'}</p>
-      <p className={styles.session_meta}>Type: {session.deviceType || 'unknown'}</p>
-      <p className={styles.session_meta}>Last visit: {format_last_active(session.lastActive)}</p>
+      <p className={styles.session_meta}>
+        {texts.ipLabel}: {session.ip || texts.unknown}
+      </p>
+      <p className={styles.session_meta}>
+        {texts.typeLabel}: {session.deviceType || texts.unknown}
+      </p>
+      <p className={styles.session_meta}>
+        {texts.lastVisitLabel}: {format_last_active(session.lastActive, texts)}
+      </p>
     </div>
 
     {on_terminate && (
@@ -76,13 +105,15 @@ const render_session = (
         disabled={session.deviceId <= 0}
         onClick={() => on_terminate(session.deviceId)}
       >
-        Terminate
+        {texts.terminate}
       </Button>
     )}
   </article>
 );
 
 export function DevicesSettingsPage() {
+  const content = useDictionary(devicesSettingsContent);
+
   const {
     currentSession,
     otherSessions,
@@ -127,7 +158,7 @@ export function DevicesSettingsPage() {
   return (
     <section className={styles.page}>
       <header className={styles.section_header}>
-        <h2 className={styles.section_title}>Active sessions</h2>
+        <h2 className={styles.section_title}>{content.activeSessions}</h2>
         <Button
           type="button"
           variant="text"
@@ -135,26 +166,26 @@ export function DevicesSettingsPage() {
           onClick={terminateAllOtherSessions}
           disabled={!sessions_view.others.length || isTerminatingAll || isTerminatingOne}
         >
-          Terminate all other sessions
+          {content.terminateAllOtherSessions}
         </Button>
       </header>
 
-      {isLoading && <p className={styles.state_text}>Loading sessions...</p>}
-      {isError && <p className={styles.state_text}>Failed to load sessions.</p>}
+      {isLoading && <p className={styles.state_text}>{content.loadingSessions}</p>}
+      {isError && <p className={styles.state_text}>{content.failedToLoadSessions}</p>}
       {!isLoading && !isError && sessions_view.current && (
         <div className={styles.sessions_list}>
-          {render_session(sessions_view.current, true)}
-          {sessions_view.others.map((session) => render_session(session, false, terminateSession))}
+          {render_session(sessions_view.current, true, content)}
+          {sessions_view.others.map((session) =>
+            render_session(session, false, content, terminateSession),
+          )}
         </div>
       )}
 
       <header className={styles.section_header}>
-        <h2 className={styles.section_title}>Terminated sessions</h2>
+        <h2 className={styles.section_title}>{content.terminatedSessions}</h2>
       </header>
 
-      <p className={styles.state_text}>
-        Backend currently does not return terminated sessions history.
-      </p>
+      <p className={styles.state_text}>{content.terminatedSessionsHistoryUnavailable}</p>
     </section>
   );
 }
