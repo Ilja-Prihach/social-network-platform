@@ -2,10 +2,10 @@
 
 import {
   getSessions,
+  type SessionsResponse,
   terminateAllSessions,
   terminateSessionByDeviceId,
 } from '@/entities/auth/api/authApi';
-import { normalizeSessions, type SessionsQueryData } from './lib/normalizeSessions';
 import type { ApiError } from '@/shared/api/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -14,9 +14,9 @@ const SESSIONS_QUERY_KEY = ['auth-sessions'];
 export const useDevicesSessions = () => {
   const queryClient = useQueryClient();
 
-  const sessionsQuery = useQuery<SessionsQueryData, ApiError>({
+  const sessionsQuery = useQuery<SessionsResponse, ApiError>({
     queryKey: SESSIONS_QUERY_KEY,
-    queryFn: async () => normalizeSessions(await getSessions()),
+    queryFn: getSessions,
     staleTime: 30 * 1000,
   });
 
