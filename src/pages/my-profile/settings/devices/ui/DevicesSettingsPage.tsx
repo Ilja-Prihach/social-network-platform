@@ -15,14 +15,27 @@ import { useDictionary } from 'next-intlayer';
 import devicesSettingsContent from '../devices-settings.content';
 import styles from './DevicesSettingsPage.module.scss';
 
+const toText = (value: unknown): string => {
+  if (typeof value === 'string') return value;
+  if (
+    typeof value === 'object' &&
+    value !== null &&
+    'value' in value &&
+    typeof (value as { value: unknown }).value === 'string'
+  ) {
+    return (value as { value: string }).value;
+  }
+  return '';
+};
+
 export function DevicesSettingsPage() {
   const content = useDictionary(devicesSettingsContent);
   const sessionTexts: DevicesTexts = {
-    na: content.na,
-    unknown: content.unknown,
-    unknownBrowser: content.unknownBrowser,
-    unknownOs: content.unknownOs,
-    unknownDevice: content.unknownDevice,
+    na: toText(content.na),
+    unknown: toText(content.unknown),
+    unknownBrowser: toText(content.unknownBrowser),
+    unknownOs: toText(content.unknownOs),
+    unknownDevice: toText(content.unknownDevice),
   };
 
   const {
