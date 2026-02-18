@@ -27,8 +27,7 @@ export const formatLastActive = (iso: string, texts: DevicesTexts): string => {
 };
 
 export const toSessionTitle = (session: SessionItem, texts: DevicesTexts): string => {
-  const browser =
-    `${session.browserName || texts.unknownBrowser} ${session.browserVersion || texts.na}`.trim();
+  const browser = session.browserName || texts.unknownBrowser;
   const os = `${session.osName || texts.unknownOs} ${session.osVersion || texts.na}`.trim();
   const device = session.deviceName || texts.unknownDevice;
 
