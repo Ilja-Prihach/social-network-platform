@@ -3,8 +3,12 @@ import Counter from '@/shared/ui/Counter';
 import styles from './PeopleCounter.module.scss';
 import { usePeopleCount } from '@/features/people-counter';
 
-const PeopleCounter: React.FC = () => {
-  const { data, isLoading, error } = usePeopleCount();
+type PeopleCounterProps = {
+  initialCount?: number | null;
+};
+
+const PeopleCounter: React.FC<PeopleCounterProps> = ({ initialCount }) => {
+  const { data, isLoading, error } = usePeopleCount(initialCount);
 
   if (isLoading) {
     return (

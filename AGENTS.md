@@ -1,73 +1,161 @@
-# Repository Guidelines
+# AGENTS.md
 
-## Project Structure & Module Organization
+Project-specific operating guide for coding agents in this repository (v2 strict mode).
 
-This repository is a Next.js App Router project with Feature-Sliced Design (FSD) under `src/`.
+## Scope
 
-- `app/`: App Router entrypoints (`layout.tsx`, locale pages, API routes) that re-export from `src/pages/*`.
-- `src/app/`: shared app-level layouts/providers.
-- `src/pages/`: route-level page modules (UI + metadata stubs in `src/pages/_`).
-- `src/widgets/`, `src/features/`, `src/entities/`, `src/shared/`: FSD layers for composition, business logic, domain models, and common utilities.
-- `public/`: static assets.
-- Root infra: `middleware.ts`, `instrumentation.ts`, `Dockerfile`, `deployment.yaml`, `nginx.conf`.
+- Applies to the entire repository (`/frontend`) unless a nested `AGENTS.md` overrides it.
 
-Prefer imports via alias `@/*` (mapped to `src/*`) instead of relative deep paths.
+## Operating Mode
 
-## Build, Test, and Development Commands
+- Default mode: strict.
+- Principle: everything is allowed only when in-task and explicitly requested or clearly required to complete the task.
 
-- `npm run dev`: start local Next.js dev server.
-- `npm run build`: create production build.
-- `npm run start`: run built app.
-- `npm run lint`: run ESLint for TS/JS and architecture boundaries.
-- `npm run stylelint`: lint all `*.scss`.
-- `npm run stylelint:fix`: auto-fix SCSS issues where possible.
+## Project Snapshot
 
-Current repo does not define a dedicated automated test script yet.
-After completing each task, verify changes with `npm run build`.
+- Stack: Next.js (App Router), React 19, TypeScript, Sass modules, Zustand, TanStack Query, Intlayer.
+- Package manager: npm (`package-lock.json` is present).
+- Main source root: `src/`.
+- Routing root: `app/` (localized routes under `app/[locale]/...`).
+- API layer: Next route handlers under `app/api/...`, proxying to backend through shared BFF helpers.
 
-## Key Dependencies
+## Repository Layout
 
-- `next` (App Router): framework and routing entrypoints.
-- `react`/`react-dom` 19.x: runtime UI library version for components.
-- `@tanstack/react-query`: data fetching and caching.
-- `@tanstack/react-query-devtools`: devtools for React Query debugging.
-- `zustand`: global client state.
-- `react-hook-form`: forms and validation.
-- `sass`: SCSS support.
-- `intlayer` + `next-intlayer`: localization and i18n.
-- `eslint` + `eslint-plugin-boundaries`: linting and FSD boundary enforcement.
-- `stylelint`: SCSS linting.
-- `prettier`: formatting.
-- `husky` + `lint-staged`: pre-commit checks.
+- `app/`: Next.js routes, layouts, and API route handlers.
+- `src/pages`: page-level UI modules consumed by `app/[locale]` routes.
+- `src/widgets`, `src/features`, `src/entities`, `src/shared`: layered frontend architecture.
+- `src/shared/api/server`: server-side BFF helpers (`bffFetch`, cookie forwarding, normalized responses).
+- `public/`: static assets and mock images.
 
-## Coding Style & Naming Conventions
+## Architecture Constraints
 
-- TypeScript with `strict` mode enabled; keep types explicit at public boundaries.
-- Prettier: 2 spaces, single quotes, semicolons, trailing commas, max width 100.
-- SCSS class names must match `^([a-z][a-z0-9]*)(_[a-z0-9]+)*$` (snake-style segments).
-- Respect FSD dependency rules enforced by ESLint boundaries:
-  `pages -> widgets -> features -> entities -> shared`.
+- ESLint `boundaries` plugin is enabled and enforced.
+- Allowed imports by layer:
 
-## Testing Guidelines
+1. `pages` -> `widgets`, `features`, `entities`, `shared`
+2. `widgets` -> `features`, `entities`, `shared`
+3. `features` -> `entities`, `shared`
+4. `entities` -> `shared`
+5. `shared` -> `shared`
 
-When adding tests, colocate near feature/page code and use `*.test.ts(x)` or `*.spec.ts(x)` naming. Prioritize coverage for:
+- Path alias: `@/*` -> `src/*` (from `tsconfig.json`).
+- Do not bypass boundaries with relative-import workarounds, barrel hacks, or disabled lint rules unless explicitly requested.
 
-- auth/API route handlers in `app/api/*`
-- form validation and critical user flows
-- edge-case handling in shared utilities
+## Localization Rules
 
-Include test run instructions in `package.json` when introducing a framework.
+- Intlayer is integrated (`next-intlayer`) and middleware-based locale routing is active.
+- Supported locales are configured in `intlayer.config.ts`.
+- App routes are locale-scoped under `app/[locale]/...`.
+- Keep localized content in existing `*.content.ts` files where applicable.
 
-## Commit & Pull Request Guidelines
+## API/BFF Conventions
 
-Recent history shows short subjects (`fix`, `add`) plus occasional conventional messages (`chore(deploy): ...`, `docs: ...`). Use clear, imperative subjects and prefer Conventional Commit style:
+- Prefer server route handlers in `app/api/*` as backend proxies instead of direct client-side sensitive calls.
+- Use `bffFetch` from `src/shared/api/server/bffFetch.ts` for backend communication.
+- Preserve cookie forwarding behavior with `forwardSetCookie` and response shaping with `buildJsonResponse`.
+- Keep auth token/cookie logic server-side; do not move it into client components.
+- Before creating/changing routes in `app/api/**` or client requests that depend on BFF endpoints, read and follow `BFF.md`.
+- Keep `BFF.md` updated when adding/removing/changing BFF routes, auth flows, or cookie/refresh behavior.
 
-- `feat(auth): add token refresh route`
-- `fix(profile): handle missing avatar`
+## Sensitive Areas
 
-For PRs, include:
+- Sensitive paths include:
 
-- concise problem/solution description
-- linked issue/ticket (if available)
-- screenshots/video for UI changes
-- notes on config/env or migration impact
+1. `app/api/**`
+2. `src/shared/api/server/**`
+3. `middleware.ts`
+4. `next.config.ts`
+5. `intlayer.config.ts`
+6. `.github/**`, `Dockerfile`, `deployment.yaml`, `Jenkinsfile`, `nginx.conf`
+7. `.env*`
+
+- Changes in sensitive areas are allowed when explicitly requested by the user.
+- For sensitive changes, agent must:
+
+1. Keep changes tightly scoped
+2. Run stronger validation (see Validation Policy)
+3. Report risks and behavior impact explicitly
+
+## Environment Variables
+
+- Expected keys in this project:
+
+1. `API_URL`
+2. `NEXT_PUBLIC_API_URL`
+3. `NEXT_PUBLIC_GOOGLE_CLIENT_ID`
+4. `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`
+
+- Never hardcode secrets or production URLs.
+- Never print or expose secret values in logs or summaries.
+
+## Coding Conventions
+
+- TypeScript strict mode is on; keep types explicit at module boundaries.
+- Follow existing style:
+
+1. Prettier: single quotes, semicolons, trailing commas, print width 100
+2. SCSS modules for component styles
+3. Class naming for SCSS must satisfy stylelint pattern: `^([a-z][a-z0-9]*)(_[a-z0-9]+)*$`
+
+- Avoid broad refactors unless explicitly requested.
+
+## Dependency Policy
+
+- Do not add, remove, or upgrade dependencies unless the user explicitly asks.
+- If dependency changes are required to complete the task, call this out before changing `package.json` or `package-lock.json`.
+
+## Forbidden Changes (Without Explicit Request)
+
+- Do not edit:
+
+1. `.env*`
+2. CI/CD and infra files (`.github/**`, `Dockerfile`, `deployment.yaml`, `Jenkinsfile`, `nginx.conf`)
+3. Lockfiles (`package-lock.json`) as a side effect of unrelated edits
+
+- Do not perform large-scale renames/moves or cross-layer refactors.
+- Do not weaken lint/style/type rules to make code pass.
+
+## Commands
+
+- Install deps: `npm ci`
+- Run dev server: `npm run dev`
+- Build: `npm run build`
+- Start prod build: `npm run start`
+- Lint: `npm run lint`
+- SCSS lint: `npm run stylelint`
+- Auto-fix SCSS lint: `npm run stylelint:fix`
+
+## Validation Checklist
+
+- After code changes, run the narrowest relevant checks first.
+- Minimum expectation by change type:
+
+1. TS/TSX/JS/JSX only: `npm run lint`
+2. SCSS touched: `npm run stylelint` (and `npm run lint` if TS/TSX also changed)
+3. Routing/config/middleware/auth/BFF/API changes: `npm run lint && npm run build`
+4. Dependency changes: `npm run lint && npm run build`
+
+- If a check cannot be run, state the reason explicitly.
+
+## Change Size Control
+
+- Keep edits minimal and task-scoped.
+- If more than 10 files are changed, include a brief justification grouped by feature area.
+
+## Git Hooks
+
+- Husky pre-commit runs `npx lint-staged`.
+- Keep staged files passing eslint/prettier/stylelint to avoid commit failures.
+
+## Agent Behavior Expectations
+
+- Make focused changes only in files relevant to the task.
+- Preserve existing folder/layer boundaries.
+- Prefer reusing existing abstractions/components over introducing parallel patterns.
+- In final reports, include:
+
+1. What changed
+2. Why it changed
+3. Which checks were run and results
+4. Any skipped checks and why
+5. Sensitive-area impact (only when applicable)

@@ -5,8 +5,7 @@ import { showAlert } from '@/shared/ui/Alert';
 
 const GOOGLE_SCOPE = 'openid email profile';
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
-const GOOGLE_CLIENT_ID = '145458398677-b8ikea37rrcek37tvkf0o6qc3rks3fnu.apps.googleusercontent.com';
-
+const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 const buildRedirectUrl = (origin: string, locale: string, provider: 'github' | 'google') =>
   `${origin}/${locale}/oauth/${provider}`;
 

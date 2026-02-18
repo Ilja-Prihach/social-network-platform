@@ -1,6 +1,6 @@
 .page {
   padding: 60px 32px;
-  padding-top: calc(var(--header-h) + 24px);
+  padding-top: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -8,16 +8,9 @@
 
 .content {
   position: relative;
-  padding-left: 280px;
-}
-
-.sidebar {
-  position: fixed;
-  top: var(--header-h);
-  left: 60px;
-  width: var(--sidebar-w);
-  height: calc(100vh - var(--header-h));
-  overflow-y: auto;
+  width: 100%;
+  max-width: 972px;
+  margin: 0 auto;
 }
 
 .main {
@@ -34,6 +27,56 @@
   width: 100%;
   padding-top: 36px;
   display: grid;
-  gap: 18px;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  grid-template-columns: repeat(4, 234px);
+  justify-content: space-between;
+}
+
+.post_skeleton {
+  position: relative;
+  width: 234px;
+  height: 391px;
+  border-radius: 0;
+  overflow: hidden;
+  background: rgb(255 255 255 / 8%);
+}
+
+.post_skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 14%), transparent);
+  animation: post-skeleton-shimmer 1.2s infinite;
+}
+
+@keyframes post-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (width <= 1060px) {
+  .grid {
+    grid-template-columns: repeat(3, 234px);
+    justify-content: center;
+  }
+}
+
+@media (width <= 820px) {
+  .grid {
+    grid-template-columns: repeat(2, 234px);
+    justify-content: center;
+  }
+}
+
+@media (width <= 560px) {
+  .page {
+    padding-inline: 12px;
+  }
+
+  .grid {
+    grid-template-columns: 234px;
+    justify-content: center;
+  }
 }

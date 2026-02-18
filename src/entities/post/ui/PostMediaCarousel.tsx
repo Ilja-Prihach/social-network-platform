@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import type { PostMedia } from '../model/types';
+import { Icon } from '@/shared/ui/Icon';
 import s from './PostMediaCarousel.module.scss';
 
 type Props = {
@@ -45,28 +46,28 @@ export function PostMediaCarousel({ media }: Props) {
         {hasMany && (
           <>
             <button type="button" className={s.prev} aria-label="Previous media" onClick={goPrev}>
-              ‹
+              <Icon iconId="arrow-ios-back-outline" />
             </button>
             <button type="button" className={s.next} aria-label="Next media" onClick={goNext}>
-              ›
+              <Icon iconId="arrow-ios-forward-outline" />
             </button>
           </>
         )}
-      </div>
 
-      {hasMany && (
-        <div className={s.dots} role="tablist" aria-label="Media pagination">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              className={i === safeIndex ? s.dot_active : s.dot}
-              aria-label={`Go to media ${i + 1}`}
-              onClick={() => setIndex(i)}
-            />
-          ))}
-        </div>
-      )}
+        {hasMany && (
+          <div className={s.dots} role="tablist" aria-label="Media pagination">
+            {items.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                className={i === safeIndex ? s.dot_active : s.dot}
+                aria-label={`Go to media ${i + 1}`}
+                onClick={() => setIndex(i)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

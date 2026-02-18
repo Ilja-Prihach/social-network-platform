@@ -10,12 +10,14 @@ import { useAuthStore } from '@/features/auth/model/store';
 import { useMe } from '@/features/auth/model/useMe';
 import { useDictionary } from 'next-intlayer';
 import signInFormContent from '../sign-in-form.content';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const useSignIn = () => {
   const router = useRouter();
   const setAuth = useAuthStore((s) => s.setAuth);
   const { refetch: refetchMe } = useMe();
   const content = useDictionary(signInFormContent);
+  const queryClient = useQueryClient();
 
   return useMutation<LoginResponse, ApiError<AuthErrorResponse>, LoginRequest>({
     mutationFn: login,
@@ -23,6 +25,10 @@ export const useSignIn = () => {
     onSuccess: async () => {
       try {
         await refetchMe();
+        await queryClient.invalidateQueries({
+          queryKey: ['home-posts'],
+          refetchType: 'active',
+        });
         setAuth(true);
         showAlert(content.loginSuccess.value, 'success');
         router.replace('/');
