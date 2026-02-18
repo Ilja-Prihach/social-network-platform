@@ -7,6 +7,7 @@ import {
   formatLastActive,
   getSessionFingerprint,
   toSessionTitle,
+  type DevicesTexts,
 } from '../model/lib/sessionViewModel';
 import type { SessionItem } from '@/entities/auth/api/authApi';
 import { Button } from '@/shared/ui/Button';
@@ -16,6 +17,13 @@ import styles from './DevicesSettingsPage.module.scss';
 
 export function DevicesSettingsPage() {
   const content = useDictionary(devicesSettingsContent);
+  const sessionTexts: DevicesTexts = {
+    na: content.na,
+    unknown: content.unknown,
+    unknownBrowser: content.unknownBrowser,
+    unknownOs: content.unknownOs,
+    unknownDevice: content.unknownDevice,
+  };
 
   const {
     currentSession,
@@ -59,7 +67,7 @@ export function DevicesSettingsPage() {
             <div className={styles.session_main}>
               <div className={styles.session_title_row}>
                 <h3 className={styles.session_device}>
-                  {toSessionTitle(sessions_view.current, content)}
+                  {toSessionTitle(sessions_view.current, sessionTexts)}
                 </h3>
                 <span className={styles.current_badge}>{content.current}</span>
               </div>
@@ -68,7 +76,7 @@ export function DevicesSettingsPage() {
               </p>
               <p className={styles.session_meta}>
                 {content.lastVisitLabel}:{' '}
-                {formatLastActive(sessions_view.current.lastActive, content)}
+                {formatLastActive(sessions_view.current.lastActive, sessionTexts)}
               </p>
             </div>
           </article>
@@ -76,13 +84,13 @@ export function DevicesSettingsPage() {
             <article key={getSessionFingerprint(session)} className={styles.session_card}>
               <div className={styles.session_main}>
                 <div className={styles.session_title_row}>
-                  <h3 className={styles.session_device}>{toSessionTitle(session, content)}</h3>
+                  <h3 className={styles.session_device}>{toSessionTitle(session, sessionTexts)}</h3>
                 </div>
                 <p className={styles.session_meta}>
                   {content.ipLabel}: {session.ip || content.unknown}
                 </p>
                 <p className={styles.session_meta}>
-                  {content.lastVisitLabel}: {formatLastActive(session.lastActive, content)}
+                  {content.lastVisitLabel}: {formatLastActive(session.lastActive, sessionTexts)}
                 </p>
               </div>
 
