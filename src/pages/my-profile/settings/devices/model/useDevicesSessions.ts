@@ -7,7 +7,6 @@ import {
   type SessionItem,
 } from '@/entities/auth/api/authApi';
 import type { ApiError } from '@/shared/api/types';
-import { showAlert } from '@/shared/ui/Alert';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 type SessionsQueryData = {
@@ -65,22 +64,14 @@ export const useDevicesSessions = () => {
   const terminateAllMutation = useMutation<void, ApiError>({
     mutationFn: terminateAllSessions,
     onSuccess: async () => {
-      showAlert('All other sessions terminated', 'success');
       await queryClient.invalidateQueries({ queryKey: SESSIONS_QUERY_KEY });
-    },
-    onError: () => {
-      showAlert('Failed to terminate sessions', 'error');
     },
   });
 
   const terminateOneMutation = useMutation<void, ApiError, number>({
     mutationFn: terminateSessionByDeviceId,
     onSuccess: async () => {
-      showAlert('Session terminated', 'success');
       await queryClient.invalidateQueries({ queryKey: SESSIONS_QUERY_KEY });
-    },
-    onError: () => {
-      showAlert('Failed to terminate session', 'error');
     },
   });
 
