@@ -2,19 +2,19 @@
 
 import { useMemo } from 'react';
 import { useDevicesSessions } from '../model/useDevicesSessions';
+import {
+  buildSessionsView,
+  formatLastActive,
+  toSessionTitle,
+  type DevicesTexts as SessionViewTexts,
+} from '../model/lib/sessionViewModel';
 import type { SessionItem } from '@/entities/auth/api/authApi';
 import { Button } from '@/shared/ui/Button';
 import { useDictionary } from 'next-intlayer';
 import devicesSettingsContent from '../devices-settings.content';
 import styles from './DevicesSettingsPage.module.scss';
 
-type DevicesTexts = {
-  na: string;
-  unknown: string;
-  unknownBrowser: string;
-  unknownOs: string;
-  unknownDevice: string;
-  on: string;
+type DevicesPageTexts = SessionViewTexts & {
   current: string;
   ipLabel: string;
   typeLabel: string;
@@ -28,62 +28,16 @@ type DevicesTexts = {
   terminatedSessionsHistoryUnavailable: string;
 };
 
-const format_last_active = (iso: string, texts: DevicesTexts): string => {
-  if (!iso) return texts.na;
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return iso;
-  return date.toLocaleString();
-};
-
-const to_title = (session: SessionItem, texts: DevicesTexts): string => {
-  const browser =
-    `${session.browserName || texts.unknownBrowser} ${session.browserVersion || texts.na}`.trim();
-  const os = `${session.osName || texts.unknownOs} ${session.osVersion || texts.na}`.trim();
-  const device = session.deviceName || texts.unknownDevice;
-  return `${browser} ${texts.on} ${device} (${os})`;
-};
-
-const is_unknown_like = (value: string): boolean => {
-  const normalized = (value || '').toLowerCase();
-  return !normalized || normalized === 'n/a' || normalized.includes('unknown');
-};
-
-const is_low_quality_session = (session: SessionItem): boolean => {
-  return (
-    is_unknown_like(session.browserName) &&
-    is_unknown_like(session.deviceName) &&
-    is_unknown_like(session.osName)
-  );
-};
-
-const is_same_session = (a: SessionItem, b: SessionItem): boolean => {
-  if (a.deviceId > 0 && b.deviceId > 0) return a.deviceId === b.deviceId;
-  return a.ip === b.ip && a.lastActive === b.lastActive;
-};
-
-const dedupe_sessions = (sessions: SessionItem[]): SessionItem[] => {
-  const seen = new Set<string>();
-  return sessions.filter((session) => {
-    const key =
-      session.deviceId > 0
-        ? `id:${session.deviceId}`
-        : `fp:${session.ip}|${session.lastActive}|${session.browserName}|${session.deviceName}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-};
-
 const render_session = (
   session: SessionItem,
   is_current: boolean,
-  texts: DevicesTexts,
+  texts: DevicesPageTexts,
   on_terminate?: (deviceId: number) => void,
 ) => (
   <article key={`${session.deviceId}-${session.lastActive}`} className={styles.session_card}>
     <div className={styles.session_main}>
       <div className={styles.session_title_row}>
-        <h3 className={styles.session_device}>{to_title(session, texts)}</h3>
+        <h3 className={styles.session_device}>{toSessionTitle(session, texts)}</h3>
         {is_current && <span className={styles.current_badge}>{texts.current}</span>}
       </div>
       <p className={styles.session_meta}>
@@ -93,7 +47,7 @@ const render_session = (
         {texts.typeLabel}: {session.deviceType || texts.unknown}
       </p>
       <p className={styles.session_meta}>
-        {texts.lastVisitLabel}: {format_last_active(session.lastActive, texts)}
+        {texts.lastVisitLabel}: {formatLastActive(session.lastActive, texts)}
       </p>
     </div>
 
@@ -112,7 +66,7 @@ const render_session = (
 );
 
 export function DevicesSettingsPage() {
-  const content = useDictionary(devicesSettingsContent);
+  const content = useDictionary(devicesSettingsContent) as DevicesPageTexts;
 
   const {
     currentSession,
@@ -125,35 +79,10 @@ export function DevicesSettingsPage() {
     isTerminatingOne,
   } = useDevicesSessions();
 
-  const sessions_view = useMemo(() => {
-    if (!currentSession) {
-      return { current: null as SessionItem | null, others: [] as SessionItem[] };
-    }
-
-    const others_without_current = otherSessions.filter(
-      (session) => !is_same_session(session, currentSession),
-    );
-
-    let current = currentSession;
-    let others = others_without_current;
-
-    // If backend gives low-quality "current", but there is a richer session with same IP in others,
-    // prefer that richer record for display as current.
-    if (is_low_quality_session(currentSession)) {
-      const replacement = others_without_current.find(
-        (session) => session.ip === currentSession.ip,
-      );
-      if (replacement) {
-        current = replacement;
-        others = others_without_current.filter((session) => !is_same_session(session, replacement));
-      }
-    }
-
-    return {
-      current,
-      others: dedupe_sessions(others),
-    };
-  }, [currentSession, otherSessions]);
+  const sessions_view = useMemo(
+    () => buildSessionsView(currentSession, otherSessions),
+    [currentSession, otherSessions],
+  );
 
   return (
     <section className={styles.page}>
