@@ -9,6 +9,9 @@ import type { PropsWithChildren } from 'react';
 import settingsTabsContent from '../settings-tabs.content';
 import styles from './SettingsTabsLayout.module.scss';
 
+type DictionaryText = string | { value: string };
+const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
+
 export function SettingsTabsLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
   const { locale } = useLocale();
@@ -17,19 +20,19 @@ export function SettingsTabsLayout({ children }: PropsWithChildren) {
   const tabs = [
     {
       href: '/my-profile/settings/general-information',
-      label: content.generalInformation,
+      label: toText(content.generalInformation),
     },
     {
       href: '/my-profile/settings/devices',
-      label: content.device,
+      label: toText(content.device),
     },
     {
       href: '/my-profile/settings/account-management',
-      label: content.accountManagement,
+      label: toText(content.accountManagement),
     },
     {
       href: '/my-profile/settings/my-payments',
-      label: content.myPayments,
+      label: toText(content.myPayments),
     },
   ] as const;
 
