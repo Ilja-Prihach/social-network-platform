@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { MyProfileSettingsPage } from './ui/MyProfileSettingsPage';
+import { MyProfileSettingsPage } from './general-information/ui/MyProfileSettingsPage';
 
 export const metadata: Metadata = {
   title: 'Profile Settings',
