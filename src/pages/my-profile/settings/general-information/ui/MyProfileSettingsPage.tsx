@@ -1,11 +1,17 @@
 'use client';
 
+import { useState } from 'react';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { Select } from '@/shared/ui/Select/Select';
 import { Textarea } from '@/shared/ui/Textarea';
 import { useDictionary } from 'next-intlayer';
 import generalInformationContent from '../general-information.content';
+import {
+  buildCityOptionsByCountry,
+  buildCountryOptions,
+  type CountryValue,
+} from '../model/locationOptions';
 import styles from './MyProfileSettingsPage.module.scss';
 
 type DictionaryText = string | { value: string };
@@ -13,18 +19,14 @@ const toText = (value: DictionaryText): string => (typeof value === 'string' ? v
 
 export function MyProfileSettingsPage() {
   const content = useDictionary(generalInformationContent);
+  const [selectedCountry, setSelectedCountry] = useState<CountryValue | null>(null);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
 
-  const country_options = [
-    { value: 'usa', title: toText(content.countryUsa) },
-    { value: 'poland', title: toText(content.countryPoland) },
-    { value: 'germany', title: toText(content.countryGermany) },
-  ];
+  const dictionary = content as Record<string, DictionaryText>;
+  const country_options = buildCountryOptions((key) => toText(dictionary[key]));
+  const city_options_by_country = buildCityOptionsByCountry((key) => toText(dictionary[key]));
 
-  const city_options = [
-    { value: 'new-york', title: toText(content.cityNewYork) },
-    { value: 'warsaw', title: toText(content.cityWarsaw) },
-    { value: 'berlin', title: toText(content.cityBerlin) },
-  ];
+  const city_options = selectedCountry ? city_options_by_country[selectedCountry] : [];
 
   return (
     <>
@@ -57,12 +59,24 @@ export function MyProfileSettingsPage() {
               label={toText(content.countryLabel)}
               placeholder={toText(content.countryPlaceholder)}
               options={country_options}
+              value={selectedCountry}
+              onChange={(value) => {
+                setSelectedCountry(value as CountryValue);
+                setSelectedCity(null);
+              }}
             />
             <Select
               className={styles.select_field}
               label={toText(content.cityLabel)}
-              placeholder={toText(content.cityPlaceholder)}
+              placeholder={
+                selectedCountry
+                  ? toText(content.cityPlaceholder)
+                  : toText(content.cityPlaceholderSelectCountryFirst)
+              }
               options={city_options}
+              value={selectedCity}
+              onChange={setSelectedCity}
+              disabled={!selectedCountry}
             />
           </div>
 
