@@ -1,11 +1,10 @@
-import type {
-  GetPublicProfilePostsParams,
-  ProfilePost,
-  ProfilePostMedia,
-  ProfilePostsPage,
-} from '../model/types';
+import type { ProfilePost, ProfilePostMedia, ProfilePostsPage } from '../model/types';
 
 export const PROFILE_POSTS_PAGE_SIZE = 8;
+export const PROFILE_POSTS_DEFAULT_SORT = {
+  sortBy: 'createdAt',
+  sortDirection: 'desc',
+} as const;
 
 export type RawProfilePostsResponse = {
   totalCount?: number;
@@ -13,23 +12,67 @@ export type RawProfilePostsResponse = {
   items?: unknown[];
 };
 
+type BuildProfilePostsQueryParams = {
+  pageSize?: number | string;
+  sortBy?: string;
+  sortDirection?: string;
+  endCursorPostId?: number | string | null;
+};
+
+type BuildProfilePostsPathParams = BuildProfilePostsQueryParams & {
+  profileId: number | string;
+};
+
+const resolveCursor = (value: number | string | null | undefined): string | null => {
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  if (typeof value === 'string' && value.trim()) return value;
+  return null;
+};
+
+export const buildProfilePostsQuery = ({
+  pageSize = PROFILE_POSTS_PAGE_SIZE,
+  sortBy = PROFILE_POSTS_DEFAULT_SORT.sortBy,
+  sortDirection = PROFILE_POSTS_DEFAULT_SORT.sortDirection,
+  endCursorPostId,
+}: BuildProfilePostsQueryParams): URLSearchParams => {
+  const params = new URLSearchParams({
+    pageSize: String(pageSize),
+    sortBy,
+    sortDirection,
+  });
+
+  const cursor = resolveCursor(endCursorPostId);
+  if (cursor) {
+    params.set('endCursorPostId', cursor);
+  }
+
+  return params;
+};
+
 export const buildProfilePostsPath = ({
   profileId,
   endCursorPostId,
+  sortBy,
+  sortDirection,
   pageSize = PROFILE_POSTS_PAGE_SIZE,
-}: GetPublicProfilePostsParams) => {
+}: BuildProfilePostsPathParams) => {
   const basePath = `/api/posts/user/${profileId}`;
-  const params = new URLSearchParams({
-    pageSize: String(pageSize),
-    sortBy: 'createdAt',
-    sortDirection: 'desc',
-  });
-
-  if (typeof endCursorPostId === 'number') {
-    params.set('endCursorPostId', String(endCursorPostId));
-  }
+  const params = buildProfilePostsQuery({ pageSize, sortBy, sortDirection, endCursorPostId });
 
   return `${basePath}?${params.toString()}`;
+};
+
+export const buildBackendProfilePostsPath = ({
+  profileId,
+  endCursorPostId,
+  sortBy,
+  sortDirection,
+  pageSize = PROFILE_POSTS_PAGE_SIZE,
+}: BuildProfilePostsPathParams) => {
+  const basePath = `/api/v1/posts/user/${profileId}`;
+  const params = buildProfilePostsQuery({ pageSize, sortBy, sortDirection });
+  const cursor = resolveCursor(endCursorPostId);
+  return cursor ? `${basePath}/${cursor}?${params.toString()}` : `${basePath}?${params.toString()}`;
 };
 
 export const mapProfilePostsPage = (

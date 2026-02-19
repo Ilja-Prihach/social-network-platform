@@ -3,6 +3,7 @@ import 'server-only';
 import { serverApi } from '@/shared/api/server/serverApi';
 import type { GetPublicProfilePostsParams, ProfilePostsPage, PublicProfile } from '../model/types';
 import {
+  buildBackendProfilePostsPath,
   mapProfilePostsPage,
   PROFILE_POSTS_PAGE_SIZE,
   type RawProfilePostsResponse,
@@ -17,16 +18,7 @@ export async function getPublicProfilePostsPageServer({
   endCursorPostId,
   pageSize = PROFILE_POSTS_PAGE_SIZE,
 }: GetPublicProfilePostsParams): Promise<ProfilePostsPage> {
-  const searchParams = new URLSearchParams({
-    pageSize: String(pageSize),
-    sortBy: 'createdAt',
-    sortDirection: 'desc',
-  });
-
-  const path =
-    typeof endCursorPostId === 'number'
-      ? `/api/v1/posts/user/${profileId}/${endCursorPostId}?${searchParams.toString()}`
-      : `/api/v1/posts/user/${profileId}?${searchParams.toString()}`;
+  const path = buildBackendProfilePostsPath({ profileId, endCursorPostId, pageSize });
 
   const data = await serverApi<RawProfilePostsResponse>(path);
 

@@ -1,6 +1,11 @@
 import { bffFetch } from '@/shared/api/server/bffFetch';
 import { buildJsonResponse } from '@/shared/api/server/bffResponse';
 import { forwardSetCookie } from '@/shared/api/server/cookies';
+import {
+  buildBackendProfilePostsPath,
+  PROFILE_POSTS_DEFAULT_SORT,
+  PROFILE_POSTS_PAGE_SIZE,
+} from '@/entities/profile/api/profileApi.shared';
 
 type RouteContext = {
   params: Promise<{ userId: string }>;
@@ -9,22 +14,19 @@ type RouteContext = {
 export async function GET(req: Request, { params }: RouteContext) {
   const { userId } = await params;
   const requestUrl = new URL(req.url);
-  const pageSize = requestUrl.searchParams.get('pageSize') ?? '8';
-  const sortBy = requestUrl.searchParams.get('sortBy') ?? 'createdAt';
-  const sortDirection = requestUrl.searchParams.get('sortDirection') ?? 'desc';
+  const pageSize = requestUrl.searchParams.get('pageSize') ?? String(PROFILE_POSTS_PAGE_SIZE);
+  const sortBy = requestUrl.searchParams.get('sortBy') ?? PROFILE_POSTS_DEFAULT_SORT.sortBy;
+  const sortDirection =
+    requestUrl.searchParams.get('sortDirection') ?? PROFILE_POSTS_DEFAULT_SORT.sortDirection;
   const endCursorPostId = requestUrl.searchParams.get('endCursorPostId');
 
-  const searchParams = new URLSearchParams({
+  const directPath = buildBackendProfilePostsPath({
+    profileId: userId,
     pageSize,
     sortBy,
     sortDirection,
-  }).toString();
-
-  const basePath = `/api/v1/posts/user/${userId}`;
-
-  const directPath = endCursorPostId
-    ? `${basePath}/${endCursorPostId}?${searchParams}`
-    : `${basePath}?${searchParams}`;
+    endCursorPostId,
+  });
 
   const result = await bffFetch(directPath, { method: 'GET' });
 
