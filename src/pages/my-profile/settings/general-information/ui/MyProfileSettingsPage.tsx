@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { Select } from '@/shared/ui/Select/Select';
@@ -8,13 +8,12 @@ import { Textarea } from '@/shared/ui/Textarea';
 import { useDictionary } from 'next-intlayer';
 import generalInformationContent from '../general-information.content';
 import {
-  buildCityOptionsByCountry,
-  buildCountryOptions,
+  buildLocationOptions,
   type CountryValue,
+  type DictionaryText,
 } from '../model/locationOptions';
 import styles from './MyProfileSettingsPage.module.scss';
 
-type DictionaryText = string | { value: string };
 const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
 
 export function MyProfileSettingsPage() {
@@ -22,9 +21,8 @@ export function MyProfileSettingsPage() {
   const [selectedCountry, setSelectedCountry] = useState<CountryValue | null>(null);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
 
-  const dictionary = content as Record<string, DictionaryText>;
-  const country_options = buildCountryOptions((key) => toText(dictionary[key]));
-  const city_options_by_country = buildCityOptionsByCountry((key) => toText(dictionary[key]));
+  const { countryOptions: country_options, cityOptionsByCountry: city_options_by_country } =
+    useMemo(() => buildLocationOptions(content), [content]);
 
   const city_options = selectedCountry ? city_options_by_country[selectedCountry] : [];
 
