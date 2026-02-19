@@ -109,6 +109,12 @@
   height: 1px;
 }
 
+@media (width > 1280px) {
+  .content {
+    margin-inline: auto;
+  }
+}
+
 @media (width <= 1300px) {
   .content {
     width: 100%;
