@@ -10,7 +10,6 @@ import {
   type PublicProfile,
 } from '@/entities/profile';
 import { useMe } from '@/features/auth/model/useMe';
-import { Sidebar } from '@/widgets/sidebar';
 import { ProfileHeader } from '@/widgets/profile-header';
 import { PostMediaCarousel } from '@/entities/post';
 
@@ -74,39 +73,35 @@ export function ProfileDetailsPageClient({
   return (
     <section className={styles.page}>
       <div className={styles.layout}>
-        {me && (
-          <aside className={styles.sidebar}>
-            <Sidebar />
-          </aside>
-        )}
-
         <main
           ref={scrollContainerRef}
           className={`${styles.main} ${me ? styles.main_with_sidebar : ''}`}
         >
-          {profileQuery.isError && !profile && (
-            <div className={styles.state}>Failed to load profile.</div>
-          )}
+          <div className={styles.content}>
+            {profileQuery.isError && !profile && (
+              <div className={styles.state}>Failed to load profile.</div>
+            )}
 
-          <ProfileHeader profile={profile} avatarUrl={avatarUrl} isOwner={isOwner} />
+            <ProfileHeader profile={profile} avatarUrl={avatarUrl} isOwner={isOwner} />
 
-          <div className={styles.posts_grid}>
-            {posts.map((post) => (
-              <article key={post.id} className={styles.post_item}>
-                <div className={styles.post_media}>
-                  <PostMediaCarousel media={post.media} />
-                </div>
-              </article>
-            ))}
+            <div className={styles.posts_grid}>
+              {posts.map((post) => (
+                <article key={post.id} className={styles.post_item}>
+                  <div className={styles.post_media}>
+                    <PostMediaCarousel media={post.media} />
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {postsQuery.isPending && <div className={styles.state}>Loading posts...</div>}
+            {!postsQuery.isPending && posts.length === 0 && (
+              <div className={styles.state}>No posts yet.</div>
+            )}
+            {postsQuery.isFetchingNextPage && (
+              <div className={styles.state}>Loading more posts...</div>
+            )}
           </div>
-
-          {postsQuery.isPending && <div className={styles.state}>Loading posts...</div>}
-          {!postsQuery.isPending && posts.length === 0 && (
-            <div className={styles.state}>No posts yet.</div>
-          )}
-          {postsQuery.isFetchingNextPage && (
-            <div className={styles.state}>Loading more posts...</div>
-          )}
           <div className={styles.scroll_trigger} />
         </main>
       </div>
