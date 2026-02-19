@@ -29,7 +29,7 @@ export type CreatedPostDto = {
 export async function uploadPostImages(files: File[]): Promise<string[]> {
   const formData = new FormData();
   files.forEach((file) => {
-    formData.append('file', file);
+    formData.append('files', file);
   });
 
   const response = await fetch('/api/posts/image', {
@@ -55,8 +55,26 @@ export async function uploadPostImages(files: File[]): Promise<string[]> {
     };
   }
 
-  const payload = data as UploadedImageViewModel;
-  const uniqueUploadIds = Array.from(new Set(payload.images.map((image) => image.uploadId)));
+  const payload = data as UploadedImageViewModel | null;
+  const images = Array.isArray(payload?.images) ? payload.images : [];
+  const uniqueUploadIds = Array.from(
+    new Set(
+      images
+        .map((image) => image?.uploadId)
+        .filter(
+          (uploadId): uploadId is string => typeof uploadId === 'string' && uploadId.length > 0,
+        ),
+    ),
+  );
+
+  if (uniqueUploadIds.length === 0) {
+    throw {
+      status: response.status,
+      data: {
+        message: 'Unable to upload one or more photos. Please try again',
+      },
+    };
+  }
 
   return uniqueUploadIds;
 }

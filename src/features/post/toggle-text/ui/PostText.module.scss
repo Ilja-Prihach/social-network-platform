@@ -1,6 +1,6 @@
 .root {
   display: grid;
-  gap: 0;
+  gap: 4px;
 }
 
 .text {
@@ -12,18 +12,16 @@
 }
 
 .text_content {
-  display: inline-block;
+  display: inline;
   max-width: 100%;
   vertical-align: top;
 }
 
 .text_clamped {
-  max-height: 72px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.ellipsis {
-  margin-left: 2px;
 }
 
 .toggle {
@@ -31,11 +29,38 @@
   padding: 0;
   border: none;
   background: none;
-  text-decoration: none;
-  color: var(--light-100-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: var(--accent-500-color);
   cursor: pointer;
-  font-size: 14px;
-  line-height: 171%;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 160%;
   margin-left: 0;
   vertical-align: baseline;
+}
+
+.status {
+  font-size: 12px;
+  line-height: 133%;
+  color: var(--light-900-color);
+}
+
+.translate_toggle {
+  justify-self: start;
+  padding: 0;
+  border: none;
+  background: none;
+  text-decoration: none;
+  color: var(--light-900-color);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 133%;
+}
+
+.error {
+  font-size: 12px;
+  line-height: 133%;
+  color: var(--danger-500-color, #f66);
 }

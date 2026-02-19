@@ -11,7 +11,15 @@ export function useToggleText(text: string, clampChars: number) {
     if (isExpanded || !canExpand) {
       return text;
     }
-    return text.slice(0, clampChars);
+
+    const rawSlice = text.slice(0, clampChars);
+    const lastSpaceIndex = rawSlice.lastIndexOf(' ');
+
+    if (lastSpaceIndex > Math.floor(clampChars * 0.6)) {
+      return rawSlice.slice(0, lastSpaceIndex);
+    }
+
+    return rawSlice;
   }, [text, clampChars, isExpanded, canExpand]);
 
   const toggle = () => setExpanded((v) => !v);

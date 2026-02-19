@@ -1,44 +1,95 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDictionary } from 'next-intlayer';
+import { usePostTranslation } from '../model/usePostTranslation';
+import postTextContent from './post-text.content';
 import s from './PostText.module.scss';
 
-const CLAMP_HEIGHT = 72;
+const EXPAND_FALLBACK_THRESHOLD_CHARS = 110;
 
 type Props = {
   text: string;
 };
 
 export function PostText({ text }: Props) {
-  const [isExpanded, setExpanded] = useState(false);
-  const [canExpand, setCanExpand] = useState(false);
+  const dictionary = useDictionary(postTextContent);
+  const {
+    text: shownText,
+    isTranslating,
+    isTranslationShown,
+    toggleTranslation,
+    canTranslate,
+    errorCode,
+  } = usePostTranslation(text);
   const textRef = useRef<HTMLSpanElement>(null);
+  const [isExpanded, setExpanded] = useState(false);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  const updateCanExpand = useCallback(() => {
+    const el = textRef.current;
+    if (!el) {
+      setIsOverflowing(false);
+      return;
+    }
+
+    const next = el.scrollHeight > el.clientHeight + 1;
+    setIsOverflowing((prev) => (prev === next ? prev : next));
+  }, []);
 
   useEffect(() => {
     const el = textRef.current;
     if (!el) return;
-    const isOverflowing = el.scrollHeight > CLAMP_HEIGHT + 1;
-    setCanExpand(isOverflowing);
-  }, [text]);
 
-  const toggle = () => setExpanded((v) => !v);
+    const observer = new ResizeObserver(() => {
+      updateCanExpand();
+    });
+
+    observer.observe(el);
+
+    const frameId = requestAnimationFrame(() => {
+      updateCanExpand();
+    });
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      observer.disconnect();
+    };
+  }, [shownText, isExpanded, updateCanExpand]);
+
+  const toggle = () => setExpanded((value) => !value);
+  const canExpand =
+    isExpanded || isOverflowing || shownText.length > EXPAND_FALLBACK_THRESHOLD_CHARS;
 
   return (
     <div className={s.root}>
       <p className={s.text}>
         <span ref={textRef} className={`${s.text_content} ${!isExpanded ? s.text_clamped : ''}`}>
-          {text}
+          {shownText}
         </span>
-        {!isExpanded && canExpand && <span className={s.ellipsis}>…</span>}
         {canExpand && (
           <>
             {' '}
             <button type="button" className={s.toggle} onClick={toggle}>
-              {isExpanded ? 'Hide' : 'Show more'}
+              {isExpanded ? dictionary.hide : dictionary.showMore}
             </button>
           </>
         )}
       </p>
+      {!isTranslating && canTranslate && (
+        <button
+          type="button"
+          className={s.translate_toggle}
+          onClick={() => void toggleTranslation()}
+        >
+          {isTranslationShown ? dictionary.seeOriginal : dictionary.seeTranslation}
+        </button>
+      )}
+      {isTranslating && <span className={s.status}>{dictionary.translating}</span>}
+      {errorCode === 'not_found' && (
+        <span className={s.error}>{dictionary.translationRouteMissing}</span>
+      )}
+      {errorCode === 'failed' && <span className={s.error}>{dictionary.translationFailed}</span>}
     </div>
   );
 }
