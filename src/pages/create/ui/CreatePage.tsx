@@ -4,16 +4,24 @@ import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intlayer';
 import { getLocalizedUrl } from 'intlayer';
+import clsx from 'clsx';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
-import { Input } from '@/shared/ui/Input';
-import { Textarea } from '@/shared/ui/Textarea';
 import { createPost, uploadPostImages } from '@/entities/post';
 import styles from './CreatePage.module.scss';
 
 type Step = 'upload' | 'crop' | 'filters' | 'publish';
-type AspectRatio = '1:1' | '4:5' | '16:9';
-type FilterId = 'none' | 'grayscale' | 'sepia' | 'contrast';
+type AspectRatio = 'original' | '1:1' | '4:5' | '16:9';
+type FilterId =
+  | 'normal'
+  | 'clarendon'
+  | 'lark'
+  | 'gingham'
+  | 'moon'
+  | 'valencia'
+  | 'juno'
+  | 'reyes'
+  | 'ludwig';
 
 type PhotoItem = {
   id: string;
@@ -36,20 +44,47 @@ type CreateDraft = {
   photos: DraftPhoto[];
 };
 
+type NominatimResult = {
+  place_id: number;
+  name?: string;
+  display_name: string;
+  address?: {
+    city?: string;
+    town?: string;
+    village?: string;
+    hamlet?: string;
+    suburb?: string;
+    county?: string;
+    state?: string;
+    country?: string;
+  };
+};
+
+type LocationSuggestion = {
+  id: string;
+  city: string;
+  description: string;
+};
+
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
 const MAX_FILES_COUNT = 10;
 const DRAFT_STORAGE_KEY = 'create_post_draft_v1';
 
 const filters: { id: FilterId; label: string; css: string }[] = [
-  { id: 'none', label: 'Original', css: 'none' },
-  { id: 'grayscale', label: 'Grayscale', css: 'grayscale(1)' },
-  { id: 'sepia', label: 'Sepia', css: 'sepia(0.85)' },
-  { id: 'contrast', label: 'High Contrast', css: 'contrast(1.25) saturate(1.05)' },
+  { id: 'normal', label: 'Normal', css: 'none' },
+  { id: 'clarendon', label: 'Clarendon', css: 'contrast(1.12) saturate(1.2)' },
+  { id: 'lark', label: 'Lark', css: 'brightness(1.06) saturate(0.88)' },
+  { id: 'gingham', label: 'Gingham', css: 'sepia(0.14) contrast(0.95)' },
+  { id: 'moon', label: 'Moon', css: 'grayscale(1) contrast(1.08)' },
+  { id: 'valencia', label: 'Valencia', css: 'sepia(0.22) saturate(1.08) brightness(1.02)' },
+  { id: 'juno', label: 'Juno', css: 'hue-rotate(-8deg) saturate(1.32)' },
+  { id: 'reyes', label: 'Reyes', css: 'sepia(0.12) brightness(1.08) contrast(0.92)' },
+  { id: 'ludwig', label: 'Ludwig', css: 'contrast(1.08) brightness(1.03)' },
 ];
 
-const ratios: AspectRatio[] = ['1:1', '4:5', '16:9'];
+const ratios: AspectRatio[] = ['original', '1:1', '4:5', '16:9'];
 const steps: Step[] = ['upload', 'crop', 'filters', 'publish'];
-const ratio_to_value: Record<AspectRatio, number> = {
+const ratio_to_value: Record<Exclude<AspectRatio, 'original'>, number> = {
   '1:1': 1 / 1,
   '4:5': 4 / 5,
   '16:9': 16 / 9,
@@ -101,17 +136,26 @@ export function CreatePage() {
   const { locale } = useLocale();
   const file_input_ref = useRef<HTMLInputElement>(null);
   const photos_ref = useRef<PhotoItem[]>([]);
+  const location_wrap_ref = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState<Step>('upload');
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
   const [active_photo_id, setActivePhotoId] = useState<string | null>(null);
-  const [aspect_ratio, setAspectRatio] = useState<AspectRatio>('1:1');
+  const [aspect_ratio, setAspectRatio] = useState<AspectRatio>('original');
   const [zoom, setZoom] = useState(1);
-  const [filter_id, setFilterId] = useState<FilterId>('none');
+  const [filter_id, setFilterId] = useState<FilterId>('normal');
   const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
+  const [location_suggestions, setLocationSuggestions] = useState<LocationSuggestion[]>([]);
+  const [show_location_suggestions, setShowLocationSuggestions] = useState(false);
+  const [is_location_loading, setIsLocationLoading] = useState(false);
   const [show_close_confirm, setShowCloseConfirm] = useState(false);
   const [validation_message, setValidationMessage] = useState<string | null>(null);
   const [is_uploading, setIsUploading] = useState(false);
   const [is_publishing, setIsPublishing] = useState(false);
+  const [show_mobile_ratio, setShowMobileRatio] = useState(false);
+  const [show_mobile_zoom, setShowMobileZoom] = useState(false);
+  const [show_crop_gallery, setShowCropGallery] = useState(false);
+  const [crop_gallery_page, setCropGalleryPage] = useState(0);
   const [has_draft, setHasDraft] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
 
@@ -123,7 +167,7 @@ export function CreatePage() {
     [active_photo_id, photos],
   );
   const active_filter = filters.find((item) => item.id === filter_id)?.css ?? 'none';
-  const crop_ratio = ratio_to_value[aspect_ratio];
+  const crop_ratio = aspect_ratio === 'original' ? null : ratio_to_value[aspect_ratio];
 
   useEffect(() => {
     photos_ref.current = photos;
@@ -138,6 +182,92 @@ export function CreatePage() {
       });
     };
   }, []);
+
+  useEffect(() => {
+    const handle_click_outside = (event: MouseEvent) => {
+      if (!location_wrap_ref.current) return;
+      if (!location_wrap_ref.current.contains(event.target as Node)) {
+        setShowLocationSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handle_click_outside);
+
+    return () => {
+      document.removeEventListener('mousedown', handle_click_outside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const query = location.trim();
+
+    if (step !== 'publish' || query.length < 2) {
+      setLocationSuggestions([]);
+      setIsLocationLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      setIsLocationLoading(true);
+
+      try {
+        const params = new URLSearchParams({
+          q: query,
+          format: 'jsonv2',
+          addressdetails: '1',
+          limit: '10',
+          'accept-language': 'en',
+        });
+
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`Location search failed: ${response.status}`);
+        }
+
+        const data = (await response.json()) as NominatimResult[];
+        const mapped = data.map((item) => {
+          const city =
+            item.address?.city ||
+            item.address?.town ||
+            item.address?.village ||
+            item.address?.hamlet ||
+            item.name ||
+            item.display_name.split(',')[0] ||
+            'Unknown';
+
+          const description_parts = [
+            item.address?.suburb,
+            item.address?.county,
+            item.address?.state,
+            item.address?.country,
+          ].filter(Boolean);
+
+          return {
+            id: String(item.place_id),
+            city,
+            description: description_parts.join(', ') || item.display_name,
+          };
+        });
+
+        setLocationSuggestions(mapped);
+      } catch (error) {
+        if ((error as Error).name !== 'AbortError') {
+          setLocationSuggestions([]);
+        }
+      } finally {
+        setIsLocationLoading(false);
+      }
+    }, 350);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [location, step]);
 
   const add_photos = async (new_files: File[]) => {
     if (new_files.length === 0) return;
@@ -321,6 +451,16 @@ export function CreatePage() {
   };
 
   const can_go_next = photos.length > 0 && step !== 'publish' && !is_uploading && !is_publishing;
+  const active_photo_index = Math.max(
+    0,
+    photos.findIndex((photo) => photo.id === active_photo_id),
+  );
+
+  const go_to_photo = (index: number) => {
+    if (photos.length === 0) return;
+    const safe_index = (index + photos.length) % photos.length;
+    setActivePhotoId(photos[safe_index]?.id ?? null);
+  };
 
   return (
     <section
@@ -340,69 +480,146 @@ export function CreatePage() {
         onChange={handle_file_select}
       />
 
-      <article className={styles.modal}>
-        <header className={styles.header}>
-          <Button variant="text" className={styles.icon_btn} onClick={handle_back}>
-            <Icon iconId="arrow-ios-back-outline" />
-          </Button>
-
-          <h1 className={styles.title}>Create post</h1>
-
-          {step === 'publish' ? (
+      <article
+        className={clsx(
+          styles.modal,
+          step === 'upload' && styles.modal_upload,
+          step === 'crop' && styles.modal_crop_mobile,
+          step === 'filters' && styles.modal_filters,
+          step === 'publish' && styles.modal_publish,
+        )}
+      >
+        {step === 'upload' ? (
+          <header className={clsx(styles.header, styles.header_upload)}>
+            <h1 className={styles.title}>Add Photo</h1>
             <Button
               variant="text"
-              className={styles.action_btn}
-              onClick={() => void publish_post()}
-              disabled={is_publishing || is_uploading}
+              className={styles.icon_btn}
+              onClick={() => setShowCloseConfirm(true)}
+              aria-label="Close"
             >
-              {is_publishing ? 'Publishing...' : 'Publish'}
+              <Icon iconId="close-outline" />
             </Button>
-          ) : (
-            <Button
-              variant="text"
-              className={styles.action_btn}
-              onClick={handle_next}
-              disabled={!can_go_next}
-            >
-              Next
+          </header>
+        ) : (
+          <header
+            className={clsx(
+              styles.header,
+              step === 'crop' && styles.header_crop_mobile,
+              step === 'filters' && styles.header_filters,
+              step === 'publish' && styles.header_publish,
+            )}
+          >
+            <Button variant="text" className={styles.icon_btn} onClick={handle_back}>
+              <Icon iconId="arrow-ios-back-outline" />
             </Button>
-          )}
-        </header>
+
+            <h1 className={styles.title}>
+              {step === 'crop'
+                ? 'Cropping'
+                : step === 'filters'
+                  ? 'Filters'
+                  : step === 'publish'
+                    ? 'Publication'
+                    : 'Create post'}
+            </h1>
+
+            {step === 'publish' ? (
+              <Button
+                variant="text"
+                className={styles.action_btn}
+                onClick={() => void publish_post()}
+                disabled={is_publishing || is_uploading}
+              >
+                {is_publishing ? 'Publishing...' : 'Publish'}
+              </Button>
+            ) : (
+              <Button
+                variant="text"
+                className={styles.action_btn}
+                onClick={handle_next}
+                disabled={!can_go_next}
+              >
+                Next
+              </Button>
+            )}
+          </header>
+        )}
 
         {step === 'upload' && (
           <div className={styles.upload_step}>
-            <div className={styles.placeholder}>
+            <div className={styles.upload_preview_box}>
               <Icon iconId="image-outline" width="48" height="48" />
-              <p>Add photos here</p>
             </div>
 
-            <Button variant="primary" onClick={handle_open_picker}>
+            <Button variant="primary" className={styles.upload_button} onClick={handle_open_picker}>
               {is_uploading ? 'Uploading...' : 'Select from Computer'}
             </Button>
 
-            {has_draft && (
-              <Button variant="outline" onClick={open_draft}>
-                Open draft
-              </Button>
-            )}
+            <Button
+              variant="outline"
+              className={styles.upload_button}
+              onClick={open_draft}
+              disabled={!has_draft}
+            >
+              Open Draft
+            </Button>
           </div>
         )}
 
         {step !== 'upload' && active_photo && (
-          <div className={styles.content}>
-            <div className={styles.preview_column}>
-              <div className={styles.preview} style={{ aspectRatio: crop_ratio }}>
-                <img
-                  src={active_photo.preview_url}
-                  alt={active_photo.name}
-                  style={{
-                    transform: `scale(${zoom})`,
-                    filter: active_filter,
-                  }}
-                />
+          <div
+            className={clsx(
+              styles.content,
+              step === 'crop' && styles.content_crop_mobile,
+              step === 'filters' && styles.content_filters,
+              step === 'publish' && styles.content_publish,
+            )}
+          >
+            <div
+              className={clsx(
+                styles.preview_column,
+                step === 'crop' && styles.preview_column_crop_mobile,
+                step === 'filters' && styles.preview_column_filters,
+                step === 'publish' && styles.preview_column_publish,
+              )}
+            >
+              <div
+                className={clsx(
+                  styles.preview,
+                  step === 'crop' && styles.preview_crop_mobile,
+                  step === 'filters' && styles.preview_filters,
+                  step === 'publish' && styles.preview_publish,
+                )}
+                style={
+                  step === 'crop' || step === 'filters' || !crop_ratio
+                    ? undefined
+                    : { aspectRatio: crop_ratio }
+                }
+              >
+                <div
+                  className={styles.crop_stage}
+                  style={step === 'crop' && crop_ratio ? { aspectRatio: crop_ratio } : undefined}
+                  data_original={step === 'crop' && crop_ratio ? 'false' : 'true'}
+                >
+                  <img
+                    src={active_photo.preview_url}
+                    alt={active_photo.name}
+                    style={{
+                      transform: `scale(${zoom})`,
+                      filter: active_filter,
+                    }}
+                  />
+                </div>
               </div>
 
-              <div className={styles.thumbs}>
+              <div
+                className={clsx(
+                  styles.thumbs,
+                  (step === 'crop' || step === 'filters' || step === 'publish') &&
+                    styles.thumbs_crop_mobile,
+                )}
+              >
                 {photos.map((photo) => (
                   <button
                     type="button"
@@ -415,9 +632,228 @@ export function CreatePage() {
                   </button>
                 ))}
               </div>
+
+              {step === 'crop' && (
+                <>
+                  {(show_mobile_ratio || show_mobile_zoom) && (
+                    <div
+                      className={clsx(
+                        styles.crop_mobile_panel,
+                        show_mobile_zoom && styles.crop_mobile_panel_zoom,
+                        show_mobile_ratio && styles.crop_mobile_panel_ratio,
+                      )}
+                    >
+                      {show_mobile_ratio && (
+                        <div className={styles.ratio_sheet}>
+                          {ratios.map((ratio) => (
+                            <button
+                              type="button"
+                              key={ratio}
+                              className={styles.ratio_sheet_item}
+                              data_active={aspect_ratio === ratio}
+                              onClick={() => setAspectRatio(ratio)}
+                            >
+                              <span>{ratio === 'original' ? 'Оригинал' : ratio}</span>
+                              <span className={styles.ratio_sheet_icon} data_ratio={ratio} />
+                            </button>
+                          ))}
+                        </div>
+                      )}
+
+                      {show_mobile_zoom && (
+                        <input
+                          id="mobile_zoom"
+                          className={clsx(styles.zoom_input, styles.zoom_input_crop)}
+                          type="range"
+                          min="1"
+                          max="2.2"
+                          step="0.05"
+                          value={zoom}
+                          onChange={(event) => setZoom(Number(event.target.value))}
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  {show_crop_gallery && (
+                    <>
+                      {photos.length > 1 && (
+                        <button
+                          type="button"
+                          className={styles.crop_gallery_prev}
+                          onClick={() =>
+                            setCropGalleryPage((prev) => (prev <= 0 ? photos.length - 1 : prev - 1))
+                          }
+                          aria-label="Previous image"
+                        >
+                          <Icon iconId="arrow-ios-back-outline" />
+                        </button>
+                      )}
+
+                      <div className={styles.crop_gallery_panel}>
+                        <div className={styles.crop_gallery_track}>
+                          {photos.map((photo) => (
+                            <button
+                              type="button"
+                              key={`gallery-${photo.id}`}
+                              className={styles.crop_gallery_item}
+                              onClick={() => setActivePhotoId(photo.id)}
+                              data_active={photo.id === active_photo.id}
+                            >
+                              <img src={photo.preview_url} alt={photo.name} />
+                              <span className={styles.crop_gallery_close}>×</span>
+                            </button>
+                          ))}
+                        </div>
+
+                        <button
+                          type="button"
+                          className={styles.crop_gallery_add}
+                          onClick={handle_open_picker}
+                          disabled={photos.length >= MAX_FILES_COUNT || is_uploading}
+                          aria-label="Add image"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      {photos.length > 1 && (
+                        <div className={styles.crop_gallery_dots}>
+                          {photos.slice(0, 2).map((photo, index) => (
+                            <span
+                              key={`dot-${photo.id}`}
+                              className={styles.crop_gallery_dot}
+                              data_active={index === crop_gallery_page % 2}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  <div className={styles.crop_mobile_actions}>
+                    <button
+                      type="button"
+                      className={styles.crop_mobile_btn}
+                      onClick={() => {
+                        setShowMobileRatio((prev) => !prev);
+                        setShowMobileZoom(false);
+                        setShowCropGallery(false);
+                      }}
+                      aria-label="Aspect ratio"
+                      data_active={show_mobile_ratio}
+                    >
+                      <svg
+                        className={styles.crop_btn_icon}
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path
+                          d="M9 3H3v6M15 3h6v6M3 15v6h6M21 15v6h-6M3 9l6-6M15 3l6 6M3 15l6 6M21 15l-6 6"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+
+                    <button
+                      type="button"
+                      className={styles.crop_mobile_btn}
+                      onClick={() => {
+                        setShowMobileZoom((prev) => !prev);
+                        setShowMobileRatio(false);
+                        setShowCropGallery(false);
+                      }}
+                      aria-label="Zoom"
+                      data_active={show_mobile_zoom}
+                    >
+                      <svg
+                        className={styles.crop_btn_icon}
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <circle
+                          cx="10.5"
+                          cy="10.5"
+                          r="5.5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                        />
+                        <path
+                          d="M19 19l-3.9-3.9M10.5 8v5M8 10.5h5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+
+                    <button
+                      type="button"
+                      className={styles.crop_mobile_btn}
+                      onClick={() => {
+                        setShowCropGallery((prev) => !prev);
+                        setShowMobileRatio(false);
+                        setShowMobileZoom(false);
+                      }}
+                      data_active={show_crop_gallery}
+                      aria-label="Select photo"
+                    >
+                      <Icon iconId="image-outline" />
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {(step === 'filters' || step === 'publish') && (
+                <>
+                  <button
+                    type="button"
+                    className={styles.filter_preview_nav}
+                    data_side="left"
+                    onClick={() => go_to_photo(active_photo_index - 1)}
+                    disabled={photos.length <= 1}
+                  >
+                    <Icon iconId="arrow-ios-back-outline" />
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.filter_preview_nav}
+                    data_side="right"
+                    onClick={() => go_to_photo(active_photo_index + 1)}
+                    disabled={photos.length <= 1}
+                  >
+                    <Icon iconId="arrow-ios-forward-outline" />
+                  </button>
+                  {photos.length > 1 && (
+                    <div className={styles.filter_preview_dots}>
+                      {photos.map((photo) => (
+                        <span
+                          key={`filter-dot-${photo.id}`}
+                          className={styles.filter_preview_dot}
+                          data_active={photo.id === active_photo.id ? 'true' : 'false'}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
             </div>
 
-            <div className={styles.controls_column}>
+            <div
+              className={clsx(
+                styles.controls_column,
+                step === 'crop' && styles.controls_column_hidden,
+              )}
+            >
               {step === 'crop' && (
                 <>
                   <h2 className={styles.section_title}>Adjust photo</h2>
@@ -461,40 +897,112 @@ export function CreatePage() {
               )}
 
               {step === 'filters' && (
-                <>
-                  <h2 className={styles.section_title}>Filters</h2>
-
-                  <div className={styles.filter_list}>
-                    {filters.map((item) => (
+                <div className={styles.filter_grid}>
+                  {filters.map((item) => {
+                    return (
                       <button
                         type="button"
                         key={item.id}
-                        className={styles.filter_btn}
+                        className={styles.filter_tile}
                         data_active={item.id === filter_id}
                         onClick={() => setFilterId(item.id)}
                       >
-                        {item.label}
+                        <span className={styles.filter_tile_image}>
+                          <img
+                            src={active_photo.preview_url}
+                            alt={`${item.label} preview`}
+                            style={{ filter: item.css }}
+                          />
+                        </span>
+                        <span className={styles.filter_tile_label}>{item.label}</span>
                       </button>
-                    ))}
-                  </div>
-                </>
+                    );
+                  })}
+                </div>
               )}
 
               {step === 'publish' && (
-                <>
-                  <h2 className={styles.section_title}>Post details</h2>
+                <div className={styles.publish_panel}>
+                  <div className={styles.publish_profile}>
+                    <span className={styles.publish_avatar}>
+                      <img src="/mock/Avatar1.jpg" alt="URLProfile avatar" />
+                    </span>
+                    <span className={styles.publish_username}>URLProfile</span>
+                  </div>
 
-                  <Input label="Photos" value={`${photos.length}`} disabled />
+                  <label className={styles.publish_label} htmlFor="publish_description">
+                    Add publication descriptions
+                  </label>
+                  <div className={styles.publish_textarea_wrap}>
+                    <textarea
+                      id="publish_description"
+                      className={styles.publish_textarea}
+                      placeholder="Text-area"
+                      maxLength={500}
+                      value={description}
+                      onChange={(event) => setDescription(event.target.value)}
+                    />
+                    <span className={styles.publish_counter}>{description.length}/500</span>
+                  </div>
 
-                  <Textarea
-                    label="Description"
-                    placeholder="Add a caption..."
-                    maxLength={500}
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                    helperText={`${description.length}/500`}
-                  />
-                </>
+                  <div className={styles.publish_location_block} ref={location_wrap_ref}>
+                    <label className={styles.publish_label} htmlFor="publish_location">
+                      Add location
+                    </label>
+                    <div className={styles.publish_location_input_wrap}>
+                      <input
+                        id="publish_location"
+                        className={styles.publish_location_input}
+                        value={location}
+                        placeholder="New York"
+                        onFocus={() => setShowLocationSuggestions(true)}
+                        onChange={(event) => {
+                          setLocation(event.target.value);
+                          setShowLocationSuggestions(true);
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className={styles.publish_location_pin}
+                        aria-label="Pick location"
+                      >
+                        <Icon iconId="pin-outline" />
+                      </button>
+                    </div>
+
+                    {show_location_suggestions && (
+                      <div className={styles.publish_location_suggestions}>
+                        {is_location_loading && (
+                          <div className={styles.publish_location_empty}>Searching...</div>
+                        )}
+
+                        {!is_location_loading &&
+                          location_suggestions.map((item) => (
+                            <button
+                              type="button"
+                              key={item.id}
+                              className={styles.publish_location_item}
+                              onClick={() => {
+                                setLocation(item.city);
+                                setShowLocationSuggestions(false);
+                              }}
+                            >
+                              <span className={styles.publish_location_city}>{item.city}</span>
+                              <span className={styles.publish_location_place}>
+                                {item.description}
+                              </span>
+                            </button>
+                          ))}
+
+                        {!is_location_loading &&
+                          location.trim().length >= 2 &&
+                          location_suggestions.length === 0 && (
+                            <div className={styles.publish_location_empty}>No locations found</div>
+                          )}
+                      </div>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
           </div>
