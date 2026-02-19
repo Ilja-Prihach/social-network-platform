@@ -1,9 +1,12 @@
 .page {
   padding: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .title {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 26px;
   font-weight: 600;
 }
@@ -11,4 +14,17 @@
 .description {
   margin: 0;
   color: #4b5563;
+}
+
+.picker_preview {
+  display: grid;
+  gap: 24px;
+}
+
+.keyboard_hint {
+  margin: 0;
+  color: #8d9094;
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 640px;
 }
