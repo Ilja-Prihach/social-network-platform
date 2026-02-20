@@ -1,11 +1,11 @@
-import { redirect } from "next/navigation";
-import styles from "./SettingsPage.module.scss";
+import { redirect } from 'next/navigation';
+import styles from './SettingsPage.module.scss';
 
 type SettingsPageProps = {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-type SettingsPart = "info" | "devices" | "subscriptions" | "payments";
+type SettingsPart = 'info' | 'devices' | 'subscriptions' | 'payments';
 
 const normalizeParam = (value?: string | string[]): string | undefined => {
   if (Array.isArray(value)) {
@@ -16,12 +16,19 @@ const normalizeParam = (value?: string | string[]): string | undefined => {
 };
 
 const isPartSupported = (value?: string): value is SettingsPart => {
-  return value === "info" || value === "devices" || value === "subscriptions" || value === "payments";
+  return (
+    value === 'info' || value === 'devices' || value === 'subscriptions' || value === 'payments'
+  );
 };
 
-export function SettingsPage({ searchParams = {} }: SettingsPageProps) {
-  const rawPart = normalizeParam(searchParams.part);
-  const normalizedPart: SettingsPart = isPartSupported(rawPart) ? rawPart : "info";
+export async function SettingsPage({ searchParams }: SettingsPageProps) {
+  const resolvedSearchParams = (searchParams ? await searchParams : {}) as Record<
+    string,
+    string | string[] | undefined
+  >;
+
+  const rawPart = normalizeParam(resolvedSearchParams.part);
+  const normalizedPart: SettingsPart = isPartSupported(rawPart) ? rawPart : 'info';
 
   if (!rawPart || rawPart !== normalizedPart) {
     redirect(`/settings?part=${normalizedPart}`);
@@ -34,8 +41,8 @@ export function SettingsPage({ searchParams = {} }: SettingsPageProps) {
         Active section: <span className={styles.accent}>{normalizedPart}</span>
       </p>
       <p className={styles.hint}>
-        Stub settings page. Update the layout to display the selected settings slice
-        (info, devices, subscriptions, payments) based on the query parameter.
+        Stub settings page. Update the layout to display the selected settings slice (info, devices,
+        subscriptions, payments) based on the query parameter.
       </p>
     </section>
   );

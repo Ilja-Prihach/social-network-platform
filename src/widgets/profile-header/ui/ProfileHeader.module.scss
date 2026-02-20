@@ -1,0 +1,12 @@
+.profile_header {
+  display: flex;
+  gap: 38px;
+  align-items: flex-start;
+  margin-bottom: 48px;
+}
+
+@media (width <= 760px) {
+  .profile_header {
+    flex-direction: column;
+  }
+}

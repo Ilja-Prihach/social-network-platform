@@ -1,1 +1,1 @@
-export { default, metadata } from '@/pages/profile-id';
+export { default, generateMetadata } from '@/pages/profile-id';
