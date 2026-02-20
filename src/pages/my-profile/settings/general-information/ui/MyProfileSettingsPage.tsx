@@ -1,7 +1,8 @@
 'use client';
 
-import { ChangeEvent, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { useMe } from '@/features/auth/model/useMe';
 import { getMyProfile, updateProfile, uploadProfileAvatar } from '@/entities/profile';
 import type {
@@ -14,10 +15,12 @@ import type { ApiError } from '@/shared/api/types';
 import { showAlert } from '@/shared/ui/Alert';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/ui/Button';
+import { Icon } from '@/shared/ui/Icon';
 import { Input } from '@/shared/ui/Input';
 import { Select } from '@/shared/ui/Select/Select';
 import { Textarea } from '@/shared/ui/Textarea';
 import { useDictionary } from 'next-intlayer';
+import alertStyles from '@/shared/ui/Alert/Alert.module.scss';
 import generalInformationContent from '../general-information.content';
 import {
   buildLocationOptions,
@@ -28,7 +31,6 @@ import styles from './MyProfileSettingsPage.module.scss';
 
 const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
 const myProfileQueryKey = ['my-profile-settings'] as const;
-const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
 type ProfileUpdateErrorResponse = {
   messages?: string | { message: string; field: string }[];
@@ -46,8 +48,8 @@ const getProfileUpdateError = (error: ApiError<ProfileUpdateErrorResponse>) => {
 };
 
 const pickProfileAvatar = (avatars?: ProfileAvatar[]) => {
-  if (!avatars?.length) return AVATAR_FALLBACK;
-  return avatars.find((avatar) => avatar.width === 192)?.url ?? avatars[0].url ?? AVATAR_FALLBACK;
+  if (!avatars?.length) return null;
+  return avatars.find((avatar) => avatar.width === 192)?.url ?? avatars[0].url ?? null;
 };
 
 const parseDateOfBirth = (value: string): string | null | 'invalid' => {
@@ -119,6 +121,10 @@ export function MyProfileSettingsPage() {
   const [countryChanged, setCountryChanged] = useState(false);
   const [aboutMe, setAboutMe] = useState('');
   const [aboutMeTouched, setAboutMeTouched] = useState(false);
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const [avatarModalError, setAvatarModalError] = useState<string | null>(null);
+  const [pendingAvatarFile, setPendingAvatarFile] = useState<File | null>(null);
+  const [localAvatarPreviewUrl, setLocalAvatarPreviewUrl] = useState<string | null>(null);
 
   const { countryOptions: country_options, cityOptionsByCountry: city_options_by_country } =
     useMemo(() => buildLocationOptions(content), [content]);
@@ -178,6 +184,15 @@ export function MyProfileSettingsPage() {
     [avatarUploadMutation.data?.avatars, profileData?.avatars],
   );
   const avatarUrl = pickProfileAvatar(uploadedAvatars);
+  const modalPreviewUrl = localAvatarPreviewUrl ?? avatarUrl;
+
+  useEffect(() => {
+    return () => {
+      if (localAvatarPreviewUrl) {
+        URL.revokeObjectURL(localAvatarPreviewUrl);
+      }
+    };
+  }, [localAvatarPreviewUrl]);
 
   const updateMutation = useMutation<
     void,
@@ -234,6 +249,7 @@ export function MyProfileSettingsPage() {
   };
 
   const onSelectPhotoClick = () => {
+    setAvatarModalError(null);
     fileInputRef.current?.click();
   };
 
@@ -241,8 +257,54 @@ export function MyProfileSettingsPage() {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    avatarUploadMutation.mutate(file);
+    const allowedTypes = new Set(['image/png', 'image/jpeg']);
+    const maxFileSize = 10 * 1024 * 1024;
+
+    if (!allowedTypes.has(file.type)) {
+      setAvatarModalError('Error! The format of the uploaded photo must be PNG and JPEG');
+      setIsAvatarModalOpen(true);
+      event.target.value = '';
+      return;
+    }
+
+    if (file.size > maxFileSize) {
+      setAvatarModalError('Error! Photo size must be less than 10 MB!');
+      setIsAvatarModalOpen(true);
+      event.target.value = '';
+      return;
+    }
+
+    setAvatarModalError(null);
+    if (localAvatarPreviewUrl) {
+      URL.revokeObjectURL(localAvatarPreviewUrl);
+    }
+    setLocalAvatarPreviewUrl(URL.createObjectURL(file));
+    setPendingAvatarFile(file);
+    setIsAvatarModalOpen(true);
     event.target.value = '';
+  };
+
+  const onCloseAvatarModal = () => {
+    setAvatarModalError(null);
+    setIsAvatarModalOpen(false);
+    setPendingAvatarFile(null);
+    if (localAvatarPreviewUrl) {
+      URL.revokeObjectURL(localAvatarPreviewUrl);
+      setLocalAvatarPreviewUrl(null);
+    }
+  };
+
+  const onSaveAvatar = () => {
+    if (!pendingAvatarFile) {
+      fileInputRef.current?.click();
+      return;
+    }
+
+    avatarUploadMutation.mutate(pendingAvatarFile, {
+      onSuccess: () => {
+        onCloseAvatarModal();
+      },
+    });
   };
 
   return (
@@ -253,8 +315,12 @@ export function MyProfileSettingsPage() {
             className={styles.avatar_placeholder}
             role="img"
             aria-label="Profile avatar"
-            style={{ backgroundImage: `url("${avatarUrl}")` }}
-          />
+            style={avatarUrl ? { backgroundImage: `url("${avatarUrl}")` } : undefined}
+          >
+            {!avatarUrl && (
+              <Icon iconId="image-outline" className={styles.avatar_placeholder_icon} />
+            )}
+          </div>
           <input
             ref={fileInputRef}
             className={styles.avatar_input}
@@ -351,6 +417,64 @@ export function MyProfileSettingsPage() {
           {toText(content.saveChanges)}
         </Button>
       </div>
+
+      {isAvatarModalOpen && (
+        <div className={styles.avatar_modal_overlay} onClick={onCloseAvatarModal}>
+          <div className={styles.avatar_modal} onClick={(event) => event.stopPropagation()}>
+            <div className={styles.avatar_modal_header}>
+              <h2 className={styles.avatar_modal_title}>Add a Profile Photo</h2>
+              <button
+                type="button"
+                className={styles.avatar_modal_close}
+                onClick={onCloseAvatarModal}
+                aria-label="Close"
+              >
+                <Icon iconId="close-outline" />
+              </button>
+            </div>
+            <div className={styles.avatar_modal_divider} />
+            {avatarModalError && (
+              <div className={styles.avatar_modal_error_container}>
+                <div
+                  className={clsx(alertStyles.alert, alertStyles.error, styles.avatar_modal_error)}
+                >
+                  {avatarModalError}
+                </div>
+              </div>
+            )}
+            <div className={styles.avatar_modal_preview}>
+              <div
+                className={styles.avatar_modal_preview_stage}
+                style={
+                  modalPreviewUrl ? { backgroundImage: `url("${modalPreviewUrl}")` } : undefined
+                }
+              >
+                {modalPreviewUrl && <div className={styles.avatar_modal_preview_blur} />}
+                <div
+                  className={styles.avatar_modal_preview_image}
+                  role="img"
+                  aria-label="Avatar preview"
+                  style={
+                    modalPreviewUrl ? { backgroundImage: `url("${modalPreviewUrl}")` } : undefined
+                  }
+                >
+                  {!modalPreviewUrl && (
+                    <Icon iconId="image-outline" className={styles.avatar_modal_preview_icon} />
+                  )}
+                </div>
+              </div>
+            </div>
+            <Button
+              type="button"
+              className={styles.avatar_modal_action}
+              onClick={onSaveAvatar}
+              disabled={avatarUploadMutation.isPending}
+            >
+              Save
+            </Button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
