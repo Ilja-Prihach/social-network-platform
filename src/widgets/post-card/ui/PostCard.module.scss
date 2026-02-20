@@ -24,9 +24,8 @@
 
 .body {
   width: 234px;
-  height: 72px;
+  min-height: 72px;
   margin-top: 3px;
-  overflow: hidden;
   font-size: 14px;
   line-height: 171%;
   color: var(--light-100-color);
