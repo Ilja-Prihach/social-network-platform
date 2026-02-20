@@ -4,6 +4,7 @@ import type {
   MyProfile,
   ProfilePostsPage,
   PublicProfile,
+  UploadProfileAvatarResponse,
   UpdateProfileRequest,
 } from '../model/types';
 import {
@@ -28,6 +29,35 @@ export function updateProfile(data: UpdateProfileRequest) {
     method: 'PUT',
     body: data,
   });
+}
+
+export async function uploadProfileAvatar(file: File): Promise<UploadProfileAvatarResponse> {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch('/api/users/profile/avatar', {
+    method: 'POST',
+    body: formData,
+  });
+
+  const text = await response.text();
+  let data: unknown = null;
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = text;
+    }
+  }
+
+  if (!response.ok) {
+    throw {
+      status: response.status,
+      data,
+    };
+  }
+
+  return data as UploadProfileAvatarResponse;
 }
 
 export async function getPublicProfilePostsPage({

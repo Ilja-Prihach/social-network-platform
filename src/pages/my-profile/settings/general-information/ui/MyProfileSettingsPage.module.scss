@@ -27,6 +27,13 @@
   border-radius: 50%;
   background: #171717;
   border: 1px solid #333;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.avatar_input {
+  display: none;
 }
 
 .form_grid {

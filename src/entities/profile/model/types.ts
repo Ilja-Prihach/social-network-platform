@@ -52,6 +52,7 @@ export type GetPublicProfilePostsParams = {
 };
 
 export type MyProfile = {
+  id: number;
   userName: string;
   firstName: string;
   lastName: string;
@@ -60,6 +61,8 @@ export type MyProfile = {
   region: string;
   dateOfBirth?: string | null;
   aboutMe: string;
+  avatars: ProfileAvatar[];
+  createdAt: string;
 };
 
 export type UpdateProfileRequest = {
@@ -71,4 +74,8 @@ export type UpdateProfileRequest = {
   region: string;
   dateOfBirth?: string;
   aboutMe: string;
+};
+
+export type UploadProfileAvatarResponse = {
+  avatars: ProfileAvatar[];
 };

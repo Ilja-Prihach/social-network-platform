@@ -74,6 +74,7 @@ Other:
 - `GET /api/public-user` -> `/api/v1/public-user`
 - `GET /api/users/profile` -> `/api/v1/users/profile`
 - `PUT /api/users/profile` -> `/api/v1/users/profile`
+- `POST /api/users/profile/avatar` -> `/api/v1/users/profile/avatar`
 
 ## Correctness Audit
 

@@ -3,5 +3,6 @@ export {
   getMyProfile,
   getPublicProfile,
   getPublicProfilePostsPage,
+  uploadProfileAvatar,
   updateProfile,
 } from './profileApi.client';

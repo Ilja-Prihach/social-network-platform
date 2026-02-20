@@ -1,10 +1,15 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { ChangeEvent, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMe } from '@/features/auth/model/useMe';
-import { getMyProfile, updateProfile } from '@/entities/profile';
-import type { MyProfile, UpdateProfileRequest } from '@/entities/profile';
+import { getMyProfile, updateProfile, uploadProfileAvatar } from '@/entities/profile';
+import type {
+  MyProfile,
+  ProfileAvatar,
+  UploadProfileAvatarResponse,
+  UpdateProfileRequest,
+} from '@/entities/profile';
 import type { ApiError } from '@/shared/api/types';
 import { showAlert } from '@/shared/ui/Alert';
 import { useRouter } from 'next/navigation';
@@ -23,6 +28,7 @@ import styles from './MyProfileSettingsPage.module.scss';
 
 const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
 const myProfileQueryKey = ['my-profile-settings'] as const;
+const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
 type ProfileUpdateErrorResponse = {
   messages?: string | { message: string; field: string }[];
@@ -37,6 +43,11 @@ const getProfileUpdateError = (error: ApiError<ProfileUpdateErrorResponse>) => {
   }
 
   return 'Failed to update profile';
+};
+
+const pickProfileAvatar = (avatars?: ProfileAvatar[]) => {
+  if (!avatars?.length) return AVATAR_FALLBACK;
+  return avatars.find((avatar) => avatar.width === 192)?.url ?? avatars[0].url ?? AVATAR_FALLBACK;
 };
 
 const parseDateOfBirth = (value: string): string | null | 'invalid' => {
@@ -98,6 +109,7 @@ export function MyProfileSettingsPage() {
   const router = useRouter();
   const { data: me } = useMe();
   const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [userName, setUserName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -140,6 +152,32 @@ export function MyProfileSettingsPage() {
   const lastNameValue = lastName || profileData?.lastName || '';
   const aboutMeValue = aboutMeTouched ? aboutMe : (profileData?.aboutMe ?? '');
   const dateOfBirthValue = dateOfBirth || formatDateOfBirth(profileData?.dateOfBirth);
+
+  const avatarUploadMutation = useMutation<
+    UploadProfileAvatarResponse,
+    ApiError<ProfileUpdateErrorResponse>,
+    File
+  >({
+    mutationFn: uploadProfileAvatar,
+    onSuccess: async () => {
+      showAlert('Profile photo updated successfully', 'success');
+      const userId = me?.userId;
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: myProfileQueryKey }),
+        userId
+          ? queryClient.invalidateQueries({ queryKey: ['public-profile', userId] })
+          : Promise.resolve(),
+      ]);
+    },
+    onError: (error) => {
+      showAlert(getProfileUpdateError(error), 'error');
+    },
+  });
+  const uploadedAvatars = useMemo(
+    () => avatarUploadMutation.data?.avatars ?? profileData?.avatars,
+    [avatarUploadMutation.data?.avatars, profileData?.avatars],
+  );
+  const avatarUrl = pickProfileAvatar(uploadedAvatars);
 
   const updateMutation = useMutation<
     void,
@@ -195,12 +233,42 @@ export function MyProfileSettingsPage() {
     });
   };
 
+  const onSelectPhotoClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const onPhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    avatarUploadMutation.mutate(file);
+    event.target.value = '';
+  };
+
   return (
     <>
       <div className={styles.content_layout}>
         <div className={styles.avatar_col}>
-          <div className={styles.avatar_placeholder} aria-hidden="true" />
-          <Button type="button" variant="outline" className={styles.photo_button}>
+          <div
+            className={styles.avatar_placeholder}
+            role="img"
+            aria-label="Profile avatar"
+            style={{ backgroundImage: `url("${avatarUrl}")` }}
+          />
+          <input
+            ref={fileInputRef}
+            className={styles.avatar_input}
+            type="file"
+            accept="image/png,image/jpeg"
+            onChange={onPhotoChange}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            className={styles.photo_button}
+            onClick={onSelectPhotoClick}
+            disabled={avatarUploadMutation.isPending}
+          >
             {toText(content.selectProfilePhoto)}
           </Button>
         </div>

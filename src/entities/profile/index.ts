@@ -3,6 +3,7 @@ export type {
   PublicProfile,
   ProfileAvatar,
   ProfilePostsPage,
+  UploadProfileAvatarResponse,
   UpdateProfileRequest,
 } from './model/types';
 export {
@@ -10,6 +11,7 @@ export {
   getMyProfile,
   getPublicProfile,
   getPublicProfilePostsPage,
+  uploadProfileAvatar,
   updateProfile,
 } from './api/profileApi.client';
 export { usePublicProfileQuery } from './model/usePublicProfileQuery';
