@@ -9,11 +9,6 @@ const nextConfig: NextConfig = {
         hostname: 'staging-it-incubator.s3.eu-central-1.amazonaws.com',
         pathname: '/**',
       },
-      {
-        protocol: 'https',
-        hostname: 'storage.yandexcloud.net',
-        pathname: '/**',
-      },
     ],
   },
 };
