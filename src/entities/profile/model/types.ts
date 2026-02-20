@@ -50,3 +50,14 @@ export type GetPublicProfilePostsParams = {
   endCursorPostId?: number | null;
   pageSize?: number;
 };
+
+export type UpdateProfileRequest = {
+  userName: string;
+  firstName: string;
+  lastName: string;
+  city: string;
+  country: string;
+  region: string;
+  dateOfBirth?: string;
+  aboutMe: string;
+};
