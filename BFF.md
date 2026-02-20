@@ -72,6 +72,7 @@ Auth proxy routes:
 Other:
 
 - `GET /api/public-user` -> `/api/v1/public-user`
+- `PUT /api/users/profile` -> `/api/v1/users/profile`
 
 ## Correctness Audit
 
