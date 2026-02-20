@@ -15,7 +15,11 @@ export function ProfileMeta({ profile, isOwner }: ProfileMetaProps) {
       <div className={styles.profile_row}>
         <h1 className={styles.title}>{profile.userName}</h1>
         {isOwner && (
-          <Button href="/settings" variant="secondary" className={styles.settings_button}>
+          <Button
+            href="/my-profile/settings"
+            variant="secondary"
+            className={styles.settings_button}
+          >
             Profile Settings
           </Button>
         )}
