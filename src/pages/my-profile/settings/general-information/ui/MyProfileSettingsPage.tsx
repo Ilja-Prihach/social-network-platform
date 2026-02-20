@@ -1,10 +1,10 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMe } from '@/features/auth/model/useMe';
-import { updateProfile } from '@/entities/profile';
-import type { UpdateProfileRequest } from '@/entities/profile';
+import { getMyProfile, updateProfile } from '@/entities/profile';
+import type { MyProfile, UpdateProfileRequest } from '@/entities/profile';
 import type { ApiError } from '@/shared/api/types';
 import { showAlert } from '@/shared/ui/Alert';
 import { Button } from '@/shared/ui/Button';
@@ -21,6 +21,7 @@ import {
 import styles from './MyProfileSettingsPage.module.scss';
 
 const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
+const myProfileQueryKey = ['my-profile-settings'] as const;
 
 type ProfileUpdateErrorResponse = {
   messages?: string | { message: string; field: string }[];
@@ -66,23 +67,76 @@ const parseDateOfBirth = (value: string): string | null | 'invalid' => {
   return isValid ? date.toISOString() : 'invalid';
 };
 
+const formatDateOfBirth = (value?: string | null): string => {
+  if (!value) return '';
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return '';
+
+  const day = String(parsed.getUTCDate()).padStart(2, '0');
+  const month = String(parsed.getUTCMonth() + 1).padStart(2, '0');
+  const year = String(parsed.getUTCFullYear());
+
+  return `${day}.${month}.${year}`;
+};
+
+const findOptionValueByTitle = (
+  options: Array<{ value: string; title: string }>,
+  title?: string,
+): string | null => {
+  if (!title?.trim()) return null;
+  const normalizedTitle = title.trim().toLowerCase();
+
+  return (
+    options.find((option) => option.title.trim().toLowerCase() === normalizedTitle)?.value ?? null
+  );
+};
+
 export function MyProfileSettingsPage() {
   const content = useDictionary(generalInformationContent);
   const { data: me } = useMe();
+  const queryClient = useQueryClient();
   const [userName, setUserName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [selectedCountry, setSelectedCountry] = useState<CountryValue | null>(null);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [countryChanged, setCountryChanged] = useState(false);
   const [aboutMe, setAboutMe] = useState('');
 
   const { countryOptions: country_options, cityOptionsByCountry: city_options_by_country } =
     useMemo(() => buildLocationOptions(content), [content]);
 
-  const city_options = selectedCountry ? city_options_by_country[selectedCountry] : [];
+  const myProfileQuery = useQuery<MyProfile, ApiError>({
+    queryKey: myProfileQueryKey,
+    queryFn: getMyProfile,
+    retry: false,
+  });
 
-  const userNameValue = userName || me?.userName || '';
+  const profileData = myProfileQuery.data;
+  const fallbackCountry = useMemo(
+    () => findOptionValueByTitle(country_options, profileData?.country) as CountryValue | null,
+    [country_options, profileData?.country],
+  );
+
+  const selectedCountryValue = selectedCountry ?? fallbackCountry;
+  const city_options = useMemo(
+    () => (selectedCountryValue ? city_options_by_country[selectedCountryValue] : []),
+    [city_options_by_country, selectedCountryValue],
+  );
+  const fallbackCity = useMemo(() => {
+    if (!selectedCountryValue) return null;
+    return findOptionValueByTitle(city_options, profileData?.city);
+  }, [city_options, profileData?.city, selectedCountryValue]);
+
+  const selectedCityValue = countryChanged ? selectedCity : (selectedCity ?? fallbackCity);
+
+  const userNameValue = userName || profileData?.userName || me?.userName || '';
+  const firstNameValue = firstName || profileData?.firstName || '';
+  const lastNameValue = lastName || profileData?.lastName || '';
+  const aboutMeValue = aboutMe || profileData?.aboutMe || '';
+  const dateOfBirthValue = dateOfBirth || formatDateOfBirth(profileData?.dateOfBirth);
 
   const updateMutation = useMutation<
     void,
@@ -92,6 +146,7 @@ export function MyProfileSettingsPage() {
     mutationFn: updateProfile,
     onSuccess: () => {
       showAlert('Profile updated successfully', 'success');
+      queryClient.invalidateQueries({ queryKey: myProfileQueryKey });
     },
     onError: (error) => {
       showAlert(getProfileUpdateError(error), 'error');
@@ -107,18 +162,19 @@ export function MyProfileSettingsPage() {
     }
 
     const countryTitle =
-      country_options.find((option) => option.value === selectedCountry)?.title ?? '';
-    const cityTitle = city_options.find((option) => option.value === selectedCity)?.title ?? '';
+      country_options.find((option) => option.value === selectedCountryValue)?.title ?? '';
+    const cityTitle =
+      city_options.find((option) => option.value === selectedCityValue)?.title ?? '';
 
     updateMutation.mutate({
       userName: userNameValue.trim(),
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
+      firstName: firstNameValue.trim(),
+      lastName: lastNameValue.trim(),
       city: cityTitle,
       country: countryTitle,
-      region: '',
+      region: profileData?.region ?? '',
       dateOfBirth: parsedDateOfBirth ?? undefined,
-      aboutMe: aboutMe.trim(),
+      aboutMe: aboutMeValue.trim(),
     });
   };
 
@@ -141,19 +197,19 @@ export function MyProfileSettingsPage() {
           />
           <Input
             label={toText(content.firstNameLabel)}
-            value={firstName}
+            value={firstNameValue}
             onChange={setFirstName}
             placeholder={toText(content.firstNamePlaceholder)}
           />
           <Input
             label={toText(content.lastNameLabel)}
-            value={lastName}
+            value={lastNameValue}
             onChange={setLastName}
             placeholder={toText(content.lastNamePlaceholder)}
           />
           <Input
             label={toText(content.dateOfBirthLabel)}
-            value={dateOfBirth}
+            value={dateOfBirthValue}
             onChange={setDateOfBirth}
             placeholder={toText(content.dateOfBirthPlaceholder)}
           />
@@ -164,9 +220,10 @@ export function MyProfileSettingsPage() {
               label={toText(content.countryLabel)}
               placeholder={toText(content.countryPlaceholder)}
               options={country_options}
-              value={selectedCountry}
+              value={selectedCountryValue}
               onChange={(value) => {
                 setSelectedCountry(value as CountryValue);
+                setCountryChanged(true);
                 setSelectedCity(null);
               }}
             />
@@ -174,14 +231,14 @@ export function MyProfileSettingsPage() {
               className={styles.select_field}
               label={toText(content.cityLabel)}
               placeholder={
-                selectedCountry
+                selectedCountryValue
                   ? toText(content.cityPlaceholder)
                   : toText(content.cityPlaceholderSelectCountryFirst)
               }
               options={city_options}
-              value={selectedCity}
+              value={selectedCityValue}
               onChange={setSelectedCity}
-              disabled={!selectedCountry}
+              disabled={!selectedCountryValue}
             />
           </div>
 
@@ -189,7 +246,7 @@ export function MyProfileSettingsPage() {
             label={toText(content.aboutMeLabel)}
             placeholder={toText(content.aboutMePlaceholder)}
             rows={3}
-            value={aboutMe}
+            value={aboutMeValue}
             onChange={(event) => setAboutMe(event.target.value)}
           />
         </div>
@@ -200,7 +257,7 @@ export function MyProfileSettingsPage() {
           type="button"
           className={styles.save_button}
           onClick={onSave}
-          disabled={updateMutation.isPending}
+          disabled={updateMutation.isPending || myProfileQuery.isPending}
         >
           {toText(content.saveChanges)}
         </Button>

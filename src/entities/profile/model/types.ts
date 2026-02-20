@@ -51,6 +51,17 @@ export type GetPublicProfilePostsParams = {
   pageSize?: number;
 };
 
+export type MyProfile = {
+  userName: string;
+  firstName: string;
+  lastName: string;
+  city: string;
+  country: string;
+  region: string;
+  dateOfBirth?: string | null;
+  aboutMe: string;
+};
+
 export type UpdateProfileRequest = {
   userName: string;
   firstName: string;

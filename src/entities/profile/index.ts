@@ -1,4 +1,5 @@
 export type {
+  MyProfile,
   PublicProfile,
   ProfileAvatar,
   ProfilePostsPage,
@@ -6,6 +7,7 @@ export type {
 } from './model/types';
 export {
   PROFILE_POSTS_PAGE_SIZE,
+  getMyProfile,
   getPublicProfile,
   getPublicProfilePostsPage,
   updateProfile,

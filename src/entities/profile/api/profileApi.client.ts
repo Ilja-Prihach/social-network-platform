@@ -1,6 +1,7 @@
 import { baseApi } from '@/shared/api/baseApi';
 import type {
   GetPublicProfilePostsParams,
+  MyProfile,
   ProfilePostsPage,
   PublicProfile,
   UpdateProfileRequest,
@@ -16,6 +17,10 @@ export { PROFILE_POSTS_PAGE_SIZE };
 
 export function getPublicProfile(profileId: number) {
   return baseApi<PublicProfile>(`/api/public-user/profile/${profileId}`);
+}
+
+export function getMyProfile() {
+  return baseApi<MyProfile>('/api/users/profile');
 }
 
 export function updateProfile(data: UpdateProfileRequest) {
