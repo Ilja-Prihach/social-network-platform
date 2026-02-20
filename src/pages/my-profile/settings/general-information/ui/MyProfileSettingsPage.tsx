@@ -7,6 +7,7 @@ import { getMyProfile, updateProfile } from '@/entities/profile';
 import type { MyProfile, UpdateProfileRequest } from '@/entities/profile';
 import type { ApiError } from '@/shared/api/types';
 import { showAlert } from '@/shared/ui/Alert';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { Select } from '@/shared/ui/Select/Select';
@@ -94,6 +95,7 @@ const findOptionValueByTitle = (
 
 export function MyProfileSettingsPage() {
   const content = useDictionary(generalInformationContent);
+  const router = useRouter();
   const { data: me } = useMe();
   const queryClient = useQueryClient();
   const [userName, setUserName] = useState('');
@@ -104,6 +106,7 @@ export function MyProfileSettingsPage() {
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [countryChanged, setCountryChanged] = useState(false);
   const [aboutMe, setAboutMe] = useState('');
+  const [aboutMeTouched, setAboutMeTouched] = useState(false);
 
   const { countryOptions: country_options, cityOptionsByCountry: city_options_by_country } =
     useMemo(() => buildLocationOptions(content), [content]);
@@ -135,7 +138,7 @@ export function MyProfileSettingsPage() {
   const userNameValue = userName || profileData?.userName || me?.userName || '';
   const firstNameValue = firstName || profileData?.firstName || '';
   const lastNameValue = lastName || profileData?.lastName || '';
-  const aboutMeValue = aboutMe || profileData?.aboutMe || '';
+  const aboutMeValue = aboutMeTouched ? aboutMe : (profileData?.aboutMe ?? '');
   const dateOfBirthValue = dateOfBirth || formatDateOfBirth(profileData?.dateOfBirth);
 
   const updateMutation = useMutation<
@@ -144,9 +147,23 @@ export function MyProfileSettingsPage() {
     UpdateProfileRequest
   >({
     mutationFn: updateProfile,
-    onSuccess: () => {
+    onSuccess: async () => {
       showAlert('Profile updated successfully', 'success');
-      queryClient.invalidateQueries({ queryKey: myProfileQueryKey });
+      const userId = me?.userId;
+
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: myProfileQueryKey }),
+        userId
+          ? queryClient.invalidateQueries({ queryKey: ['public-profile', userId] })
+          : Promise.resolve(),
+      ]);
+
+      if (userId) {
+        router.replace(`/profile/${userId}`);
+        return;
+      }
+
+      router.replace('/my-profile');
     },
     onError: (error) => {
       showAlert(getProfileUpdateError(error), 'error');
@@ -154,7 +171,7 @@ export function MyProfileSettingsPage() {
   });
 
   const onSave = () => {
-    const parsedDateOfBirth = parseDateOfBirth(dateOfBirth);
+    const parsedDateOfBirth = parseDateOfBirth(dateOfBirthValue);
 
     if (parsedDateOfBirth === 'invalid') {
       showAlert('Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD', 'error');
@@ -243,11 +260,15 @@ export function MyProfileSettingsPage() {
           </div>
 
           <Textarea
+            id="about_me"
             label={toText(content.aboutMeLabel)}
             placeholder={toText(content.aboutMePlaceholder)}
             rows={3}
             value={aboutMeValue}
-            onChange={(event) => setAboutMe(event.target.value)}
+            onChange={(event) => {
+              setAboutMeTouched(true);
+              setAboutMe(event.target.value);
+            }}
           />
         </div>
       </div>
