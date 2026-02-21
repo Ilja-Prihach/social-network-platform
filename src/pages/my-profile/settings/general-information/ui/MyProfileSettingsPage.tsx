@@ -276,10 +276,8 @@ export function MyProfileSettingsPage() {
       /^\d{2}\.\d{2}\.\d{4}$/.test(normalized) || /^\d{4}-\d{2}-\d{2}$/.test(normalized);
 
     if (!isFullDate) {
-      const clearTimeoutId = window.setTimeout(() => {
-        setDateOfBirthAgeError(null);
-      }, 0);
-      return () => window.clearTimeout(clearTimeoutId);
+      queueMicrotask(() => setDateOfBirthAgeError(null));
+      return;
     }
 
     const timeoutId = window.setTimeout(() => {
