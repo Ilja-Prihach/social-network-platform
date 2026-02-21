@@ -119,6 +119,7 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
   const updateMutation = useProfileUpdateMutation({
     userId: me?.userId,
     invalidateProfileQueries,
+    successMessage: toText(content.profileUpdatedSuccess),
   });
 
   const onSave = () => {

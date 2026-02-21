@@ -9,18 +9,20 @@ import { getProfileUpdateError, type ProfileUpdateErrorResponse } from './profil
 type UseProfileUpdateMutationParams = {
   userId?: number;
   invalidateProfileQueries: (userId?: number) => Promise<void>;
+  successMessage: string;
 };
 
 export const useProfileUpdateMutation = ({
   userId,
   invalidateProfileQueries,
+  successMessage,
 }: UseProfileUpdateMutationParams) => {
   const router = useRouter();
 
   return useMutation<void, ApiError<ProfileUpdateErrorResponse>, UpdateProfileRequest>({
     mutationFn: updateProfile,
     onSuccess: async () => {
-      showAlert('Profile updated successfully', 'success');
+      showAlert(successMessage, 'success');
 
       await invalidateProfileQueries(userId);
 

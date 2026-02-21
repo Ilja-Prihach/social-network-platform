@@ -713,6 +713,14 @@ const generalInformationContent = {
       ru: 'Сохранить изменения',
       it: 'Salva modifiche',
     }),
+    profileUpdatedSuccess: t({
+      en: 'Profile updated successfully',
+      he: 'Profile updated successfully',
+      fr: 'Profil mis à jour avec succès',
+      es: 'Perfil actualizado correctamente',
+      ru: 'Профиль успешно обновлен',
+      it: 'Profilo aggiornato con successo',
+    }),
     dateOfBirthFormatError: t({
       en: 'Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD',
       he: 'Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD',
