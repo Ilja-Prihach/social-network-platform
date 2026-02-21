@@ -19,3 +19,19 @@ export async function POST(req: Request) {
 
   return nextResponse;
 }
+
+export async function DELETE(req: Request) {
+  const cookieHeader = req.headers.get('cookie') ?? '';
+
+  const { res, setCookie } = await bffFetch('/api/v1/users/profile/avatar', {
+    method: 'DELETE',
+    headers: {
+      Cookie: cookieHeader,
+    },
+  });
+
+  const nextResponse = await buildJsonResponse(res);
+  if (setCookie) forwardSetCookie(nextResponse, setCookie);
+
+  return nextResponse;
+}

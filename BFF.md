@@ -75,6 +75,7 @@ Other:
 - `GET /api/users/profile` -> `/api/v1/users/profile`
 - `PUT /api/users/profile` -> `/api/v1/users/profile`
 - `POST /api/users/profile/avatar` -> `/api/v1/users/profile/avatar`
+- `DELETE /api/users/profile/avatar` -> `/api/v1/users/profile/avatar`
 
 ## Correctness Audit
 

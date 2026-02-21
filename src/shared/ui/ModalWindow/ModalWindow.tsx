@@ -8,7 +8,12 @@ import styles from './ModalWindow.module.scss';
 type ModalOptions = {
   title?: string;
   description?: string;
-  confirmText?: string; // В этот пропс можно передать текст кнопки
+  confirmText?: string;
+  cancelText?: string;
+  confirmVariant?: 'primary' | 'secondary' | 'outline' | 'text' | 'sidebar';
+  cancelVariant?: 'primary' | 'secondary' | 'outline' | 'text' | 'sidebar';
+  onConfirm?: () => void;
+  onCancel?: () => void;
 };
 
 // глобальная функция для вызова модалки из любого места
@@ -30,6 +35,16 @@ export const ModalWindow = () => {
 
   if (!modalProps) return null;
 
+  const handleConfirm = () => {
+    modalProps.onConfirm?.();
+    setModalProps(null);
+  };
+
+  const handleCancel = () => {
+    modalProps.onCancel?.();
+    setModalProps(null);
+  };
+
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
@@ -43,9 +58,14 @@ export const ModalWindow = () => {
         {modalProps.description && <p className={styles.description}>{modalProps.description}</p>}
 
         <div className={styles.button_wrapper}>
-          <Button variant="primary" onClick={() => setModalProps(null)}>
+          <Button variant={modalProps.confirmVariant || 'primary'} onClick={handleConfirm}>
             {modalProps.confirmText || 'OK'}
           </Button>
+          {modalProps.cancelText && (
+            <Button variant={modalProps.cancelVariant || 'text'} onClick={handleCancel}>
+              {modalProps.cancelText}
+            </Button>
+          )}
         </div>
       </div>
     </div>

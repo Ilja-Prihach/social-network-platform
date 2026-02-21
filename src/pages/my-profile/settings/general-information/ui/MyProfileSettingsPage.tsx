@@ -4,7 +4,12 @@ import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useMe } from '@/features/auth/model/useMe';
-import { getMyProfile, updateProfile, uploadProfileAvatar } from '@/entities/profile';
+import {
+  deleteProfileAvatar,
+  getMyProfile,
+  updateProfile,
+  uploadProfileAvatar,
+} from '@/entities/profile';
 import type {
   MyProfile,
   ProfileAvatar,
@@ -23,6 +28,7 @@ import { useDictionary, useLocale } from 'next-intlayer';
 import { getLocalizedUrl } from 'intlayer';
 import Link from 'next/link';
 import alertStyles from '@/shared/ui/Alert/Alert.module.scss';
+import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import generalInformationContent from '../general-information.content';
 import {
   buildLocationOptions,
@@ -296,6 +302,23 @@ export function MyProfileSettingsPage() {
     },
   });
 
+  const deleteAvatarMutation = useMutation<void, ApiError>({
+    mutationFn: deleteProfileAvatar,
+    onSuccess: async () => {
+      showAlert('Profile photo deleted successfully', 'success');
+      const userId = me?.userId;
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: myProfileQueryKey }),
+        userId
+          ? queryClient.invalidateQueries({ queryKey: ['public-profile', userId] })
+          : Promise.resolve(),
+      ]);
+    },
+    onError: () => {
+      showAlert('Failed to delete profile photo', 'error');
+    },
+  });
+
   const onSave = () => {
     const parsedDateOfBirth = parsedDateOfBirthValue;
 
@@ -386,18 +409,45 @@ export function MyProfileSettingsPage() {
     });
   };
 
+  const onDeleteAvatar = () => {
+    showModal({
+      title: 'Delete Profile Photo',
+      description: 'Are you sure you want to delete the photo?',
+      confirmText: 'Yes',
+      cancelText: 'No',
+      confirmVariant: 'outline',
+      cancelVariant: 'primary',
+      onConfirm: () => {
+        deleteAvatarMutation.mutate();
+      },
+    });
+  };
+
   return (
     <>
       <div className={styles.content_layout}>
         <div className={styles.avatar_col}>
-          <div
-            className={styles.avatar_placeholder}
-            role="img"
-            aria-label="Profile avatar"
-            style={avatarUrl ? { backgroundImage: `url("${avatarUrl}")` } : undefined}
-          >
-            {!avatarUrl && (
-              <Icon iconId="image-outline" className={styles.avatar_placeholder_icon} />
+          <div className={styles.avatar_preview}>
+            <div
+              className={styles.avatar_placeholder}
+              role="img"
+              aria-label="Profile avatar"
+              style={avatarUrl ? { backgroundImage: `url("${avatarUrl}")` } : undefined}
+            >
+              {!avatarUrl && (
+                <Icon iconId="image-outline" className={styles.avatar_placeholder_icon} />
+              )}
+            </div>
+            {avatarUrl && (
+              <button
+                type="button"
+                className={styles.avatar_delete_button}
+                onClick={onDeleteAvatar}
+                aria-label="Delete profile photo"
+                disabled={deleteAvatarMutation.isPending}
+              >
+                <Icon iconId="avatar-delete-close" width="16" height="16" viewBox="0 0 16 16" />
+              </button>
             )}
           </div>
           <input

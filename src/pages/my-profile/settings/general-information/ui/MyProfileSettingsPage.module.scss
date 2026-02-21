@@ -11,6 +11,12 @@
   gap: 24px;
 }
 
+.avatar_preview {
+  position: relative;
+  width: 192px;
+  height: 192px;
+}
+
 .photo_button {
   align-self: flex-start;
   padding: 6px 24px;
@@ -43,6 +49,25 @@
 
 .avatar_input {
   display: none;
+}
+
+.avatar_delete_button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #cc1439;
+  border-radius: 50%;
+  background: #cc1439;
+  box-shadow: 0 0 0 5px var(--dark-900-color);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: translate(-50%, -50%) rotate(45deg) translateY(-96px) rotate(-45deg);
 }
 
 .avatar_modal_overlay {

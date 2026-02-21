@@ -7,6 +7,7 @@ export type {
   UpdateProfileRequest,
 } from './model/types';
 export {
+  deleteProfileAvatar,
   PROFILE_POSTS_PAGE_SIZE,
   getMyProfile,
   getPublicProfile,

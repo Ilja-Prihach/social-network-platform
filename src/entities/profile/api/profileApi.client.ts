@@ -60,6 +60,12 @@ export async function uploadProfileAvatar(file: File): Promise<UploadProfileAvat
   return data as UploadProfileAvatarResponse;
 }
 
+export function deleteProfileAvatar() {
+  return baseApi<void>('/api/users/profile/avatar', {
+    method: 'DELETE',
+  });
+}
+
 export async function getPublicProfilePostsPage({
   profileId,
   endCursorPostId,
