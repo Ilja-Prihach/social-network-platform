@@ -6,10 +6,10 @@ import { Select } from '@/shared/ui/Select/Select';
 import { Textarea } from '@/shared/ui/Textarea';
 import { useDictionary } from 'next-intlayer';
 import generalInformationContent from '../general-information.content';
-import { type CountryValue, type DictionaryText } from '../model/locationOptions';
+import { type CityValue, type CountryValue, type DictionaryText } from '../model/locationOptions';
 import { useGeneralInformationController } from '../model/useGeneralInformationController';
-import { AvatarSection } from './AvatarSection';
-import { AvatarUploadModal } from './AvatarUploadModal';
+import { AvatarSection } from './avatar/AvatarSection';
+import { AvatarUploadModal } from './avatar/AvatarUploadModal';
 import styles from './MyProfileSettingsPage.module.scss';
 
 const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
@@ -60,15 +60,15 @@ export function MyProfileSettingsPage() {
           />
 
           <div className={styles.selects_row}>
-            <Select
+            <Select<CountryValue>
               className={styles.select_field}
               label={toText(content.countryLabel)}
               placeholder={toText(content.countryPlaceholder)}
               options={controller.country_options}
               value={controller.selectedCountryValue}
-              onChange={(value) => controller.formState.onCountryChange(value as CountryValue)}
+              onChange={controller.formState.onCountryChange}
             />
-            <Select
+            <Select<CityValue>
               className={styles.select_field}
               label={toText(content.cityLabel)}
               placeholder={
@@ -78,7 +78,7 @@ export function MyProfileSettingsPage() {
               }
               options={controller.city_options}
               value={controller.selectedCityValue}
-              onChange={controller.formState.setSelectedCity}
+              onChange={controller.formState.onCityChange}
               disabled={!controller.selectedCountryValue}
             />
           </div>

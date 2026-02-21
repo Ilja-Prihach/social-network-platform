@@ -86,7 +86,7 @@ export type CityValue =
   | 'calgary'
   | 'edmonton';
 
-export type SelectOption = { value: string; title: string };
+export type SelectOption<TValue extends string = string> = { value: TValue; title: string };
 export type DictionaryText = string | { value: string };
 
 const countryOrder: ReadonlyArray<CountryValue> = [
@@ -226,7 +226,9 @@ const getRequiredText = (content: Record<string, DictionaryText>, key: string): 
   return toText(value);
 };
 
-export function buildCountryOptions(countryLabels: Record<CountryValue, string>): SelectOption[] {
+export function buildCountryOptions(
+  countryLabels: Record<CountryValue, string>,
+): SelectOption<CountryValue>[] {
   return countryOrder.map((country) => ({
     value: country,
     title: countryLabels[country],
@@ -235,7 +237,7 @@ export function buildCountryOptions(countryLabels: Record<CountryValue, string>)
 
 export function buildCityOptionsByCountry(
   cityLabels: Record<CityValue, string>,
-): Record<CountryValue, SelectOption[]> {
+): Record<CountryValue, SelectOption<CityValue>[]> {
   return Object.fromEntries(
     Object.entries(cityOrderByCountry).map(([country, cities]) => [
       country,
@@ -244,12 +246,12 @@ export function buildCityOptionsByCountry(
         title: cityLabels[city],
       })),
     ]),
-  ) as Record<CountryValue, SelectOption[]>;
+  ) as Record<CountryValue, SelectOption<CityValue>[]>;
 }
 
 export function buildLocationOptions(content: Record<string, DictionaryText>): {
-  countryOptions: SelectOption[];
-  cityOptionsByCountry: Record<CountryValue, SelectOption[]>;
+  countryOptions: SelectOption<CountryValue>[];
+  cityOptionsByCountry: Record<CountryValue, SelectOption<CityValue>[]>;
 } {
   const countryLabels = Object.fromEntries(
     countryOrder.map((country) => [country, getRequiredText(content, countryContentKeys[country])]),
@@ -268,11 +270,11 @@ export function buildLocationOptions(content: Record<string, DictionaryText>): {
   };
 }
 
-const countryValueSet = new Set<CountryValue>(countryOrder);
-const cityValueSet = new Set<CityValue>(Object.keys(cityContentKeys) as CityValue[]);
+const countryValueSet: ReadonlySet<string> = new Set(countryOrder);
+const cityValueSet: ReadonlySet<string> = new Set(Object.keys(cityContentKeys));
 
 export const isCountryValue = (value?: string | null): value is CountryValue =>
-  Boolean(value && countryValueSet.has(value as CountryValue));
+  Boolean(value && countryValueSet.has(value));
 
 export const isCityValue = (value?: string | null): value is CityValue =>
-  Boolean(value && cityValueSet.has(value as CityValue));
+  Boolean(value && cityValueSet.has(value));

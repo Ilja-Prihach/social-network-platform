@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { CountryValue } from './locationOptions';
+import type { CityValue, CountryValue } from './locationOptions';
 
 type FormDraft = {
   userName: string;
@@ -33,7 +33,7 @@ export const useGeneralInfoFormState = () => {
     aboutMe: false,
   });
   const [selectedCountry, setSelectedCountry] = useState<CountryValue | null>(null);
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [selectedCity, setSelectedCity] = useState<CityValue | null>(null);
   const [countryChanged, setCountryChanged] = useState(false);
 
   const setUserName = (value: string) => {
@@ -67,6 +67,10 @@ export const useGeneralInfoFormState = () => {
     setSelectedCity(null);
   };
 
+  const onCityChange = (value: CityValue | null) => {
+    setSelectedCity(value);
+  };
+
   return {
     draft,
     touched,
@@ -78,7 +82,7 @@ export const useGeneralInfoFormState = () => {
     setLastName,
     setDateOfBirth,
     setAboutMe,
-    setSelectedCity,
+    onCityChange,
     onCountryChange,
   };
 };

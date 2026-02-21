@@ -111,12 +111,9 @@ export const useDateOfBirthValidation = ({
     dateOfBirthValidation.status === 'under_13';
 
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
-      if (!isDateOfBirthTouched) {
-        setDateOfBirthAgeError(null);
-        return;
-      }
+    if (!isDateOfBirthTouched) return;
 
+    const timeoutId = window.setTimeout(() => {
       const result = validateDateOfBirth(draftDateOfBirth);
       if (result.status === 'under_13') {
         setDateOfBirthAgeError(under13ErrorText);
