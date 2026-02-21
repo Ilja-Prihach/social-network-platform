@@ -272,3 +272,12 @@ export function buildLocationOptions(content: Record<string, DictionaryText>): {
     cityOptionsByCountry: buildCityOptionsByCountry(cityLabels),
   };
 }
+
+const countryValueSet = new Set<CountryValue>(countryOrder);
+const cityValueSet = new Set<CityValue>(Object.keys(cityContentKeys) as CityValue[]);
+
+export const isCountryValue = (value?: string | null): value is CountryValue =>
+  Boolean(value && countryValueSet.has(value as CountryValue));
+
+export const isCityValue = (value?: string | null): value is CityValue =>
+  Boolean(value && cityValueSet.has(value as CityValue));

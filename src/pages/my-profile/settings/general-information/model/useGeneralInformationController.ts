@@ -6,7 +6,13 @@ import { getMyProfile, updateProfile } from '@/entities/profile';
 import type { MyProfile, UpdateProfileRequest } from '@/entities/profile';
 import type { ApiError } from '@/shared/api/types';
 import { showAlert } from '@/shared/ui/Alert';
-import { buildLocationOptions, type CountryValue, type DictionaryText } from './locationOptions';
+import {
+  buildLocationOptions,
+  isCityValue,
+  isCountryValue,
+  type CountryValue,
+  type DictionaryText,
+} from './locationOptions';
 import { useGeneralInfoFormState } from './useGeneralInfoFormState';
 import { useProfileAvatarController } from './useProfileAvatarController';
 
@@ -127,6 +133,25 @@ const findOptionValueByTitle = (
   );
 };
 
+const findCountryValue = (
+  options: Array<{ value: string; title: string }>,
+  profileCountry?: string,
+): CountryValue | null => {
+  if (isCountryValue(profileCountry)) return profileCountry;
+  return findOptionValueByTitle(options, profileCountry) as CountryValue | null;
+};
+
+const findCityValue = (
+  options: Array<{ value: string; title: string }>,
+  profileCity?: string,
+): string | null => {
+  if (isCityValue(profileCity) && options.some((option) => option.value === profileCity)) {
+    return profileCity;
+  }
+
+  return findOptionValueByTitle(options, profileCity);
+};
+
 export const useGeneralInformationController = (content: Record<string, DictionaryText>) => {
   const router = useRouter();
   const { data: me } = useMe();
@@ -145,7 +170,7 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
 
   const profileData = myProfileQuery.data;
   const fallbackCountry = useMemo(
-    () => findOptionValueByTitle(country_options, profileData?.country) as CountryValue | null,
+    () => findCountryValue(country_options, profileData?.country),
     [country_options, profileData?.country],
   );
 
@@ -156,7 +181,7 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
   );
   const fallbackCity = useMemo(() => {
     if (!selectedCountryValue) return null;
-    return findOptionValueByTitle(city_options, profileData?.city);
+    return findCityValue(city_options, profileData?.city);
   }, [city_options, profileData?.city, selectedCountryValue]);
 
   const selectedCityValue = formState.countryChanged
