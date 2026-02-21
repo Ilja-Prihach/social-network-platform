@@ -36,30 +36,16 @@ export const useGeneralInfoFormState = () => {
   const [selectedCity, setSelectedCity] = useState<CityValue | null>(null);
   const [countryChanged, setCountryChanged] = useState(false);
 
-  const setUserName = (value: string) => {
-    setTouched((prev) => ({ ...prev, userName: true }));
-    setDraft((prev) => ({ ...prev, userName: value }));
+  const setField = <TField extends keyof FormDraft>(field: TField, value: FormDraft[TField]) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    setDraft((prev) => ({ ...prev, [field]: value }));
   };
 
-  const setFirstName = (value: string) => {
-    setTouched((prev) => ({ ...prev, firstName: true }));
-    setDraft((prev) => ({ ...prev, firstName: value }));
-  };
-
-  const setLastName = (value: string) => {
-    setTouched((prev) => ({ ...prev, lastName: true }));
-    setDraft((prev) => ({ ...prev, lastName: value }));
-  };
-
-  const setDateOfBirth = (value: string) => {
-    setTouched((prev) => ({ ...prev, dateOfBirth: true }));
-    setDraft((prev) => ({ ...prev, dateOfBirth: value }));
-  };
-
-  const setAboutMe = (value: string) => {
-    setTouched((prev) => ({ ...prev, aboutMe: true }));
-    setDraft((prev) => ({ ...prev, aboutMe: value }));
-  };
+  const setUserName = (value: string) => setField('userName', value);
+  const setFirstName = (value: string) => setField('firstName', value);
+  const setLastName = (value: string) => setField('lastName', value);
+  const setDateOfBirth = (value: string) => setField('dateOfBirth', value);
+  const setAboutMe = (value: string) => setField('aboutMe', value);
 
   const onCountryChange = (value: CountryValue | null) => {
     setSelectedCountry(value);

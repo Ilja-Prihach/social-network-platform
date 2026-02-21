@@ -6,12 +6,27 @@ import {
   type SelectOption,
 } from './locationOptions';
 
+const findOptionValueByTitle = <TValue extends string>(
+  options: SelectOption<TValue>[],
+  title?: string,
+): TValue | null => {
+  if (!title?.trim()) return null;
+  const normalizedTitle = title.trim().toLowerCase();
+
+  return (
+    options.find((option) => option.title.trim().toLowerCase() === normalizedTitle)?.value ?? null
+  );
+};
+
 export const resolveFallbackCountry = (
   countryOptions: SelectOption<CountryValue>[],
   profileCountry?: string,
 ): CountryValue | null => {
-  if (!isCountryValue(profileCountry)) return null;
-  return countryOptions.some((option) => option.value === profileCountry) ? profileCountry : null;
+  if (isCountryValue(profileCountry)) {
+    return countryOptions.some((option) => option.value === profileCountry) ? profileCountry : null;
+  }
+
+  return findOptionValueByTitle(countryOptions, profileCountry);
 };
 
 export const resolveFallbackCity = (
@@ -22,7 +37,7 @@ export const resolveFallbackCity = (
     return profileCity;
   }
 
-  return null;
+  return findOptionValueByTitle(cityOptions, profileCity);
 };
 
 export const getOptionTitleByValue = <TValue extends string>(
