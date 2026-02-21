@@ -201,6 +201,14 @@ export function MyProfileSettingsPage() {
     !lastNameValue.trim() ||
     isDateOfBirthMissing;
   const isSaveDisabledByValidation = isRequiredFieldsMissing || isDateOfBirthInvalid;
+  const invalidateProfileQueries = async (userId?: number) => {
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: myProfileQueryKey }),
+      userId
+        ? queryClient.invalidateQueries({ queryKey: ['public-profile', userId] })
+        : Promise.resolve(),
+    ]);
+  };
 
   const avatarUploadMutation = useMutation<
     UploadProfileAvatarResponse,
@@ -211,12 +219,7 @@ export function MyProfileSettingsPage() {
     onSuccess: async () => {
       showAlert('Profile photo updated successfully', 'success');
       const userId = me?.userId;
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: myProfileQueryKey }),
-        userId
-          ? queryClient.invalidateQueries({ queryKey: ['public-profile', userId] })
-          : Promise.resolve(),
-      ]);
+      await invalidateProfileQueries(userId);
     },
     onError: (error) => {
       showAlert(getProfileUpdateError(error), 'error');
@@ -279,12 +282,7 @@ export function MyProfileSettingsPage() {
       showAlert('Profile updated successfully', 'success');
       const userId = me?.userId;
 
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: myProfileQueryKey }),
-        userId
-          ? queryClient.invalidateQueries({ queryKey: ['public-profile', userId] })
-          : Promise.resolve(),
-      ]);
+      await invalidateProfileQueries(userId);
 
       if (userId) {
         router.replace(`/profile/${userId}`);
@@ -303,12 +301,7 @@ export function MyProfileSettingsPage() {
     onSuccess: async () => {
       showAlert('Profile photo deleted successfully', 'success');
       const userId = me?.userId;
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: myProfileQueryKey }),
-        userId
-          ? queryClient.invalidateQueries({ queryKey: ['public-profile', userId] })
-          : Promise.resolve(),
-      ]);
+      await invalidateProfileQueries(userId);
     },
     onError: () => {
       showAlert('Failed to delete profile photo', 'error');
