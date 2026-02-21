@@ -1,32 +1,18 @@
 'use client';
 
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import clsx from 'clsx';
 import { useMe } from '@/features/auth/model/useMe';
-import {
-  deleteProfileAvatar,
-  getMyProfile,
-  updateProfile,
-  uploadProfileAvatar,
-} from '@/entities/profile';
-import type {
-  MyProfile,
-  ProfileAvatar,
-  UploadProfileAvatarResponse,
-  UpdateProfileRequest,
-} from '@/entities/profile';
+import { getMyProfile, updateProfile } from '@/entities/profile';
+import type { MyProfile, UpdateProfileRequest } from '@/entities/profile';
 import type { ApiError } from '@/shared/api/types';
 import { showAlert } from '@/shared/ui/Alert';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/ui/Button';
-import { Icon } from '@/shared/ui/Icon';
 import { Input } from '@/shared/ui/Input';
 import { Select } from '@/shared/ui/Select/Select';
 import { Textarea } from '@/shared/ui/Textarea';
 import { useDictionary } from 'next-intlayer';
-import alertStyles from '@/shared/ui/Alert/Alert.module.scss';
-import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import generalInformationContent from '../general-information.content';
 import {
   buildLocationOptions,
@@ -34,6 +20,9 @@ import {
   type DictionaryText,
 } from '../model/locationOptions';
 import { useGeneralInfoFormState } from '../model/useGeneralInfoFormState';
+import { useProfileAvatarController } from '../model/useProfileAvatarController';
+import { AvatarSection } from './AvatarSection';
+import { AvatarUploadModal } from './AvatarUploadModal';
 import styles from './MyProfileSettingsPage.module.scss';
 
 const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
@@ -52,11 +41,6 @@ const getProfileUpdateError = (error: ApiError<ProfileUpdateErrorResponse>) => {
   }
 
   return 'Failed to update profile';
-};
-
-const pickProfileAvatar = (avatars?: ProfileAvatar[]) => {
-  if (!avatars?.length) return null;
-  return avatars.find((avatar) => avatar.width === 192)?.url ?? avatars[0].url ?? null;
 };
 
 const parseDateOfBirth = (value: string): string | null | 'invalid' => {
@@ -162,13 +146,8 @@ export function MyProfileSettingsPage() {
   const router = useRouter();
   const { data: me } = useMe();
   const queryClient = useQueryClient();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const formState = useGeneralInfoFormState();
   const [dateOfBirthAgeError, setDateOfBirthAgeError] = useState<string | null>(null);
-  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
-  const [avatarModalError, setAvatarModalError] = useState<string | null>(null);
-  const [pendingAvatarFile, setPendingAvatarFile] = useState<File | null>(null);
-  const [localAvatarPreviewUrl, setLocalAvatarPreviewUrl] = useState<string | null>(null);
 
   const { countryOptions: country_options, cityOptionsByCountry: city_options_by_country } =
     useMemo(() => buildLocationOptions(content), [content]);
@@ -237,35 +216,11 @@ export function MyProfileSettingsPage() {
     ]);
   };
 
-  const avatarUploadMutation = useMutation<
-    UploadProfileAvatarResponse,
-    ApiError<ProfileUpdateErrorResponse>,
-    File
-  >({
-    mutationFn: uploadProfileAvatar,
-    onSuccess: async () => {
-      showAlert('Profile photo updated successfully', 'success');
-      const userId = me?.userId;
-      await invalidateProfileQueries(userId);
-    },
-    onError: (error) => {
-      showAlert(getProfileUpdateError(error), 'error');
-    },
+  const avatarController = useProfileAvatarController({
+    profileAvatars: profileData?.avatars,
+    userId: me?.userId,
+    invalidateProfileQueries,
   });
-  const uploadedAvatars = useMemo(
-    () => avatarUploadMutation.data?.avatars ?? profileData?.avatars,
-    [avatarUploadMutation.data?.avatars, profileData?.avatars],
-  );
-  const avatarUrl = pickProfileAvatar(uploadedAvatars);
-  const modalPreviewUrl = localAvatarPreviewUrl ?? avatarUrl;
-
-  useEffect(() => {
-    return () => {
-      if (localAvatarPreviewUrl) {
-        URL.revokeObjectURL(localAvatarPreviewUrl);
-      }
-    };
-  }, [localAvatarPreviewUrl]);
 
   useEffect(() => {
     if (!formState.touched.dateOfBirth) return;
@@ -316,18 +271,6 @@ export function MyProfileSettingsPage() {
     },
   });
 
-  const deleteAvatarMutation = useMutation<void, ApiError>({
-    mutationFn: deleteProfileAvatar,
-    onSuccess: async () => {
-      showAlert('Profile photo deleted successfully', 'success');
-      const userId = me?.userId;
-      await invalidateProfileQueries(userId);
-    },
-    onError: () => {
-      showAlert('Failed to delete profile photo', 'error');
-    },
-  });
-
   const onSave = () => {
     if (dateOfBirthValidation.status === 'invalid_format') {
       showAlert('Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD', 'error');
@@ -357,123 +300,19 @@ export function MyProfileSettingsPage() {
     });
   };
 
-  const onSelectPhotoClick = () => {
-    setAvatarModalError(null);
-    fileInputRef.current?.click();
-  };
-
-  const onPhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const allowedTypes = new Set(['image/png', 'image/jpeg']);
-    const maxFileSize = 10 * 1024 * 1024;
-
-    if (!allowedTypes.has(file.type)) {
-      setAvatarModalError('Error! The format of the uploaded photo must be PNG and JPEG');
-      setIsAvatarModalOpen(true);
-      event.target.value = '';
-      return;
-    }
-
-    if (file.size > maxFileSize) {
-      setAvatarModalError('Error! Photo size must be less than 10 MB!');
-      setIsAvatarModalOpen(true);
-      event.target.value = '';
-      return;
-    }
-
-    setAvatarModalError(null);
-    if (localAvatarPreviewUrl) {
-      URL.revokeObjectURL(localAvatarPreviewUrl);
-    }
-    setLocalAvatarPreviewUrl(URL.createObjectURL(file));
-    setPendingAvatarFile(file);
-    setIsAvatarModalOpen(true);
-    event.target.value = '';
-  };
-
-  const onCloseAvatarModal = () => {
-    setAvatarModalError(null);
-    setIsAvatarModalOpen(false);
-    setPendingAvatarFile(null);
-    if (localAvatarPreviewUrl) {
-      URL.revokeObjectURL(localAvatarPreviewUrl);
-      setLocalAvatarPreviewUrl(null);
-    }
-  };
-
-  const onSaveAvatar = () => {
-    if (!pendingAvatarFile) {
-      fileInputRef.current?.click();
-      return;
-    }
-
-    avatarUploadMutation.mutate(pendingAvatarFile, {
-      onSuccess: () => {
-        onCloseAvatarModal();
-      },
-    });
-  };
-
-  const onDeleteAvatar = () => {
-    showModal({
-      title: 'Delete Profile Photo',
-      description: 'Are you sure you want to delete the photo?',
-      confirmText: 'Yes',
-      cancelText: 'No',
-      confirmVariant: 'outline',
-      cancelVariant: 'primary',
-      onConfirm: () => {
-        deleteAvatarMutation.mutate();
-      },
-    });
-  };
-
   return (
     <>
       <div className={styles.content_layout}>
-        <div className={styles.avatar_col}>
-          <div className={styles.avatar_preview}>
-            <div
-              className={styles.avatar_placeholder}
-              role="img"
-              aria-label="Profile avatar"
-              style={avatarUrl ? { backgroundImage: `url("${avatarUrl}")` } : undefined}
-            >
-              {!avatarUrl && (
-                <Icon iconId="image-outline" className={styles.avatar_placeholder_icon} />
-              )}
-            </div>
-            {avatarUrl && (
-              <button
-                type="button"
-                className={styles.avatar_delete_button}
-                onClick={onDeleteAvatar}
-                aria-label="Delete profile photo"
-                disabled={deleteAvatarMutation.isPending}
-              >
-                <Icon iconId="avatar-delete-close" width="16" height="16" viewBox="0 0 16 16" />
-              </button>
-            )}
-          </div>
-          <input
-            ref={fileInputRef}
-            className={styles.avatar_input}
-            type="file"
-            accept="image/png,image/jpeg"
-            onChange={onPhotoChange}
-          />
-          <Button
-            type="button"
-            variant="outline"
-            className={styles.photo_button}
-            onClick={onSelectPhotoClick}
-            disabled={avatarUploadMutation.isPending}
-          >
-            {toText(content.selectProfilePhoto)}
-          </Button>
-        </div>
+        <AvatarSection
+          avatarUrl={avatarController.avatarUrl}
+          fileInputRef={avatarController.fileInputRef}
+          isAvatarUploadPending={avatarController.isAvatarUploadPending}
+          isAvatarDeletePending={avatarController.isAvatarDeletePending}
+          selectPhotoText={toText(content.selectProfilePhoto)}
+          onPhotoChange={avatarController.onPhotoChange}
+          onSelectPhotoClick={avatarController.onSelectPhotoClick}
+          onDeleteAvatar={avatarController.onDeleteAvatar}
+        />
 
         <div className={styles.form_grid}>
           <Input
@@ -550,63 +389,14 @@ export function MyProfileSettingsPage() {
         </Button>
       </div>
 
-      {isAvatarModalOpen && (
-        <div className={styles.avatar_modal_overlay} onClick={onCloseAvatarModal}>
-          <div className={styles.avatar_modal} onClick={(event) => event.stopPropagation()}>
-            <div className={styles.avatar_modal_header}>
-              <h2 className={styles.avatar_modal_title}>Add a Profile Photo</h2>
-              <button
-                type="button"
-                className={styles.avatar_modal_close}
-                onClick={onCloseAvatarModal}
-                aria-label="Close"
-              >
-                <Icon iconId="close-outline" />
-              </button>
-            </div>
-            <div className={styles.avatar_modal_divider} />
-            {avatarModalError && (
-              <div className={styles.avatar_modal_error_container}>
-                <div
-                  className={clsx(alertStyles.alert, alertStyles.error, styles.avatar_modal_error)}
-                >
-                  {avatarModalError}
-                </div>
-              </div>
-            )}
-            <div className={styles.avatar_modal_preview}>
-              <div
-                className={styles.avatar_modal_preview_stage}
-                style={
-                  modalPreviewUrl ? { backgroundImage: `url("${modalPreviewUrl}")` } : undefined
-                }
-              >
-                {modalPreviewUrl && <div className={styles.avatar_modal_preview_blur} />}
-                <div
-                  className={styles.avatar_modal_preview_image}
-                  role="img"
-                  aria-label="Avatar preview"
-                  style={
-                    modalPreviewUrl ? { backgroundImage: `url("${modalPreviewUrl}")` } : undefined
-                  }
-                >
-                  {!modalPreviewUrl && (
-                    <Icon iconId="image-outline" className={styles.avatar_modal_preview_icon} />
-                  )}
-                </div>
-              </div>
-            </div>
-            <Button
-              type="button"
-              className={styles.avatar_modal_action}
-              onClick={onSaveAvatar}
-              disabled={avatarUploadMutation.isPending}
-            >
-              Save
-            </Button>
-          </div>
-        </div>
-      )}
+      <AvatarUploadModal
+        isOpen={avatarController.isAvatarModalOpen}
+        modalPreviewUrl={avatarController.modalPreviewUrl}
+        avatarModalError={avatarController.avatarModalError}
+        isAvatarUploadPending={avatarController.isAvatarUploadPending}
+        onCloseAvatarModal={avatarController.onCloseAvatarModal}
+        onSaveAvatar={avatarController.onSaveAvatar}
+      />
     </>
   );
 }
