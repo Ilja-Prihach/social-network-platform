@@ -24,9 +24,7 @@ import { Icon } from '@/shared/ui/Icon';
 import { Input } from '@/shared/ui/Input';
 import { Select } from '@/shared/ui/Select/Select';
 import { Textarea } from '@/shared/ui/Textarea';
-import { useDictionary, useLocale } from 'next-intlayer';
-import { getLocalizedUrl } from 'intlayer';
-import Link from 'next/link';
+import { useDictionary } from 'next-intlayer';
 import alertStyles from '@/shared/ui/Alert/Alert.module.scss';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import generalInformationContent from '../general-information.content';
@@ -135,7 +133,6 @@ const findOptionValueByTitle = (
 
 export function MyProfileSettingsPage() {
   const content = useDictionary(generalInformationContent);
-  const { locale } = useLocale();
   const router = useRouter();
   const { data: me } = useMe();
   const queryClient = useQueryClient();
@@ -231,7 +228,6 @@ export function MyProfileSettingsPage() {
   );
   const avatarUrl = pickProfileAvatar(uploadedAvatars);
   const modalPreviewUrl = localAvatarPreviewUrl ?? avatarUrl;
-  const privacyPolicyHref = getLocalizedUrl('/privacy-policy', locale);
 
   useEffect(() => {
     return () => {
@@ -616,12 +612,6 @@ export function MyProfileSettingsPage() {
             >
               Save
             </Button>
-            <p className={styles.avatar_modal_policy}>
-              Read our{' '}
-              <Link href={privacyPolicyHref} className={styles.avatar_modal_policy_link}>
-                Privacy Policy
-              </Link>
-            </p>
           </div>
         </div>
       )}

@@ -82,6 +82,7 @@
 }
 
 .avatar_modal {
+  position: relative;
   width: min(492px, 100%);
   min-height: 536px;
   border: 1px solid #4c4c4c;
@@ -186,21 +187,9 @@
 }
 
 .avatar_modal_action {
-  margin: 24px auto 0;
-  display: flex;
-}
-
-.avatar_modal_policy {
-  margin: 12px 0 0;
-  text-align: center;
-  color: #8d9094;
-  font-size: 14px;
-  line-height: 24px;
-}
-
-.avatar_modal_policy_link {
-  color: #397df6;
-  text-decoration: underline;
+  position: absolute;
+  right: 24px;
+  bottom: 36px;
 }
 
 .form_grid {
