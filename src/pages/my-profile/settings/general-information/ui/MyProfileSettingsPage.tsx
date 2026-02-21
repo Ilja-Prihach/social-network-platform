@@ -19,7 +19,9 @@ import { Icon } from '@/shared/ui/Icon';
 import { Input } from '@/shared/ui/Input';
 import { Select } from '@/shared/ui/Select/Select';
 import { Textarea } from '@/shared/ui/Textarea';
-import { useDictionary } from 'next-intlayer';
+import { useDictionary, useLocale } from 'next-intlayer';
+import { getLocalizedUrl } from 'intlayer';
+import Link from 'next/link';
 import alertStyles from '@/shared/ui/Alert/Alert.module.scss';
 import generalInformationContent from '../general-information.content';
 import {
@@ -81,6 +83,25 @@ const parseDateOfBirth = (value: string): string | null | 'invalid' => {
   return isValid ? date.toISOString() : 'invalid';
 };
 
+const getAge = (date: Date): number => {
+  const today = new Date();
+  let age = today.getFullYear() - date.getUTCFullYear();
+  const monthDiff = today.getMonth() - date.getUTCMonth();
+  const dayDiff = today.getDate() - date.getUTCDate();
+
+  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+    age -= 1;
+  }
+
+  return age;
+};
+
+const isUnder13 = (parsedDateIso: string): boolean => {
+  const birthDate = new Date(parsedDateIso);
+  if (Number.isNaN(birthDate.getTime())) return false;
+  return getAge(birthDate) < 13;
+};
+
 const formatDateOfBirth = (value?: string | null): string => {
   if (!value) return '';
 
@@ -108,14 +129,20 @@ const findOptionValueByTitle = (
 
 export function MyProfileSettingsPage() {
   const content = useDictionary(generalInformationContent);
+  const { locale } = useLocale();
   const router = useRouter();
   const { data: me } = useMe();
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [userName, setUserName] = useState('');
+  const [userNameTouched, setUserNameTouched] = useState(false);
   const [firstName, setFirstName] = useState('');
+  const [firstNameTouched, setFirstNameTouched] = useState(false);
   const [lastName, setLastName] = useState('');
+  const [lastNameTouched, setLastNameTouched] = useState(false);
   const [dateOfBirth, setDateOfBirth] = useState('');
+  const [dateOfBirthTouched, setDateOfBirthTouched] = useState(false);
+  const [dateOfBirthAgeError, setDateOfBirthAgeError] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<CountryValue | null>(null);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [countryChanged, setCountryChanged] = useState(false);
@@ -153,11 +180,24 @@ export function MyProfileSettingsPage() {
 
   const selectedCityValue = countryChanged ? selectedCity : (selectedCity ?? fallbackCity);
 
-  const userNameValue = userName || profileData?.userName || me?.userName || '';
-  const firstNameValue = firstName || profileData?.firstName || '';
-  const lastNameValue = lastName || profileData?.lastName || '';
+  const userNameValue = userNameTouched ? userName : (profileData?.userName ?? me?.userName ?? '');
+  const firstNameValue = firstNameTouched ? firstName : (profileData?.firstName ?? '');
+  const lastNameValue = lastNameTouched ? lastName : (profileData?.lastName ?? '');
   const aboutMeValue = aboutMeTouched ? aboutMe : (profileData?.aboutMe ?? '');
-  const dateOfBirthValue = dateOfBirth || formatDateOfBirth(profileData?.dateOfBirth);
+  const dateOfBirthValue = dateOfBirthTouched
+    ? dateOfBirth
+    : formatDateOfBirth(profileData?.dateOfBirth);
+  const parsedDateOfBirthValue = parseDateOfBirth(dateOfBirthValue);
+  const isDateOfBirthMissing = !dateOfBirthValue.trim();
+  const isDateOfBirthInvalid =
+    parsedDateOfBirthValue === 'invalid' ||
+    (parsedDateOfBirthValue !== null && isUnder13(parsedDateOfBirthValue));
+  const isRequiredFieldsMissing =
+    !userNameValue.trim() ||
+    !firstNameValue.trim() ||
+    !lastNameValue.trim() ||
+    isDateOfBirthMissing;
+  const isSaveDisabledByValidation = isRequiredFieldsMissing || isDateOfBirthInvalid;
 
   const avatarUploadMutation = useMutation<
     UploadProfileAvatarResponse,
@@ -185,6 +225,7 @@ export function MyProfileSettingsPage() {
   );
   const avatarUrl = pickProfileAvatar(uploadedAvatars);
   const modalPreviewUrl = localAvatarPreviewUrl ?? avatarUrl;
+  const privacyPolicyHref = getLocalizedUrl('/privacy-policy', locale);
 
   useEffect(() => {
     return () => {
@@ -193,6 +234,38 @@ export function MyProfileSettingsPage() {
       }
     };
   }, [localAvatarPreviewUrl]);
+
+  useEffect(() => {
+    if (!dateOfBirthTouched) return;
+
+    const normalized = dateOfBirth.trim();
+    const isFullDate =
+      /^\d{2}\.\d{2}\.\d{4}$/.test(normalized) || /^\d{4}-\d{2}-\d{2}$/.test(normalized);
+
+    if (!isFullDate) {
+      const clearTimeoutId = window.setTimeout(() => {
+        setDateOfBirthAgeError(null);
+      }, 0);
+      return () => window.clearTimeout(clearTimeoutId);
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      const parsed = parseDateOfBirth(normalized);
+      if (parsed === 'invalid' || parsed === null) {
+        setDateOfBirthAgeError(null);
+        return;
+      }
+
+      if (isUnder13(parsed)) {
+        setDateOfBirthAgeError('A user under 13 cannot create a profile. Privacy Policy');
+        return;
+      }
+
+      setDateOfBirthAgeError(null);
+    }, 800);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [dateOfBirth, dateOfBirthTouched]);
 
   const updateMutation = useMutation<
     void,
@@ -224,10 +297,16 @@ export function MyProfileSettingsPage() {
   });
 
   const onSave = () => {
-    const parsedDateOfBirth = parseDateOfBirth(dateOfBirthValue);
+    const parsedDateOfBirth = parsedDateOfBirthValue;
 
     if (parsedDateOfBirth === 'invalid') {
       showAlert('Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD', 'error');
+      return;
+    }
+
+    if (parsedDateOfBirth && isUnder13(parsedDateOfBirth)) {
+      showAlert('A user under 13 cannot create a profile. Privacy Policy', 'error');
+      setDateOfBirthAgeError('A user under 13 cannot create a profile. Privacy Policy');
       return;
     }
 
@@ -343,26 +422,39 @@ export function MyProfileSettingsPage() {
           <Input
             label={toText(content.usernameLabel)}
             value={userNameValue}
-            onChange={setUserName}
+            onChange={(value) => {
+              setUserNameTouched(true);
+              setUserName(value);
+            }}
             placeholder={toText(content.usernameValue)}
           />
           <Input
             label={toText(content.firstNameLabel)}
             value={firstNameValue}
-            onChange={setFirstName}
+            onChange={(value) => {
+              setFirstNameTouched(true);
+              setFirstName(value);
+            }}
             placeholder={toText(content.firstNamePlaceholder)}
           />
           <Input
             label={toText(content.lastNameLabel)}
             value={lastNameValue}
-            onChange={setLastName}
+            onChange={(value) => {
+              setLastNameTouched(true);
+              setLastName(value);
+            }}
             placeholder={toText(content.lastNamePlaceholder)}
           />
           <Input
             label={toText(content.dateOfBirthLabel)}
             value={dateOfBirthValue}
-            onChange={setDateOfBirth}
+            onChange={(value) => {
+              setDateOfBirthTouched(true);
+              setDateOfBirth(value);
+            }}
             placeholder={toText(content.dateOfBirthPlaceholder)}
+            error={dateOfBirthAgeError ?? undefined}
           />
 
           <div className={styles.selects_row}>
@@ -412,7 +504,9 @@ export function MyProfileSettingsPage() {
           type="button"
           className={styles.save_button}
           onClick={onSave}
-          disabled={updateMutation.isPending || myProfileQuery.isPending}
+          disabled={
+            updateMutation.isPending || myProfileQuery.isPending || isSaveDisabledByValidation
+          }
         >
           {toText(content.saveChanges)}
         </Button>
@@ -472,6 +566,12 @@ export function MyProfileSettingsPage() {
             >
               Save
             </Button>
+            <p className={styles.avatar_modal_policy}>
+              Read our{' '}
+              <Link href={privacyPolicyHref} className={styles.avatar_modal_policy_link}>
+                Privacy Policy
+              </Link>
+            </p>
           </div>
         </div>
       )}
