@@ -753,6 +753,22 @@ const generalInformationContent = {
       ru: 'Сохранить',
       it: 'Salva',
     }),
+    avatarModalCloseAriaLabel: t({
+      en: 'Close',
+      he: 'Close',
+      fr: 'Fermer',
+      es: 'Cerrar',
+      ru: 'Закрыть',
+      it: 'Chiudi',
+    }),
+    avatarModalPreviewAriaLabel: t({
+      en: 'Avatar preview',
+      he: 'Avatar preview',
+      fr: "Aperçu de l'avatar",
+      es: 'Vista previa del avatar',
+      ru: 'Предпросмотр аватара',
+      it: "Anteprima dell'avatar",
+    }),
     avatarDeleteModalTitle: t({
       en: 'Delete Profile Photo',
       he: 'Delete Profile Photo',

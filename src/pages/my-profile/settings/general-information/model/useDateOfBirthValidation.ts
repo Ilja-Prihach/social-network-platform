@@ -1,39 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
+import { parseDateOfBirthToIso } from './dateOfBirth';
 
 type DateOfBirthValidationStatus = 'valid' | 'invalid_format' | 'under_13' | 'empty';
 
 export type DateOfBirthValidationResult = {
   status: DateOfBirthValidationStatus;
   parsedDateIso: string | null;
-};
-
-const parseDateOfBirth = (value: string): string | null | 'invalid' => {
-  const normalized = value.trim();
-  if (!normalized) return null;
-
-  let year: number;
-  let month: number;
-  let day: number;
-
-  if (/^\d{2}\.\d{2}\.\d{4}$/.test(normalized)) {
-    const [dd, mm, yyyy] = normalized.split('.');
-    day = Number(dd);
-    month = Number(mm);
-    year = Number(yyyy);
-  } else if (/^\d{4}-\d{2}-\d{2}$/.test(normalized)) {
-    const [yyyy, mm, dd] = normalized.split('-');
-    day = Number(dd);
-    month = Number(mm);
-    year = Number(yyyy);
-  } else {
-    return 'invalid';
-  }
-
-  const date = new Date(Date.UTC(year, month - 1, day));
-  const isValid =
-    date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
-
-  return isValid ? date.toISOString() : 'invalid';
 };
 
 const getAge = (date: Date): number => {
@@ -61,7 +33,7 @@ export const validateDateOfBirth = (value: string): DateOfBirthValidationResult 
     return { status: 'empty', parsedDateIso: null };
   }
 
-  const parsedDate = parseDateOfBirth(normalized);
+  const parsedDate = parseDateOfBirthToIso(normalized);
   if (parsedDate === 'invalid' || parsedDate === null) {
     return { status: 'invalid_format', parsedDateIso: null };
   }
@@ -71,19 +43,6 @@ export const validateDateOfBirth = (value: string): DateOfBirthValidationResult 
   }
 
   return { status: 'valid', parsedDateIso: parsedDate };
-};
-
-export const formatDateOfBirth = (value?: string | null): string => {
-  if (!value) return '';
-
-  const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) return '';
-
-  const day = String(parsed.getUTCDate()).padStart(2, '0');
-  const month = String(parsed.getUTCMonth() + 1).padStart(2, '0');
-  const year = String(parsed.getUTCFullYear());
-
-  return `${day}.${month}.${year}`;
 };
 
 type UseDateOfBirthValidationParams = {

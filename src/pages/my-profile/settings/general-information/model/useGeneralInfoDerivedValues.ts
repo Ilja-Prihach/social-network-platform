@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import type { MyProfile } from '@/entities/profile';
 import { type CityValue, type CountryValue, type SelectOption } from './locationOptions';
 import { resolveFallbackCity, resolveFallbackCountry } from './profileLocationMapping';
-import { formatDateOfBirth, useDateOfBirthValidation } from './useDateOfBirthValidation';
+import { formatDateOfBirthFromIso } from './dateOfBirth';
+import { useDateOfBirthValidation } from './useDateOfBirthValidation';
 import type { GeneralInfoFormState } from './useGeneralInfoFormState';
 
 type UseGeneralInfoDerivedValuesParams = {
@@ -55,7 +56,7 @@ export const useGeneralInfoDerivedValues = ({
     : (profileData?.aboutMe ?? '');
   const dateOfBirthValue = formState.touched.dateOfBirth
     ? formState.draft.dateOfBirth
-    : formatDateOfBirth(profileData?.dateOfBirth);
+    : formatDateOfBirthFromIso(profileData?.dateOfBirth);
 
   const {
     dateOfBirthValidation,

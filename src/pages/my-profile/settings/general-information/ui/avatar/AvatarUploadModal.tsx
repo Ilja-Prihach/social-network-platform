@@ -8,6 +8,8 @@ type AvatarUploadModalProps = {
   isOpen: boolean;
   title: string;
   saveButtonText: string;
+  closeButtonAriaLabel: string;
+  previewAriaLabel: string;
   modalPreviewUrl: string | null;
   avatarModalError: string | null;
   isAvatarUploadPending: boolean;
@@ -19,6 +21,8 @@ export const AvatarUploadModal = ({
   isOpen,
   title,
   saveButtonText,
+  closeButtonAriaLabel,
+  previewAriaLabel,
   modalPreviewUrl,
   avatarModalError,
   isAvatarUploadPending,
@@ -36,7 +40,7 @@ export const AvatarUploadModal = ({
             type="button"
             className={styles.avatar_modal_close}
             onClick={onCloseAvatarModal}
-            aria-label="Close"
+            aria-label={closeButtonAriaLabel}
           >
             <Icon iconId="close-outline" />
           </button>
@@ -58,7 +62,7 @@ export const AvatarUploadModal = ({
             <div
               className={styles.avatar_modal_preview_image}
               role="img"
-              aria-label="Avatar preview"
+              aria-label={previewAriaLabel}
               style={modalPreviewUrl ? { backgroundImage: `url("${modalPreviewUrl}")` } : undefined}
             >
               {!modalPreviewUrl && (

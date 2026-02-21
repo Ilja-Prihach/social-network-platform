@@ -80,20 +80,24 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
   const { onSave, isUpdatePending } = useGeneralInfoSave({
     userId: me?.userId,
     invalidateProfileQueries,
-    successMessage: toText(content.profileUpdatedSuccess),
-    dateOfBirthFormatErrorText: toText(content.dateOfBirthFormatError),
-    dateOfBirthUnder13ErrorText,
-    dateOfBirthValidation,
     setDateOfBirthAgeError,
-    countryOptions: country_options,
-    cityOptions: city_options,
-    selectedCountryValue,
-    selectedCityValue,
-    userNameValue,
-    firstNameValue,
-    lastNameValue,
-    aboutMeValue,
-    region: profileData?.region,
+    messages: {
+      success: toText(content.profileUpdatedSuccess),
+      dateOfBirthFormatError: toText(content.dateOfBirthFormatError),
+      dateOfBirthUnder13Error: dateOfBirthUnder13ErrorText,
+    },
+    values: {
+      dateOfBirthValidation,
+      countryOptions: country_options,
+      cityOptions: city_options,
+      selectedCountryValue,
+      selectedCityValue,
+      userName: userNameValue,
+      firstName: firstNameValue,
+      lastName: lastNameValue,
+      aboutMe: aboutMeValue,
+      region: profileData?.region,
+    },
   });
 
   return {

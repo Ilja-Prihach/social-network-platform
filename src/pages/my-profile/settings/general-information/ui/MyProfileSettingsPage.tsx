@@ -1,23 +1,16 @@
 'use client';
 
 import { Button } from '@/shared/ui/Button';
-import { DatePicker } from '@/shared/ui/DatePicker';
-import { Icon } from '@/shared/ui/Icon';
 import { Input } from '@/shared/ui/Input';
 import { Select } from '@/shared/ui/Select/Select';
 import { Textarea } from '@/shared/ui/Textarea';
 import { useDictionary } from 'next-intlayer';
-import { useMemo, useState } from 'react';
 import generalInformationContent from '../general-information.content';
-import {
-  formatDateOfBirthInputValue,
-  parseDateOfBirthInputValue,
-} from '../model/dateOfBirthInputValue';
 import { type CityValue, type CountryValue, type DictionaryText } from '../model/locationOptions';
 import { useGeneralInformationController } from '../model/useGeneralInformationController';
 import { AvatarSection } from './avatar/AvatarSection';
 import { AvatarUploadModal } from './avatar/AvatarUploadModal';
-import dateInputStyles from './DateOfBirthInput.module.scss';
+import { DateOfBirthField } from './date-of-birth/DateOfBirthField';
 import styles from './MyProfileSettingsPage.module.scss';
 
 const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
@@ -25,17 +18,6 @@ const toText = (value: DictionaryText): string => (typeof value === 'string' ? v
 export function MyProfileSettingsPage() {
   const content = useDictionary(generalInformationContent);
   const controller = useGeneralInformationController(content);
-  const [is_date_picker_open, set_is_date_picker_open] = useState(false);
-
-  const selected_date = useMemo(
-    () => parseDateOfBirthInputValue(controller.dateOfBirthValue),
-    [controller.dateOfBirthValue],
-  );
-
-  const on_date_select = (value: { start: Date | null; end: Date | null }) => {
-    if (!value.start) return;
-    controller.formState.setDateOfBirth(formatDateOfBirthInputValue(value.start));
-  };
 
   return (
     <>
@@ -70,26 +52,13 @@ export function MyProfileSettingsPage() {
             onChange={controller.formState.setLastName}
             placeholder={toText(content.lastNamePlaceholder)}
           />
-          <div className={dateInputStyles.date_of_birth_field}>
-            <Input
-              label={toText(content.dateOfBirthLabel)}
-              value={controller.dateOfBirthValue}
-              onChange={controller.formState.setDateOfBirth}
-              placeholder={toText(content.dateOfBirthPlaceholder)}
-              error={controller.dateOfBirthAgeError ?? undefined}
-              rightIcon={<Icon iconId="calendar-outline" width="20" height="20" />}
-              onRightIconClick={() => set_is_date_picker_open(true)}
-            />
-            <DatePicker
-              className={dateInputStyles.date_picker_popup}
-              value={{ start: selected_date, end: null }}
-              onChange={on_date_select}
-              selectionMode="single"
-              isOpen={is_date_picker_open}
-              onOpenChange={set_is_date_picker_open}
-              renderTrigger={false}
-            />
-          </div>
+          <DateOfBirthField
+            label={toText(content.dateOfBirthLabel)}
+            value={controller.dateOfBirthValue}
+            onChange={controller.formState.setDateOfBirth}
+            placeholder={toText(content.dateOfBirthPlaceholder)}
+            error={controller.dateOfBirthAgeError ?? undefined}
+          />
 
           <div className={styles.selects_row}>
             <Select<CountryValue>
@@ -148,6 +117,8 @@ export function MyProfileSettingsPage() {
         modalPreviewUrl={controller.avatarController.modalPreviewUrl}
         avatarModalError={controller.avatarController.avatarModalError}
         isAvatarUploadPending={controller.avatarController.isAvatarUploadPending}
+        closeButtonAriaLabel={toText(content.avatarModalCloseAriaLabel)}
+        previewAriaLabel={toText(content.avatarModalPreviewAriaLabel)}
         onCloseAvatarModal={controller.avatarController.onCloseAvatarModal}
         onSaveAvatar={controller.avatarController.onSaveAvatar}
       />
