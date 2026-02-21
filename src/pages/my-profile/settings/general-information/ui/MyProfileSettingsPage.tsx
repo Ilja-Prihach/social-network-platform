@@ -207,6 +207,8 @@ export function MyProfileSettingsPage() {
     !lastNameValue.trim() ||
     isDateOfBirthMissing;
   const isSaveDisabledByValidation = isRequiredFieldsMissing || isDateOfBirthInvalid;
+  const dateOfBirthFormatErrorText = toText(content.dateOfBirthFormatError);
+  const dateOfBirthUnder13ErrorText = toText(content.dateOfBirthUnder13Error);
   const invalidateProfileQueries = async (userId?: number) => {
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: myProfileQueryKey }),
@@ -220,6 +222,17 @@ export function MyProfileSettingsPage() {
     profileAvatars: profileData?.avatars,
     userId: me?.userId,
     invalidateProfileQueries,
+    texts: {
+      uploadSuccess: toText(content.avatarUpdatedSuccess),
+      deleteSuccess: toText(content.avatarDeletedSuccess),
+      deleteFailed: toText(content.avatarDeleteFailed),
+      uploadFormatError: toText(content.avatarUploadFormatError),
+      uploadSizeError: toText(content.avatarUploadSizeError),
+      deleteModalTitle: toText(content.avatarDeleteModalTitle),
+      deleteModalDescription: toText(content.avatarDeleteModalDescription),
+      deleteModalYes: toText(content.avatarDeleteModalYes),
+      deleteModalNo: toText(content.avatarDeleteModalNo),
+    },
   });
 
   useEffect(() => {
@@ -237,7 +250,7 @@ export function MyProfileSettingsPage() {
     const timeoutId = window.setTimeout(() => {
       const result = validateDateOfBirth(normalized);
       if (result.status === 'under_13') {
-        setDateOfBirthAgeError('A user under 13 cannot create a profile. Privacy Policy');
+        setDateOfBirthAgeError(dateOfBirthUnder13ErrorText);
         return;
       }
 
@@ -245,7 +258,7 @@ export function MyProfileSettingsPage() {
     }, 800);
 
     return () => window.clearTimeout(timeoutId);
-  }, [formState.draft.dateOfBirth, formState.touched.dateOfBirth]);
+  }, [dateOfBirthUnder13ErrorText, formState.draft.dateOfBirth, formState.touched.dateOfBirth]);
 
   const updateMutation = useMutation<
     void,
@@ -273,13 +286,13 @@ export function MyProfileSettingsPage() {
 
   const onSave = () => {
     if (dateOfBirthValidation.status === 'invalid_format') {
-      showAlert('Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD', 'error');
+      showAlert(dateOfBirthFormatErrorText, 'error');
       return;
     }
 
     if (dateOfBirthValidation.status === 'under_13') {
-      showAlert('A user under 13 cannot create a profile. Privacy Policy', 'error');
-      setDateOfBirthAgeError('A user under 13 cannot create a profile. Privacy Policy');
+      showAlert(dateOfBirthUnder13ErrorText, 'error');
+      setDateOfBirthAgeError(dateOfBirthUnder13ErrorText);
       return;
     }
 
@@ -391,6 +404,8 @@ export function MyProfileSettingsPage() {
 
       <AvatarUploadModal
         isOpen={avatarController.isAvatarModalOpen}
+        title={toText(content.avatarAddModalTitle)}
+        saveButtonText={toText(content.avatarSaveButton)}
         modalPreviewUrl={avatarController.modalPreviewUrl}
         avatarModalError={avatarController.avatarModalError}
         isAvatarUploadPending={avatarController.isAvatarUploadPending}

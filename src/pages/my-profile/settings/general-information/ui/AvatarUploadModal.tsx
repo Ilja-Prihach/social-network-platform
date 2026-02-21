@@ -6,6 +6,8 @@ import styles from './MyProfileSettingsPage.module.scss';
 
 type AvatarUploadModalProps = {
   isOpen: boolean;
+  title: string;
+  saveButtonText: string;
   modalPreviewUrl: string | null;
   avatarModalError: string | null;
   isAvatarUploadPending: boolean;
@@ -15,6 +17,8 @@ type AvatarUploadModalProps = {
 
 export const AvatarUploadModal = ({
   isOpen,
+  title,
+  saveButtonText,
   modalPreviewUrl,
   avatarModalError,
   isAvatarUploadPending,
@@ -27,7 +31,7 @@ export const AvatarUploadModal = ({
     <div className={styles.avatar_modal_overlay} onClick={onCloseAvatarModal}>
       <div className={styles.avatar_modal} onClick={(event) => event.stopPropagation()}>
         <div className={styles.avatar_modal_header}>
-          <h2 className={styles.avatar_modal_title}>Add a Profile Photo</h2>
+          <h2 className={styles.avatar_modal_title}>{title}</h2>
           <button
             type="button"
             className={styles.avatar_modal_close}
@@ -69,7 +73,7 @@ export const AvatarUploadModal = ({
           onClick={onSaveAvatar}
           disabled={isAvatarUploadPending}
         >
-          Save
+          {saveButtonText}
         </Button>
       </div>
     </div>

@@ -14,6 +14,17 @@ type UseProfileAvatarControllerParams = {
   profileAvatars?: ProfileAvatar[];
   userId?: number;
   invalidateProfileQueries: (userId?: number) => Promise<void>;
+  texts: {
+    uploadSuccess: string;
+    deleteSuccess: string;
+    deleteFailed: string;
+    uploadFormatError: string;
+    uploadSizeError: string;
+    deleteModalTitle: string;
+    deleteModalDescription: string;
+    deleteModalYes: string;
+    deleteModalNo: string;
+  };
 };
 
 const getProfileUpdateError = (error: ApiError<ProfileUpdateErrorResponse>) => {
@@ -36,6 +47,7 @@ export const useProfileAvatarController = ({
   profileAvatars,
   userId,
   invalidateProfileQueries,
+  texts,
 }: UseProfileAvatarControllerParams) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
@@ -50,7 +62,7 @@ export const useProfileAvatarController = ({
   >({
     mutationFn: uploadProfileAvatar,
     onSuccess: async () => {
-      showAlert('Profile photo updated successfully', 'success');
+      showAlert(texts.uploadSuccess, 'success');
       await invalidateProfileQueries(userId);
     },
     onError: (error) => {
@@ -61,11 +73,11 @@ export const useProfileAvatarController = ({
   const deleteAvatarMutation = useMutation<void, ApiError>({
     mutationFn: deleteProfileAvatar,
     onSuccess: async () => {
-      showAlert('Profile photo deleted successfully', 'success');
+      showAlert(texts.deleteSuccess, 'success');
       await invalidateProfileQueries(userId);
     },
     onError: () => {
-      showAlert('Failed to delete profile photo', 'error');
+      showAlert(texts.deleteFailed, 'error');
     },
   });
 
@@ -97,14 +109,14 @@ export const useProfileAvatarController = ({
     const maxFileSize = 10 * 1024 * 1024;
 
     if (!allowedTypes.has(file.type)) {
-      setAvatarModalError('Error! The format of the uploaded photo must be PNG and JPEG');
+      setAvatarModalError(texts.uploadFormatError);
       setIsAvatarModalOpen(true);
       event.target.value = '';
       return;
     }
 
     if (file.size > maxFileSize) {
-      setAvatarModalError('Error! Photo size must be less than 10 MB!');
+      setAvatarModalError(texts.uploadSizeError);
       setIsAvatarModalOpen(true);
       event.target.value = '';
       return;
@@ -145,10 +157,10 @@ export const useProfileAvatarController = ({
 
   const onDeleteAvatar = () => {
     showModal({
-      title: 'Delete Profile Photo',
-      description: 'Are you sure you want to delete the photo?',
-      confirmText: 'Yes',
-      cancelText: 'No',
+      title: texts.deleteModalTitle,
+      description: texts.deleteModalDescription,
+      confirmText: texts.deleteModalYes,
+      cancelText: texts.deleteModalNo,
       confirmVariant: 'outline',
       cancelVariant: 'primary',
       onConfirm: () => {
