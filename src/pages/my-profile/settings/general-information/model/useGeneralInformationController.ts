@@ -4,17 +4,11 @@ import { useMe } from '@/features/auth/model/useMe';
 import { getMyProfile } from '@/entities/profile';
 import type { MyProfile } from '@/entities/profile';
 import type { ApiError } from '@/shared/api/types';
-import { showAlert } from '@/shared/ui/Alert';
 import { buildLocationOptions, type DictionaryText } from './locationOptions';
-import {
-  getOptionTitleByValue,
-  resolveFallbackCity,
-  resolveFallbackCountry,
-} from './profileLocationMapping';
 import { useGeneralInfoFormState } from './useGeneralInfoFormState';
-import { formatDateOfBirth, useDateOfBirthValidation } from './useDateOfBirthValidation';
+import { useGeneralInfoDerivedValues } from './useGeneralInfoDerivedValues';
+import { useGeneralInfoSave } from './useGeneralInfoSave';
 import { useProfileAvatarController } from './useProfileAvatarController';
-import { useProfileUpdateMutation } from './useProfileUpdateMutation';
 
 const myProfileQueryKey = ['my-profile-settings'] as const;
 
@@ -35,61 +29,28 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
   });
 
   const profileData = myProfileQuery.data;
-  const fallbackCountry = useMemo(
-    () => resolveFallbackCountry(country_options, profileData?.country),
-    [country_options, profileData?.country],
-  );
-
-  const selectedCountryValue = formState.selectedCountry ?? fallbackCountry;
-  const city_options = useMemo(
-    () => (selectedCountryValue ? city_options_by_country[selectedCountryValue] : []),
-    [city_options_by_country, selectedCountryValue],
-  );
-  const fallbackCity = useMemo(() => {
-    if (!selectedCountryValue) return null;
-    return resolveFallbackCity(city_options, profileData?.city);
-  }, [city_options, profileData?.city, selectedCountryValue]);
-
-  const selectedCityValue = formState.countryChanged
-    ? formState.selectedCity
-    : (formState.selectedCity ?? fallbackCity);
-
-  const userNameValue = formState.touched.userName
-    ? formState.draft.userName
-    : (profileData?.userName ?? me?.userName ?? '');
-  const firstNameValue = formState.touched.firstName
-    ? formState.draft.firstName
-    : (profileData?.firstName ?? '');
-  const lastNameValue = formState.touched.lastName
-    ? formState.draft.lastName
-    : (profileData?.lastName ?? '');
-  const aboutMeValue = formState.touched.aboutMe
-    ? formState.draft.aboutMe
-    : (profileData?.aboutMe ?? '');
-  const dateOfBirthValue = formState.touched.dateOfBirth
-    ? formState.draft.dateOfBirth
-    : formatDateOfBirth(profileData?.dateOfBirth);
-
-  const dateOfBirthFormatErrorText = toText(content.dateOfBirthFormatError);
   const dateOfBirthUnder13ErrorText = toText(content.dateOfBirthUnder13Error);
   const {
+    selectedCountryValue,
+    cityOptions: city_options,
+    selectedCityValue,
+    userNameValue,
+    firstNameValue,
+    lastNameValue,
+    aboutMeValue,
+    dateOfBirthValue,
     dateOfBirthValidation,
-    isDateOfBirthMissing,
-    isDateOfBirthInvalid,
     dateOfBirthAgeError,
     setDateOfBirthAgeError,
-  } = useDateOfBirthValidation({
-    dateOfBirthValue,
-    draftDateOfBirth: formState.draft.dateOfBirth,
-    isDateOfBirthTouched: formState.touched.dateOfBirth,
-    under13ErrorText: dateOfBirthUnder13ErrorText,
+    isSaveDisabledByValidation,
+  } = useGeneralInfoDerivedValues({
+    formState,
+    profileData,
+    meUserName: me?.userName,
+    countryOptions: country_options,
+    cityOptionsByCountry: city_options_by_country,
+    dateOfBirthUnder13ErrorText,
   });
-  const isRequiredFieldsMissing =
-    !userNameValue.trim() ||
-    !firstNameValue.trim() ||
-    !lastNameValue.trim() ||
-    isDateOfBirthMissing;
-  const isSaveDisabledByValidation = isRequiredFieldsMissing || isDateOfBirthInvalid;
 
   const invalidateProfileQueries = async (userId?: number) => {
     await Promise.all([
@@ -116,38 +77,24 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
       deleteModalNo: toText(content.avatarDeleteModalNo),
     },
   });
-  const updateMutation = useProfileUpdateMutation({
+  const { onSave, isUpdatePending } = useGeneralInfoSave({
     userId: me?.userId,
     invalidateProfileQueries,
     successMessage: toText(content.profileUpdatedSuccess),
+    dateOfBirthFormatErrorText: toText(content.dateOfBirthFormatError),
+    dateOfBirthUnder13ErrorText,
+    dateOfBirthValidation,
+    setDateOfBirthAgeError,
+    countryOptions: country_options,
+    cityOptions: city_options,
+    selectedCountryValue,
+    selectedCityValue,
+    userNameValue,
+    firstNameValue,
+    lastNameValue,
+    aboutMeValue,
+    region: profileData?.region,
   });
-
-  const onSave = () => {
-    if (dateOfBirthValidation.status === 'invalid_format') {
-      showAlert(dateOfBirthFormatErrorText, 'error');
-      return;
-    }
-
-    if (dateOfBirthValidation.status === 'under_13') {
-      showAlert(dateOfBirthUnder13ErrorText, 'error');
-      setDateOfBirthAgeError(dateOfBirthUnder13ErrorText);
-      return;
-    }
-
-    const countryTitle = getOptionTitleByValue(country_options, selectedCountryValue);
-    const cityTitle = getOptionTitleByValue(city_options, selectedCityValue);
-
-    updateMutation.mutate({
-      userName: userNameValue.trim(),
-      firstName: firstNameValue.trim(),
-      lastName: lastNameValue.trim(),
-      city: cityTitle,
-      country: countryTitle,
-      region: profileData?.region ?? '',
-      dateOfBirth: dateOfBirthValidation.parsedDateIso ?? undefined,
-      aboutMe: aboutMeValue.trim(),
-    });
-  };
 
   return {
     formState,
@@ -165,6 +112,6 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
     aboutMeValue,
     dateOfBirthAgeError,
     isSaveDisabledByValidation,
-    isUpdatePending: updateMutation.isPending,
+    isUpdatePending,
   };
 };

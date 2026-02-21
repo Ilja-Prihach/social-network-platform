@@ -72,3 +72,5 @@ export const useGeneralInfoFormState = () => {
     onCountryChange,
   };
 };
+
+export type GeneralInfoFormState = ReturnType<typeof useGeneralInfoFormState>;
