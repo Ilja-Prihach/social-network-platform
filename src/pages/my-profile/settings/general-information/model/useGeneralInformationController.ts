@@ -234,19 +234,13 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
   });
 
   useEffect(() => {
-    if (!formState.touched.dateOfBirth) return;
-
-    const normalized = formState.draft.dateOfBirth.trim();
-    const isFullDate =
-      /^\d{2}\.\d{2}\.\d{4}$/.test(normalized) || /^\d{4}-\d{2}-\d{2}$/.test(normalized);
-
-    if (!isFullDate) {
-      queueMicrotask(() => setDateOfBirthAgeError(null));
-      return;
-    }
-
     const timeoutId = window.setTimeout(() => {
-      const result = validateDateOfBirth(normalized);
+      if (!formState.touched.dateOfBirth) {
+        setDateOfBirthAgeError(null);
+        return;
+      }
+
+      const result = validateDateOfBirth(formState.draft.dateOfBirth);
       if (result.status === 'under_13') {
         setDateOfBirthAgeError(dateOfBirthUnder13ErrorText);
         return;
