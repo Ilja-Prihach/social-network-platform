@@ -106,6 +106,31 @@ const isUnder13 = (parsedDateIso: string): boolean => {
   return getAge(birthDate) < 13;
 };
 
+type DateOfBirthValidationStatus = 'valid' | 'invalid_format' | 'under_13' | 'empty';
+
+type DateOfBirthValidationResult = {
+  status: DateOfBirthValidationStatus;
+  parsedDateIso: string | null;
+};
+
+const validateDateOfBirth = (value: string): DateOfBirthValidationResult => {
+  const normalized = value.trim();
+  if (!normalized) {
+    return { status: 'empty', parsedDateIso: null };
+  }
+
+  const parsedDate = parseDateOfBirth(normalized);
+  if (parsedDate === 'invalid' || parsedDate === null) {
+    return { status: 'invalid_format', parsedDateIso: null };
+  }
+
+  if (isUnder13(parsedDate)) {
+    return { status: 'under_13', parsedDateIso: parsedDate };
+  }
+
+  return { status: 'valid', parsedDateIso: parsedDate };
+};
+
 const formatDateOfBirth = (value?: string | null): string => {
   if (!value) return '';
 
@@ -190,11 +215,14 @@ export function MyProfileSettingsPage() {
   const dateOfBirthValue = dateOfBirthTouched
     ? dateOfBirth
     : formatDateOfBirth(profileData?.dateOfBirth);
-  const parsedDateOfBirthValue = parseDateOfBirth(dateOfBirthValue);
-  const isDateOfBirthMissing = !dateOfBirthValue.trim();
+  const dateOfBirthValidation = useMemo(
+    () => validateDateOfBirth(dateOfBirthValue),
+    [dateOfBirthValue],
+  );
+  const isDateOfBirthMissing = dateOfBirthValidation.status === 'empty';
   const isDateOfBirthInvalid =
-    parsedDateOfBirthValue === 'invalid' ||
-    (parsedDateOfBirthValue !== null && isUnder13(parsedDateOfBirthValue));
+    dateOfBirthValidation.status === 'invalid_format' ||
+    dateOfBirthValidation.status === 'under_13';
   const isRequiredFieldsMissing =
     !userNameValue.trim() ||
     !firstNameValue.trim() ||
@@ -255,13 +283,8 @@ export function MyProfileSettingsPage() {
     }
 
     const timeoutId = window.setTimeout(() => {
-      const parsed = parseDateOfBirth(normalized);
-      if (parsed === 'invalid' || parsed === null) {
-        setDateOfBirthAgeError(null);
-        return;
-      }
-
-      if (isUnder13(parsed)) {
+      const result = validateDateOfBirth(normalized);
+      if (result.status === 'under_13') {
         setDateOfBirthAgeError('A user under 13 cannot create a profile. Privacy Policy');
         return;
       }
@@ -309,14 +332,12 @@ export function MyProfileSettingsPage() {
   });
 
   const onSave = () => {
-    const parsedDateOfBirth = parsedDateOfBirthValue;
-
-    if (parsedDateOfBirth === 'invalid') {
+    if (dateOfBirthValidation.status === 'invalid_format') {
       showAlert('Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD', 'error');
       return;
     }
 
-    if (parsedDateOfBirth && isUnder13(parsedDateOfBirth)) {
+    if (dateOfBirthValidation.status === 'under_13') {
       showAlert('A user under 13 cannot create a profile. Privacy Policy', 'error');
       setDateOfBirthAgeError('A user under 13 cannot create a profile. Privacy Policy');
       return;
@@ -334,7 +355,7 @@ export function MyProfileSettingsPage() {
       city: cityTitle,
       country: countryTitle,
       region: profileData?.region ?? '',
-      dateOfBirth: parsedDateOfBirth ?? undefined,
+      dateOfBirth: dateOfBirthValidation.parsedDateIso ?? undefined,
       aboutMe: aboutMeValue.trim(),
     });
   };
