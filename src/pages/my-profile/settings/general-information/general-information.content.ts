@@ -593,14 +593,6 @@ const generalInformationContent = {
       it: 'Madrid',
     }),
     cityRome: t({ en: 'Rome', he: 'Rome', fr: 'Rome', es: 'Roma', ru: 'Рим', it: 'Roma' }),
-    cityAmsterdam: t({
-      en: 'Amsterdam',
-      he: 'Amsterdam',
-      fr: 'Amsterdam',
-      es: 'Ámsterdam',
-      ru: 'Амстердам',
-      it: 'Amsterdam',
-    }),
     cityWashingtonDc: t({
       en: 'Washington, D.C.',
       he: 'Washington, D.C.',

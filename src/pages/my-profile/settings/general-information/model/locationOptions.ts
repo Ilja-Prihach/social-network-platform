@@ -216,11 +216,6 @@ const cityContentKeys = {
   edmonton: 'cityEdmonton',
 } as const satisfies Record<CityValue, string>;
 
-type CountryContentKey = (typeof countryContentKeys)[CountryValue];
-type CityContentKey = (typeof cityContentKeys)[CityValue];
-
-export type LocationDictionaryContent = Record<CountryContentKey | CityContentKey, DictionaryText>;
-
 const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
 const getRequiredText = (content: Record<string, DictionaryText>, key: string): string => {
   const value = content[key];
