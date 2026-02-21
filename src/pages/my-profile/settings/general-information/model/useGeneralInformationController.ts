@@ -14,13 +14,10 @@ import {
   type DictionaryText,
 } from './locationOptions';
 import { useGeneralInfoFormState } from './useGeneralInfoFormState';
+import { getProfileUpdateError, type ProfileUpdateErrorResponse } from './profileUpdateError';
 import { useProfileAvatarController } from './useProfileAvatarController';
 
 const myProfileQueryKey = ['my-profile-settings'] as const;
-
-type ProfileUpdateErrorResponse = {
-  messages?: string | { message: string; field: string }[];
-};
 
 type DateOfBirthValidationStatus = 'valid' | 'invalid_format' | 'under_13' | 'empty';
 
@@ -30,17 +27,6 @@ type DateOfBirthValidationResult = {
 };
 
 const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
-
-const getProfileUpdateError = (error: ApiError<ProfileUpdateErrorResponse>) => {
-  const messages = error.data?.messages;
-
-  if (typeof messages === 'string') return messages;
-  if (Array.isArray(messages) && messages.length && messages[0]?.message) {
-    return messages[0].message;
-  }
-
-  return 'Failed to update profile';
-};
 
 const parseDateOfBirth = (value: string): string | null | 'invalid' => {
   const normalized = value.trim();

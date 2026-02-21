@@ -5,10 +5,7 @@ import type { ProfileAvatar, UploadProfileAvatarResponse } from '@/entities/prof
 import type { ApiError } from '@/shared/api/types';
 import { showAlert } from '@/shared/ui/Alert';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
-
-type ProfileUpdateErrorResponse = {
-  messages?: string | { message: string; field: string }[];
-};
+import { getProfileUpdateError, type ProfileUpdateErrorResponse } from './profileUpdateError';
 
 type UseProfileAvatarControllerParams = {
   profileAvatars?: ProfileAvatar[];
@@ -25,17 +22,6 @@ type UseProfileAvatarControllerParams = {
     deleteModalYes: string;
     deleteModalNo: string;
   };
-};
-
-const getProfileUpdateError = (error: ApiError<ProfileUpdateErrorResponse>) => {
-  const messages = error.data?.messages;
-
-  if (typeof messages === 'string') return messages;
-  if (Array.isArray(messages) && messages.length && messages[0]?.message) {
-    return messages[0].message;
-  }
-
-  return 'Failed to update profile';
 };
 
 const pickProfileAvatar = (avatars?: ProfileAvatar[]) => {
