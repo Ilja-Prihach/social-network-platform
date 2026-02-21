@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import alertStyles from '@/shared/ui/Alert/Alert.module.scss';
-import styles from './MyProfileSettingsPage.module.scss';
+import styles from './AvatarUploadModal.module.scss';
 
 type AvatarUploadModalProps = {
   isOpen: boolean;

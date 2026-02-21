@@ -1,7 +1,7 @@
 import { ChangeEventHandler, RefObject } from 'react';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
-import styles from './MyProfileSettingsPage.module.scss';
+import styles from './AvatarSection.module.scss';
 
 type AvatarSectionProps = {
   avatarUrl: string | null;
