@@ -33,6 +33,7 @@ import {
   type CountryValue,
   type DictionaryText,
 } from '../model/locationOptions';
+import { useGeneralInfoFormState } from '../model/useGeneralInfoFormState';
 import styles from './MyProfileSettingsPage.module.scss';
 
 const toText = (value: DictionaryText): string => (typeof value === 'string' ? value : value.value);
@@ -162,20 +163,8 @@ export function MyProfileSettingsPage() {
   const { data: me } = useMe();
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [userName, setUserName] = useState('');
-  const [userNameTouched, setUserNameTouched] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [firstNameTouched, setFirstNameTouched] = useState(false);
-  const [lastName, setLastName] = useState('');
-  const [lastNameTouched, setLastNameTouched] = useState(false);
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [dateOfBirthTouched, setDateOfBirthTouched] = useState(false);
+  const formState = useGeneralInfoFormState();
   const [dateOfBirthAgeError, setDateOfBirthAgeError] = useState<string | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState<CountryValue | null>(null);
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [countryChanged, setCountryChanged] = useState(false);
-  const [aboutMe, setAboutMe] = useState('');
-  const [aboutMeTouched, setAboutMeTouched] = useState(false);
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [avatarModalError, setAvatarModalError] = useState<string | null>(null);
   const [pendingAvatarFile, setPendingAvatarFile] = useState<File | null>(null);
@@ -196,7 +185,7 @@ export function MyProfileSettingsPage() {
     [country_options, profileData?.country],
   );
 
-  const selectedCountryValue = selectedCountry ?? fallbackCountry;
+  const selectedCountryValue = formState.selectedCountry ?? fallbackCountry;
   const city_options = useMemo(
     () => (selectedCountryValue ? city_options_by_country[selectedCountryValue] : []),
     [city_options_by_country, selectedCountryValue],
@@ -206,14 +195,24 @@ export function MyProfileSettingsPage() {
     return findOptionValueByTitle(city_options, profileData?.city);
   }, [city_options, profileData?.city, selectedCountryValue]);
 
-  const selectedCityValue = countryChanged ? selectedCity : (selectedCity ?? fallbackCity);
+  const selectedCityValue = formState.countryChanged
+    ? formState.selectedCity
+    : (formState.selectedCity ?? fallbackCity);
 
-  const userNameValue = userNameTouched ? userName : (profileData?.userName ?? me?.userName ?? '');
-  const firstNameValue = firstNameTouched ? firstName : (profileData?.firstName ?? '');
-  const lastNameValue = lastNameTouched ? lastName : (profileData?.lastName ?? '');
-  const aboutMeValue = aboutMeTouched ? aboutMe : (profileData?.aboutMe ?? '');
-  const dateOfBirthValue = dateOfBirthTouched
-    ? dateOfBirth
+  const userNameValue = formState.touched.userName
+    ? formState.draft.userName
+    : (profileData?.userName ?? me?.userName ?? '');
+  const firstNameValue = formState.touched.firstName
+    ? formState.draft.firstName
+    : (profileData?.firstName ?? '');
+  const lastNameValue = formState.touched.lastName
+    ? formState.draft.lastName
+    : (profileData?.lastName ?? '');
+  const aboutMeValue = formState.touched.aboutMe
+    ? formState.draft.aboutMe
+    : (profileData?.aboutMe ?? '');
+  const dateOfBirthValue = formState.touched.dateOfBirth
+    ? formState.draft.dateOfBirth
     : formatDateOfBirth(profileData?.dateOfBirth);
   const dateOfBirthValidation = useMemo(
     () => validateDateOfBirth(dateOfBirthValue),
@@ -269,9 +268,9 @@ export function MyProfileSettingsPage() {
   }, [localAvatarPreviewUrl]);
 
   useEffect(() => {
-    if (!dateOfBirthTouched) return;
+    if (!formState.touched.dateOfBirth) return;
 
-    const normalized = dateOfBirth.trim();
+    const normalized = formState.draft.dateOfBirth.trim();
     const isFullDate =
       /^\d{2}\.\d{2}\.\d{4}$/.test(normalized) || /^\d{4}-\d{2}-\d{2}$/.test(normalized);
 
@@ -291,7 +290,7 @@ export function MyProfileSettingsPage() {
     }, 800);
 
     return () => window.clearTimeout(timeoutId);
-  }, [dateOfBirth, dateOfBirthTouched]);
+  }, [formState.draft.dateOfBirth, formState.touched.dateOfBirth]);
 
   const updateMutation = useMutation<
     void,
@@ -480,37 +479,25 @@ export function MyProfileSettingsPage() {
           <Input
             label={toText(content.usernameLabel)}
             value={userNameValue}
-            onChange={(value) => {
-              setUserNameTouched(true);
-              setUserName(value);
-            }}
+            onChange={formState.setUserName}
             placeholder={toText(content.usernameValue)}
           />
           <Input
             label={toText(content.firstNameLabel)}
             value={firstNameValue}
-            onChange={(value) => {
-              setFirstNameTouched(true);
-              setFirstName(value);
-            }}
+            onChange={formState.setFirstName}
             placeholder={toText(content.firstNamePlaceholder)}
           />
           <Input
             label={toText(content.lastNameLabel)}
             value={lastNameValue}
-            onChange={(value) => {
-              setLastNameTouched(true);
-              setLastName(value);
-            }}
+            onChange={formState.setLastName}
             placeholder={toText(content.lastNamePlaceholder)}
           />
           <Input
             label={toText(content.dateOfBirthLabel)}
             value={dateOfBirthValue}
-            onChange={(value) => {
-              setDateOfBirthTouched(true);
-              setDateOfBirth(value);
-            }}
+            onChange={formState.setDateOfBirth}
             placeholder={toText(content.dateOfBirthPlaceholder)}
             error={dateOfBirthAgeError ?? undefined}
           />
@@ -522,11 +509,7 @@ export function MyProfileSettingsPage() {
               placeholder={toText(content.countryPlaceholder)}
               options={country_options}
               value={selectedCountryValue}
-              onChange={(value) => {
-                setSelectedCountry(value as CountryValue);
-                setCountryChanged(true);
-                setSelectedCity(null);
-              }}
+              onChange={(value) => formState.onCountryChange(value as CountryValue)}
             />
             <Select
               className={styles.select_field}
@@ -538,7 +521,7 @@ export function MyProfileSettingsPage() {
               }
               options={city_options}
               value={selectedCityValue}
-              onChange={setSelectedCity}
+              onChange={formState.setSelectedCity}
               disabled={!selectedCountryValue}
             />
           </div>
@@ -549,10 +532,7 @@ export function MyProfileSettingsPage() {
             placeholder={toText(content.aboutMePlaceholder)}
             rows={3}
             value={aboutMeValue}
-            onChange={(event) => {
-              setAboutMeTouched(true);
-              setAboutMe(event.target.value);
-            }}
+            onChange={(event) => formState.setAboutMe(event.target.value)}
           />
         </div>
       </div>
