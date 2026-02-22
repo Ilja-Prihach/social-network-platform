@@ -1,6 +1,4 @@
-export type PostMedia =
-  | { id: string; type: 'image'; src: string; alt?: string }
-  | { id: string; type: 'video'; src: string; poster?: string };
+export type PostMedia = { id: string; type: 'image'; src: string; alt?: string };
 
 export type Post = {
   id: string;
