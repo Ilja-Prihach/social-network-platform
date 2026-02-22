@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './ProfileDetailsPage.module.scss';
 import {
   usePublicProfileQuery,
@@ -12,6 +12,7 @@ import {
 import { useMe } from '@/features/auth/model/useMe';
 import { ProfileHeader } from '@/widgets/profile-header';
 import { PostMediaCarousel } from '@/entities/post';
+import { PostViewerModal } from '@/widgets/post-viewer-modal';
 
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
@@ -36,6 +37,7 @@ export function ProfileDetailsPageClient({
   const postsQuery = useProfilePostsInfiniteQuery(profileId, true, initialPostsPage);
 
   const isOwner = me?.userId === profileId;
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const { hasNextPage, isFetchingNextPage, fetchNextPage } = postsQuery;
 
@@ -69,6 +71,11 @@ export function ProfileDetailsPageClient({
 
   const profile = profileQuery.data ?? initialProfile;
   const avatarUrl = pickProfileAvatar(profile.avatars);
+  const selectedPost = useMemo(
+    () => posts.find((post) => post.id === selectedPostId) ?? null,
+    [posts, selectedPostId],
+  );
+  const isFriendPost = Boolean(profile?.isFollowing && profile?.isFollowedBy);
 
   return (
     <section className={styles.page}>
@@ -87,9 +94,16 @@ export function ProfileDetailsPageClient({
             <div className={styles.posts_grid}>
               {posts.map((post) => (
                 <article key={post.id} className={styles.post_item}>
-                  <div className={styles.post_media}>
-                    <PostMediaCarousel media={post.media} />
-                  </div>
+                  <button
+                    type="button"
+                    className={styles.post_open}
+                    onClick={() => setSelectedPostId(post.id)}
+                    aria-label={`Open ${post.userName} post`}
+                  >
+                    <div className={styles.post_media}>
+                      <PostMediaCarousel media={post.media} />
+                    </div>
+                  </button>
                 </article>
               ))}
             </div>
@@ -105,6 +119,12 @@ export function ProfileDetailsPageClient({
           <div className={styles.scroll_trigger} />
         </main>
       </div>
+      <PostViewerModal
+        post={selectedPost}
+        isOwner={Boolean(isOwner)}
+        isFriendPost={isFriendPost}
+        onClose={() => setSelectedPostId(null)}
+      />
     </section>
   );
 }
