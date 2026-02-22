@@ -147,7 +147,7 @@
   display: block;
 }
 
-.crop_stage[data_original='false'] {
+.crop_stage[data-original='false'] {
   width: 100%;
   height: auto;
   max-height: 100%;
@@ -313,11 +313,11 @@
   cursor: default;
 }
 
-.filter_preview_nav[data_side='left'] {
+.filter_preview_nav[data-side='left'] {
   left: 16px;
 }
 
-.filter_preview_nav[data_side='right'] {
+.filter_preview_nav[data-side='right'] {
   right: 16px;
 }
 
@@ -340,7 +340,7 @@
   background: rgb(255 255 255 / 90%);
 }
 
-.filter_preview_dot[data_active='true'] {
+.filter_preview_dot[data-active='true'] {
   background: #397df6;
 }
 
@@ -381,7 +381,7 @@
   cursor: not-allowed;
 }
 
-.crop_mobile_btn[data_active='true'] {
+.crop_mobile_btn[data-active='true'] {
   color: #397df6;
   border-color: rgb(57 125 246 / 60%);
 }
@@ -439,7 +439,7 @@
   cursor: pointer;
 }
 
-.ratio_sheet_item[data_active='true'] {
+.ratio_sheet_item[data-active='true'] {
   color: #fff;
   font-weight: 700;
 }
@@ -452,21 +452,21 @@
   box-sizing: border-box;
 }
 
-.ratio_sheet_item[data_active='true'] .ratio_sheet_icon {
+.ratio_sheet_item[data-active='true'] .ratio_sheet_icon {
   border-color: #fff;
 }
 
-.ratio_sheet_icon[data_ratio='1:1'] {
+.ratio_sheet_icon[data-ratio='1:1'] {
   width: 30px;
   height: 30px;
 }
 
-.ratio_sheet_icon[data_ratio='4:5'] {
+.ratio_sheet_icon[data-ratio='4:5'] {
   width: 24px;
   height: 30px;
 }
 
-.ratio_sheet_icon[data_ratio='16:9'] {
+.ratio_sheet_icon[data-ratio='16:9'] {
   width: 36px;
   height: 20px;
 }
@@ -520,7 +520,7 @@
   cursor: pointer;
 }
 
-.crop_gallery_item[data_active='true'] {
+.crop_gallery_item[data-active='true'] {
   border-color: #fff;
 }
 
@@ -576,7 +576,7 @@
   background: #aaa;
 }
 
-.crop_gallery_dot[data_active='true'] {
+.crop_gallery_dot[data-active='true'] {
   background: #397df6;
 }
 
@@ -589,7 +589,7 @@
   aspect-ratio: 1 / 1;
 }
 
-.thumb_btn[data_active='true'] {
+.thumb_btn[data-active='true'] {
   border-color: var(--accent-500-color);
 }
 
@@ -692,11 +692,11 @@
   line-height: 1.15;
 }
 
-.filter_tile[data_active='true'] .filter_tile_image {
+.filter_tile[data-active='true'] .filter_tile_image {
   border-color: #397df6;
 }
 
-.filter_tile[data_active='true'] .filter_tile_label {
+.filter_tile[data-active='true'] .filter_tile_label {
   color: #fff;
 }
 
@@ -916,7 +916,7 @@
   cursor: pointer;
 }
 
-.filter_btn[data_active='true'] {
+.filter_btn[data-active='true'] {
   border-color: var(--accent-500-color);
   color: var(--accent-500-color);
 }
