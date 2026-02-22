@@ -1,7 +1,9 @@
 import clsx from 'clsx';
+import { useDictionary } from 'next-intlayer';
 import type { Step } from '@/features/create-post';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
+import createPostFlowContent from '../../create-post-flow.content';
 import styles from '../CreatePostFlowWidget.module.scss';
 
 type Props = {
@@ -25,11 +27,13 @@ export function CreatePostHeader({
   onPublish,
   step,
 }: Props) {
+  const dictionary = useDictionary(createPostFlowContent);
+
   if (step === 'upload') {
     return (
       <header className={clsx(styles.header, styles.header_upload)}>
-        <h1 className={styles.title}>Add Photo</h1>
-        <Button variant="text" className={styles.icon_btn} onClick={onClose} aria-label="Close">
+        <h1 className={styles.title}>{dictionary.addPhoto}</h1>
+        <Button variant="text" className={styles.icon_btn} onClick={onClose} aria-label={dictionary.close}>
           <Icon iconId="close-outline" />
         </Button>
       </header>
@@ -45,18 +49,18 @@ export function CreatePostHeader({
         step === 'publish' && styles.header_publish,
       )}
     >
-      <Button variant="text" className={styles.icon_btn} onClick={onBack}>
-        <Icon iconId="arrow-ios-back-outline" />
+      <Button variant="text" className={styles.icon_btn} onClick={onBack} aria-label={dictionary.back}>
+        <Icon iconId="arrow-ios-back-outline" width="24" height="24" />
       </Button>
 
       <h1 className={styles.title}>
         {step === 'crop'
-          ? 'Cropping'
+          ? dictionary.cropping
           : step === 'filters'
-            ? 'Filters'
+            ? dictionary.filters
             : step === 'publish'
-              ? 'Publication'
-              : 'Create post'}
+              ? dictionary.publication
+              : dictionary.createPost}
       </h1>
 
       {step === 'publish' ? (
@@ -66,11 +70,11 @@ export function CreatePostHeader({
           onClick={onPublish}
           disabled={isPublishing || isUploading}
         >
-          {isPublishing ? 'Publishing...' : 'Publish'}
+          {isPublishing ? dictionary.publishing : dictionary.publish}
         </Button>
       ) : (
         <Button variant="text" className={styles.action_btn} onClick={onNext} disabled={!canGoNext}>
-          Next
+          {dictionary.next}
         </Button>
       )}
     </header>

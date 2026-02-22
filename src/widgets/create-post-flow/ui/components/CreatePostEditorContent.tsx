@@ -17,6 +17,12 @@ type Props = {
   activePhotoIndex: number;
   aspectRatio: AspectRatio;
   cropGalleryPage: number;
+  cropRatioPanelRef: RefObject<HTMLDivElement | null>;
+  cropRatioToggleRef: RefObject<HTMLButtonElement | null>;
+  cropGalleryToggleRef: RefObject<HTMLButtonElement | null>;
+  cropGalleryWrapRef: RefObject<HTMLDivElement | null>;
+  cropZoomPanelRef: RefObject<HTMLDivElement | null>;
+  cropZoomToggleRef: RefObject<HTMLButtonElement | null>;
   cropRatio: number | null;
   description: string;
   filterId: FilterId;
@@ -27,7 +33,9 @@ type Props = {
   locationSuggestions: LocationSuggestion[];
   locationWrapRef: RefObject<HTMLDivElement | null>;
   onOpenPicker: () => void;
+  onRemovePhoto: (photoId: string) => void;
   onSelectPhoto: (photoId: string) => void;
+  profileUsername: string;
   photos: PhotoItem[];
   setAspectRatio: (value: AspectRatio) => void;
   setCropGalleryPage: Dispatch<SetStateAction<number>>;
@@ -53,6 +61,12 @@ export function CreatePostEditorContent({
   activePhotoIndex,
   aspectRatio,
   cropGalleryPage,
+  cropRatioPanelRef,
+  cropRatioToggleRef,
+  cropGalleryToggleRef,
+  cropGalleryWrapRef,
+  cropZoomPanelRef,
+  cropZoomToggleRef,
   cropRatio,
   description,
   filterId,
@@ -63,7 +77,9 @@ export function CreatePostEditorContent({
   locationSuggestions,
   locationWrapRef,
   onOpenPicker,
+  onRemovePhoto,
   onSelectPhoto,
+  profileUsername,
   photos,
   setAspectRatio,
   setCropGalleryPage,
@@ -97,10 +113,17 @@ export function CreatePostEditorContent({
         activePhotoIndex={activePhotoIndex}
         aspectRatio={aspectRatio}
         cropGalleryPage={cropGalleryPage}
+        cropRatioPanelRef={cropRatioPanelRef}
+        cropRatioToggleRef={cropRatioToggleRef}
+        cropGalleryToggleRef={cropGalleryToggleRef}
+        cropGalleryWrapRef={cropGalleryWrapRef}
+        cropZoomPanelRef={cropZoomPanelRef}
+        cropZoomToggleRef={cropZoomToggleRef}
         cropRatio={cropRatio}
         goToPhoto={goToPhoto}
         isUploading={isUploading}
         onOpenPicker={onOpenPicker}
+        onRemovePhoto={onRemovePhoto}
         onSelectPhoto={onSelectPhoto}
         photos={photos}
         setAspectRatio={setAspectRatio}
@@ -128,6 +151,7 @@ export function CreatePostEditorContent({
         locationWrapRef={locationWrapRef}
         onOpenPicker={onOpenPicker}
         photosCount={photos.length}
+        profileUsername={profileUsername}
         setAspectRatio={setAspectRatio}
         setDescription={setDescription}
         setFilterId={setFilterId}

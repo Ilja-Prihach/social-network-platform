@@ -1,6 +1,8 @@
 import type { CreatePostStyles } from '@/features/create-post/model/uiTypes';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
+import { useDictionary } from 'next-intlayer';
+import createPostFlowContent from '@/widgets/create-post-flow/create-post-flow.content';
 
 type Props = {
   hasDraft: boolean;
@@ -17,6 +19,8 @@ export function CreatePostUploadStep({
   onOpenPicker,
   styles,
 }: Props) {
+  const dictionary = useDictionary(createPostFlowContent);
+
   return (
     <div className={styles.upload_step}>
       <div className={styles.upload_preview_box}>
@@ -24,7 +28,7 @@ export function CreatePostUploadStep({
       </div>
 
       <Button variant="primary" className={styles.upload_button} onClick={onOpenPicker}>
-        {isUploading ? 'Uploading...' : 'Select from Computer'}
+        {isUploading ? dictionary.uploading : dictionary.selectFromComputer}
       </Button>
 
       <Button
@@ -33,7 +37,7 @@ export function CreatePostUploadStep({
         onClick={onOpenDraft}
         disabled={!hasDraft}
       >
-        Open Draft
+        {dictionary.openDraft}
       </Button>
     </div>
   );

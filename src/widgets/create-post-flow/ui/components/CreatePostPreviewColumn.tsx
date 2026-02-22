@@ -1,4 +1,4 @@
-import type { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, RefObject, SetStateAction } from 'react';
 import clsx from 'clsx';
 import { type AspectRatio, type PhotoItem, type Step } from '@/features/create-post';
 import { CreatePostCropOverlays } from '@/features/create-post/crop';
@@ -11,10 +11,17 @@ type Props = {
   activePhotoIndex: number;
   aspectRatio: AspectRatio;
   cropGalleryPage: number;
+  cropRatioPanelRef: RefObject<HTMLDivElement | null>;
+  cropRatioToggleRef: RefObject<HTMLButtonElement | null>;
+  cropGalleryToggleRef: RefObject<HTMLButtonElement | null>;
+  cropGalleryWrapRef: RefObject<HTMLDivElement | null>;
+  cropZoomPanelRef: RefObject<HTMLDivElement | null>;
+  cropZoomToggleRef: RefObject<HTMLButtonElement | null>;
   cropRatio: number | null;
   goToPhoto: (index: number) => void;
   isUploading: boolean;
   onOpenPicker: () => void;
+  onRemovePhoto: (photoId: string) => void;
   onSelectPhoto: (photoId: string) => void;
   photos: PhotoItem[];
   setAspectRatio: (value: AspectRatio) => void;
@@ -36,10 +43,17 @@ export function CreatePostPreviewColumn({
   activePhotoIndex,
   aspectRatio,
   cropGalleryPage,
+  cropRatioPanelRef,
+  cropRatioToggleRef,
+  cropGalleryToggleRef,
+  cropGalleryWrapRef,
+  cropZoomPanelRef,
+  cropZoomToggleRef,
   cropRatio,
   goToPhoto,
   isUploading,
   onOpenPicker,
+  onRemovePhoto,
   onSelectPhoto,
   photos,
   setAspectRatio,
@@ -117,8 +131,15 @@ export function CreatePostPreviewColumn({
           activePhoto={activePhoto}
           aspectRatio={aspectRatio}
           cropGalleryPage={cropGalleryPage}
+          cropRatioPanelRef={cropRatioPanelRef}
+          cropRatioToggleRef={cropRatioToggleRef}
+          cropGalleryToggleRef={cropGalleryToggleRef}
+          cropGalleryWrapRef={cropGalleryWrapRef}
+          cropZoomPanelRef={cropZoomPanelRef}
+          cropZoomToggleRef={cropZoomToggleRef}
           isUploading={isUploading}
           onOpenPicker={onOpenPicker}
+          onRemovePhoto={onRemovePhoto}
           onSelectPhoto={onSelectPhoto}
           photos={photos}
           setAspectRatio={setAspectRatio}

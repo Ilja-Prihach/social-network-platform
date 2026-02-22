@@ -2,6 +2,8 @@ import type { LocationSuggestion } from '@/features/create-post';
 import type { CreatePostStyles } from '@/features/create-post/model/uiTypes';
 import { Icon } from '@/shared/ui/Icon';
 import type { RefObject } from 'react';
+import { useDictionary } from 'next-intlayer';
+import createPostFlowContent from '@/widgets/create-post-flow/create-post-flow.content';
 
 type Props = {
   description: string;
@@ -9,6 +11,7 @@ type Props = {
   location: string;
   locationSuggestions: LocationSuggestion[];
   locationWrapRef: RefObject<HTMLDivElement | null>;
+  profileUsername: string;
   setDescription: (value: string) => void;
   setLocation: (value: string) => void;
   setShowLocationSuggestions: (value: boolean) => void;
@@ -22,29 +25,32 @@ export function CreatePostPublishPanel({
   location,
   locationSuggestions,
   locationWrapRef,
+  profileUsername,
   setDescription,
   setLocation,
   setShowLocationSuggestions,
   showLocationSuggestions,
   styles,
 }: Props) {
+  const dictionary = useDictionary(createPostFlowContent);
+
   return (
     <div className={styles.publish_panel}>
       <div className={styles.publish_profile}>
         <span className={styles.publish_avatar}>
-          <img src="/mock/Avatar1.jpg" alt="URLProfile avatar" />
+          <img src="/mock/Avatar1.jpg" alt={`${profileUsername} ${dictionary.avatar}`} />
         </span>
-        <span className={styles.publish_username}>URLProfile</span>
+        <span className={styles.publish_username}>{profileUsername}</span>
       </div>
 
       <label className={styles.publish_label} htmlFor="publish_description">
-        Add publication descriptions
+        {dictionary.addPublicationDescriptions}
       </label>
       <div className={styles.publish_textarea_wrap}>
         <textarea
           id="publish_description"
           className={styles.publish_textarea}
-          placeholder="Text-area"
+          placeholder={dictionary.descriptionPlaceholder}
           maxLength={500}
           value={description}
           onChange={(event) => setDescription(event.target.value)}
@@ -54,28 +60,30 @@ export function CreatePostPublishPanel({
 
       <div className={styles.publish_location_block} ref={locationWrapRef}>
         <label className={styles.publish_label} htmlFor="publish_location">
-          Add location
+          {dictionary.addLocation}
         </label>
         <div className={styles.publish_location_input_wrap}>
           <input
             id="publish_location"
             className={styles.publish_location_input}
             value={location}
-            placeholder="New York"
+            placeholder={dictionary.locationPlaceholder}
             onFocus={() => setShowLocationSuggestions(true)}
             onChange={(event) => {
               setLocation(event.target.value);
               setShowLocationSuggestions(true);
             }}
           />
-          <button type="button" className={styles.publish_location_pin} aria-label="Pick location">
+          <button type="button" className={styles.publish_location_pin} aria-label={dictionary.pickLocation}>
             <Icon iconId="pin-outline" />
           </button>
         </div>
 
         {showLocationSuggestions && (
           <div className={styles.publish_location_suggestions}>
-            {isLocationLoading && <div className={styles.publish_location_empty}>Searching...</div>}
+            {isLocationLoading && (
+              <div className={styles.publish_location_empty}>{dictionary.searching}</div>
+            )}
 
             {!isLocationLoading &&
               locationSuggestions.map((item) => (
@@ -96,7 +104,7 @@ export function CreatePostPublishPanel({
             {!isLocationLoading &&
               location.trim().length >= 2 &&
               locationSuggestions.length === 0 && (
-                <div className={styles.publish_location_empty}>No locations found</div>
+                <div className={styles.publish_location_empty}>{dictionary.noLocationsFound}</div>
               )}
           </div>
         )}

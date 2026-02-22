@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useLocale } from 'next-intlayer';
+import { useDictionary, useLocale } from 'next-intlayer';
 import { getLocalizedUrl } from 'intlayer';
 import clsx from 'clsx';
 import {
@@ -23,11 +23,13 @@ import {
   type CreateDraft,
   type PhotoItem,
 } from '@/features/create-post';
+import { useMe } from '@/features/auth/model/useMe';
 import { CreatePostUploadStep } from '@/features/create-post/upload';
-import { createPost, uploadPostImages } from '@/entities/post';
+import { createPost, deletePostImage, uploadPostImages } from '@/entities/post';
 import { CreatePostDialogs } from './components/CreatePostDialogs';
 import { CreatePostEditorContent } from './components/CreatePostEditorContent';
 import { CreatePostHeader } from './components/CreatePostHeader';
+import createPostFlowContent from '../create-post-flow.content';
 import styles from './CreatePostFlowWidget.module.scss';
 
 export function CreatePostFlowWidget() {
@@ -36,6 +38,12 @@ export function CreatePostFlowWidget() {
   const file_input_ref = useRef<HTMLInputElement>(null);
   const photos_ref = useRef<PhotoItem[]>([]);
   const location_wrap_ref = useRef<HTMLDivElement>(null);
+  const crop_ratio_panel_ref = useRef<HTMLDivElement>(null);
+  const crop_ratio_toggle_ref = useRef<HTMLButtonElement>(null);
+  const crop_gallery_wrap_ref = useRef<HTMLDivElement>(null);
+  const crop_gallery_toggle_ref = useRef<HTMLButtonElement>(null);
+  const crop_zoom_panel_ref = useRef<HTMLDivElement>(null);
+  const crop_zoom_toggle_ref = useRef<HTMLButtonElement>(null);
   const {
     active_photo_id,
     aspect_ratio,
@@ -86,6 +94,8 @@ export function CreatePostFlowWidget() {
     });
   const active_filter = filters.find((item) => item.id === filter_id)?.css ?? 'none';
   const crop_ratio = aspect_ratio === 'original' ? null : ratio_to_value[aspect_ratio];
+  const { data: me } = useMe();
+  const dictionary = useDictionary(createPostFlowContent);
 
   useEffect(() => {
     photos_ref.current = photos;
@@ -116,6 +126,52 @@ export function CreatePostFlowWidget() {
     };
   }, [setShowLocationSuggestions]);
 
+  useEffect(() => {
+    const handle_click_outside_crop_panels = (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      if (show_crop_gallery) {
+        const clicked_inside_gallery = crop_gallery_wrap_ref.current?.contains(target) ?? false;
+        const clicked_gallery_toggle = crop_gallery_toggle_ref.current?.contains(target) ?? false;
+
+        if (!clicked_inside_gallery && !clicked_gallery_toggle) {
+          setShowCropGallery(false);
+        }
+      }
+
+      if (show_mobile_ratio) {
+        const clicked_inside_ratio_panel = crop_ratio_panel_ref.current?.contains(target) ?? false;
+        const clicked_ratio_toggle = crop_ratio_toggle_ref.current?.contains(target) ?? false;
+
+        if (!clicked_inside_ratio_panel && !clicked_ratio_toggle) {
+          setShowMobileRatio(false);
+        }
+      }
+
+      if (show_mobile_zoom) {
+        const clicked_inside_zoom_panel = crop_zoom_panel_ref.current?.contains(target) ?? false;
+        const clicked_zoom_toggle = crop_zoom_toggle_ref.current?.contains(target) ?? false;
+
+        if (!clicked_inside_zoom_panel && !clicked_zoom_toggle) {
+          setShowMobileZoom(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handle_click_outside_crop_panels);
+
+    return () => {
+      document.removeEventListener('mousedown', handle_click_outside_crop_panels);
+    };
+  }, [
+    setShowCropGallery,
+    setShowMobileRatio,
+    setShowMobileZoom,
+    show_crop_gallery,
+    show_mobile_ratio,
+    show_mobile_zoom,
+  ]);
+
   const add_photos = async (new_files: File[]) => {
     if (new_files.length === 0) return;
 
@@ -124,12 +180,12 @@ export function CreatePostFlowWidget() {
     );
 
     if (wrong_file) {
-      setValidationMessage('The photo must be less than 20 Mb and have JPEG or PNG format');
+      setValidationMessage(dictionary.invalidPhotoMessage);
       return;
     }
 
     if (photos.length + new_files.length > MAX_FILES_COUNT) {
-      setValidationMessage('You can upload up to 10 photos for one publication');
+      setValidationMessage(dictionary.maxPhotosMessage);
       return;
     }
 
@@ -149,7 +205,7 @@ export function CreatePostFlowWidget() {
 
       const has_missed_upload_id = mapped.some((item) => item.upload_id === null);
       if (has_missed_upload_id) {
-        setValidationMessage('Unable to upload one or more photos. Please try again');
+        setValidationMessage(dictionary.uploadFailedMessage);
         mapped.forEach((item) => URL.revokeObjectURL(item.preview_url));
         return;
       }
@@ -159,10 +215,7 @@ export function CreatePostFlowWidget() {
       setStep('crop');
     } catch (error) {
       setValidationMessage(
-        getCreatePostErrorMessage(
-          error,
-          'The photo must be less than 20 Mb and have JPEG or PNG format',
-        ),
+        getCreatePostErrorMessage(error, dictionary.invalidPhotoMessage),
       );
     } finally {
       setIsUploading(false);
@@ -243,7 +296,7 @@ export function CreatePostFlowWidget() {
       .filter((upload_id): upload_id is string => Boolean(upload_id));
 
     if (upload_ids.length === 0) {
-      setValidationMessage('Please upload at least one photo before publishing');
+      setValidationMessage(dictionary.noPhotosBeforePublishingMessage);
       return;
     }
 
@@ -260,10 +313,43 @@ export function CreatePostFlowWidget() {
       close_and_go_home();
     } catch (error) {
       setValidationMessage(
-        getCreatePostErrorMessage(error, 'Could not publish post. Please try again'),
+        getCreatePostErrorMessage(error, dictionary.publishFailedMessage),
       );
     } finally {
       setIsPublishing(false);
+    }
+  };
+
+  const remove_photo = async (photo_id: string) => {
+    const photo_to_remove = photos.find((photo) => photo.id === photo_id);
+    if (!photo_to_remove) return;
+
+    try {
+      if (photo_to_remove.upload_id) {
+        await deletePostImage(photo_to_remove.upload_id);
+      }
+
+      if (photo_to_remove.revokable) {
+        URL.revokeObjectURL(photo_to_remove.preview_url);
+      }
+
+      const next_photos = photos.filter((photo) => photo.id !== photo_id);
+      setPhotos(next_photos);
+
+      if (next_photos.length === 0) {
+        setActivePhotoId(null);
+        setShowCropGallery(false);
+        setStep('upload');
+        return;
+      }
+
+      if (active_photo_id === photo_id) {
+        const removed_index = photos.findIndex((photo) => photo.id === photo_id);
+        const next_index = Math.min(removed_index, next_photos.length - 1);
+        setActivePhotoId(next_photos[next_index]?.id ?? next_photos[0]?.id ?? null);
+      }
+    } catch (error) {
+      setValidationMessage(getCreatePostErrorMessage(error, dictionary.deletePhotoFailedMessage));
     }
   };
 
@@ -334,6 +420,12 @@ export function CreatePostFlowWidget() {
             activePhotoIndex={active_photo_index}
             aspectRatio={aspect_ratio}
             cropGalleryPage={crop_gallery_page}
+            cropRatioPanelRef={crop_ratio_panel_ref}
+            cropRatioToggleRef={crop_ratio_toggle_ref}
+            cropGalleryToggleRef={crop_gallery_toggle_ref}
+            cropGalleryWrapRef={crop_gallery_wrap_ref}
+            cropZoomPanelRef={crop_zoom_panel_ref}
+            cropZoomToggleRef={crop_zoom_toggle_ref}
             cropRatio={crop_ratio}
             description={description}
             filterId={filter_id}
@@ -344,7 +436,9 @@ export function CreatePostFlowWidget() {
             locationSuggestions={location_suggestions}
             locationWrapRef={location_wrap_ref}
             onOpenPicker={handle_open_picker}
+            onRemovePhoto={(photoId) => void remove_photo(photoId)}
             onSelectPhoto={setActivePhotoId}
+            profileUsername={me?.userName ?? ''}
             photos={photos}
             setAspectRatio={setAspectRatio}
             setCropGalleryPage={setCropGalleryPage}

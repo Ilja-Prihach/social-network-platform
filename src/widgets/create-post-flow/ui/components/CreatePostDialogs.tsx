@@ -1,5 +1,7 @@
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
+import { useDictionary } from 'next-intlayer';
+import createPostFlowContent from '../../create-post-flow.content';
 import styles from '../CreatePostFlowWidget.module.scss';
 
 type Props = {
@@ -17,29 +19,33 @@ export function CreatePostDialogs({
   showCloseConfirm,
   validationMessage,
 }: Props) {
+  const dictionary = useDictionary(createPostFlowContent);
+
   return (
     <>
       {showCloseConfirm && (
         <div className={styles.dialog_overlay}>
           <div className={styles.dialog}>
             <div className={styles.dialog_header}>
-              <h2>Close publication creation?</h2>
-              <Button variant="text" className={styles.icon_btn} onClick={onCloseConfirm}>
+              <h2>{dictionary.closePublicationTitle}</h2>
+              <Button
+                variant="text"
+                className={styles.icon_btn}
+                onClick={onCloseConfirm}
+                aria-label={dictionary.close}
+              >
                 <Icon iconId="close-outline" />
               </Button>
             </div>
 
-            <p>
-              Do you really want to close the creation of a publication? If you close everything
-              will be deleted
-            </p>
+            <p>{dictionary.closePublicationDescription}</p>
 
             <div className={styles.dialog_actions}>
               <Button variant="outline" onClick={onSaveDraft}>
-                Save draft
+                {dictionary.saveDraft}
               </Button>
               <Button variant="primary" onClick={onCloseConfirm}>
-                Discard
+                {dictionary.discard}
               </Button>
             </div>
           </div>
@@ -50,8 +56,13 @@ export function CreatePostDialogs({
         <div className={styles.dialog_overlay}>
           <div className={styles.dialog}>
             <div className={styles.dialog_header}>
-              <h2>Invalid photo</h2>
-              <Button variant="text" className={styles.icon_btn} onClick={onCloseValidation}>
+              <h2>{dictionary.invalidPhoto}</h2>
+              <Button
+                variant="text"
+                className={styles.icon_btn}
+                onClick={onCloseValidation}
+                aria-label={dictionary.close}
+              >
                 <Icon iconId="close-outline" />
               </Button>
             </div>
@@ -60,7 +71,7 @@ export function CreatePostDialogs({
 
             <div className={styles.dialog_actions}>
               <Button variant="primary" onClick={onCloseValidation}>
-                OK
+                {dictionary.ok}
               </Button>
             </div>
           </div>

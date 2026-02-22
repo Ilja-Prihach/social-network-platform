@@ -1,6 +1,8 @@
 import { MAX_FILES_COUNT, ratios, type AspectRatio } from '@/features/create-post';
 import type { CreatePostStyles } from '@/features/create-post/model/uiTypes';
 import { Button } from '@/shared/ui/Button';
+import { useDictionary } from 'next-intlayer';
+import createPostFlowContent from '@/widgets/create-post-flow/create-post-flow.content';
 
 type Props = {
   aspectRatio: AspectRatio;
@@ -23,9 +25,11 @@ export function CreatePostCropControls({
   styles,
   zoom,
 }: Props) {
+  const dictionary = useDictionary(createPostFlowContent);
+
   return (
     <>
-      <h2 className={styles.section_title}>Adjust photo</h2>
+      <h2 className={styles.section_title}>{dictionary.adjustPhoto}</h2>
 
       <div className={styles.ratio_list}>
         {ratios.map((ratio) => (
@@ -40,7 +44,7 @@ export function CreatePostCropControls({
       </div>
 
       <label className={styles.zoom_label} htmlFor="zoom">
-        Zoom
+        {dictionary.zoom}
       </label>
       <input
         id="zoom"
@@ -58,7 +62,9 @@ export function CreatePostCropControls({
         onClick={onOpenPicker}
         disabled={photosCount >= MAX_FILES_COUNT || isUploading}
       >
-        {isUploading ? 'Uploading...' : `Add more photos (${photosCount}/${MAX_FILES_COUNT})`}
+        {isUploading
+          ? dictionary.uploading
+          : `${dictionary.addMorePhotos} (${photosCount}/${MAX_FILES_COUNT})`}
       </Button>
     </>
   );
