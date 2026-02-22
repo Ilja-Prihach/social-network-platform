@@ -132,7 +132,7 @@ export function CreatePostCropOverlays({
             className={styles.crop_preview_nav}
             data-side="left"
             onClick={() => select_photo_by_index(active_photo_index - 1)}
-            aria-label={dictionary.previousImage}
+            aria-label={dictionary.previousImage.value}
           >
             <Icon iconId="arrow-ios-back-outline" width="24" height="24" />
           </button>
@@ -141,7 +141,7 @@ export function CreatePostCropOverlays({
             className={styles.crop_preview_nav}
             data-side="right"
             onClick={() => select_photo_by_index(active_photo_index + 1)}
-            aria-label={dictionary.nextImage}
+            aria-label={dictionary.nextImage.value}
           >
             <Icon iconId="arrow-ios-forward-outline" width="24" height="24" />
           </button>
@@ -186,7 +186,7 @@ export function CreatePostCropOverlays({
                     type="button"
                     className={styles.crop_gallery_close}
                     onClick={() => onRemovePhoto(photo.id)}
-                    aria-label={`${dictionary.removeImage}: ${photo.name}`}
+                    aria-label={`${dictionary.removeImage.value}: ${photo.name}`}
                   >
                     <Icon iconId="close-outline" width="12" height="12" />
                   </button>
@@ -199,7 +199,7 @@ export function CreatePostCropOverlays({
               className={styles.crop_gallery_add}
               onClick={onOpenPicker}
               disabled={photos.length >= MAX_FILES_COUNT || isUploading}
-              aria-label={dictionary.addImage}
+              aria-label={dictionary.addImage.value}
             >
               <Icon iconId="plus-circle-outline" width="36" height="36" />
             </button>
@@ -217,7 +217,7 @@ export function CreatePostCropOverlays({
             setShowMobileZoom(false);
             setShowCropGallery(false);
           }}
-          aria-label={dictionary.aspectRatio}
+          aria-label={dictionary.aspectRatio.value}
           data-active={showMobileRatio}
         >
           <Icon iconId="expand-outline" width="24" height="24" />
@@ -232,7 +232,7 @@ export function CreatePostCropOverlays({
             setShowMobileRatio(false);
             setShowCropGallery(false);
           }}
-          aria-label={dictionary.zoom}
+          aria-label={dictionary.zoom.value}
           data-active={showMobileZoom}
         >
           <svg
@@ -270,7 +270,7 @@ export function CreatePostCropOverlays({
             setShowMobileZoom(false);
           }}
           data-active={showCropGallery}
-          aria-label={dictionary.selectPhoto}
+          aria-label={dictionary.selectPhoto.value}
         >
           <Icon iconId="image-outline" width="24" height="24" />
         </button>

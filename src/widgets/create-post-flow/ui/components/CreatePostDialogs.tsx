@@ -34,7 +34,7 @@ export function CreatePostDialogs({
                 variant="text"
                 className={styles.icon_btn}
                 onClick={onContinueEditing}
-                aria-label={dictionary.close}
+                aria-label={dictionary.close.value}
               >
                 <Icon iconId="close-outline" />
               </Button>
@@ -66,7 +66,7 @@ export function CreatePostDialogs({
                 variant="text"
                 className={styles.icon_btn}
                 onClick={onCloseValidation}
-                aria-label={dictionary.close}
+                aria-label={dictionary.close.value}
               >
                 <Icon iconId="close-outline" />
               </Button>

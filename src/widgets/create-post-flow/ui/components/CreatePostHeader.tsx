@@ -37,7 +37,7 @@ export function CreatePostHeader({
           variant="text"
           className={styles.icon_btn}
           onClick={onClose}
-          aria-label={dictionary.close}
+          aria-label={dictionary.close.value}
         >
           <Icon iconId="close-outline" />
         </Button>
@@ -58,7 +58,7 @@ export function CreatePostHeader({
         variant="text"
         className={styles.icon_btn}
         onClick={onBack}
-        aria-label={dictionary.back}
+        aria-label={dictionary.back.value}
       >
         <Icon iconId="arrow-ios-back-outline" width="24" height="24" />
       </Button>
