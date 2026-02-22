@@ -5,7 +5,8 @@ import createPostFlowContent from '../../create-post-flow.content';
 import styles from '../CreatePostFlowWidget.module.scss';
 
 type Props = {
-  onCloseConfirm: () => void;
+  onContinueEditing: () => void;
+  onDiscardChanges: () => void;
   onCloseValidation: () => void;
   onSaveDraft: () => void;
   showCloseConfirm: boolean;
@@ -13,7 +14,8 @@ type Props = {
 };
 
 export function CreatePostDialogs({
-  onCloseConfirm,
+  onContinueEditing,
+  onDiscardChanges,
   onCloseValidation,
   onSaveDraft,
   showCloseConfirm,
@@ -31,7 +33,7 @@ export function CreatePostDialogs({
               <Button
                 variant="text"
                 className={styles.icon_btn}
-                onClick={onCloseConfirm}
+                onClick={onContinueEditing}
                 aria-label={dictionary.close}
               >
                 <Icon iconId="close-outline" />
@@ -44,7 +46,10 @@ export function CreatePostDialogs({
               <Button variant="outline" onClick={onSaveDraft}>
                 {dictionary.saveDraft}
               </Button>
-              <Button variant="primary" onClick={onCloseConfirm}>
+              <Button variant="outline" onClick={onContinueEditing}>
+                {dictionary.continueEditing}
+              </Button>
+              <Button variant="primary" onClick={onDiscardChanges}>
                 {dictionary.discard}
               </Button>
             </div>
@@ -56,7 +61,7 @@ export function CreatePostDialogs({
         <div className={styles.dialog_overlay}>
           <div className={styles.dialog}>
             <div className={styles.dialog_header}>
-              <h2>{dictionary.invalidPhoto}</h2>
+              <h2>{dictionary.validationErrorTitle}</h2>
               <Button
                 variant="text"
                 className={styles.icon_btn}

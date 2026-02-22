@@ -38,7 +38,7 @@ export function CreatePostPublishPanel({
     <div className={styles.publish_panel}>
       <div className={styles.publish_profile}>
         <span className={styles.publish_avatar}>
-          <img src="/mock/Avatar1.jpg" alt={`${profileUsername} ${dictionary.avatar}`} />
+          <img src="/mock/Avatar1.jpg" alt={`${profileUsername} ${dictionary.avatar.value}`} />
         </span>
         <span className={styles.publish_username}>{profileUsername}</span>
       </div>
@@ -50,7 +50,7 @@ export function CreatePostPublishPanel({
         <textarea
           id="publish_description"
           className={styles.publish_textarea}
-          placeholder={dictionary.descriptionPlaceholder}
+          placeholder={dictionary.descriptionPlaceholder.value}
           maxLength={500}
           value={description}
           onChange={(event) => setDescription(event.target.value)}
@@ -67,14 +67,18 @@ export function CreatePostPublishPanel({
             id="publish_location"
             className={styles.publish_location_input}
             value={location}
-            placeholder={dictionary.locationPlaceholder}
+            placeholder={dictionary.locationPlaceholder.value}
             onFocus={() => setShowLocationSuggestions(true)}
             onChange={(event) => {
               setLocation(event.target.value);
               setShowLocationSuggestions(true);
             }}
           />
-          <button type="button" className={styles.publish_location_pin} aria-label={dictionary.pickLocation}>
+          <button
+            type="button"
+            className={styles.publish_location_pin}
+            aria-label={dictionary.pickLocation.value}
+          >
             <Icon iconId="pin-outline" />
           </button>
         </div>

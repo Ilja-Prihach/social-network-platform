@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect, useMemo, useRef } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDictionary, useLocale } from 'next-intlayer';
 import { getLocalizedUrl } from 'intlayer';
@@ -37,6 +37,8 @@ export function CreatePostFlowWidget() {
   const { locale } = useLocale();
   const file_input_ref = useRef<HTMLInputElement>(null);
   const photos_ref = useRef<PhotoItem[]>([]);
+  const pending_navigation_ref = useRef<string | null>(null);
+  const allow_unload_ref = useRef(false);
   const location_wrap_ref = useRef<HTMLDivElement>(null);
   const crop_ratio_panel_ref = useRef<HTMLDivElement>(null);
   const crop_ratio_toggle_ref = useRef<HTMLButtonElement>(null);
@@ -96,6 +98,8 @@ export function CreatePostFlowWidget() {
   const crop_ratio = aspect_ratio === 'original' ? null : ratio_to_value[aspect_ratio];
   const { data: me } = useMe();
   const dictionary = useDictionary(createPostFlowContent);
+  const has_unsaved_changes =
+    photos.length > 0 || description.trim().length > 0 || location.trim().length > 0;
 
   useEffect(() => {
     photos_ref.current = photos;
@@ -172,6 +176,55 @@ export function CreatePostFlowWidget() {
     show_mobile_zoom,
   ]);
 
+  useEffect(() => {
+    const handle_before_unload = (event: BeforeUnloadEvent) => {
+      if (allow_unload_ref.current) return;
+      if (!has_unsaved_changes) return;
+
+      event.preventDefault();
+      event.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', handle_before_unload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handle_before_unload);
+    };
+  }, [has_unsaved_changes]);
+
+  useEffect(() => {
+    const handle_link_click = (event: MouseEvent) => {
+      if (!has_unsaved_changes || show_close_confirm) return;
+      if (event.defaultPrevented) return;
+      if (event.button !== 0) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const target = event.target as HTMLElement | null;
+      const link = target?.closest('a[href]') as HTMLAnchorElement | null;
+      if (!link) return;
+
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+      if (link.target === '_blank' || link.hasAttribute('download')) return;
+
+      const next_url = new URL(href, window.location.href);
+      if (next_url.href === window.location.href) return;
+
+      event.preventDefault();
+      pending_navigation_ref.current =
+        next_url.origin === window.location.origin
+          ? `${next_url.pathname}${next_url.search}${next_url.hash}`
+          : next_url.href;
+      setShowCloseConfirm(true);
+    };
+
+    document.addEventListener('click', handle_link_click, true);
+
+    return () => {
+      document.removeEventListener('click', handle_link_click, true);
+    };
+  }, [has_unsaved_changes, setShowCloseConfirm, show_close_confirm]);
+
   const add_photos = async (new_files: File[]) => {
     if (new_files.length === 0) return;
 
@@ -180,33 +233,43 @@ export function CreatePostFlowWidget() {
     );
 
     if (wrong_file) {
-      setValidationMessage(dictionary.invalidPhotoMessage);
+      setValidationMessage(dictionary.invalidPhotoMessage.value);
       return;
     }
 
     if (photos.length + new_files.length > MAX_FILES_COUNT) {
-      setValidationMessage(dictionary.maxPhotosMessage);
+      setValidationMessage(dictionary.maxPhotosMessage.value);
       return;
     }
 
     setIsUploading(true);
 
     try {
-      const upload_ids = await uploadPostImages(new_files);
-      const mapped = new_files.map((file, index) => ({
-        id: crypto.randomUUID(),
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        upload_id: upload_ids[index] ?? null,
-        preview_url: URL.createObjectURL(file),
-        revokable: true,
-      }));
+      const uploaded_images = await uploadPostImages(new_files);
+      const mapped = new_files.map((file, index) => {
+        const uploaded = uploaded_images[index];
+        const preview_url =
+          uploaded && typeof uploaded.url === 'string' && uploaded.url.length > 0
+            ? uploaded.url
+            : URL.createObjectURL(file);
+
+        return {
+          id: crypto.randomUUID(),
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          upload_id: uploaded?.uploadId ?? null,
+          preview_url,
+          revokable: preview_url.startsWith('blob:'),
+        };
+      });
 
       const has_missed_upload_id = mapped.some((item) => item.upload_id === null);
       if (has_missed_upload_id) {
-        setValidationMessage(dictionary.uploadFailedMessage);
-        mapped.forEach((item) => URL.revokeObjectURL(item.preview_url));
+        setValidationMessage(dictionary.uploadFailedMessage.value);
+        mapped.forEach((item) => {
+          if (item.revokable) URL.revokeObjectURL(item.preview_url);
+        });
         return;
       }
 
@@ -215,7 +278,7 @@ export function CreatePostFlowWidget() {
       setStep('crop');
     } catch (error) {
       setValidationMessage(
-        getCreatePostErrorMessage(error, dictionary.invalidPhotoMessage),
+        getCreatePostErrorMessage(error, dictionary.invalidPhotoMessage.value),
       );
     } finally {
       setIsUploading(false);
@@ -233,7 +296,8 @@ export function CreatePostFlowWidget() {
   };
 
   const handle_back = () => {
-    if (step === 'upload') {
+    if (step === 'crop') {
+      pending_navigation_ref.current = getLocalizedUrl('/', locale);
       setShowCloseConfirm(true);
       return;
     }
@@ -249,28 +313,43 @@ export function CreatePostFlowWidget() {
     setStep(next_step);
   };
 
-  const close_and_go_home = () => {
-    router.push(getLocalizedUrl('/', locale));
+  const navigate_after_close = () => {
+    const raw_target = pending_navigation_ref.current ?? getLocalizedUrl('/', locale);
+    pending_navigation_ref.current = null;
+    allow_unload_ref.current = true;
+    const normalized = new URL(raw_target, window.location.href);
+
+    if (normalized.origin === window.location.origin) {
+      router.push(`${normalized.pathname}${normalized.search}${normalized.hash}`);
+      return;
+    }
+
+    window.location.assign(normalized.href);
   };
 
   const save_draft = async () => {
-    const draft_photos = await toDraftPhotos(photos);
+    try {
+      const draft_photos = await toDraftPhotos(photos);
 
-    const draft: CreateDraft = {
-      step,
-      aspect_ratio,
-      zoom,
-      filter_id,
-      description,
-      photos: draft_photos,
-    };
+      const draft: CreateDraft = {
+        step,
+        aspect_ratio,
+        zoom,
+        filter_id,
+        description,
+        photos: draft_photos,
+      };
 
-    saveDraft(DRAFT_STORAGE_KEY, draft);
-    setHasDraft(true);
-    close_and_go_home();
+      saveDraft(DRAFT_STORAGE_KEY, draft);
+      setHasDraft(true);
+      setShowCloseConfirm(false);
+      navigate_after_close();
+    } catch {
+      setValidationMessage(dictionary.draftSaveFailedMessage.value);
+    }
   };
 
-  const open_draft = () => {
+  const open_draft = useCallback(() => {
     const parsed_draft = readDraft(DRAFT_STORAGE_KEY);
 
     if (!parsed_draft) {
@@ -288,7 +367,28 @@ export function CreatePostFlowWidget() {
 
     setPhotos(mapped_photos);
     setActivePhotoId(mapped_photos[0]?.id ?? null);
-  };
+    setShowCloseConfirm(false);
+    pending_navigation_ref.current = null;
+  }, [
+    setActivePhotoId,
+    setAspectRatio,
+    setDescription,
+    setFilterId,
+    setHasDraft,
+    setPhotos,
+    setShowCloseConfirm,
+    setStep,
+    setZoom,
+  ]);
+
+  useEffect(() => {
+    const parsed_draft = readDraft(DRAFT_STORAGE_KEY);
+    setHasDraft(Boolean(parsed_draft));
+
+    if (parsed_draft && photos.length === 0) {
+      open_draft();
+    }
+  }, [open_draft, photos.length, setHasDraft]);
 
   const publish_post = async () => {
     const upload_ids = photos
@@ -296,7 +396,7 @@ export function CreatePostFlowWidget() {
       .filter((upload_id): upload_id is string => Boolean(upload_id));
 
     if (upload_ids.length === 0) {
-      setValidationMessage(dictionary.noPhotosBeforePublishingMessage);
+      setValidationMessage(dictionary.noPhotosBeforePublishingMessage.value);
       return;
     }
 
@@ -310,10 +410,12 @@ export function CreatePostFlowWidget() {
 
       clearDraft(DRAFT_STORAGE_KEY);
       setHasDraft(false);
-      close_and_go_home();
+      pending_navigation_ref.current = null;
+      allow_unload_ref.current = true;
+      router.push(getLocalizedUrl('/', locale));
     } catch (error) {
       setValidationMessage(
-        getCreatePostErrorMessage(error, dictionary.publishFailedMessage),
+        getCreatePostErrorMessage(error, dictionary.publishFailedMessage.value),
       );
     } finally {
       setIsPublishing(false);
@@ -349,7 +451,9 @@ export function CreatePostFlowWidget() {
         setActivePhotoId(next_photos[next_index]?.id ?? next_photos[0]?.id ?? null);
       }
     } catch (error) {
-      setValidationMessage(getCreatePostErrorMessage(error, dictionary.deletePhotoFailedMessage));
+      setValidationMessage(
+        getCreatePostErrorMessage(error, dictionary.deletePhotoFailedMessage.value),
+      );
     }
   };
 
@@ -370,6 +474,7 @@ export function CreatePostFlowWidget() {
       className={styles.page}
       onClick={(event) => {
         if (event.target === event.currentTarget) {
+          pending_navigation_ref.current = getLocalizedUrl('/', locale);
           setShowCloseConfirm(true);
         }
       }}
@@ -397,7 +502,10 @@ export function CreatePostFlowWidget() {
           isPublishing={is_publishing}
           isUploading={is_uploading}
           onBack={handle_back}
-          onClose={() => setShowCloseConfirm(true)}
+          onClose={() => {
+            pending_navigation_ref.current = getLocalizedUrl('/', locale);
+            setShowCloseConfirm(true);
+          }}
           onNext={handle_next}
           onPublish={() => void publish_post()}
           step={step}
@@ -461,7 +569,16 @@ export function CreatePostFlowWidget() {
       </article>
 
       <CreatePostDialogs
-        onCloseConfirm={() => setShowCloseConfirm(false)}
+        onContinueEditing={() => {
+          pending_navigation_ref.current = null;
+          setShowCloseConfirm(false);
+        }}
+        onDiscardChanges={() => {
+          clearDraft(DRAFT_STORAGE_KEY);
+          setHasDraft(false);
+          setShowCloseConfirm(false);
+          navigate_after_close();
+        }}
         onCloseValidation={() => setValidationMessage(null)}
         onSaveDraft={() => void save_draft()}
         showCloseConfirm={show_close_confirm}

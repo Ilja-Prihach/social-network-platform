@@ -1,85 +1,93 @@
-# Create Page Handoff (Crop / Filters / Publication)
+# Create Page Handoff (Current State)
 
-## Source refs
-
-- `public/fig/img_1.png` ... `public/fig/img_11.png`
-- Latest implemented targets:
-  - `public/fig/img_10.png` (Filters)
-  - `public/fig/img_11.png` (Publication)
-
-## Current architecture (after decomposition)
+## Entry + structure
 
 - Route entry:
-  - `src/pages/create/ui/CreatePage.tsx` (thin wrapper)
-- Main widget (flow orchestrator + layout shell):
+  - `src/pages/create/ui/CreatePage.tsx`
+- Main flow widget (single orchestrator):
   - `src/widgets/create-post-flow/ui/CreatePostFlowWidget.tsx`
   - `src/widgets/create-post-flow/ui/CreatePostFlowWidget.module.scss`
   - `src/widgets/create-post-flow/ui/components/*`
-- Feature UI split:
+- Feature UI blocks:
   - `src/features/create-post/upload/ui/CreatePostUploadStep.tsx`
   - `src/features/create-post/crop/ui/CreatePostCropControls.tsx`
   - `src/features/create-post/crop/ui/CreatePostCropOverlays.tsx`
   - `src/features/create-post/filters/ui/CreatePostFiltersPanel.tsx`
   - `src/features/create-post/publish/ui/CreatePostPublishPanel.tsx`
-- Feature model split:
+- Flow state/model:
+  - `src/features/create-post/model/store.ts` (Zustand)
   - `src/features/create-post/model/types.ts`
-  - `src/features/create-post/model/store.ts` (zustand flow state)
   - `src/features/create-post/model/draftStorage.ts`
   - `src/features/create-post/model/getCreatePostErrorMessage.ts`
-  - `src/features/create-post/location-search/model/useLocationSuggestions.ts`
 
-## What is implemented now
+## Step flow and back behavior
 
-- Full wizard flow: `upload -> crop -> filters -> publish`
-- Crop step from refs (`img_2..img_6`) with mobile controls:
-  - ratio sheet
-  - zoom slider
-  - crop gallery overlay
-- Filters step from `img_10`:
-  - modal size `972x564`
-  - left preview with arrows + dots
-  - right 3x3 filter grid
-- Publication step from `img_11`:
-  - header title `Publication` + `Publish` action
-  - left preview synced with selected photo
-  - right panel: profile row, description, location search
-- Draft behavior:
-  - save/open draft via localStorage
-  - draft photos restored from data URLs
-- Location behavior:
-  - real Nominatim search, debounce ~350ms
-  - loading/empty states
-  - close on outside click
+- Wizard steps: `upload -> crop -> filters -> publish`
+- Header Back rules:
+  - `publish -> filters` (no confirm modal)
+  - `filters -> crop` (no confirm modal)
+  - on `crop`, Back opens confirm modal (save/continue/discard) and then exits create flow
 
-## Pixel sizing now (key)
+## Exit/confirm behavior
 
-- Filters/Publish modal: `972x564`
-- Main preview area (left): `490x503`
-- Description textarea: `433x120`
-- Description block with counter: `144` height
-- Location input area: `433x60`
+- Unsaved changes tracking is based on:
+  - `photos.length > 0`
+  - non-empty description
+  - non-empty location
+- When user tries to leave via links or overlay close, confirm modal is shown.
+- Confirm modal actions:
+  - `Save draft` (persist + navigate to pending target)
+  - `Continue editing` (close modal only)
+  - `Discard` (clear draft + navigate to pending target)
+- A `beforeunload` guard is active for browser close/reload with unsaved changes.
 
-## Type/lint status (latest local)
+## Draft implementation (important)
 
-- `npx tsc --noEmit`:
-  - pass
-- `npx eslint` on updated Create Post files:
-  - no errors
-  - warnings only about `<img>` (`@next/next/no-img-element`)
-- `npx stylelint src/widgets/create-post-flow/ui/CreatePostFlowWidget.module.scss`:
-  - pass
-- `npm run lint` (global repo):
-  - still fails on unrelated existing `.intlayer/**` issues
+- Storage key: `create_post_draft_v1`
+- Draft contents:
+  - current step + crop/filter params + description + photo list
+- Photo persistence rules:
+  - image upload response returns `{ uploadId, url }`
+  - widget now uses backend `url` as `preview_url` when available
+  - only `blob:` previews are converted to `data:` during draft save
+  - stale drafts containing `blob:` previews are auto-cleared on read
+- On opening create page:
+  - widget reads draft from storage
+  - if draft exists and current runtime has no photos loaded, it auto-opens draft
 
-## Notes / constraints
+## Publication UI/content specifics
 
-- Runtime network is required for location suggestions (Nominatim).
-- External geocoding provider can rate-limit.
-- `src/pages/create/ui/CreatePage.module.scss` was removed; styles now live in widget SCSS.
+- Description is optional for publish.
+- Localized placeholders:
+  - description: “Enter description” (+ locales)
+  - location: “Choose location” (+ locales)
+- For Intlayer field values in native HTML attributes, `.value` is used (prevents `[object Object]` in placeholders/aria labels).
 
-## Next session checklist
+## Crop/layout specifics
 
-1. Visual pass against `public/fig/img_11.png` after decomposition (desktop + mobile).
-2. Validate no UI regressions between steps after zustand migration.
-3. If backend location endpoint appears, switch from direct Nominatim request to project API/BFF route.
-4. Optional: replace `<img>` with `next/image` where practical.
+- Crop stage fills full preview area (removed bottom gap by using flexible content sizing and full-height crop stage).
+- Upload button text layout updated for long locales:
+  - wraps and stays centered (no broken truncation on long strings like Spanish).
+
+## API/data paths
+
+- Upload images:
+  - client: `src/entities/post/api/createPost.ts -> uploadPostImages`
+  - BFF proxy: `app/api/posts/image/route.ts`
+- Create post publish:
+  - client: `src/entities/post/api/createPost.ts -> createPost`
+  - BFF proxy: `app/api/posts/route.ts`
+- Delete uploaded image:
+  - client: `deletePostImage`
+  - BFF proxy: `app/api/posts/image/[uploadId]/route.ts` (DELETE)
+
+## Known constraints
+
+- Location suggestions still use Nominatim directly (`useLocationSuggestions`), with debounce and outside-click close.
+- Global `npm run lint` in this repo may fail due to unrelated existing issues outside create flow.
+
+## Quick troubleshooting
+
+1. If draft button seems inconsistent, check `localStorage['create_post_draft_v1']`.
+2. If old broken draft exists from previous logic, clear it once and resave.
+3. If navigation prompt appears unexpectedly, verify `has_unsaved_changes` inputs (photos/description/location).

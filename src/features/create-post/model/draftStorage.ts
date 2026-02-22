@@ -9,6 +9,10 @@ async function fileToDataUrl(file: File): Promise<string> {
   });
 }
 
+function isBlobPreviewUrl(url: string): boolean {
+  return url.startsWith('blob:');
+}
+
 export function hasStoredDraft(storageKey: string): boolean {
   if (typeof window === 'undefined') return false;
 
@@ -18,7 +22,7 @@ export function hasStoredDraft(storageKey: string): boolean {
 export async function toDraftPhotos(photos: PhotoItem[]): Promise<DraftPhoto[]> {
   return Promise.all(
     photos.map(async (photo) => {
-      if (!photo.revokable) {
+      if (!isBlobPreviewUrl(photo.preview_url)) {
         return {
           id: photo.id,
           name: photo.name,
@@ -55,7 +59,21 @@ export function readDraft(storageKey: string): CreateDraft | null {
   if (!rawDraft) return null;
 
   try {
-    return JSON.parse(rawDraft) as CreateDraft;
+    const parsed = JSON.parse(rawDraft) as CreateDraft;
+
+    const hasBlobPreview = Array.isArray(parsed?.photos)
+      ? parsed.photos.some(
+          (photo) => typeof photo?.preview_url === 'string' && isBlobPreviewUrl(photo.preview_url),
+        )
+      : false;
+
+    // Blob URLs are bound to one browser session and become invalid after reload/navigation.
+    if (hasBlobPreview) {
+      localStorage.removeItem(storageKey);
+      return null;
+    }
+
+    return parsed;
   } catch {
     localStorage.removeItem(storageKey);
     return null;
