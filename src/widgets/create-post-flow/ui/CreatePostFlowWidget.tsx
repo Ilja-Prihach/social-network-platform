@@ -29,7 +29,7 @@ import { createPost, deletePostImage, uploadPostImages } from '@/entities/post';
 import { CreatePostDialogs } from './components/CreatePostDialogs';
 import { CreatePostEditorContent } from './components/CreatePostEditorContent';
 import { CreatePostHeader } from './components/CreatePostHeader';
-import createPostFlowContent from '../create-post-flow.content';
+import createPostFlowContent from '@/features/create-post/model/create-post-flow.content';
 import styles from './CreatePostFlowWidget.module.scss';
 
 export function CreatePostFlowWidget() {
@@ -277,9 +277,7 @@ export function CreatePostFlowWidget() {
       setActivePhotoId(active_photo_id ?? mapped[0]?.id ?? null);
       setStep('crop');
     } catch (error) {
-      setValidationMessage(
-        getCreatePostErrorMessage(error, dictionary.invalidPhotoMessage.value),
-      );
+      setValidationMessage(getCreatePostErrorMessage(error, dictionary.invalidPhotoMessage.value));
     } finally {
       setIsUploading(false);
     }
@@ -414,9 +412,7 @@ export function CreatePostFlowWidget() {
       allow_unload_ref.current = true;
       router.push(getLocalizedUrl('/', locale));
     } catch (error) {
-      setValidationMessage(
-        getCreatePostErrorMessage(error, dictionary.publishFailedMessage.value),
-      );
+      setValidationMessage(getCreatePostErrorMessage(error, dictionary.publishFailedMessage.value));
     } finally {
       setIsPublishing(false);
     }

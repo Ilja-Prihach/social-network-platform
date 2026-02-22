@@ -2,7 +2,7 @@ import type { CreatePostStyles } from '@/features/create-post/model/uiTypes';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import { useDictionary } from 'next-intlayer';
-import createPostFlowContent from '@/widgets/create-post-flow/create-post-flow.content';
+import createPostFlowContent from '@/features/create-post/model/create-post-flow.content';
 
 type Props = {
   hasDraft: boolean;

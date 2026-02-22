@@ -1,7 +1,7 @@
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import { useDictionary } from 'next-intlayer';
-import createPostFlowContent from '../../create-post-flow.content';
+import createPostFlowContent from '@/features/create-post/model/create-post-flow.content';
 import styles from '../CreatePostFlowWidget.module.scss';
 
 type Props = {

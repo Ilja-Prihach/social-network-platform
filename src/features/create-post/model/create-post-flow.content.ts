@@ -269,7 +269,7 @@ const createPostFlowContent = {
     }),
     uploadFailedMessage: t({
       en: 'Unable to upload one or more photos. Please try again',
-      fr: "Impossible de télécharger une ou plusieurs photos. Veuillez réessayer",
+      fr: 'Impossible de télécharger une ou plusieurs photos. Veuillez réessayer',
       es: 'No se pudo subir una o más fotos. Inténtalo de nuevo',
       ru: 'Не удалось загрузить одно или несколько фото. Попробуйте снова',
       it: 'Impossibile caricare una o più foto. Riprova',

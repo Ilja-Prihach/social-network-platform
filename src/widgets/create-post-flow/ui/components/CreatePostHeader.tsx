@@ -3,7 +3,7 @@ import { useDictionary } from 'next-intlayer';
 import type { Step } from '@/features/create-post';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
-import createPostFlowContent from '../../create-post-flow.content';
+import createPostFlowContent from '@/features/create-post/model/create-post-flow.content';
 import styles from '../CreatePostFlowWidget.module.scss';
 
 type Props = {
@@ -33,7 +33,12 @@ export function CreatePostHeader({
     return (
       <header className={clsx(styles.header, styles.header_upload)}>
         <h1 className={styles.title}>{dictionary.addPhoto}</h1>
-        <Button variant="text" className={styles.icon_btn} onClick={onClose} aria-label={dictionary.close}>
+        <Button
+          variant="text"
+          className={styles.icon_btn}
+          onClick={onClose}
+          aria-label={dictionary.close}
+        >
           <Icon iconId="close-outline" />
         </Button>
       </header>
@@ -49,7 +54,12 @@ export function CreatePostHeader({
         step === 'publish' && styles.header_publish,
       )}
     >
-      <Button variant="text" className={styles.icon_btn} onClick={onBack} aria-label={dictionary.back}>
+      <Button
+        variant="text"
+        className={styles.icon_btn}
+        onClick={onBack}
+        aria-label={dictionary.back}
+      >
         <Icon iconId="arrow-ios-back-outline" width="24" height="24" />
       </Button>
 

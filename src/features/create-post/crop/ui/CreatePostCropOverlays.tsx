@@ -4,7 +4,7 @@ import type { CreatePostStyles } from '@/features/create-post/model/uiTypes';
 import { Icon } from '@/shared/ui/Icon';
 import clsx from 'clsx';
 import { useDictionary } from 'next-intlayer';
-import createPostFlowContent from '@/widgets/create-post-flow/create-post-flow.content';
+import createPostFlowContent from '@/features/create-post/model/create-post-flow.content';
 
 type Props = {
   activePhoto: PhotoItem;
@@ -81,10 +81,7 @@ export function CreatePostCropOverlays({
       {showMobileRatio && (
         <div
           ref={cropRatioPanelRef}
-          className={clsx(
-            styles.crop_mobile_panel,
-            styles.crop_mobile_panel_ratio,
-          )}
+          className={clsx(styles.crop_mobile_panel, styles.crop_mobile_panel_ratio)}
         >
           <div className={styles.ratio_sheet}>
             {ratios.map((ratio) => (
@@ -111,7 +108,10 @@ export function CreatePostCropOverlays({
       )}
 
       {showMobileZoom && (
-        <div ref={cropZoomPanelRef} className={clsx(styles.crop_mobile_panel, styles.crop_mobile_panel_zoom)}>
+        <div
+          ref={cropZoomPanelRef}
+          className={clsx(styles.crop_mobile_panel, styles.crop_mobile_panel_zoom)}
+        >
           <input
             id="mobile_zoom"
             className={clsx(styles.zoom_input, styles.zoom_input_crop)}
