@@ -7,63 +7,79 @@
   - `public/fig/img_10.png` (Filters)
   - `public/fig/img_11.png` (Publication)
 
-## Files touched (current scope)
+## Current architecture (after decomposition)
 
-- `src/pages/create/ui/CreatePage.tsx`
-- `src/pages/create/ui/CreatePage.module.scss`
+- Route entry:
+  - `src/pages/create/ui/CreatePage.tsx` (thin wrapper)
+- Main widget (flow orchestrator + layout shell):
+  - `src/widgets/create-post-flow/ui/CreatePostFlowWidget.tsx`
+  - `src/widgets/create-post-flow/ui/CreatePostFlowWidget.module.scss`
+  - `src/widgets/create-post-flow/ui/components/*`
+- Feature UI split:
+  - `src/features/create-post/upload/ui/CreatePostUploadStep.tsx`
+  - `src/features/create-post/crop/ui/CreatePostCropControls.tsx`
+  - `src/features/create-post/crop/ui/CreatePostCropOverlays.tsx`
+  - `src/features/create-post/filters/ui/CreatePostFiltersPanel.tsx`
+  - `src/features/create-post/publish/ui/CreatePostPublishPanel.tsx`
+- Feature model split:
+  - `src/features/create-post/model/types.ts`
+  - `src/features/create-post/model/store.ts` (zustand flow state)
+  - `src/features/create-post/model/draftStorage.ts`
+  - `src/features/create-post/model/getCreatePostErrorMessage.ts`
+  - `src/features/create-post/location-search/model/useLocationSuggestions.ts`
 
 ## What is implemented now
 
-- Crop step from refs (`img_2..img_6`) with mobile-style controls/panels.
+- Full wizard flow: `upload -> crop -> filters -> publish`
+- Crop step from refs (`img_2..img_6`) with mobile controls:
+  - ratio sheet
+  - zoom slider
+  - crop gallery overlay
 - Filters step from `img_10`:
   - modal size `972x564`
-  - left preview area with arrows + dots
+  - left preview with arrows + dots
   - right 3x3 filter grid
-  - bottom thumbnails hidden for Crop/Filters/Publish
 - Publication step from `img_11`:
-  - header title `Publication` with `Publish` action
-  - two-column layout synced to preview area
-  - left preview block keeps arrows + dots behavior
-  - right panel includes profile row, description area, location input
+  - header title `Publication` + `Publish` action
+  - left preview synced with selected photo
+  - right panel: profile row, description, location search
+- Draft behavior:
+  - save/open draft via localStorage
+  - draft photos restored from data URLs
+- Location behavior:
+  - real Nominatim search, debounce ~350ms
+  - loading/empty states
+  - close on outside click
 
 ## Pixel sizing now (key)
 
 - Filters/Publish modal: `972x564`
 - Main preview area (left): `490x503`
 - Description textarea: `433x120`
-- Description block with counter/placeholder area: `144` height
+- Description block with counter: `144` height
 - Location input area: `433x60`
 
-## Location dropdown behavior (real, no hardcode)
+## Type/lint status (latest local)
 
-- Typing in `Add location` triggers real suggestions via Nominatim search API.
-- Debounced request (~350ms), with loading/empty states.
-- Dropdown opens under input and closes on outside click.
-- Dropdown shows 2 items visible, rest via scroll.
-- Selecting an item writes city into the input.
-- Item typography:
-  - city: Regular Text 16 (`16/24`, white)
-  - subtitle: SmallText (`12/16`)
-
-## Validation run (local)
-
-- `npx eslint src/pages/create/ui/CreatePage.tsx`
-  - no errors, warnings only about `<img>` (`@next/next/no-img-element`)
-- `npx stylelint src/pages/create/ui/CreatePage.module.scss`
+- `npx tsc --noEmit`:
   - pass
+- `npx eslint` on updated Create Post files:
+  - no errors
+  - warnings only about `<img>` (`@next/next/no-img-element`)
+- `npx stylelint src/widgets/create-post-flow/ui/CreatePostFlowWidget.module.scss`:
+  - pass
+- `npm run lint` (global repo):
+  - still fails on unrelated existing `.intlayer/**` issues
 
-## Known constraints / context
+## Notes / constraints
 
-- Global repo checks currently contain unrelated existing issues outside CreatePage (e.g. `.intlayer/**`, some unrelated SCSS files).
-- Network access is required at runtime for live location search results.
-- External geocoding provider may rate-limit requests.
+- Runtime network is required for location suggestions (Nominatim).
+- External geocoding provider can rate-limit.
+- `src/pages/create/ui/CreatePage.module.scss` was removed; styles now live in widget SCSS.
 
 ## Next session checklist
 
-1. Open `public/fig/img_11.png` and verify final pixel match for spacing/typography.
-2. Verify publish panel has no internal scroll while dropdown is closed.
-3. Verify location search flow:
-   - type query (2+ chars)
-   - see 2 visible suggestions + scroll for more
-   - select suggestion and confirm input update
-4. If backend location endpoint appears, replace client-side geocoding call with project API/BFF route.
+1. Visual pass against `public/fig/img_11.png` after decomposition (desktop + mobile).
+2. Validate no UI regressions between steps after zustand migration.
+3. If backend location endpoint appears, switch from direct Nominatim request to project API/BFF route.
+4. Optional: replace `<img>` with `next/image` where practical.
