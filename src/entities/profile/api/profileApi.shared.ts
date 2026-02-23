@@ -118,6 +118,9 @@ const mapProfilePost = (rawItem: unknown): ProfilePost | null => {
     media,
     userName: typeof rawItem.userName === 'string' ? rawItem.userName : 'User',
     avatarOwner: typeof rawItem.avatarOwner === 'string' ? rawItem.avatarOwner : undefined,
+    likesCount: toNumber(rawItem.likesCount ?? rawItem.likeCount) ?? undefined,
+    likesAvatars: toLikesAvatars(rawItem.likesAvatars ?? rawItem.likesUsers ?? rawItem.newestLikes),
+    isLiked: toBoolean(rawItem.isLiked ?? rawItem.isLikedByMe ?? rawItem.myLike) ?? undefined,
   };
 };
 
@@ -159,4 +162,37 @@ const toNumber = (value: unknown): number | null => {
 
 const isRecord = (value: unknown): value is Record<string, unknown> => {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+};
+
+const toBoolean = (value: unknown): boolean | null => {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'string') {
+    if (value.toLowerCase() === 'true') return true;
+    if (value.toLowerCase() === 'false') return false;
+  }
+  return null;
+};
+
+const toLikesAvatars = (value: unknown): string[] | undefined => {
+  if (!Array.isArray(value)) return undefined;
+
+  const avatars = value
+    .map((item) => {
+      if (typeof item === 'string') return item;
+      if (!isRecord(item)) return null;
+
+      const avatar =
+        typeof item.avatarOwner === 'string'
+          ? item.avatarOwner
+          : typeof item.avatarUrl === 'string'
+            ? item.avatarUrl
+            : typeof item.url === 'string'
+              ? item.url
+              : null;
+
+      return avatar;
+    })
+    .filter((item): item is string => Boolean(item));
+
+  return avatars.length ? avatars : undefined;
 };

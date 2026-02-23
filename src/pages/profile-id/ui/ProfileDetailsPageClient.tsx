@@ -10,8 +10,11 @@ import {
   type PublicProfile,
 } from '@/entities/profile';
 import { useMe } from '@/features/auth/model/useMe';
+import { usePostViewer } from '@/features/post/open-post-viewer';
+import { mapProfilePostToViewerPost } from '../model/mapProfilePostToViewerPost';
 import { ProfileHeader } from '@/widgets/profile-header';
 import { PostMediaCarousel } from '@/entities/post';
+import { PostViewerModal } from '@/widgets/post-viewer-modal';
 
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
@@ -69,6 +72,14 @@ export function ProfileDetailsPageClient({
 
   const profile = profileQuery.data ?? initialProfile;
   const avatarUrl = pickProfileAvatar(profile.avatars);
+  const viewer = usePostViewer<ProfilePostsPage['items'][number]>({
+    items: posts,
+    currentUserId: me?.userId,
+    getId: (item) => item.id,
+    mapToPost: mapProfilePostToViewerPost,
+    getAuthorId: () => profileId,
+    getIsFriendPost: () => Boolean(profile?.isFollowing && profile?.isFollowedBy),
+  });
 
   return (
     <section className={styles.page}>
@@ -87,8 +98,21 @@ export function ProfileDetailsPageClient({
             <div className={styles.posts_grid}>
               {posts.map((post) => (
                 <article key={post.id} className={styles.post_item}>
-                  <div className={styles.post_media}>
-                    <PostMediaCarousel media={post.media} />
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    className={styles.post_open}
+                    onClick={() => viewer.openPost(post.id)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        viewer.openPost(post.id);
+                      }
+                    }}
+                    aria-label={`Open ${post.userName} post`}
+                  >
+                    <div className={styles.post_media}>
+                      <PostMediaCarousel media={post.media} />
+                    </div>
                   </div>
                 </article>
               ))}
@@ -105,6 +129,12 @@ export function ProfileDetailsPageClient({
           <div className={styles.scroll_trigger} />
         </main>
       </div>
+      <PostViewerModal
+        post={viewer.selectedPost}
+        isOwner={viewer.isOwner}
+        isFriendPost={viewer.isFriendPost}
+        onClose={viewer.closePost}
+      />
     </section>
   );
 }

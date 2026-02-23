@@ -1,4 +1,4 @@
-export type { Post, PostMedia } from './model/types';
+export type { Post, PostMedia, PostViewerPost } from './model/types';
 export { getPublicPosts } from './api/getPublicPosts';
 export type { GetPublicPostsParams, PublicPostDto } from './api/getPublicPosts';
 export { createPost, deletePostImage, uploadPostImages } from './api/createPost';

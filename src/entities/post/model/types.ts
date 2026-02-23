@@ -1,6 +1,4 @@
-export type PostMedia =
-  | { id: string; type: 'image'; src: string; alt?: string }
-  | { id: string; type: 'video'; src: string; poster?: string };
+export type PostMedia = { id: string; type: 'image'; src: string; alt?: string };
 
 export type Post = {
   id: string;
@@ -8,4 +6,16 @@ export type Post = {
   createdAt: string; // ISO date string
   text: string;
   media: PostMedia[];
+};
+
+export type PostViewerPost = {
+  id: string;
+  createdAt: string;
+  text: string;
+  userName: string;
+  avatarOwner?: string;
+  media: Array<{ id: string; type: 'image'; src: string; alt?: string }>;
+  likesCount?: number;
+  likesAvatars?: string[];
+  isLiked?: boolean;
 };

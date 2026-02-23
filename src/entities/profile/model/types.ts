@@ -23,10 +23,9 @@ export type PublicProfile = {
 
 export type ProfilePostMedia = {
   id: string;
-  type: 'image' | 'video';
+  type: 'image';
   src: string;
   alt?: string;
-  poster?: string;
 };
 
 export type ProfilePost = {
@@ -36,6 +35,9 @@ export type ProfilePost = {
   media: ProfilePostMedia[];
   userName: string;
   avatarOwner?: string;
+  likesCount?: number;
+  likesAvatars?: string[];
+  isLiked?: boolean;
 };
 
 export type ProfilePostsPage = {

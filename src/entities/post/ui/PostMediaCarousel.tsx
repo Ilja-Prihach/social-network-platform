@@ -28,20 +28,14 @@ export function PostMediaCarousel({ media }: Props) {
   return (
     <div className={s.root}>
       <div className={s.viewport}>
-        {current.type === 'image' ? (
-          <Image
-            src={current.src}
-            alt={current.alt || 'Post media'}
-            fill
-            sizes="(max-width: 768px) 100vw, 420px"
-            className={s.media}
-            priority={false}
-          />
-        ) : (
-          <video className={s.media} controls poster={current.poster}>
-            <source src={current.src} />
-          </video>
-        )}
+        <Image
+          src={current.src}
+          alt={current.alt || 'Post media'}
+          fill
+          sizes="(max-width: 768px) 100vw, 420px"
+          className={s.media}
+          priority={false}
+        />
 
         {hasMany && (
           <>
