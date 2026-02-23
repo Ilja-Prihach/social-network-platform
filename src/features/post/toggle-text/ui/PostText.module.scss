@@ -9,6 +9,9 @@
   font-size: 14px;
   line-height: 171%;
   color: var(--light-100-color);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .text_content {
@@ -16,6 +19,7 @@
   max-width: 100%;
   vertical-align: top;
   overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .text_clamped {

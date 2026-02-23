@@ -13,6 +13,11 @@ type UploadedImageViewModel = {
   images: PostImageDto[];
 };
 
+export type UploadedPostImage = {
+  uploadId: string;
+  url: string;
+};
+
 type CreatePostPayload = {
   description: string | null;
   childrenMetadata: Array<{ uploadId: string }>;
@@ -26,7 +31,7 @@ export type CreatedPostDto = {
   createdAt: string;
 };
 
-export async function uploadPostImages(files: File[]): Promise<string[]> {
+export async function uploadPostImages(files: File[]): Promise<UploadedPostImage[]> {
   const formData = new FormData();
   files.forEach((file) => {
     formData.append('files', file);
@@ -57,17 +62,20 @@ export async function uploadPostImages(files: File[]): Promise<string[]> {
 
   const payload = data as UploadedImageViewModel | null;
   const images = Array.isArray(payload?.images) ? payload.images : [];
-  const uniqueUploadIds = Array.from(
-    new Set(
-      images
-        .map((image) => image?.uploadId)
-        .filter(
-          (uploadId): uploadId is string => typeof uploadId === 'string' && uploadId.length > 0,
-        ),
-    ),
-  );
+  const mappedImages = images
+    .map((image) => ({
+      uploadId: image?.uploadId,
+      url: image?.url,
+    }))
+    .filter(
+      (image): image is UploadedPostImage =>
+        typeof image.uploadId === 'string' &&
+        image.uploadId.length > 0 &&
+        typeof image.url === 'string' &&
+        image.url.length > 0,
+    );
 
-  if (uniqueUploadIds.length === 0) {
+  if (mappedImages.length === 0) {
     throw {
       status: response.status,
       data: {
@@ -76,7 +84,7 @@ export async function uploadPostImages(files: File[]): Promise<string[]> {
     };
   }
 
-  return uniqueUploadIds;
+  return mappedImages;
 }
 
 export async function createPost(payload: CreatePostPayload): Promise<CreatedPostDto> {
