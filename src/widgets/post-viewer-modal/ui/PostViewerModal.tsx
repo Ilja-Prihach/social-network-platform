@@ -2,16 +2,14 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import type { ProfilePostsPage } from '@/entities/profile';
+import type { PostViewerPost } from '@/entities/post';
 import { Icon } from '@/shared/ui/Icon';
 import styles from './PostViewerModal.module.scss';
 
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
-type PostItem = ProfilePostsPage['items'][number];
-
 type PostViewerModalProps = {
-  post: PostItem | null;
+  post: PostViewerPost | null;
   isOwner: boolean;
   isFriendPost: boolean;
   onClose: () => void;

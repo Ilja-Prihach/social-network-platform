@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import styles from './ProfileDetailsPage.module.scss';
 import {
   usePublicProfileQuery,
@@ -10,6 +10,8 @@ import {
   type PublicProfile,
 } from '@/entities/profile';
 import { useMe } from '@/features/auth/model/useMe';
+import { usePostViewer } from '@/features/post/open-post-viewer';
+import { mapProfilePostToViewerPost } from '../model/mapProfilePostToViewerPost';
 import { ProfileHeader } from '@/widgets/profile-header';
 import { PostMediaCarousel } from '@/entities/post';
 import { PostViewerModal } from '@/widgets/post-viewer-modal';
@@ -37,7 +39,6 @@ export function ProfileDetailsPageClient({
   const postsQuery = useProfilePostsInfiniteQuery(profileId, true, initialPostsPage);
 
   const isOwner = me?.userId === profileId;
-  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const { hasNextPage, isFetchingNextPage, fetchNextPage } = postsQuery;
 
@@ -71,11 +72,14 @@ export function ProfileDetailsPageClient({
 
   const profile = profileQuery.data ?? initialProfile;
   const avatarUrl = pickProfileAvatar(profile.avatars);
-  const selectedPost = useMemo(
-    () => posts.find((post) => post.id === selectedPostId) ?? null,
-    [posts, selectedPostId],
-  );
-  const isFriendPost = Boolean(profile?.isFollowing && profile?.isFollowedBy);
+  const viewer = usePostViewer<ProfilePostsPage['items'][number]>({
+    items: posts,
+    currentUserId: me?.userId,
+    getId: (item) => item.id,
+    mapToPost: mapProfilePostToViewerPost,
+    getAuthorId: () => profileId,
+    getIsFriendPost: () => Boolean(profile?.isFollowing && profile?.isFollowedBy),
+  });
 
   return (
     <section className={styles.page}>
@@ -94,16 +98,22 @@ export function ProfileDetailsPageClient({
             <div className={styles.posts_grid}>
               {posts.map((post) => (
                 <article key={post.id} className={styles.post_item}>
-                  <button
-                    type="button"
+                  <div
+                    role="button"
+                    tabIndex={0}
                     className={styles.post_open}
-                    onClick={() => setSelectedPostId(post.id)}
+                    onClick={() => viewer.openPost(post.id)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        viewer.openPost(post.id);
+                      }
+                    }}
                     aria-label={`Open ${post.userName} post`}
                   >
                     <div className={styles.post_media}>
                       <PostMediaCarousel media={post.media} />
                     </div>
-                  </button>
+                  </div>
                 </article>
               ))}
             </div>
@@ -120,10 +130,10 @@ export function ProfileDetailsPageClient({
         </main>
       </div>
       <PostViewerModal
-        post={selectedPost}
-        isOwner={Boolean(isOwner)}
-        isFriendPost={isFriendPost}
-        onClose={() => setSelectedPostId(null)}
+        post={viewer.selectedPost}
+        isOwner={viewer.isOwner}
+        isFriendPost={viewer.isFriendPost}
+        onClose={viewer.closePost}
       />
     </section>
   );
