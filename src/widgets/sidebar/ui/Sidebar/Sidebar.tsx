@@ -88,6 +88,11 @@ export const Sidebar = () => {
         <li>
           <SignOutButton
             label={content.logOut.value}
+            modalTitle={content.logOutModalTitle.value}
+            modalDescriptionWithEmail={content.logOutModalDescriptionWithEmail.value}
+            modalDescription={content.logOutModalDescription.value}
+            modalConfirmText={content.logOutModalYes.value}
+            modalCancelText={content.logOutModalNo.value}
             className={styles.sidebar_button}
             iconClassName={styles.svg}
           />

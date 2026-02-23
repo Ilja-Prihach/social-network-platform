@@ -1,14 +1,18 @@
 .page {
-  padding: 48px 32px;
+  min-height: calc(100vh - var(--header-h));
+  padding: calc(var(--header-h) + 32px) 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .title {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 26px;
   font-weight: 600;
 }
 
 .description {
   margin: 0;
-  color: #4b5563;
+  color: var(--light-700-color);
 }

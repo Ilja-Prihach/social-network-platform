@@ -3,21 +3,58 @@
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import { useSignOut } from '../model/useSignOut';
+import { useMe } from '@/features/auth/model/useMe';
 
 type SignOutButtonProps = {
   label: string;
+  modalTitle: string;
+  modalDescriptionWithEmail: string;
+  modalDescription: string;
+  modalConfirmText: string;
+  modalCancelText: string;
   className?: string;
   iconClassName?: string;
 };
 
-export const SignOutButton = ({ label, className, iconClassName }: SignOutButtonProps) => {
-  const { signOut, isLoading } = useSignOut();
+const resolveDescription = (
+  templateWithEmail: string,
+  fallbackTemplate: string,
+  email?: string,
+): string => {
+  const normalizedEmail = email?.trim();
+  if (!normalizedEmail) return fallbackTemplate;
+  return templateWithEmail.replace('{email}', normalizedEmail);
+};
+
+export const SignOutButton = ({
+  label,
+  modalTitle,
+  modalDescriptionWithEmail,
+  modalDescription,
+  modalConfirmText,
+  modalCancelText,
+  className,
+  iconClassName,
+}: SignOutButtonProps) => {
+  const { confirmSignOut, isLoading } = useSignOut();
+  const { data: me } = useMe();
+
+  const description = resolveDescription(modalDescriptionWithEmail, modalDescription, me?.email);
+
+  const onClick = () => {
+    confirmSignOut({
+      title: modalTitle,
+      description,
+      confirmText: modalConfirmText,
+      cancelText: modalCancelText,
+    });
+  };
 
   return (
     <Button
       variant="sidebar"
       className={className}
-      onClick={signOut}
+      onClick={onClick}
       disabled={isLoading}
       type="button"
     >

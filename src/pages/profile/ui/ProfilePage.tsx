@@ -1,13 +1,26 @@
-import { redirect } from "next/navigation";
-import styles from "./ProfilePage.module.scss";
+'use client';
 
-const FALLBACK_PROFILE_ID = "123";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import styles from './ProfilePage.module.scss';
+import { useMe } from '@/features/auth/model/useMe';
 
 export function ProfilePage() {
-  const isAuthorized = process.env.NEXT_PUBLIC_IS_AUTH === "true";
-  const destination = isAuthorized ? `/profile/${FALLBACK_PROFILE_ID}` : "/";
+  const router = useRouter();
+  const { data: me, isPending } = useMe();
 
-  // Return is unreachable because redirect throws, but keeps the component shape explicit.
-  void styles;
-  return redirect(destination);
+  useEffect(() => {
+    if (isPending) return;
+    if (me?.userId) {
+      router.replace(`/profile/${me.userId}`);
+      return;
+    }
+    router.replace('/sign-in');
+  }, [isPending, me?.userId, router]);
+
+  return (
+    <section className={styles.page}>
+      <p className={styles.description}>Redirecting...</p>
+    </section>
+  );
 }

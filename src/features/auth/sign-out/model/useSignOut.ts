@@ -3,6 +3,14 @@ import { useState } from 'react';
 import { logout } from '@/entities/auth/api/authApi';
 import { useLocale } from 'next-intlayer';
 import { useQueryClient } from '@tanstack/react-query';
+import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
+
+type SignOutConfirmTexts = {
+  title: string;
+  description: string;
+  confirmText: string;
+  cancelText: string;
+};
 
 export const useSignOut = () => {
   const router = useRouter();
@@ -28,5 +36,19 @@ export const useSignOut = () => {
     }
   };
 
-  return { signOut, isLoading };
+  const confirmSignOut = ({ title, description, confirmText, cancelText }: SignOutConfirmTexts) => {
+    if (isLoading) return;
+
+    showModal({
+      title,
+      description,
+      confirmText,
+      cancelText,
+      confirmVariant: 'outline',
+      cancelVariant: 'primary',
+      onConfirm: signOut,
+    });
+  };
+
+  return { signOut, confirmSignOut, isLoading };
 };

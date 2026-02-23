@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'staging-it-incubator.s3.eu-central-1.amazonaws.com',
+        pathname: '/**',
       },
     ],
   },

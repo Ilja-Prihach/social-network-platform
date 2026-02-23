@@ -9,17 +9,17 @@ type SelectOption = {
   icon?: React.ReactNode;
 };
 
-type SelectPropsType = {
+type SelectPropsType<TValue extends string = string> = {
   className?: string;
-  options: SelectOption[];
-  value?: string | null;
+  options: Array<SelectOption & { value: TValue }>;
+  value?: TValue | null;
   placeholder?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: TValue) => void;
   disabled?: boolean;
   label?: string;
 };
 
-export const Select = ({
+export const Select = <TValue extends string = string>({
   options,
   value,
   placeholder,
@@ -27,7 +27,7 @@ export const Select = ({
   disabled,
   label,
   className,
-}: SelectPropsType) => {
+}: SelectPropsType<TValue>) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -66,7 +66,7 @@ export const Select = ({
 
   const selectedTitle = selectedOption ? selectedOption.title : placeholder;
 
-  const selectValue = (value: string) => {
+  const selectValue = (value: TValue) => {
     if (disabled) return;
     setIsOpen(false);
     onChange?.(value);
