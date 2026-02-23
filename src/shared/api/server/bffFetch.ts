@@ -8,7 +8,8 @@ import { forwardSetCookie, getSetCookie } from './cookies';
 const API_URL = process.env.API_URL;
 const isProd = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = isProd ? '__Host-access_token' : 'access_token';
-const REFRESH_PATH = '/api/auth/update';
+const REFRESH_BFF_PATH = '/api/auth/update';
+const REFRESH_BACKEND_PATH = '/api/v1/auth/update';
 
 type BffFetchOptions = RequestInit & {
   json?: unknown;
@@ -93,7 +94,7 @@ export async function bffFetch(
       : normalizedSetCookie;
 
   const initialRes = sanitized ?? res;
-  if (res.status !== 401 || path === REFRESH_PATH) {
+  if (res.status !== 401 || path === REFRESH_BACKEND_PATH || path === REFRESH_BFF_PATH) {
     return nextRes ? initialRes : { res: initialRes, setCookie: baseSetCookie };
   }
 
@@ -141,7 +142,7 @@ const refreshTokens = async (): Promise<RefreshResult> => {
       .map(({ name, value }) => `${name}=${value}`)
       .join('; ');
 
-    const res = await fetch(`${getApiUrl()}${REFRESH_PATH}`, {
+    const res = await fetch(`${getApiUrl()}${REFRESH_BACKEND_PATH}`, {
       method: 'POST',
       headers: {
         Cookie: cookieHeader,
