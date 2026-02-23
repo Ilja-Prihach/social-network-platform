@@ -1,6 +1,10 @@
 export type { Post, PostMedia, PostViewerPost } from './model/types';
-export { getPublicPosts } from './api/getPublicPosts';
-export type { GetPublicPostsParams, PublicPostDto } from './api/getPublicPosts';
+export { getPublicPostsPage } from './api/getPublicPosts';
+export type {
+  GetPublicPostsParams,
+  PublicPostDto,
+  PublicPostsPageDto,
+} from './api/publicPosts.shared';
 export { createPost, deletePostImage, uploadPostImages } from './api/createPost';
 export type { CreatedPostDto } from './api/createPost';
 export { translatePostText } from './api/translatePostText';

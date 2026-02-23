@@ -1,12 +1,15 @@
 import 'server-only';
 
-import type { PublicPostDto } from '@/entities/post';
+import type { PublicPostsPageDto } from '@/entities/post';
+import {
+  buildBackendPublicPostsPath,
+  normalizeCursorPageItems,
+  resolveNextCursor,
+} from '@/entities/post/api/publicPosts.shared';
 import { mapPublicPostsToPostCardVM } from '@/widgets/post-card';
 import type { PostCardVM } from '@/widgets/post-card';
-
-type PublicPostsResponse = {
-  items: PublicPostDto[];
-};
+import { serverApi } from '@/shared/api/server/serverApi';
+import { HOME_FEED_INITIAL_PAGE_SIZE } from '@/shared/config/pagination';
 
 type PublicUsersResponse = {
   totalCount: number;
@@ -14,56 +17,45 @@ type PublicUsersResponse = {
 
 type HomePageInitialData = {
   posts: PostCardVM[];
+  nextCursorPostId: number | null;
   peopleCount: number | null;
 };
 
-const REVALIDATE_SECONDS = 60;
-const HOME_POSTS_LIMIT = 4;
-
-const resolveApiUrl = () => process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? '';
-
-const buildPostsUrl = (apiUrl: string) => {
-  const query = new URLSearchParams({
-    pageSize: String(HOME_POSTS_LIMIT),
-    sortBy: 'createdAt',
-    sortDirection: 'desc',
-  });
-
-  return `${apiUrl}/api/v1/posts/all/0?${query.toString()}`;
-};
-
-const buildPeopleCountUrl = (apiUrl: string) => `${apiUrl}/api/v1/public-user`;
-
-const fetchJson = async <T>(url: string): Promise<T | null> => {
-  try {
-    const response = await fetch(url, {
-      next: { revalidate: REVALIDATE_SECONDS },
-    });
-
-    if (!response.ok) {
-      return null;
-    }
-
-    return (await response.json()) as T;
-  } catch {
-    return null;
-  }
-};
-
 export async function getHomePageInitialData(): Promise<HomePageInitialData> {
-  const apiUrl = resolveApiUrl();
-  if (!apiUrl) {
-    return { posts: [], peopleCount: null };
+  let postsResponse: PublicPostsPageDto | null = null;
+  let peopleResponse: PublicUsersResponse | null = null;
+
+  try {
+    postsResponse = await serverApi<PublicPostsPageDto>(
+      buildBackendPublicPostsPath({
+        endCursorPostId: 0,
+        pageSize: HOME_FEED_INITIAL_PAGE_SIZE,
+      }),
+    );
+  } catch {
+    postsResponse = null;
   }
 
-  const [postsResponse, peopleResponse] = await Promise.all([
-    fetchJson<PublicPostsResponse>(buildPostsUrl(apiUrl)),
-    fetchJson<PublicUsersResponse>(buildPeopleCountUrl(apiUrl)),
-  ]);
+  try {
+    peopleResponse = await serverApi<PublicUsersResponse>('/api/v1/public-user');
+  } catch {
+    peopleResponse = null;
+  }
 
-  const posts = mapPublicPostsToPostCardVM(postsResponse?.items ?? []);
+  const normalizedItems = normalizeCursorPageItems(
+    postsResponse?.items,
+    0,
+    HOME_FEED_INITIAL_PAGE_SIZE,
+  );
+  const posts = mapPublicPostsToPostCardVM(normalizedItems);
+  const nextCursorPostId = resolveNextCursor(
+    normalizedItems,
+    postsResponse?.nextCursor,
+    HOME_FEED_INITIAL_PAGE_SIZE,
+    0,
+  );
   const peopleCount =
     typeof peopleResponse?.totalCount === 'number' ? peopleResponse.totalCount : null;
 
-  return { posts, peopleCount };
+  return { posts, nextCursorPostId, peopleCount };
 }
