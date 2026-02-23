@@ -1,0 +1,102 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-height: 36px;
+}
+
+.section_title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #fff;
+}
+
+.sessions_list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.state_text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #8d9094;
+}
+
+.session_card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 2px;
+  background: #171717;
+}
+
+.session_main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.session_title_row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.session_device {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #fff;
+}
+
+.current_badge {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgb(57 125 246 / 18%);
+  color: #397df6;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.session_meta {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #8d9094;
+}
+
+.terminate_button,
+.terminate_all_button {
+  white-space: nowrap;
+}
+
+@media (width <= 768px) {
+  .section_header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .session_card {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

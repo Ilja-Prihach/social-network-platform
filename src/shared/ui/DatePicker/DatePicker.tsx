@@ -17,10 +17,14 @@ type DatePreset = {
 };
 
 type DatePickerProps = {
+  className?: string;
   label?: string;
   value: DateRange;
   onChange: (value: DateRange) => void;
   selectionMode?: 'range' | 'single';
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
+  renderTrigger?: boolean;
   disabled?: boolean;
   error?: string;
   placeholder?: string;
@@ -112,10 +116,14 @@ const get_month_grid = (view_date: Date, first_day_of_week: number) => {
 };
 
 export const DatePicker = ({
+  className,
   label,
   value,
   onChange,
   selectionMode = 'range',
+  isOpen,
+  onOpenChange,
+  renderTrigger = true,
   disabled = false,
   error,
   placeholder,
@@ -159,11 +167,19 @@ export const DatePicker = ({
   const day_refs = useRef<Record<string, HTMLButtonElement | null>>({});
   const year_refs = useRef<Record<number, HTMLButtonElement | null>>({});
 
-  const [is_open, set_is_open] = useState(false);
+  const [internal_is_open, set_internal_is_open] = useState(false);
   const [is_year_picker_open, set_is_year_picker_open] = useState(false);
   const [view_date, set_view_date] = useState<Date>(value.start ?? new Date());
   const [focused_date, set_focused_date] = useState<Date>(value.start ?? new Date());
   const [month_animation, set_month_animation] = useState<'next' | 'prev' | null>(null);
+  const is_open = isOpen ?? internal_is_open;
+
+  const set_is_open = (next_is_open: boolean) => {
+    if (isOpen === undefined) {
+      set_internal_is_open(next_is_open);
+    }
+    onOpenChange?.(next_is_open);
+  };
 
   const current_year = new Date().getFullYear();
   const year_options = useMemo(() => {
@@ -197,14 +213,17 @@ export const DatePicker = ({
   useEffect(() => {
     const handle_click_outside = (event: MouseEvent) => {
       if (!root_ref.current?.contains(event.target as Node)) {
-        set_is_open(false);
+        if (isOpen === undefined) {
+          set_internal_is_open(false);
+        }
+        onOpenChange?.(false);
         set_is_year_picker_open(false);
       }
     };
 
     document.addEventListener('mousedown', handle_click_outside);
     return () => document.removeEventListener('mousedown', handle_click_outside);
-  }, []);
+  }, [isOpen, onOpenChange]);
 
   useEffect(() => {
     if (!is_open) return;
@@ -231,7 +250,9 @@ export const DatePicker = ({
     set_is_open(false);
     set_is_year_picker_open(false);
     if (restore_focus) {
-      trigger_ref.current?.focus();
+      if (renderTrigger) {
+        trigger_ref.current?.focus();
+      }
     }
   };
 
@@ -403,40 +424,44 @@ export const DatePicker = ({
 
   return (
     <div
-      className={`${styles.wrapper} ${selectionMode === 'single' ? styles.wrapper_single : styles.wrapper_range}`}
+      className={`${styles.wrapper} ${selectionMode === 'single' ? styles.wrapper_single : styles.wrapper_range} ${className ?? ''}`}
       ref={root_ref}
     >
-      <label className={styles.label}>{label ?? fallback_label_text}</label>
-      <button
-        ref={trigger_ref}
-        type="button"
-        className={`${styles.trigger} ${error ? styles.trigger_error : ''} ${disabled ? styles.trigger_disabled : ''}`}
-        onClick={toggle_open}
-        onKeyDown={handle_trigger_key_down}
-        disabled={disabled}
-        aria-expanded={is_open}
-        aria-haspopup="dialog"
-        aria-label={label ?? fallback_label_text}
-      >
-        <span className={styles.value}>
-          {to_input_value(value, date_formatter) || placeholder || fallback_placeholder_text}
-        </span>
-        <span className={styles.icon} aria-hidden>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M7 2v2M17 2v2M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </span>
-      </button>
-      {error && (
-        <span className={styles.error} role="alert">
-          {error}
-        </span>
+      {renderTrigger && (
+        <>
+          <label className={styles.label}>{label ?? fallback_label_text}</label>
+          <button
+            ref={trigger_ref}
+            type="button"
+            className={`${styles.trigger} ${error ? styles.trigger_error : ''} ${disabled ? styles.trigger_disabled : ''}`}
+            onClick={toggle_open}
+            onKeyDown={handle_trigger_key_down}
+            disabled={disabled}
+            aria-expanded={is_open}
+            aria-haspopup="dialog"
+            aria-label={label ?? fallback_label_text}
+          >
+            <span className={styles.value}>
+              {to_input_value(value, date_formatter) || placeholder || fallback_placeholder_text}
+            </span>
+            <span className={styles.icon} aria-hidden>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M7 2v2M17 2v2M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </button>
+          {error && (
+            <span className={styles.error} role="alert">
+              {error}
+            </span>
+          )}
+        </>
       )}
 
       {is_open && (

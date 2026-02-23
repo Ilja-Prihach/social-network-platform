@@ -36,5 +36,6 @@
 .button_wrapper {
   display: flex;
   justify-content: flex-end;
-  padding: 0 24px 36px;
+  gap: 24px;
+  padding: 36px 24px;
 }

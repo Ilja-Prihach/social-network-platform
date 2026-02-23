@@ -50,3 +50,32 @@ export type GetPublicProfilePostsParams = {
   endCursorPostId?: number | null;
   pageSize?: number;
 };
+
+export type MyProfile = {
+  id: number;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  city: string;
+  country: string;
+  region: string;
+  dateOfBirth?: string | null;
+  aboutMe: string;
+  avatars: ProfileAvatar[];
+  createdAt: string;
+};
+
+export type UpdateProfileRequest = {
+  userName: string;
+  firstName: string;
+  lastName: string;
+  city: string;
+  country: string;
+  region: string;
+  dateOfBirth?: string;
+  aboutMe: string;
+};
+
+export type UploadProfileAvatarResponse = {
+  avatars: ProfileAvatar[];
+};

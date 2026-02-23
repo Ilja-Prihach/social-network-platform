@@ -19,6 +19,23 @@ export interface LoginResponse {
   ok: boolean;
 }
 
+export type SessionItem = {
+  deviceId: number;
+  ip: string;
+  lastActive: string;
+  browserName: string;
+  browserVersion: string;
+  deviceName: string;
+  osName: string;
+  osVersion: string;
+  deviceType: string;
+};
+
+export type SessionsResponse = {
+  current: SessionItem;
+  others: SessionItem[];
+};
+
 export type GithubUpdateTokensResponse = {
   accessToken: string;
 };
@@ -102,6 +119,24 @@ export function confirmRegistration(data: RegistrationConfirmationRequest) {
 export function logout() {
   return baseApi<void>('/api/auth/logout', {
     method: 'POST',
+  });
+}
+
+export function getSessions() {
+  return baseApi<SessionsResponse>('/api/auth/sessions', {
+    method: 'GET',
+  });
+}
+
+export function terminateAllSessions() {
+  return baseApi<void>('/api/auth/sessions/terminate-all', {
+    method: 'DELETE',
+  });
+}
+
+export function terminateSessionByDeviceId(deviceId: number) {
+  return baseApi<void>(`/api/auth/sessions/${deviceId}`, {
+    method: 'DELETE',
   });
 }
 
