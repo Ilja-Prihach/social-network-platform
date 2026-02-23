@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect, useMemo, useRef } from 'react';
 import styles from './HomePage.module.scss';
 import { PostCard } from '@/widgets/post-card';
 import { PeopleCounter } from '@/widgets/people-counter';
@@ -17,13 +17,47 @@ import { PostViewerModal } from '@/widgets/post-viewer-modal';
 
 type Props = {
   initialPosts?: PostCardVM[];
+  initialNextCursorPostId?: number | null;
   initialPeopleCount?: number | null;
 };
 
-export function HomePage({ initialPosts = [], initialPeopleCount = null }: Props) {
+export function HomePage({
+  initialPosts = [],
+  initialNextCursorPostId = null,
+  initialPeopleCount = null,
+}: Props) {
   const { data: me } = useMe();
-  const { data: items = initialPosts, isLoading: isPostsLoading } = useHomePosts(initialPosts);
-  const shouldShowPostSkeleton = isPostsLoading && items.length === 0;
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const postsQuery = useHomePosts(initialPosts, initialNextCursorPostId);
+  const { hasNextPage, isFetchingNextPage, fetchNextPage } = postsQuery;
+  const items = useMemo(
+    () => postsQuery.data?.pages.flatMap((page) => page.items) ?? initialPosts,
+    [initialPosts, postsQuery.data],
+  );
+  const shouldShowPostSkeleton = postsQuery.isLoading && items.length === 0;
+
+  useEffect(() => {
+    const target = loadMoreRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || !hasNextPage || isFetchingNextPage) {
+          return;
+        }
+
+        fetchNextPage();
+      },
+      {
+        rootMargin: '300px 0px',
+      },
+    );
+
+    observer.observe(target);
+
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
   const viewer = usePostViewer<PostCardVM>({
     items,
     currentUserId: me?.userId,
@@ -57,6 +91,8 @@ export function HomePage({ initialPosts = [], initialPeopleCount = null }: Props
                     <PostCard key={vm.post.id} vm={vm} onOpen={() => viewer.openPost(vm.post.id)} />
                   ))}
             </div>
+            {isFetchingNextPage && <div className={styles.load_more}>Loading more posts...</div>}
+            {hasNextPage && <div ref={loadMoreRef} className={styles.scroll_trigger} aria-hidden />}
           </main>
         </div>
       </section>
