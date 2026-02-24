@@ -4,6 +4,7 @@ import styles from './LanguageSelect.module.scss';
 import clsx from 'clsx';
 import { useLocale } from 'next-intlayer';
 import { usePathname, useRouter } from 'next/navigation';
+import { getLocalizedUrl } from 'intlayer';
 
 type LanguageCode = 'en' | 'ru' | 'it' | 'es' | 'fr' | 'he';
 
@@ -58,13 +59,7 @@ export const LanguageSelect = ({ disabled, className, onChange }: LanguageSelect
 
     onChange?.(nextLang);
 
-    // '/en/feed' -> '/fr/feed'
-    const parts = pathname.split('/');
-    if (parts.length > 1) {
-      parts[1] = nextLang;
-    }
-
-    const nextPath = parts.join('/') || `/${nextLang}`;
+    const nextPath = getLocalizedUrl(pathname || '/', nextLang);
 
     router.push(nextPath, { scroll: false });
   };

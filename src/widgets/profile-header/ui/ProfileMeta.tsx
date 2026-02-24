@@ -1,8 +1,8 @@
 import type { PublicProfile } from '@/entities/profile';
 import { Button } from '@/shared/ui/Button';
+import { useDictionary, useLocale } from 'next-intlayer';
+import profileHeaderContent from '../profile-header.content';
 import styles from './ProfileMeta.module.scss';
-
-const formatCount = (value: number) => new Intl.NumberFormat('en-US').format(value);
 
 type ProfileMetaProps = {
   profile: PublicProfile;
@@ -10,6 +10,10 @@ type ProfileMetaProps = {
 };
 
 export function ProfileMeta({ profile, isOwner }: ProfileMetaProps) {
+  const content = useDictionary(profileHeaderContent);
+  const { locale } = useLocale();
+  const formatCount = (value: number) => new Intl.NumberFormat(locale).format(value);
+
   return (
     <div className={styles.profile_meta}>
       <div className={styles.profile_row}>
@@ -20,7 +24,7 @@ export function ProfileMeta({ profile, isOwner }: ProfileMetaProps) {
             variant="secondary"
             className={styles.settings_button}
           >
-            Profile Settings
+            {content.profileSettings.value}
           </Button>
         )}
       </div>
@@ -28,15 +32,15 @@ export function ProfileMeta({ profile, isOwner }: ProfileMetaProps) {
       <ul className={styles.stats}>
         <li className={styles.stat_item}>
           <strong>{formatCount(profile.userMetadata.following)}</strong>
-          <span>Following</span>
+          <span>{content.following.value}</span>
         </li>
         <li className={styles.stat_item}>
           <strong>{formatCount(profile.userMetadata.followers)}</strong>
-          <span>Followers</span>
+          <span>{content.followers.value}</span>
         </li>
         <li className={styles.stat_item}>
           <strong>{formatCount(profile.userMetadata.publications)}</strong>
-          <span>Publications</span>
+          <span>{content.publications.value}</span>
         </li>
       </ul>
 
