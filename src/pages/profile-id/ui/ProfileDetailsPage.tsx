@@ -37,7 +37,7 @@ export async function ProfileDetailsPage({ params }: ProfileDetailsPageProps) {
       getPublicProfilePostsPageServer({ profileId }),
     ]);
   } catch (error) {
-    if (isApiError(error) && error.status === 404) {
+    if (isApiError(error) && (error.status === 404 || error.status === 400)) {
       notFound();
     }
     throw error;
