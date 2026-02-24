@@ -43,6 +43,7 @@ type CreatePostFlowState = {
   setStep: (value: Step) => void;
   setValidationMessage: (value: string | null) => void;
   setZoom: (value: number) => void;
+  resetFlow: () => void;
   show_close_confirm: boolean;
   show_crop_gallery: boolean;
   show_location_suggestions: boolean;
@@ -53,7 +54,7 @@ type CreatePostFlowState = {
   zoom: number;
 };
 
-export const useCreatePostFlowStore = create<CreatePostFlowState>()((set) => ({
+const initial_state = {
   active_photo_id: null,
   aspect_ratio: 'original',
   crop_gallery_page: 0,
@@ -64,6 +65,18 @@ export const useCreatePostFlowStore = create<CreatePostFlowState>()((set) => ({
   is_uploading: false,
   location: '',
   photos: [],
+  show_close_confirm: false,
+  show_crop_gallery: false,
+  show_location_suggestions: false,
+  show_mobile_ratio: false,
+  show_mobile_zoom: false,
+  step: 'upload',
+  validation_message: null,
+  zoom: 1,
+} satisfies Omit<CreatePostFlowState, `set${string}` | 'resetFlow'>;
+
+export const useCreatePostFlowStore = create<CreatePostFlowState>()((set) => ({
+  ...initial_state,
   setActivePhotoId: (value) => set({ active_photo_id: value }),
   setAspectRatio: (value) => set({ aspect_ratio: value }),
   setCropGalleryPage: (value) =>
@@ -86,12 +99,9 @@ export const useCreatePostFlowStore = create<CreatePostFlowState>()((set) => ({
   setStep: (value) => set({ step: value }),
   setValidationMessage: (value) => set({ validation_message: value }),
   setZoom: (value) => set({ zoom: value }),
-  show_close_confirm: false,
-  show_crop_gallery: false,
-  show_location_suggestions: false,
-  show_mobile_ratio: false,
-  show_mobile_zoom: false,
-  step: 'upload',
-  validation_message: null,
-  zoom: 1,
+  resetFlow: () =>
+    set({
+      ...initial_state,
+      has_draft: hasStoredDraft(DRAFT_STORAGE_KEY),
+    }),
 }));

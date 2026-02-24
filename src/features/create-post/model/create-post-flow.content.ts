@@ -236,12 +236,12 @@ const createPostFlowContent = {
       he: 'תמונה לא תקינה',
     }),
     validationErrorTitle: t({
-      en: 'Validation error',
-      fr: 'Erreur de validation',
-      es: 'Error de validación',
-      ru: 'Ошибка валидации',
-      it: 'Errore di validazione',
-      he: 'שגיאת ולידציה',
+      en: 'Please check your post',
+      fr: 'Vérifiez votre publication',
+      es: 'Revisa tu publicación',
+      ru: 'Проверьте публикацию',
+      it: 'Controlla la pubblicazione',
+      he: 'בדוק את הפרסום שלך',
     }),
     ok: t({
       en: 'OK',
@@ -290,6 +290,14 @@ const createPostFlowContent = {
       ru: 'Загрузите хотя бы одно фото перед публикацией',
       it: 'Carica almeno una foto prima di pubblicare',
       he: 'אנא העלה לפחות תמונה אחת לפני הפרסום',
+    }),
+    descriptionRequiredMessage: t({
+      en: 'Add a short description before publishing',
+      fr: 'Ajoutez une courte description avant la publication',
+      es: 'Añade una descripción breve antes de publicar',
+      ru: 'Добавьте короткое описание перед публикацией',
+      it: 'Aggiungi una breve descrizione prima di pubblicare',
+      he: 'הוסף תיאור קצר לפני הפרסום',
     }),
     publishFailedMessage: t({
       en: 'Could not publish post. Please try again',

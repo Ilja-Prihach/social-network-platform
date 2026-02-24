@@ -23,6 +23,7 @@ type Props = {
   locationSuggestions: LocationSuggestion[];
   locationWrapRef: RefObject<HTMLDivElement | null>;
   onOpenPicker: () => void;
+  profileAvatar?: string;
   profileUsername: string;
   setAspectRatio: (value: AspectRatio) => void;
   setDescription: (value: string) => void;
@@ -48,6 +49,7 @@ export function CreatePostControlsColumn({
   locationWrapRef,
   onOpenPicker,
   photosCount,
+  profileAvatar,
   profileUsername,
   setAspectRatio,
   setDescription,
@@ -90,6 +92,7 @@ export function CreatePostControlsColumn({
           location={location}
           locationSuggestions={locationSuggestions}
           locationWrapRef={locationWrapRef}
+          profileAvatar={profileAvatar}
           profileUsername={profileUsername}
           setDescription={setDescription}
           setLocation={setLocation}
