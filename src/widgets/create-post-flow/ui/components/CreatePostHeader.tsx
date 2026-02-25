@@ -8,6 +8,7 @@ import styles from '../CreatePostFlowWidget.module.scss';
 
 type Props = {
   canGoNext: boolean;
+  canPublish: boolean;
   isPublishing: boolean;
   isUploading: boolean;
   onBack: () => void;
@@ -19,6 +20,7 @@ type Props = {
 
 export function CreatePostHeader({
   canGoNext,
+  canPublish,
   isPublishing,
   isUploading,
   onBack,
@@ -78,7 +80,7 @@ export function CreatePostHeader({
           variant="text"
           className={styles.action_btn}
           onClick={onPublish}
-          disabled={isPublishing || isUploading}
+          disabled={!canPublish || isPublishing || isUploading}
         >
           {isPublishing ? dictionary.publishing : dictionary.publish}
         </Button>

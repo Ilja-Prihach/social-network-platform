@@ -61,6 +61,7 @@ Auth routes:
 Other routes:
 
 - `GET /api/public-user` -> backend `/api/v1/public-user`
+- `GET /api/profile` -> backend `/api/v1/users/profile` (fallback: `/api/v1/profile`)
 - `POST /api/posts` -> backend `/api/v1/posts`
 - `POST /api/posts/image` -> backend `/api/v1/posts/image`
 - `DELETE /api/posts/image/:uploadId` -> backend `/api/v1/posts/image/:uploadId`

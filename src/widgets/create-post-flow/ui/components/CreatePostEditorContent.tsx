@@ -35,6 +35,7 @@ type Props = {
   onOpenPicker: () => void;
   onRemovePhoto: (photoId: string) => void;
   onSelectPhoto: (photoId: string) => void;
+  profileAvatar?: string;
   profileUsername: string;
   photos: PhotoItem[];
   setAspectRatio: (value: AspectRatio) => void;
@@ -79,6 +80,7 @@ export function CreatePostEditorContent({
   onOpenPicker,
   onRemovePhoto,
   onSelectPhoto,
+  profileAvatar,
   profileUsername,
   photos,
   setAspectRatio,
@@ -151,6 +153,7 @@ export function CreatePostEditorContent({
         locationWrapRef={locationWrapRef}
         onOpenPicker={onOpenPicker}
         photosCount={photos.length}
+        profileAvatar={profileAvatar}
         profileUsername={profileUsername}
         setAspectRatio={setAspectRatio}
         setDescription={setDescription}

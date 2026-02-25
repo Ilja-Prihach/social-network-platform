@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useDictionary, useLocale } from 'next-intlayer';
 import { getLocalizedUrl } from 'intlayer';
 import clsx from 'clsx';
+import { useQuery } from '@tanstack/react-query';
 import {
   DRAFT_STORAGE_KEY,
   MAX_FILE_SIZE,
@@ -23,20 +24,136 @@ import {
   type CreateDraft,
   type PhotoItem,
 } from '@/features/create-post';
-import { useMe } from '@/features/auth/model/useMe';
 import { CreatePostUploadStep } from '@/features/create-post/upload';
 import { createPost, deletePostImage, uploadPostImages } from '@/entities/post';
+import type { ApiError } from '@/shared/api/types';
 import { CreatePostDialogs } from './components/CreatePostDialogs';
 import { CreatePostEditorContent } from './components/CreatePostEditorContent';
 import { CreatePostHeader } from './components/CreatePostHeader';
 import createPostFlowContent from '@/features/create-post/model/create-post-flow.content';
 import styles from './CreatePostFlowWidget.module.scss';
 
+type LocalProfileAvatar = {
+  url: string;
+  width?: number;
+  height?: number;
+};
+
+type LocalProfile = {
+  userName: string;
+  avatars: LocalProfileAvatar[];
+};
+
+type RawProfile = {
+  userName?: string;
+  username?: string;
+  avatar?: string | null;
+  avatarUrl?: string | null;
+  avatars?: Array<{
+    url?: string;
+    width?: number;
+    height?: number;
+  }>;
+  profile?: {
+    userName?: string;
+    username?: string;
+    avatar?: string | null;
+    avatarUrl?: string | null;
+    avatars?: Array<{
+      url?: string;
+      width?: number;
+      height?: number;
+    }>;
+  };
+};
+
+const myProfileQueryKey = ['my-profile-create-post'] as const;
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const normalizeAvatars = (value: unknown): LocalProfileAvatar[] => {
+  if (!Array.isArray(value)) return [];
+
+  return value
+    .filter((item): item is { url?: string; width?: number; height?: number } => isRecord(item))
+    .map((item) => ({
+      url: typeof item.url === 'string' ? item.url : '',
+      width: typeof item.width === 'number' ? item.width : undefined,
+      height: typeof item.height === 'number' ? item.height : undefined,
+    }))
+    .filter((item) => item.url.length > 0);
+};
+
+const normalizeProfile = (raw: RawProfile): LocalProfile => {
+  const userName =
+    raw.userName ?? raw.username ?? raw.profile?.userName ?? raw.profile?.username ?? '';
+  const avatars = normalizeAvatars(raw.avatars);
+  const profileAvatars = normalizeAvatars(raw.profile?.avatars);
+  const directAvatar = raw.avatarUrl ?? raw.avatar ?? raw.profile?.avatarUrl ?? raw.profile?.avatar;
+  const fallbackAvatar =
+    typeof directAvatar === 'string' && directAvatar.length > 0 ? [{ url: directAvatar }] : [];
+
+  return {
+    userName,
+    avatars: avatars.length ? avatars : profileAvatars.length ? profileAvatars : fallbackAvatar,
+  };
+};
+
+const fetchCreatePostProfile = async (): Promise<LocalProfile> => {
+  const response = await fetch('/api/users/profile');
+  const text = await response.text();
+  let payload: unknown = null;
+  if (text) {
+    try {
+      payload = JSON.parse(text) as unknown;
+    } catch {
+      payload = { message: text };
+    }
+  }
+
+  if (!response.ok) {
+    throw {
+      status: response.status,
+      data: payload,
+    } satisfies ApiError;
+  }
+
+  if (!isRecord(payload)) return { userName: '', avatars: [] };
+
+  const candidates: unknown[] = [];
+  if (isRecord(payload.data)) candidates.push(payload.data);
+  if (isRecord(payload.profile)) candidates.push(payload.profile);
+  candidates.push(payload);
+
+  for (const candidate of candidates) {
+    if (!isRecord(candidate)) continue;
+    const normalized = normalizeProfile(candidate as RawProfile);
+    if (normalized.userName || normalized.avatars.length) {
+      return normalized;
+    }
+  }
+
+  return { userName: '', avatars: [] };
+};
+
+const ALLOWED_IMAGE_TYPES = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp']);
+
+const ALLOWED_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp'];
+
+const isAllowedImageFile = (file: File) => {
+  if (ALLOWED_IMAGE_TYPES.has(file.type.toLowerCase())) return true;
+
+  const fileName = file.name.toLowerCase();
+  return ALLOWED_IMAGE_EXTENSIONS.some((extension) => fileName.endsWith(extension));
+};
+
 export function CreatePostFlowWidget() {
   const router = useRouter();
   const { locale } = useLocale();
   const file_input_ref = useRef<HTMLInputElement>(null);
   const photos_ref = useRef<PhotoItem[]>([]);
+  const is_draft_bootstrapped_ref = useRef(false);
   const pending_navigation_ref = useRef<string | null>(null);
   const allow_unload_ref = useRef(false);
   const location_wrap_ref = useRef<HTMLDivElement>(null);
@@ -57,6 +174,7 @@ export function CreatePostFlowWidget() {
     is_uploading,
     location,
     photos,
+    resetFlow,
     setActivePhotoId,
     setAspectRatio,
     setCropGalleryPage,
@@ -96,24 +214,38 @@ export function CreatePostFlowWidget() {
     });
   const active_filter = filters.find((item) => item.id === filter_id)?.css ?? 'none';
   const crop_ratio = aspect_ratio === 'original' ? null : ratio_to_value[aspect_ratio];
-  const { data: me } = useMe();
+  const myProfileQuery = useQuery<LocalProfile, ApiError>({
+    queryKey: myProfileQueryKey,
+    queryFn: fetchCreatePostProfile,
+    retry: false,
+  });
+  const profile = myProfileQuery.data;
   const dictionary = useDictionary(createPostFlowContent);
   const has_unsaved_changes =
     photos.length > 0 || description.trim().length > 0 || location.trim().length > 0;
+  const profile_avatar = useMemo(() => {
+    const avatars = profile?.avatars;
+    if (!avatars?.length) return undefined;
+    return avatars.find((avatar) => avatar.width === 192)?.url ?? avatars[0]?.url ?? undefined;
+  }, [profile?.avatars]);
 
   useEffect(() => {
     photos_ref.current = photos;
   }, [photos]);
 
+  const release_revokable_photos = useCallback((items: PhotoItem[]) => {
+    items.forEach((photo) => {
+      if (photo.revokable) {
+        URL.revokeObjectURL(photo.preview_url);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     return () => {
-      photos_ref.current.forEach((photo) => {
-        if (photo.revokable) {
-          URL.revokeObjectURL(photo.preview_url);
-        }
-      });
+      release_revokable_photos(photos_ref.current);
     };
-  }, []);
+  }, [release_revokable_photos]);
 
   useEffect(() => {
     const handle_click_outside = (event: MouseEvent) => {
@@ -229,7 +361,7 @@ export function CreatePostFlowWidget() {
     if (new_files.length === 0) return;
 
     const wrong_file = new_files.find(
-      (file) => !['image/jpeg', 'image/png'].includes(file.type) || file.size > MAX_FILE_SIZE,
+      (file) => !isAllowedImageFile(file) || file.size > MAX_FILE_SIZE,
     );
 
     if (wrong_file) {
@@ -380,13 +512,16 @@ export function CreatePostFlowWidget() {
   ]);
 
   useEffect(() => {
+    if (is_draft_bootstrapped_ref.current) return;
+    is_draft_bootstrapped_ref.current = true;
+
     const parsed_draft = readDraft(DRAFT_STORAGE_KEY);
     setHasDraft(Boolean(parsed_draft));
 
-    if (parsed_draft && photos.length === 0) {
+    if (parsed_draft) {
       open_draft();
     }
-  }, [open_draft, photos.length, setHasDraft]);
+  }, [open_draft, setHasDraft]);
 
   const publish_post = async () => {
     const upload_ids = photos
@@ -397,17 +532,22 @@ export function CreatePostFlowWidget() {
       setValidationMessage(dictionary.noPhotosBeforePublishingMessage.value);
       return;
     }
+    if (description.trim().length === 0) {
+      setValidationMessage(dictionary.descriptionRequiredMessage.value);
+      return;
+    }
 
     setIsPublishing(true);
 
     try {
       await createPost({
-        description: description.trim() ? description.trim() : null,
+        description: description.trim(),
         childrenMetadata: upload_ids.map((uploadId) => ({ uploadId })),
       });
 
+      release_revokable_photos(photos_ref.current);
       clearDraft(DRAFT_STORAGE_KEY);
-      setHasDraft(false);
+      resetFlow();
       pending_navigation_ref.current = null;
       allow_unload_ref.current = true;
       router.push(getLocalizedUrl('/', locale));
@@ -422,38 +562,34 @@ export function CreatePostFlowWidget() {
     const photo_to_remove = photos.find((photo) => photo.id === photo_id);
     if (!photo_to_remove) return;
 
-    try {
-      if (photo_to_remove.upload_id) {
-        await deletePostImage(photo_to_remove.upload_id);
-      }
+    const next_photos = photos.filter((photo) => photo.id !== photo_id);
+    setPhotos(next_photos);
 
-      if (photo_to_remove.revokable) {
-        URL.revokeObjectURL(photo_to_remove.preview_url);
-      }
+    if (photo_to_remove.revokable) {
+      URL.revokeObjectURL(photo_to_remove.preview_url);
+    }
 
-      const next_photos = photos.filter((photo) => photo.id !== photo_id);
-      setPhotos(next_photos);
+    if (next_photos.length === 0) {
+      clearDraft(DRAFT_STORAGE_KEY);
+      setHasDraft(false);
+      setActivePhotoId(null);
+      setShowCropGallery(false);
+      setStep('upload');
+    } else if (active_photo_id === photo_id) {
+      const removed_index = photos.findIndex((photo) => photo.id === photo_id);
+      const next_index = Math.min(removed_index, next_photos.length - 1);
+      setActivePhotoId(next_photos[next_index]?.id ?? next_photos[0]?.id ?? null);
+    }
 
-      if (next_photos.length === 0) {
-        setActivePhotoId(null);
-        setShowCropGallery(false);
-        setStep('upload');
-        return;
-      }
-
-      if (active_photo_id === photo_id) {
-        const removed_index = photos.findIndex((photo) => photo.id === photo_id);
-        const next_index = Math.min(removed_index, next_photos.length - 1);
-        setActivePhotoId(next_photos[next_index]?.id ?? next_photos[0]?.id ?? null);
-      }
-    } catch (error) {
-      setValidationMessage(
-        getCreatePostErrorMessage(error, dictionary.deletePhotoFailedMessage.value),
-      );
+    if (photo_to_remove.upload_id) {
+      void deletePostImage(photo_to_remove.upload_id).catch(() => {
+        // Keep UI flow smooth even when backend image cleanup fails.
+      });
     }
   };
 
   const can_go_next = photos.length > 0 && step !== 'publish' && !is_uploading && !is_publishing;
+  const can_publish = photos.length > 0 && description.trim().length > 0;
   const active_photo_index = Math.max(
     0,
     photos.findIndex((photo) => photo.id === active_photo_id),
@@ -478,7 +614,7 @@ export function CreatePostFlowWidget() {
       <input
         ref={file_input_ref}
         type="file"
-        accept="image/jpeg,image/png"
+        accept="image/jpeg,image/jpg,image/png,image/webp"
         multiple
         hidden
         onChange={handle_file_select}
@@ -495,6 +631,7 @@ export function CreatePostFlowWidget() {
       >
         <CreatePostHeader
           canGoNext={can_go_next}
+          canPublish={can_publish}
           isPublishing={is_publishing}
           isUploading={is_uploading}
           onBack={handle_back}
@@ -542,7 +679,8 @@ export function CreatePostFlowWidget() {
             onOpenPicker={handle_open_picker}
             onRemovePhoto={(photoId) => void remove_photo(photoId)}
             onSelectPhoto={setActivePhotoId}
-            profileUsername={me?.userName ?? ''}
+            profileAvatar={profile_avatar}
+            profileUsername={profile?.userName ?? ''}
             photos={photos}
             setAspectRatio={setAspectRatio}
             setCropGalleryPage={setCropGalleryPage}
@@ -570,8 +708,9 @@ export function CreatePostFlowWidget() {
           setShowCloseConfirm(false);
         }}
         onDiscardChanges={() => {
+          release_revokable_photos(photos_ref.current);
           clearDraft(DRAFT_STORAGE_KEY);
-          setHasDraft(false);
+          resetFlow();
           setShowCloseConfirm(false);
           navigate_after_close();
         }}
