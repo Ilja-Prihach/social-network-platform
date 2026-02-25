@@ -68,3 +68,4 @@ next-env.d.ts
 .intlayer
 
 .serena/
+.serena/project.yml
