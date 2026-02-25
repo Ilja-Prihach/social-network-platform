@@ -5,8 +5,8 @@ export type {
   PublicPostDto,
   PublicPostsPageDto,
 } from './api/publicPosts.shared';
-export { createPost, deletePostImage, uploadPostImages } from './api/createPost';
-export type { CreatedPostDto } from './api/createPost';
+export { createPost, deletePostImage, uploadPostImages, deletePost } from './api/postMutations';
+export type { CreatedPostDto } from './api/postMutations';
 export { translatePostText } from './api/translatePostText';
 export type { TranslatePostTextParams, TranslatePostTextResult } from './api/translatePostText';
 export { PostMediaCarousel } from './ui/PostMediaCarousel';

@@ -99,3 +99,9 @@ export async function deletePostImage(uploadId: string): Promise<void> {
     method: 'DELETE',
   });
 }
+
+export async function deletePost(postId: string): Promise<void> {
+  await baseApi<void>(`/api/posts/${encodeURIComponent(postId)}`, {
+    method: 'DELETE',
+  });
+}

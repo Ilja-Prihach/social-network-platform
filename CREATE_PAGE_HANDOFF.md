@@ -72,10 +72,10 @@
 ## API/data paths
 
 - Upload images:
-  - client: `src/entities/post/api/createPost.ts -> uploadPostImages`
+  - client: `src/entities/post/api/postMutations.ts -> uploadPostImages`
   - BFF proxy: `app/api/posts/image/route.ts`
 - Create post publish:
-  - client: `src/entities/post/api/createPost.ts -> createPost`
+  - client: `src/entities/post/api/postMutations.ts -> createPost`
   - BFF proxy: `app/api/posts/route.ts`
 - Delete uploaded image:
   - client: `deletePostImage`

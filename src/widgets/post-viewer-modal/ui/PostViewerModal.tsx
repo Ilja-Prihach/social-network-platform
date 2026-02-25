@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import type { PostViewerPost } from '@/entities/post';
 import { Icon } from '@/shared/ui/Icon';
 import styles from './PostViewerModal.module.scss';
+import { usePostViewerActions } from '@/features/post/post-actions';
 
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
@@ -18,6 +19,13 @@ type PostViewerModalProps = {
 export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostViewerModalProps) {
   const [mediaIndex, setMediaIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { menuItems, isActionPending } = usePostViewerActions({
+    post,
+    isOwner,
+    isFriendPost,
+    onClose,
+  });
 
   useEffect(() => {
     if (!post) return;
@@ -37,27 +45,6 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
   const hasManyMedia = media.length > 1;
   const safeMediaIndex = clamp(mediaIndex, 0, Math.max(0, media.length - 1));
   const currentMedia = media[safeMediaIndex];
-
-  const menuItems = useMemo(() => {
-    if (isOwner) {
-      return [
-        { label: 'Edit Post', iconId: 'edit-2-outline' },
-        { label: 'Delete Post', iconId: 'trash-outline' },
-      ];
-    }
-
-    if (isFriendPost) {
-      return [
-        { label: 'Unfollow', iconId: 'person-remove-outline' },
-        { label: 'Copy Link', iconId: 'copy-outline' },
-      ];
-    }
-
-    return [
-      { label: 'Follow', iconId: 'person-add-outline' },
-      { label: 'Copy Link', iconId: 'copy-outline' },
-    ];
-  }, [isFriendPost, isOwner]);
 
   if (!post) return null;
 
@@ -154,7 +141,16 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
               {isMenuOpen && (
                 <div className={styles.post_menu}>
                   {menuItems.map((item) => (
-                    <button key={item.label} type="button" className={styles.post_menu_item}>
+                    <button
+                      key={item.id}
+                      type="button"
+                      className={styles.post_menu_item}
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        item.onClick?.();
+                      }}
+                      disabled={isActionPending}
+                    >
                       <Icon iconId={item.iconId} className={styles.post_menu_icon} />
                       <span>{item.label}</span>
                     </button>
