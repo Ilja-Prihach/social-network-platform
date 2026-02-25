@@ -1,5 +1,4 @@
 import { baseApi } from '@/shared/api/baseApi';
-import { PostViewerPost } from '@/entities/post';
 
 type PostImageDto = {
   uploadId: string;
