@@ -11,6 +11,7 @@ type Props = {
   location: string;
   locationSuggestions: LocationSuggestion[];
   locationWrapRef: RefObject<HTMLDivElement | null>;
+  profileAvatar?: string;
   profileUsername: string;
   setDescription: (value: string) => void;
   setLocation: (value: string) => void;
@@ -25,6 +26,7 @@ export function CreatePostPublishPanel({
   location,
   locationSuggestions,
   locationWrapRef,
+  profileAvatar,
   profileUsername,
   setDescription,
   setLocation,
@@ -38,7 +40,10 @@ export function CreatePostPublishPanel({
     <div className={styles.publish_panel}>
       <div className={styles.publish_profile}>
         <span className={styles.publish_avatar}>
-          <img src="/mock/Avatar1.jpg" alt={`${profileUsername} ${dictionary.avatar.value}`} />
+          <img
+            src={profileAvatar || '/mock/Avatar1.jpg'}
+            alt={`${profileUsername} ${dictionary.avatar.value}`}
+          />
         </span>
         <span className={styles.publish_username}>{profileUsername}</span>
       </div>

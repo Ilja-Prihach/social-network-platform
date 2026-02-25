@@ -158,24 +158,26 @@ export function CreatePostPreviewColumn({
 
       {(step === 'filters' || step === 'publish') && (
         <>
-          <button
-            type="button"
-            className={styles.filter_preview_nav}
-            data-side="left"
-            onClick={() => goToPhoto(activePhotoIndex - 1)}
-            disabled={photos.length <= 1}
-          >
-            <Icon iconId="arrow-ios-back-outline" />
-          </button>
-          <button
-            type="button"
-            className={styles.filter_preview_nav}
-            data-side="right"
-            onClick={() => goToPhoto(activePhotoIndex + 1)}
-            disabled={photos.length <= 1}
-          >
-            <Icon iconId="arrow-ios-forward-outline" />
-          </button>
+          {photos.length > 1 && (
+            <>
+              <button
+                type="button"
+                className={styles.filter_preview_nav}
+                data-side="left"
+                onClick={() => goToPhoto(activePhotoIndex - 1)}
+              >
+                <Icon iconId="arrow-ios-back-outline" />
+              </button>
+              <button
+                type="button"
+                className={styles.filter_preview_nav}
+                data-side="right"
+                onClick={() => goToPhoto(activePhotoIndex + 1)}
+              >
+                <Icon iconId="arrow-ios-forward-outline" />
+              </button>
+            </>
+          )}
           {photos.length > 1 && (
             <div className={styles.filter_preview_dots}>
               {photos.map((photo) => (

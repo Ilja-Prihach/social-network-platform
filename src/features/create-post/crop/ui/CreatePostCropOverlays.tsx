@@ -94,13 +94,7 @@ export function CreatePostCropOverlays({
                 onClick={() => setAspectRatio(ratio)}
               >
                 <span>{ratio === 'original' ? dictionary.original : ratio}</span>
-                {ratio === 'original' ? (
-                  <span className={styles.ratio_sheet_icon_symbol}>
-                    <Icon iconId="image-outline" width="24" height="24" />
-                  </span>
-                ) : (
-                  <span className={styles.ratio_sheet_icon} data-ratio={ratio} />
-                )}
+                <span className={styles.ratio_sheet_icon} data-ratio={ratio} />
               </button>
             ))}
           </div>
