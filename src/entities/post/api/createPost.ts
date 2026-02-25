@@ -1,4 +1,5 @@
 import { baseApi } from '@/shared/api/baseApi';
+import { PostViewerPost } from '@/entities/post';
 
 type PostImageDto = {
   uploadId: string;
@@ -96,6 +97,12 @@ export async function createPost(payload: CreatePostPayload): Promise<CreatedPos
 
 export async function deletePostImage(uploadId: string): Promise<void> {
   await baseApi<void>(`/api/posts/image/${uploadId}`, {
+    method: 'DELETE',
+  });
+}
+
+export async function deletePost(postId: string): Promise<void> {
+  await baseApi<void>(`/api/posts/${encodeURIComponent(postId)}`, {
     method: 'DELETE',
   });
 }
