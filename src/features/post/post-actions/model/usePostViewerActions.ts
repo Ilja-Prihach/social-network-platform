@@ -26,6 +26,19 @@ type UpdatePostVariables = {
   description: string;
 };
 
+function openUnsavedChangesModal(onConfirm: () => void) {
+  showModal({
+    title: 'Close Post',
+    description:
+      "Do you really want to close the edition of the publication? If you close changes won't be saved",
+    confirmText: 'Yes',
+    cancelText: 'No',
+    confirmVariant: 'outline',
+    cancelVariant: 'primary',
+    onConfirm,
+  });
+}
+
 export function usePostViewerActions({
   post,
   isOwner,
@@ -124,17 +137,8 @@ export function usePostViewerActions({
       return;
     }
 
-    showModal({
-      title: 'Close Post',
-      description:
-        "Do you really want to close the edition of the publication? If you close changes won't be saved",
-      confirmText: 'Yes',
-      cancelText: 'No',
-      confirmVariant: 'outline',
-      cancelVariant: 'primary',
-      onConfirm: () => {
-        setIsEditMode(false);
-      },
+    openUnsavedChangesModal(() => {
+      setIsEditMode(false);
     });
   }, [hasUnsavedChanges, isEditMode]);
 
@@ -145,18 +149,9 @@ export function usePostViewerActions({
       return;
     }
 
-    showModal({
-      title: 'Close Post',
-      description:
-        "Do you really want to close the edition of the publication? If you close changes won't be saved",
-      confirmText: 'Yes',
-      cancelText: 'No',
-      confirmVariant: 'outline',
-      cancelVariant: 'primary',
-      onConfirm: () => {
-        setIsEditMode(false);
-        onClose();
-      },
+    openUnsavedChangesModal(() => {
+      setIsEditMode(false);
+      onClose();
     });
   }, [hasUnsavedChanges, onClose]);
 
