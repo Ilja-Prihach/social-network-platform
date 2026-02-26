@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import type { PostViewerPost } from '@/entities/post';
 import { Icon } from '@/shared/ui/Icon';
-import { Button } from '@/shared/ui/Button';
 import styles from './PostViewerModal.module.scss';
 import { usePostViewerActions } from '@/features/post/post-actions';
+import { PostViewerHeaderActions } from './components/PostViewerHeaderActions';
+import { PostViewerDescriptionSection } from './components/PostViewerDescriptionSection';
+import { PostViewerFooter } from './components/PostViewerFooter';
 
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
@@ -61,11 +63,9 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
 
   const avatarUrl = post.avatarOwner || AVATAR_FALLBACK;
   const createdAtLabel = formatPostDate(post.createdAt);
-  const canRenderCaption = Boolean(descriptionForView.trim());
   const likeIconId = post.isLiked ? 'heart' : 'heart-outline';
   const likesCount = typeof post.likesCount === 'number' ? post.likesCount : null;
   const likesAvatars = (post.likesAvatars ?? []).slice(0, 3);
-  const hasLikesData = likesCount !== null || likesAvatars.length > 0;
 
   const goPrev = () => setMediaIndex((prev) => (prev <= 0 ? media.length - 1 : prev - 1));
   const goNext = () => setMediaIndex((prev) => (prev >= media.length - 1 ? 0 : prev + 1));
@@ -144,146 +144,35 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
               <p className={styles.author_name}>{post.userName}</p>
             </div>
 
-            <div className={styles.header_actions}>
-              {isEditMode ? (
-                <button
-                  type="button"
-                  className={styles.icon_button}
-                  aria-label="Exit edit mode"
-                  onClick={handleRequestExitEditMode}
-                >
-                  <Icon iconId="close-outline" />
-                </button>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    className={styles.icon_button}
-                    aria-label="Open post actions"
-                    onClick={() => setIsMenuOpen((value) => !value)}
-                  >
-                    <Icon iconId="more-horizontal-outline" />
-                  </button>
-
-                  {isMenuOpen && (
-                    <div className={styles.post_menu}>
-                      {menuItems.map((item) => (
-                        <button
-                          key={item.id}
-                          type="button"
-                          className={styles.post_menu_item}
-                          onClick={() => {
-                            setIsMenuOpen(false);
-                            item.onClick?.();
-                          }}
-                          disabled={isActionPending}
-                        >
-                          <Icon iconId={item.iconId} className={styles.post_menu_icon} />
-                          <span>{item.label}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
+            <PostViewerHeaderActions
+              isEditMode={isEditMode}
+              isActionPending={isActionPending}
+              isMenuOpen={isMenuOpen}
+              menuItems={menuItems}
+              onToggleMenu={() => setIsMenuOpen((value) => !value)}
+              onCloseMenu={() => setIsMenuOpen(false)}
+              onRequestExitEditMode={handleRequestExitEditMode}
+            />
           </header>
 
-          <div className={styles.comments}>
-            {isEditMode ? (
-              <article className={styles.comment_row}>
-                <div className={styles.comment_avatar}>
-                  <Image src={avatarUrl} alt={post.userName} fill sizes="36px" />
-                </div>
-                <div className={styles.comment_text}>
-                  <p>
-                    <span className={styles.comment_author}>{post.userName}</span>
-                  </p>
-                  <textarea
-                    className={styles.edit_description_input}
-                    value={descriptionDraft}
-                    onChange={(event) => setDescriptionDraft(event.target.value)}
-                    placeholder="Edit description..."
-                    rows={4}
-                  />
-                </div>
-              </article>
-            ) : (
-              canRenderCaption && (
-                <article className={styles.comment_row}>
-                  <div className={styles.comment_avatar}>
-                    <Image src={avatarUrl} alt={post.userName} fill sizes="36px" />
-                  </div>
-                  <p className={styles.comment_text}>
-                    <span className={styles.comment_author}>{post.userName}</span>{' '}
-                    {descriptionForView}
-                  </p>
-                </article>
-              )
-            )}
-          </div>
+          <PostViewerDescriptionSection
+            isEditMode={isEditMode}
+            avatarUrl={avatarUrl}
+            userName={post.userName}
+            descriptionForView={descriptionForView}
+            descriptionDraft={descriptionDraft}
+            onDescriptionDraftChange={setDescriptionDraft}
+          />
 
-          {!isEditMode && (
-            <div className={styles.actions}>
-              <div className={styles.reaction_buttons}>
-                <button type="button" className={styles.icon_button} aria-label="Like post">
-                  <Icon iconId={likeIconId} />
-                </button>
-                <button type="button" className={styles.icon_button} aria-label="Share post">
-                  <Icon iconId="paper-plane-outline" />
-                </button>
-                <button type="button" className={styles.icon_button} aria-label="Save post">
-                  <Icon iconId="bookmark-outline" />
-                </button>
-              </div>
-
-              {hasLikesData && (
-                <div className={styles.likes_row}>
-                  {likesAvatars.length > 0 && (
-                    <div className={styles.likes_avatars} aria-hidden>
-                      {likesAvatars.map((avatar, index) => (
-                        <div key={`${avatar}-${index}`} className={styles.likes_avatar}>
-                          <Image src={avatar} alt="" fill sizes="24px" />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {likesCount !== null && (
-                    <p className={styles.likes}>
-                      {formatLikesCount(likesCount)} &quot;
-                      <span className={styles.likes_highlight}>Like</span>&quot;
-                    </p>
-                  )}
-                </div>
-              )}
-              <p className={styles.created_at}>{createdAtLabel}</p>
-            </div>
-          )}
-
-          {isEditMode ? (
-            <div className={`${styles.add_comment} ${styles.add_comment_edit}`}>
-              <Button
-                type="button"
-                variant="primary"
-                className={styles.save_button}
-                onClick={handleSaveChanges}
-                disabled={isActionPending}
-              >
-                Save Changes
-              </Button>
-            </div>
-          ) : (
-            <div className={styles.add_comment}>
-              <input
-                className={styles.add_comment_input}
-                type="text"
-                placeholder="Add a Comment..."
-              />
-              <button type="button" className={styles.publish_button}>
-                Publish
-              </button>
-            </div>
-          )}
+          <PostViewerFooter
+            isEditMode={isEditMode}
+            isActionPending={isActionPending}
+            likeIconId={likeIconId}
+            likesCount={likesCount}
+            likesAvatars={likesAvatars}
+            createdAtLabel={createdAtLabel}
+            onSaveChanges={handleSaveChanges}
+          />
         </aside>
       </div>
     </div>
@@ -306,8 +195,4 @@ function formatPostDate(value: string) {
     month: 'long',
     year: 'numeric',
   }).format(date);
-}
-
-function formatLikesCount(value: number) {
-  return new Intl.NumberFormat('ru-RU').format(value);
 }
