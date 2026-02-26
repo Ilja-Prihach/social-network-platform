@@ -20,7 +20,16 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
   const [mediaIndex, setMediaIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { menuItems, isActionPending } = usePostViewerActions({
+  const {
+    menuItems,
+    isActionPending,
+    isEditMode,
+    descriptionDraft,
+    setDescriptionDraft,
+    descriptionForView,
+    handleSaveChanges,
+    handleRequestClose,
+  } = usePostViewerActions({
     post,
     isOwner,
     isFriendPost,
@@ -32,14 +41,14 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
 
     const onEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        onClose();
+        handleRequestClose();
       }
     };
 
     window.addEventListener('keydown', onEsc);
 
     return () => window.removeEventListener('keydown', onEsc);
-  }, [onClose, post]);
+  }, [handleRequestClose, post]);
 
   const media = post?.media ?? [];
   const hasManyMedia = media.length > 1;
@@ -50,7 +59,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
 
   const avatarUrl = post.avatarOwner || AVATAR_FALLBACK;
   const createdAtLabel = formatPostDate(post.createdAt);
-  const canRenderCaption = Boolean(post.text?.trim());
+  const canRenderCaption = Boolean(descriptionForView.trim());
   const likeIconId = post.isLiked ? 'heart' : 'heart-outline';
   const likesCount = typeof post.likesCount === 'number' ? post.likesCount : null;
   const likesAvatars = (post.likesAvatars ?? []).slice(0, 3);
@@ -60,9 +69,14 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
   const goNext = () => setMediaIndex((prev) => (prev >= media.length - 1 ? 0 : prev + 1));
 
   return (
-    <div className={styles.overlay} role="dialog" aria-modal onClick={onClose}>
+    <div className={styles.overlay} role="dialog" aria-modal onClick={handleRequestClose}>
       <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
-        <button type="button" className={styles.close_button} aria-label="Close" onClick={onClose}>
+        <button
+          type="button"
+          className={styles.close_button}
+          aria-label="Close"
+          onClick={handleRequestClose}
+        >
           <Icon iconId="close-outline" />
         </button>
 
@@ -161,15 +175,36 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
           </header>
 
           <div className={styles.comments}>
-            {canRenderCaption && (
+            {isEditMode ? (
               <article className={styles.comment_row}>
                 <div className={styles.comment_avatar}>
                   <Image src={avatarUrl} alt={post.userName} fill sizes="36px" />
                 </div>
-                <p className={styles.comment_text}>
-                  <span className={styles.comment_author}>{post.userName}</span> {post.text}
-                </p>
+                <div className={styles.comment_text}>
+                  <p>
+                    <span className={styles.comment_author}>{post.userName}</span>
+                  </p>
+                  <textarea
+                    className={styles.add_comment_input}
+                    value={descriptionDraft}
+                    onChange={(event) => setDescriptionDraft(event.target.value)}
+                    placeholder="Edit description..."
+                    rows={4}
+                  />
+                </div>
               </article>
+            ) : (
+              canRenderCaption && (
+                <article className={styles.comment_row}>
+                  <div className={styles.comment_avatar}>
+                    <Image src={avatarUrl} alt={post.userName} fill sizes="36px" />
+                  </div>
+                  <p className={styles.comment_text}>
+                    <span className={styles.comment_author}>{post.userName}</span>{' '}
+                    {descriptionForView}
+                  </p>
+                </article>
+              )
             )}
           </div>
 
@@ -208,16 +243,29 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
             <p className={styles.created_at}>{createdAtLabel}</p>
           </div>
 
-          <div className={styles.add_comment}>
-            <input
-              className={styles.add_comment_input}
-              type="text"
-              placeholder="Add a Comment..."
-            />
-            <button type="button" className={styles.publish_button}>
-              Publish
-            </button>
-          </div>
+          {isEditMode ? (
+            <div className={styles.add_comment}>
+              <button
+                type="button"
+                className={styles.publish_button}
+                onClick={handleSaveChanges}
+                disabled={isActionPending}
+              >
+                Save Changes
+              </button>
+            </div>
+          ) : (
+            <div className={styles.add_comment}>
+              <input
+                className={styles.add_comment_input}
+                type="text"
+                placeholder="Add a Comment..."
+              />
+              <button type="button" className={styles.publish_button}>
+                Publish
+              </button>
+            </div>
+          )}
         </aside>
       </div>
     </div>
