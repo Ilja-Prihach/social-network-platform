@@ -24,7 +24,7 @@ type CreatePostPayload = {
 };
 
 type UpdatePostPayload = {
-  description: string | null;
+  description: string;
 };
 
 export type CreatedPostDto = {
