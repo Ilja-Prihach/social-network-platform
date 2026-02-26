@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import type { PostViewerPost } from '@/entities/post';
 import { Icon } from '@/shared/ui/Icon';
+import { Button } from '@/shared/ui/Button';
 import styles from './PostViewerModal.module.scss';
 import { usePostViewerActions } from '@/features/post/post-actions';
 
@@ -28,6 +29,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
     setDescriptionDraft,
     descriptionForView,
     handleSaveChanges,
+    handleRequestExitEditMode,
     handleRequestClose,
   } = usePostViewerActions({
     post,
@@ -143,33 +145,46 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
             </div>
 
             <div className={styles.header_actions}>
-              <button
-                type="button"
-                className={styles.icon_button}
-                aria-label="Open post actions"
-                onClick={() => setIsMenuOpen((value) => !value)}
-              >
-                <Icon iconId="more-horizontal-outline" />
-              </button>
+              {isEditMode ? (
+                <button
+                  type="button"
+                  className={styles.icon_button}
+                  aria-label="Exit edit mode"
+                  onClick={handleRequestExitEditMode}
+                >
+                  <Icon iconId="close-outline" />
+                </button>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className={styles.icon_button}
+                    aria-label="Open post actions"
+                    onClick={() => setIsMenuOpen((value) => !value)}
+                  >
+                    <Icon iconId="more-horizontal-outline" />
+                  </button>
 
-              {isMenuOpen && (
-                <div className={styles.post_menu}>
-                  {menuItems.map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={styles.post_menu_item}
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        item.onClick?.();
-                      }}
-                      disabled={isActionPending}
-                    >
-                      <Icon iconId={item.iconId} className={styles.post_menu_icon} />
-                      <span>{item.label}</span>
-                    </button>
-                  ))}
-                </div>
+                  {isMenuOpen && (
+                    <div className={styles.post_menu}>
+                      {menuItems.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          className={styles.post_menu_item}
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            item.onClick?.();
+                          }}
+                          disabled={isActionPending}
+                        >
+                          <Icon iconId={item.iconId} className={styles.post_menu_icon} />
+                          <span>{item.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </header>
@@ -185,7 +200,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
                     <span className={styles.comment_author}>{post.userName}</span>
                   </p>
                   <textarea
-                    className={styles.add_comment_input}
+                    className={styles.edit_description_input}
                     value={descriptionDraft}
                     onChange={(event) => setDescriptionDraft(event.target.value)}
                     placeholder="Edit description..."
@@ -208,51 +223,54 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
             )}
           </div>
 
-          <div className={styles.actions}>
-            <div className={styles.reaction_buttons}>
-              <button type="button" className={styles.icon_button} aria-label="Like post">
-                <Icon iconId={likeIconId} />
-              </button>
-              <button type="button" className={styles.icon_button} aria-label="Share post">
-                <Icon iconId="paper-plane-outline" />
-              </button>
-              <button type="button" className={styles.icon_button} aria-label="Save post">
-                <Icon iconId="bookmark-outline" />
-              </button>
-            </div>
-
-            {hasLikesData && (
-              <div className={styles.likes_row}>
-                {likesAvatars.length > 0 && (
-                  <div className={styles.likes_avatars} aria-hidden>
-                    {likesAvatars.map((avatar, index) => (
-                      <div key={`${avatar}-${index}`} className={styles.likes_avatar}>
-                        <Image src={avatar} alt="" fill sizes="24px" />
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {likesCount !== null && (
-                  <p className={styles.likes}>
-                    {formatLikesCount(likesCount)} &quot;
-                    <span className={styles.likes_highlight}>Like</span>&quot;
-                  </p>
-                )}
+          {!isEditMode && (
+            <div className={styles.actions}>
+              <div className={styles.reaction_buttons}>
+                <button type="button" className={styles.icon_button} aria-label="Like post">
+                  <Icon iconId={likeIconId} />
+                </button>
+                <button type="button" className={styles.icon_button} aria-label="Share post">
+                  <Icon iconId="paper-plane-outline" />
+                </button>
+                <button type="button" className={styles.icon_button} aria-label="Save post">
+                  <Icon iconId="bookmark-outline" />
+                </button>
               </div>
-            )}
-            <p className={styles.created_at}>{createdAtLabel}</p>
-          </div>
+
+              {hasLikesData && (
+                <div className={styles.likes_row}>
+                  {likesAvatars.length > 0 && (
+                    <div className={styles.likes_avatars} aria-hidden>
+                      {likesAvatars.map((avatar, index) => (
+                        <div key={`${avatar}-${index}`} className={styles.likes_avatar}>
+                          <Image src={avatar} alt="" fill sizes="24px" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {likesCount !== null && (
+                    <p className={styles.likes}>
+                      {formatLikesCount(likesCount)} &quot;
+                      <span className={styles.likes_highlight}>Like</span>&quot;
+                    </p>
+                  )}
+                </div>
+              )}
+              <p className={styles.created_at}>{createdAtLabel}</p>
+            </div>
+          )}
 
           {isEditMode ? (
-            <div className={styles.add_comment}>
-              <button
+            <div className={`${styles.add_comment} ${styles.add_comment_edit}`}>
+              <Button
                 type="button"
-                className={styles.publish_button}
+                variant="primary"
+                className={styles.save_button}
                 onClick={handleSaveChanges}
                 disabled={isActionPending}
               >
                 Save Changes
-              </button>
+              </Button>
             </div>
           ) : (
             <div className={styles.add_comment}>

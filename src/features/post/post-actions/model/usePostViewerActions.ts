@@ -116,6 +116,28 @@ export function usePostViewerActions({
     });
   }, [currentDescription, descriptionDraft, post, updatePostMutation]);
 
+  const handleRequestExitEditMode = useCallback(() => {
+    if (!isEditMode) return;
+
+    if (!hasUnsavedChanges) {
+      setIsEditMode(false);
+      return;
+    }
+
+    showModal({
+      title: 'Close Post',
+      description:
+        "Do you really want to close the edition of the publication? If you close changes won't be saved",
+      confirmText: 'Yes',
+      cancelText: 'No',
+      confirmVariant: 'outline',
+      cancelVariant: 'primary',
+      onConfirm: () => {
+        setIsEditMode(false);
+      },
+    });
+  }, [hasUnsavedChanges, isEditMode]);
+
   const handleRequestClose = useCallback(() => {
     if (!hasUnsavedChanges) {
       setIsEditMode(false);
@@ -167,6 +189,7 @@ export function usePostViewerActions({
     setDescriptionDraft,
     descriptionForView: isEditMode ? descriptionDraft : currentDescription,
     handleSaveChanges,
+    handleRequestExitEditMode,
     handleRequestClose,
   };
 }
