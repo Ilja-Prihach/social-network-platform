@@ -23,6 +23,10 @@ type CreatePostPayload = {
   childrenMetadata: Array<{ uploadId: string }>;
 };
 
+type UpdatePostPayload = {
+  description: string;
+};
+
 export type CreatedPostDto = {
   id: number;
   description: string;
@@ -103,5 +107,12 @@ export async function deletePostImage(uploadId: string): Promise<void> {
 export async function deletePost(postId: string): Promise<void> {
   await baseApi<void>(`/api/posts/${encodeURIComponent(postId)}`, {
     method: 'DELETE',
+  });
+}
+
+export async function updatePost(postId: string, payload: UpdatePostPayload): Promise<void> {
+  await baseApi<void>(`/api/posts/${encodeURIComponent(postId)}`, {
+    method: 'PUT',
+    body: payload,
   });
 }

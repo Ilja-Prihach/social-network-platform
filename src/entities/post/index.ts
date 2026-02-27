@@ -5,7 +5,13 @@ export type {
   PublicPostDto,
   PublicPostsPageDto,
 } from './api/publicPosts.shared';
-export { createPost, deletePostImage, uploadPostImages, deletePost } from './api/postMutations';
+export {
+  createPost,
+  deletePostImage,
+  uploadPostImages,
+  deletePost,
+  updatePost,
+} from './api/postMutations';
 export type { CreatedPostDto } from './api/postMutations';
 export { translatePostText } from './api/translatePostText';
 export type { TranslatePostTextParams, TranslatePostTextResult } from './api/translatePostText';

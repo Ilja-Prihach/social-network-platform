@@ -1,11 +1,10 @@
 'use client';
 
 import { useCallback, useMemo } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deletePost, type PostViewerPost } from '@/entities/post';
-import type { ApiError } from '@/shared/api/types';
-import { showAlert } from '@/shared/ui/Alert';
+import type { PostViewerPost } from '@/entities/post';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
+import { usePostEditMode } from './usePostEditMode';
+import { usePostMutations } from './usePostMutations';
 
 export type PostActionMenuItem = {
   id: 'edit' | 'delete' | 'follow' | 'unfollow' | 'copyLink';
@@ -21,32 +20,50 @@ type UsePostViewerActionsParams = {
   onClose: () => void;
 };
 
+function openUnsavedChangesModal(onConfirm: () => void) {
+  showModal({
+    title: 'Close Post',
+    description:
+      "Do you really want to close the edition of the publication? If you close changes won't be saved",
+    confirmText: 'Yes',
+    cancelText: 'No',
+    confirmVariant: 'outline',
+    cancelVariant: 'primary',
+    onConfirm,
+  });
+}
+
 export function usePostViewerActions({
   post,
   isOwner,
   isFriendPost,
   onClose,
 }: UsePostViewerActionsParams) {
-  const queryClient = useQueryClient();
-
-  const deletePostMutation = useMutation<void, ApiError, string>({
-    mutationFn: deletePost,
-    onSuccess: async () => {
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['home-posts'], refetchType: 'active' }),
-        queryClient.invalidateQueries({ queryKey: ['profile-posts'], refetchType: 'active' }),
-      ]);
-
-      showAlert('Post deleted successfully', 'success');
-      onClose();
-    },
-    onError: () => {
-      showAlert('Failed to delete post', 'error');
-    },
+  const {
+    isEditMode,
+    descriptionDraft,
+    setDescriptionDraft,
+    currentDescription,
+    descriptionForView,
+    startEdit,
+    applySavedDescription,
+    exitEditMode,
+    handleRequestExitEditMode,
+    handleRequestClose,
+  } = usePostEditMode({
+    post,
+    onClose,
+    openUnsavedChangesModal,
   });
 
+  const { isActionPending, deletePostById, updatePostById, isDeletePending, isUpdatePending } =
+    usePostMutations({
+      onDeleteSuccess: onClose,
+      onUpdateSuccess: applySavedDescription,
+    });
+
   const handleDeletePost = useCallback(() => {
-    if (!post || deletePostMutation.isPending) return;
+    if (!post || isDeletePending) return;
 
     showModal({
       title: 'Delete Post',
@@ -56,15 +73,34 @@ export function usePostViewerActions({
       confirmVariant: 'outline',
       cancelVariant: 'primary',
       onConfirm: () => {
-        deletePostMutation.mutate(post.id);
+        deletePostById(post.id);
       },
     });
-  }, [deletePostMutation, post]);
+  }, [deletePostById, isDeletePending, post]);
+
+  const handleStartEdit = useCallback(() => {
+    if (!post || isUpdatePending) return;
+    startEdit();
+  }, [isUpdatePending, post, startEdit]);
+
+  const handleSaveChanges = useCallback(() => {
+    if (!post || isUpdatePending) return;
+
+    if (descriptionDraft === currentDescription) {
+      exitEditMode();
+      return;
+    }
+
+    updatePostById({
+      postId: post.id,
+      description: descriptionDraft,
+    });
+  }, [currentDescription, descriptionDraft, exitEditMode, isUpdatePending, post, updatePostById]);
 
   const menuItems = useMemo<PostActionMenuItem[]>(() => {
     if (isOwner) {
       return [
-        { id: 'edit', label: 'Edit Post', iconId: 'edit-2-outline' },
+        { id: 'edit', label: 'Edit Post', iconId: 'edit-2-outline', onClick: handleStartEdit },
         { id: 'delete', label: 'Delete Post', iconId: 'trash-outline', onClick: handleDeletePost },
       ];
     }
@@ -80,10 +116,17 @@ export function usePostViewerActions({
       { id: 'follow', label: 'Follow', iconId: 'person-add-outline' },
       { id: 'copyLink', label: 'Copy Link', iconId: 'copy-outline' },
     ];
-  }, [handleDeletePost, isFriendPost, isOwner]);
+  }, [handleDeletePost, handleStartEdit, isFriendPost, isOwner]);
 
   return {
     menuItems,
-    isActionPending: deletePostMutation.isPending,
+    isActionPending,
+    isEditMode,
+    descriptionDraft,
+    setDescriptionDraft,
+    descriptionForView,
+    handleSaveChanges,
+    handleRequestExitEditMode,
+    handleRequestClose,
   };
 }

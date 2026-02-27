@@ -6,6 +6,9 @@ import type { PostViewerPost } from '@/entities/post';
 import { Icon } from '@/shared/ui/Icon';
 import styles from './PostViewerModal.module.scss';
 import { usePostViewerActions } from '@/features/post/post-actions';
+import { PostViewerHeaderActions } from './components/PostViewerHeaderActions';
+import { PostViewerDescriptionSection } from './components/PostViewerDescriptionSection';
+import { PostViewerFooter } from './components/PostViewerFooter';
 
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
@@ -20,7 +23,17 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
   const [mediaIndex, setMediaIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { menuItems, isActionPending } = usePostViewerActions({
+  const {
+    menuItems,
+    isActionPending,
+    isEditMode,
+    descriptionDraft,
+    setDescriptionDraft,
+    descriptionForView,
+    handleSaveChanges,
+    handleRequestExitEditMode,
+    handleRequestClose,
+  } = usePostViewerActions({
     post,
     isOwner,
     isFriendPost,
@@ -32,14 +45,14 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
 
     const onEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        onClose();
+        handleRequestClose();
       }
     };
 
     window.addEventListener('keydown', onEsc);
 
     return () => window.removeEventListener('keydown', onEsc);
-  }, [onClose, post]);
+  }, [handleRequestClose, post]);
 
   const media = post?.media ?? [];
   const hasManyMedia = media.length > 1;
@@ -50,19 +63,22 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
 
   const avatarUrl = post.avatarOwner || AVATAR_FALLBACK;
   const createdAtLabel = formatPostDate(post.createdAt);
-  const canRenderCaption = Boolean(post.text?.trim());
   const likeIconId = post.isLiked ? 'heart' : 'heart-outline';
   const likesCount = typeof post.likesCount === 'number' ? post.likesCount : null;
   const likesAvatars = (post.likesAvatars ?? []).slice(0, 3);
-  const hasLikesData = likesCount !== null || likesAvatars.length > 0;
 
   const goPrev = () => setMediaIndex((prev) => (prev <= 0 ? media.length - 1 : prev - 1));
   const goNext = () => setMediaIndex((prev) => (prev >= media.length - 1 ? 0 : prev + 1));
 
   return (
-    <div className={styles.overlay} role="dialog" aria-modal onClick={onClose}>
+    <div className={styles.overlay} role="dialog" aria-modal onClick={handleRequestClose}>
       <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
-        <button type="button" className={styles.close_button} aria-label="Close" onClick={onClose}>
+        <button
+          type="button"
+          className={styles.close_button}
+          aria-label="Close"
+          onClick={handleRequestClose}
+        >
           <Icon iconId="close-outline" />
         </button>
 
@@ -128,96 +144,35 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
               <p className={styles.author_name}>{post.userName}</p>
             </div>
 
-            <div className={styles.header_actions}>
-              <button
-                type="button"
-                className={styles.icon_button}
-                aria-label="Open post actions"
-                onClick={() => setIsMenuOpen((value) => !value)}
-              >
-                <Icon iconId="more-horizontal-outline" />
-              </button>
-
-              {isMenuOpen && (
-                <div className={styles.post_menu}>
-                  {menuItems.map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={styles.post_menu_item}
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        item.onClick?.();
-                      }}
-                      disabled={isActionPending}
-                    >
-                      <Icon iconId={item.iconId} className={styles.post_menu_icon} />
-                      <span>{item.label}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            <PostViewerHeaderActions
+              isEditMode={isEditMode}
+              isActionPending={isActionPending}
+              isMenuOpen={isMenuOpen}
+              menuItems={menuItems}
+              onToggleMenu={() => setIsMenuOpen((value) => !value)}
+              onCloseMenu={() => setIsMenuOpen(false)}
+              onRequestExitEditMode={handleRequestExitEditMode}
+            />
           </header>
 
-          <div className={styles.comments}>
-            {canRenderCaption && (
-              <article className={styles.comment_row}>
-                <div className={styles.comment_avatar}>
-                  <Image src={avatarUrl} alt={post.userName} fill sizes="36px" />
-                </div>
-                <p className={styles.comment_text}>
-                  <span className={styles.comment_author}>{post.userName}</span> {post.text}
-                </p>
-              </article>
-            )}
-          </div>
+          <PostViewerDescriptionSection
+            isEditMode={isEditMode}
+            avatarUrl={avatarUrl}
+            userName={post.userName}
+            descriptionForView={descriptionForView}
+            descriptionDraft={descriptionDraft}
+            onDescriptionDraftChange={setDescriptionDraft}
+          />
 
-          <div className={styles.actions}>
-            <div className={styles.reaction_buttons}>
-              <button type="button" className={styles.icon_button} aria-label="Like post">
-                <Icon iconId={likeIconId} />
-              </button>
-              <button type="button" className={styles.icon_button} aria-label="Share post">
-                <Icon iconId="paper-plane-outline" />
-              </button>
-              <button type="button" className={styles.icon_button} aria-label="Save post">
-                <Icon iconId="bookmark-outline" />
-              </button>
-            </div>
-
-            {hasLikesData && (
-              <div className={styles.likes_row}>
-                {likesAvatars.length > 0 && (
-                  <div className={styles.likes_avatars} aria-hidden>
-                    {likesAvatars.map((avatar, index) => (
-                      <div key={`${avatar}-${index}`} className={styles.likes_avatar}>
-                        <Image src={avatar} alt="" fill sizes="24px" />
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {likesCount !== null && (
-                  <p className={styles.likes}>
-                    {formatLikesCount(likesCount)} &quot;
-                    <span className={styles.likes_highlight}>Like</span>&quot;
-                  </p>
-                )}
-              </div>
-            )}
-            <p className={styles.created_at}>{createdAtLabel}</p>
-          </div>
-
-          <div className={styles.add_comment}>
-            <input
-              className={styles.add_comment_input}
-              type="text"
-              placeholder="Add a Comment..."
-            />
-            <button type="button" className={styles.publish_button}>
-              Publish
-            </button>
-          </div>
+          <PostViewerFooter
+            isEditMode={isEditMode}
+            isActionPending={isActionPending}
+            likeIconId={likeIconId}
+            likesCount={likesCount}
+            likesAvatars={likesAvatars}
+            createdAtLabel={createdAtLabel}
+            onSaveChanges={handleSaveChanges}
+          />
         </aside>
       </div>
     </div>
@@ -240,8 +195,4 @@ function formatPostDate(value: string) {
     month: 'long',
     year: 'numeric',
   }).format(date);
-}
-
-function formatLikesCount(value: number) {
-  return new Intl.NumberFormat('ru-RU').format(value);
 }
