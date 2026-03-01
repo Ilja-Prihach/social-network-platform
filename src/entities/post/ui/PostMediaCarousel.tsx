@@ -5,6 +5,7 @@ import Image from 'next/image';
 import type { PostMedia } from '../model/types';
 import { Icon } from '@/shared/ui/Icon';
 import s from './PostMediaCarousel.module.scss';
+import type { MouseEvent } from 'react';
 
 type Props = {
   media: PostMedia[];
@@ -20,6 +21,11 @@ export function PostMediaCarousel({ media }: Props) {
 
   const goPrev = () => setIndex((i) => (i <= 0 ? items.length - 1 : i - 1));
   const goNext = () => setIndex((i) => (i >= items.length - 1 ? 0 : i + 1));
+
+  const handleControlClick = (action: () => void) => (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    action();
+  };
 
   if (!current) {
     return null;
@@ -39,10 +45,20 @@ export function PostMediaCarousel({ media }: Props) {
 
         {hasMany && (
           <>
-            <button type="button" className={s.prev} aria-label="Previous media" onClick={goPrev}>
+            <button
+              type="button"
+              className={s.prev}
+              aria-label="Previous media"
+              onClick={handleControlClick(goPrev)}
+            >
               <Icon iconId="arrow-ios-back-outline" />
             </button>
-            <button type="button" className={s.next} aria-label="Next media" onClick={goNext}>
+            <button
+              type="button"
+              className={s.next}
+              aria-label="Next media"
+              onClick={handleControlClick(goNext)}
+            >
               <Icon iconId="arrow-ios-forward-outline" />
             </button>
           </>
@@ -56,7 +72,7 @@ export function PostMediaCarousel({ media }: Props) {
                 type="button"
                 className={i === safeIndex ? s.dot_active : s.dot}
                 aria-label={`Go to media ${i + 1}`}
-                onClick={() => setIndex(i)}
+                onClick={handleControlClick(() => setIndex(i))}
               />
             ))}
           </div>
