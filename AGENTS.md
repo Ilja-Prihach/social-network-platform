@@ -8,7 +8,7 @@ Project-specific operating guide for coding agents in this repository (v2 strict
 
 ## Operating Mode
 
-- Default mode: strict.
+- Default mode: strict..
 - Principle: everything is allowed only when in-task and explicitly requested or clearly required to complete the task.
 
 ## Workflow Orchestration
