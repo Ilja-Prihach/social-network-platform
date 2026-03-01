@@ -13,9 +13,19 @@ type UpdatePostVariables = {
 type UsePostMutationsParams = {
   onDeleteSuccess: () => void;
   onUpdateSuccess: (description: string) => void;
+  messages: {
+    deleteSuccess: string;
+    deleteFailed: string;
+    updateSuccess: string;
+    updateFailed: string;
+  };
 };
 
-export function usePostMutations({ onDeleteSuccess, onUpdateSuccess }: UsePostMutationsParams) {
+export function usePostMutations({
+  onDeleteSuccess,
+  onUpdateSuccess,
+  messages,
+}: UsePostMutationsParams) {
   const queryClient = useQueryClient();
 
   const invalidatePostLists = async () => {
@@ -29,11 +39,11 @@ export function usePostMutations({ onDeleteSuccess, onUpdateSuccess }: UsePostMu
     mutationFn: deletePost,
     onSuccess: async () => {
       await invalidatePostLists();
-      showAlert('Post deleted successfully', 'success');
+      showAlert(messages.deleteSuccess, 'success');
       onDeleteSuccess();
     },
     onError: () => {
-      showAlert('Failed to delete post', 'error');
+      showAlert(messages.deleteFailed, 'error');
     },
   });
 
@@ -42,10 +52,10 @@ export function usePostMutations({ onDeleteSuccess, onUpdateSuccess }: UsePostMu
     onSuccess: async (_, variables) => {
       onUpdateSuccess(variables.description);
       await invalidatePostLists();
-      showAlert('Post updated successfully', 'success');
+      showAlert(messages.updateSuccess, 'success');
     },
     onError: () => {
-      showAlert('Failed to update post', 'error');
+      showAlert(messages.updateFailed, 'error');
     },
   });
 

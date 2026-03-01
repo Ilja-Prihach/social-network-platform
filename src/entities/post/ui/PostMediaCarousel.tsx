@@ -4,13 +4,17 @@ import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import type { PostMedia } from '../model/types';
 import { Icon } from '@/shared/ui/Icon';
+import { useDictionary } from 'next-intlayer';
 import s from './PostMediaCarousel.module.scss';
+import type { MouseEvent } from 'react';
+import postMediaCarouselContent from './post-media-carousel.content';
 
 type Props = {
   media: PostMedia[];
 };
 
 export function PostMediaCarousel({ media }: Props) {
+  const dictionary = useDictionary(postMediaCarouselContent);
   const items = useMemo(() => media ?? [], [media]);
   const [index, setIndex] = useState(0);
 
@@ -21,6 +25,11 @@ export function PostMediaCarousel({ media }: Props) {
   const goPrev = () => setIndex((i) => (i <= 0 ? items.length - 1 : i - 1));
   const goNext = () => setIndex((i) => (i >= items.length - 1 ? 0 : i + 1));
 
+  const handleControlClick = (action: () => void) => (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    action();
+  };
+
   if (!current) {
     return null;
   }
@@ -30,7 +39,7 @@ export function PostMediaCarousel({ media }: Props) {
       <div className={s.viewport}>
         <Image
           src={current.src}
-          alt={current.alt || 'Post media'}
+          alt={current.alt || dictionary.postMediaAlt.value}
           fill
           sizes="(max-width: 768px) 100vw, 420px"
           className={s.media}
@@ -39,24 +48,34 @@ export function PostMediaCarousel({ media }: Props) {
 
         {hasMany && (
           <>
-            <button type="button" className={s.prev} aria-label="Previous media" onClick={goPrev}>
+            <button
+              type="button"
+              className={s.prev}
+              aria-label={dictionary.previousMedia.value}
+              onClick={handleControlClick(goPrev)}
+            >
               <Icon iconId="arrow-ios-back-outline" />
             </button>
-            <button type="button" className={s.next} aria-label="Next media" onClick={goNext}>
+            <button
+              type="button"
+              className={s.next}
+              aria-label={dictionary.nextMedia.value}
+              onClick={handleControlClick(goNext)}
+            >
               <Icon iconId="arrow-ios-forward-outline" />
             </button>
           </>
         )}
 
         {hasMany && (
-          <div className={s.dots} role="tablist" aria-label="Media pagination">
+          <div className={s.dots} role="tablist" aria-label={dictionary.mediaPagination.value}>
             {items.map((_, i) => (
               <button
                 key={i}
                 type="button"
                 className={i === safeIndex ? s.dot_active : s.dot}
-                aria-label={`Go to media ${i + 1}`}
-                onClick={() => setIndex(i)}
+                aria-label={`${dictionary.goToMediaPrefix.value} ${i + 1}`}
+                onClick={handleControlClick(() => setIndex(i))}
               />
             ))}
           </div>

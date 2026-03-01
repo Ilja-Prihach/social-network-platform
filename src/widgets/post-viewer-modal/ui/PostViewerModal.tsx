@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import type { PostViewerPost } from '@/entities/post';
 import { Icon } from '@/shared/ui/Icon';
+import { useDictionary, useLocale } from 'next-intlayer';
 import styles from './PostViewerModal.module.scss';
 import { usePostViewerActions } from '@/features/post/post-actions';
 import { PostViewerHeaderActions } from './components/PostViewerHeaderActions';
 import { PostViewerDescriptionSection } from './components/PostViewerDescriptionSection';
 import { PostViewerFooter } from './components/PostViewerFooter';
+import postViewerModalContent from '../post-viewer-modal.content';
 
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
@@ -20,6 +22,8 @@ type PostViewerModalProps = {
 };
 
 export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostViewerModalProps) {
+  const dictionary = useDictionary(postViewerModalContent);
+  const { locale } = useLocale();
   const [mediaIndex, setMediaIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -61,8 +65,9 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
 
   if (!post) return null;
 
+  const localeTag = getLocaleTag(locale);
   const avatarUrl = post.avatarOwner || AVATAR_FALLBACK;
-  const createdAtLabel = formatPostDate(post.createdAt);
+  const createdAtLabel = formatPostDate(post.createdAt, localeTag);
   const likeIconId = post.isLiked ? 'heart' : 'heart-outline';
   const likesCount = typeof post.likesCount === 'number' ? post.likesCount : null;
   const likesAvatars = (post.likesAvatars ?? []).slice(0, 3);
@@ -76,7 +81,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
         <button
           type="button"
           className={styles.close_button}
-          aria-label="Close"
+          aria-label={dictionary.close.value}
           onClick={handleRequestClose}
         >
           <Icon iconId="close-outline" />
@@ -87,7 +92,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
             <div className={styles.media_viewport}>
               <Image
                 src={currentMedia.src}
-                alt={currentMedia.alt || 'Post media'}
+                alt={currentMedia.alt || dictionary.postMediaAlt.value}
                 fill
                 sizes="(max-width: 1024px) 100vw, 640px"
                 className={styles.media}
@@ -98,7 +103,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
                   <button
                     type="button"
                     className={`${styles.media_nav_button} ${styles.media_nav_button_prev}`}
-                    aria-label="Previous media"
+                    aria-label={dictionary.previousMedia.value}
                     onClick={goPrev}
                   >
                     <Icon iconId="arrow-ios-back-outline" />
@@ -106,7 +111,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
                   <button
                     type="button"
                     className={`${styles.media_nav_button} ${styles.media_nav_button_next}`}
-                    aria-label="Next media"
+                    aria-label={dictionary.nextMedia.value}
                     onClick={goNext}
                   >
                     <Icon iconId="arrow-ios-forward-outline" />
@@ -115,12 +120,16 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
               )}
 
               {hasManyMedia && (
-                <div className={styles.media_dots} role="tablist" aria-label="Media pagination">
+                <div
+                  className={styles.media_dots}
+                  role="tablist"
+                  aria-label={dictionary.mediaPagination.value}
+                >
                   {media.map((item, index) => (
                     <button
                       key={item.id}
                       type="button"
-                      aria-label={`Go to media ${index + 1}`}
+                      aria-label={`${dictionary.goToMediaPrefix.value} ${index + 1}`}
                       className={
                         index === safeMediaIndex ? styles.media_dot_active : styles.media_dot
                       }
@@ -131,7 +140,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
               )}
             </div>
           ) : (
-            <div className={styles.media_fallback}>No media</div>
+            <div className={styles.media_fallback}>{dictionary.noMedia.value}</div>
           )}
         </div>
 
@@ -152,6 +161,8 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
               onToggleMenu={() => setIsMenuOpen((value) => !value)}
               onCloseMenu={() => setIsMenuOpen(false)}
               onRequestExitEditMode={handleRequestExitEditMode}
+              exitEditModeLabel={dictionary.exitEditMode.value}
+              openPostActionsLabel={dictionary.openPostActions.value}
             />
           </header>
 
@@ -162,6 +173,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
             descriptionForView={descriptionForView}
             descriptionDraft={descriptionDraft}
             onDescriptionDraftChange={setDescriptionDraft}
+            editDescriptionPlaceholder={dictionary.editDescriptionPlaceholder.value}
           />
 
           <PostViewerFooter
@@ -172,6 +184,14 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
             likesAvatars={likesAvatars}
             createdAtLabel={createdAtLabel}
             onSaveChanges={handleSaveChanges}
+            saveChangesText={dictionary.saveChanges.value}
+            likePostLabel={dictionary.likePost.value}
+            sharePostLabel={dictionary.sharePost.value}
+            savePostLabel={dictionary.savePost.value}
+            likesLabel={dictionary.likesLabel.value}
+            addCommentPlaceholder={dictionary.addCommentPlaceholder.value}
+            publishText={dictionary.publish.value}
+            localeTag={localeTag}
           />
         </aside>
       </div>
@@ -183,14 +203,27 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
-function formatPostDate(value: string) {
+const LOCALE_TAGS: Record<string, string> = {
+  en: 'en-US',
+  fr: 'fr-FR',
+  es: 'es-ES',
+  ru: 'ru-RU',
+  it: 'it-IT',
+  he: 'he-IL',
+};
+
+function getLocaleTag(locale: string) {
+  return LOCALE_TAGS[locale] ?? LOCALE_TAGS.en;
+}
+
+function formatPostDate(value: string, localeTag: string) {
   const date = new Date(value);
 
   if (Number.isNaN(date.getTime())) {
     return value;
   }
 
-  return new Intl.DateTimeFormat('en-US', {
+  return new Intl.DateTimeFormat(localeTag, {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
