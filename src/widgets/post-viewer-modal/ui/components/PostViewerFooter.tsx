@@ -11,6 +11,14 @@ type PostViewerFooterProps = {
   likesAvatars: string[];
   createdAtLabel: string;
   onSaveChanges: () => void;
+  saveChangesText: string;
+  likePostLabel: string;
+  sharePostLabel: string;
+  savePostLabel: string;
+  likesLabel: string;
+  addCommentPlaceholder: string;
+  publishText: string;
+  localeTag: string;
 };
 
 export function PostViewerFooter({
@@ -21,6 +29,14 @@ export function PostViewerFooter({
   likesAvatars,
   createdAtLabel,
   onSaveChanges,
+  saveChangesText,
+  likePostLabel,
+  sharePostLabel,
+  savePostLabel,
+  likesLabel,
+  addCommentPlaceholder,
+  publishText,
+  localeTag,
 }: PostViewerFooterProps) {
   const hasLikesData = likesCount !== null || likesAvatars.length > 0;
 
@@ -34,7 +50,7 @@ export function PostViewerFooter({
           onClick={onSaveChanges}
           disabled={isActionPending}
         >
-          Save Changes
+          {saveChangesText}
         </Button>
       </div>
     );
@@ -44,13 +60,13 @@ export function PostViewerFooter({
     <>
       <div className={styles.actions}>
         <div className={styles.reaction_buttons}>
-          <button type="button" className={styles.icon_button} aria-label="Like post">
+          <button type="button" className={styles.icon_button} aria-label={likePostLabel}>
             <Icon iconId={likeIconId} />
           </button>
-          <button type="button" className={styles.icon_button} aria-label="Share post">
+          <button type="button" className={styles.icon_button} aria-label={sharePostLabel}>
             <Icon iconId="paper-plane-outline" />
           </button>
-          <button type="button" className={styles.icon_button} aria-label="Save post">
+          <button type="button" className={styles.icon_button} aria-label={savePostLabel}>
             <Icon iconId="bookmark-outline" />
           </button>
         </div>
@@ -68,9 +84,8 @@ export function PostViewerFooter({
             )}
             {likesCount !== null && (
               <p className={styles.likes}>
-                {formatLikesCount(likesCount)} &quot;
-                <span className={styles.likes_highlight}>Like</span>
-                &quot;
+                {formatLikesCount(likesCount, localeTag)}{' '}
+                <span className={styles.likes_highlight}>{likesLabel}</span>
               </p>
             )}
           </div>
@@ -79,15 +94,19 @@ export function PostViewerFooter({
       </div>
 
       <div className={styles.add_comment}>
-        <input className={styles.add_comment_input} type="text" placeholder="Add a Comment..." />
+        <input
+          className={styles.add_comment_input}
+          type="text"
+          placeholder={addCommentPlaceholder}
+        />
         <button type="button" className={styles.publish_button}>
-          Publish
+          {publishText}
         </button>
       </div>
     </>
   );
 }
 
-function formatLikesCount(value: number) {
-  return new Intl.NumberFormat('ru-RU').format(value);
+function formatLikesCount(value: number, localeTag: string) {
+  return new Intl.NumberFormat(localeTag).format(value);
 }

@@ -1,10 +1,12 @@
 'use client';
 
 import { useCallback, useMemo } from 'react';
+import { useDictionary } from 'next-intlayer';
 import type { PostViewerPost } from '@/entities/post';
 import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { usePostEditMode } from './usePostEditMode';
 import { usePostMutations } from './usePostMutations';
+import postActionsContent from './post-actions.content';
 
 export type PostActionMenuItem = {
   id: 'edit' | 'delete' | 'follow' | 'unfollow' | 'copyLink';
@@ -20,25 +22,29 @@ type UsePostViewerActionsParams = {
   onClose: () => void;
 };
 
-function openUnsavedChangesModal(onConfirm: () => void) {
-  showModal({
-    title: 'Close Post',
-    description:
-      "Do you really want to close the edition of the publication? If you close changes won't be saved",
-    confirmText: 'Yes',
-    cancelText: 'No',
-    confirmVariant: 'outline',
-    cancelVariant: 'primary',
-    onConfirm,
-  });
-}
-
 export function usePostViewerActions({
   post,
   isOwner,
   isFriendPost,
   onClose,
 }: UsePostViewerActionsParams) {
+  const dictionary = useDictionary(postActionsContent);
+
+  const openUnsavedChangesModal = useCallback(
+    (onConfirm: () => void) => {
+      showModal({
+        title: dictionary.closePostTitle.value,
+        description: dictionary.closePostDescription.value,
+        confirmText: dictionary.confirmYes.value,
+        cancelText: dictionary.confirmNo.value,
+        confirmVariant: 'outline',
+        cancelVariant: 'primary',
+        onConfirm,
+      });
+    },
+    [dictionary],
+  );
+
   const {
     isEditMode,
     descriptionDraft,
@@ -60,23 +66,29 @@ export function usePostViewerActions({
     usePostMutations({
       onDeleteSuccess: onClose,
       onUpdateSuccess: applySavedDescription,
+      messages: {
+        deleteSuccess: dictionary.deleteSuccess.value,
+        deleteFailed: dictionary.deleteFailed.value,
+        updateSuccess: dictionary.updateSuccess.value,
+        updateFailed: dictionary.updateFailed.value,
+      },
     });
 
   const handleDeletePost = useCallback(() => {
     if (!post || isDeletePending) return;
 
     showModal({
-      title: 'Delete Post',
-      description: 'Are you sure you want to delite this post',
-      confirmText: 'yes',
-      cancelText: 'no',
+      title: dictionary.deletePostTitle.value,
+      description: dictionary.deletePostDescription.value,
+      confirmText: dictionary.confirmYes.value,
+      cancelText: dictionary.confirmNo.value,
       confirmVariant: 'outline',
       cancelVariant: 'primary',
       onConfirm: () => {
         deletePostById(post.id);
       },
     });
-  }, [deletePostById, isDeletePending, post]);
+  }, [deletePostById, dictionary, isDeletePending, post]);
 
   const handleStartEdit = useCallback(() => {
     if (!post || isUpdatePending) return;
@@ -100,23 +112,33 @@ export function usePostViewerActions({
   const menuItems = useMemo<PostActionMenuItem[]>(() => {
     if (isOwner) {
       return [
-        { id: 'edit', label: 'Edit Post', iconId: 'edit-2-outline', onClick: handleStartEdit },
-        { id: 'delete', label: 'Delete Post', iconId: 'trash-outline', onClick: handleDeletePost },
+        {
+          id: 'edit',
+          label: dictionary.editPost.value,
+          iconId: 'edit-2-outline',
+          onClick: handleStartEdit,
+        },
+        {
+          id: 'delete',
+          label: dictionary.removePost.value,
+          iconId: 'trash-outline',
+          onClick: handleDeletePost,
+        },
       ];
     }
 
     if (isFriendPost) {
       return [
-        { id: 'unfollow', label: 'Unfollow', iconId: 'person-remove-outline' },
-        { id: 'copyLink', label: 'Copy Link', iconId: 'copy-outline' },
+        { id: 'unfollow', label: dictionary.unfollow.value, iconId: 'person-remove-outline' },
+        { id: 'copyLink', label: dictionary.copyLink.value, iconId: 'copy-outline' },
       ];
     }
 
     return [
-      { id: 'follow', label: 'Follow', iconId: 'person-add-outline' },
-      { id: 'copyLink', label: 'Copy Link', iconId: 'copy-outline' },
+      { id: 'follow', label: dictionary.follow.value, iconId: 'person-add-outline' },
+      { id: 'copyLink', label: dictionary.copyLink.value, iconId: 'copy-outline' },
     ];
-  }, [handleDeletePost, handleStartEdit, isFriendPost, isOwner]);
+  }, [dictionary, handleDeletePost, handleStartEdit, isFriendPost, isOwner]);
 
   return {
     menuItems,

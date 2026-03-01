@@ -10,6 +10,8 @@ type PostViewerHeaderActionsProps = {
   onToggleMenu: () => void;
   onCloseMenu: () => void;
   onRequestExitEditMode: () => void;
+  exitEditModeLabel: string;
+  openPostActionsLabel: string;
 };
 
 export function PostViewerHeaderActions({
@@ -20,6 +22,8 @@ export function PostViewerHeaderActions({
   onToggleMenu,
   onCloseMenu,
   onRequestExitEditMode,
+  exitEditModeLabel,
+  openPostActionsLabel,
 }: PostViewerHeaderActionsProps) {
   if (isEditMode) {
     return (
@@ -27,7 +31,7 @@ export function PostViewerHeaderActions({
         <button
           type="button"
           className={styles.icon_button}
-          aria-label="Exit edit mode"
+          aria-label={exitEditModeLabel}
           onClick={onRequestExitEditMode}
         >
           <Icon iconId="close-outline" />
@@ -41,7 +45,7 @@ export function PostViewerHeaderActions({
       <button
         type="button"
         className={styles.icon_button}
-        aria-label="Open post actions"
+        aria-label={openPostActionsLabel}
         onClick={onToggleMenu}
       >
         <Icon iconId="more-horizontal-outline" />
