@@ -7,7 +7,7 @@ export const usePeopleCount = (initialCount?: number | null) => {
     queryFn: getPeopleCount,
     initialData: typeof initialCount === 'number' ? initialCount : undefined,
     staleTime: 60 * 1000,
-    refetchInterval: 60 * 1000,
-    refetchIntervalInBackground: true,
+    refetchInterval: 5 * 60 * 1000,
+    refetchIntervalInBackground: false,
   });
 };

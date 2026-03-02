@@ -22,25 +22,18 @@ type HomePageInitialData = {
 };
 
 export async function getHomePageInitialData(): Promise<HomePageInitialData> {
-  let postsResponse: PublicPostsPageDto | null = null;
-  let peopleResponse: PublicUsersResponse | null = null;
-
-  try {
-    postsResponse = await serverApi<PublicPostsPageDto>(
+  const [postsResult, peopleResult] = await Promise.allSettled([
+    serverApi<PublicPostsPageDto>(
       buildBackendPublicPostsPath({
         endCursorPostId: 0,
         pageSize: HOME_FEED_INITIAL_PAGE_SIZE,
       }),
-    );
-  } catch {
-    postsResponse = null;
-  }
+    ),
+    serverApi<PublicUsersResponse>('/api/v1/public-user'),
+  ]);
 
-  try {
-    peopleResponse = await serverApi<PublicUsersResponse>('/api/v1/public-user');
-  } catch {
-    peopleResponse = null;
-  }
+  const postsResponse = postsResult.status === 'fulfilled' ? postsResult.value : null;
+  const peopleResponse = peopleResult.status === 'fulfilled' ? peopleResult.value : null;
 
   const normalizedItems = normalizeCursorPageItems(
     postsResponse?.items,
