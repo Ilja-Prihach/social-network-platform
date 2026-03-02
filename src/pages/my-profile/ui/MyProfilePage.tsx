@@ -10,6 +10,8 @@ export function MyProfilePage() {
   const router = useRouter();
   const { data: me, isPending } = useMe();
 
+  console.log(me);
+
   useEffect(() => {
     if (!me?.userId) return;
     router.replace(`/profile/${me.userId}`);
