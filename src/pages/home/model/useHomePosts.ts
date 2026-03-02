@@ -35,6 +35,7 @@ export function useHomePosts(
   initialPosts: PostCardVM[] = [],
   initialNextCursorPostId: number | null = null,
 ) {
+  const hasInitialPosts = initialPosts.length > 0;
   const { data: me } = useMe();
   const meId = me?.userId ? String(me.userId) : null;
 
@@ -94,8 +95,8 @@ export function useHomePosts(
       })),
     }),
     staleTime: 60 * 1000,
-    refetchOnMount: true,
-    refetchInterval: 60 * 1000,
-    refetchIntervalInBackground: true,
+    refetchOnMount: !hasInitialPosts,
+    refetchInterval: 5 * 60 * 1000,
+    refetchIntervalInBackground: false,
   });
 }

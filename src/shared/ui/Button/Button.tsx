@@ -50,8 +50,6 @@ export const Button = ({
     };
     const localizedHref = getLocalizedUrl(href, locale); // 👈 добавляем префикс
 
-    console.log('BTN', { locale, href, localizedHref });
-
     return (
       <Link href={localizedHref} className={classes} {...linkProps} onClick={handleClick}>
         {children}

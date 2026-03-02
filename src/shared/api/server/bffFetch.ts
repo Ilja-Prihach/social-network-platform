@@ -10,6 +10,8 @@ const isProd = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = isProd ? '__Host-access_token' : 'access_token';
 const REFRESH_BFF_PATH = '/api/auth/update';
 const REFRESH_BACKEND_PATH = '/api/v1/auth/update';
+const DEFAULT_TIMEOUT_MS = 10000;
+const FETCH_TIMEOUT_MS = resolveFetchTimeoutMs();
 
 type BffFetchOptions = RequestInit & {
   json?: unknown;
@@ -32,6 +34,11 @@ const getApiUrl = (): string => {
   return API_URL;
 };
 
+function resolveFetchTimeoutMs(): number {
+  const parsed = Number(process.env.BFF_FETCH_TIMEOUT_MS ?? DEFAULT_TIMEOUT_MS);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_TIMEOUT_MS;
+}
+
 const buildAccessCookie = (token: string): string => {
   const attrs = ['Path=/', 'HttpOnly', 'SameSite=Lax'];
   if (isProd) attrs.push('Secure');
@@ -41,6 +48,50 @@ const buildAccessCookie = (token: string): string => {
 const hasCookie = (cookies: string[] | undefined, name: string): boolean => {
   if (!cookies || !cookies.length) return false;
   return cookies.some((cookie) => cookie.startsWith(`${name}=`));
+};
+
+const makeGatewayErrorResponse = (status: 502 | 504, message: string): Response => {
+  return new Response(JSON.stringify({ message }), {
+    status,
+    headers: {
+      'content-type': 'application/json',
+      'cache-control': 'no-store',
+    },
+  });
+};
+
+const fetchWithTimeout = async (url: string, init: RequestInit): Promise<Response> => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+  const cleanupAbortForwarder = (() => {
+    if (!init.signal) return () => undefined;
+
+    const onAbort = () => controller.abort();
+    if (init.signal.aborted) {
+      controller.abort();
+      return () => undefined;
+    }
+
+    init.signal.addEventListener('abort', onAbort, { once: true });
+    return () => init.signal?.removeEventListener('abort', onAbort);
+  })();
+
+  try {
+    return await fetch(url, {
+      ...init,
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      return makeGatewayErrorResponse(504, 'Upstream timeout');
+    }
+
+    return makeGatewayErrorResponse(502, 'Upstream request failed');
+  } finally {
+    clearTimeout(timeout);
+    cleanupAbortForwarder();
+  }
 };
 
 export async function bffFetch(
@@ -75,7 +126,7 @@ export async function bffFetch(
       headers.set('Content-Type', 'application/json');
     }
 
-    return fetch(`${apiUrl}${path}`, {
+    return fetchWithTimeout(`${apiUrl}${path}`, {
       ...options,
       headers,
       body: options.json !== undefined ? JSON.stringify(options.json) : options.body,
@@ -136,13 +187,27 @@ const refreshTokens = async (): Promise<RefreshResult> => {
   // Single-flight: concurrent 401s await the same refresh request.
   refreshPromise = (async () => {
     const cookieStore = await cookies();
+    const refreshToken =
+      cookieStore.get('refreshToken')?.value ?? cookieStore.get('__Host-refreshToken')?.value;
+
+    if (!refreshToken) {
+      return null;
+    }
+
     const cookieHeader = cookieStore
       .getAll()
-      .filter(({ name }) => name === 'refreshToken' || name === COOKIE_NAME)
+      .filter(
+        ({ name }) =>
+          name === 'refreshToken' || name === '__Host-refreshToken' || name === COOKIE_NAME,
+      )
       .map(({ name, value }) => `${name}=${value}`)
       .join('; ');
 
-    const res = await fetch(`${getApiUrl()}${REFRESH_BACKEND_PATH}`, {
+    if (!cookieHeader) {
+      return null;
+    }
+
+    const res = await fetchWithTimeout(`${getApiUrl()}${REFRESH_BACKEND_PATH}`, {
       method: 'POST',
       headers: {
         Cookie: cookieHeader,
