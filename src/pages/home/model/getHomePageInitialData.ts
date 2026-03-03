@@ -9,7 +9,7 @@ import {
 import { mapPublicPostsToPostCardVM } from '@/widgets/post-card';
 import type { PostCardVM } from '@/widgets/post-card';
 import { serverApi } from '@/shared/api/server/serverApi';
-import { HOME_FEED_INITIAL_PAGE_SIZE } from '@/shared/config/pagination';
+import { HOME_PREVIEW_PAGE_SIZE } from '@/shared/config/pagination';
 
 type PublicUsersResponse = {
   totalCount: number;
@@ -21,7 +21,9 @@ type HomePageInitialData = {
   peopleCount: number | null;
 };
 
-export async function getHomePageInitialData(): Promise<HomePageInitialData> {
+export async function getHomePageInitialData(
+  pageSize: number = HOME_PREVIEW_PAGE_SIZE,
+): Promise<HomePageInitialData> {
   let postsResponse: PublicPostsPageDto | null = null;
   let peopleResponse: PublicUsersResponse | null = null;
 
@@ -29,8 +31,9 @@ export async function getHomePageInitialData(): Promise<HomePageInitialData> {
     postsResponse = await serverApi<PublicPostsPageDto>(
       buildBackendPublicPostsPath({
         endCursorPostId: 0,
-        pageSize: HOME_FEED_INITIAL_PAGE_SIZE,
+        pageSize,
       }),
+      { withAuth: false },
     );
   } catch {
     postsResponse = null;
@@ -42,16 +45,12 @@ export async function getHomePageInitialData(): Promise<HomePageInitialData> {
     peopleResponse = null;
   }
 
-  const normalizedItems = normalizeCursorPageItems(
-    postsResponse?.items,
-    0,
-    HOME_FEED_INITIAL_PAGE_SIZE,
-  );
+  const normalizedItems = normalizeCursorPageItems(postsResponse?.items, 0, pageSize);
   const posts = mapPublicPostsToPostCardVM(normalizedItems);
   const nextCursorPostId = resolveNextCursor(
     normalizedItems,
     postsResponse?.nextCursor,
-    HOME_FEED_INITIAL_PAGE_SIZE,
+    pageSize,
     0,
   );
   const peopleCount =

@@ -7,4 +7,7 @@ export const metadata: Metadata = {
 };
 
 export const revalidate = 60;
-export default HomeFeedRoutePage;
+
+export default function FeedPage(props: Parameters<typeof HomeFeedRoutePage>[0]) {
+  return <HomeFeedRoutePage {...props} mode="feed" />;
+}

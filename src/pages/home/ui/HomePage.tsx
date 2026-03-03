@@ -19,16 +19,22 @@ type Props = {
   initialPosts?: PostCardVM[];
   initialNextCursorPostId?: number | null;
   initialPeopleCount?: number | null;
+  mode?: 'preview' | 'feed';
 };
 
 export function HomePage({
   initialPosts = [],
   initialNextCursorPostId = null,
   initialPeopleCount = null,
+  mode = 'preview',
 }: Props) {
   const { data: me } = useMe();
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
-  const postsQuery = useHomePosts(initialPosts, initialNextCursorPostId);
+  const isFeed = mode === 'feed';
+  const postsQuery = useHomePosts(initialPosts, initialNextCursorPostId, {
+    enabled: isFeed,
+    mode,
+  });
   const { hasNextPage, isFetchingNextPage, fetchNextPage } = postsQuery;
   const items = useMemo(
     () => postsQuery.data?.pages.flatMap((page) => page.items) ?? initialPosts,
@@ -37,6 +43,8 @@ export function HomePage({
   const shouldShowPostSkeleton = postsQuery.isLoading && items.length === 0;
 
   useEffect(() => {
+    if (!isFeed) return;
+
     const target = loadMoreRef.current;
     if (!target) return;
 
@@ -56,7 +64,7 @@ export function HomePage({
     observer.observe(target);
 
     return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [fetchNextPage, hasNextPage, isFeed, isFetchingNextPage]);
 
   const viewer = usePostViewer<PostCardVM>({
     items,
@@ -91,8 +99,12 @@ export function HomePage({
                     <PostCard key={vm.post.id} vm={vm} onOpen={() => viewer.openPost(vm.post.id)} />
                   ))}
             </div>
-            {isFetchingNextPage && <div className={styles.load_more}>Loading more posts...</div>}
-            {hasNextPage && <div ref={loadMoreRef} className={styles.scroll_trigger} aria-hidden />}
+            {isFeed && isFetchingNextPage && (
+              <div className={styles.load_more}>Loading more posts...</div>
+            )}
+            {isFeed && hasNextPage && (
+              <div ref={loadMoreRef} className={styles.scroll_trigger} aria-hidden />
+            )}
           </main>
         </div>
       </section>

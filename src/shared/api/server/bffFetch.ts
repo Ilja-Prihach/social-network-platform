@@ -13,6 +13,7 @@ const REFRESH_BACKEND_PATH = '/api/v1/auth/update';
 
 type BffFetchOptions = RequestInit & {
   json?: unknown;
+  withAuth?: boolean;
 };
 
 export type BffFetchResult = {
@@ -60,11 +61,12 @@ export async function bffFetch(
     typeof arg1 === 'string'
       ? ((arg2 ?? {}) as BffFetchOptions)
       : ((arg3 ?? {}) as BffFetchOptions);
+  const withAuth = options.withAuth ?? true;
 
   const doFetch = async (tokenOverride?: string) => {
     const apiUrl = getApiUrl();
     const cookieStore = await cookies();
-    const token = tokenOverride ?? cookieStore.get(COOKIE_NAME)?.value;
+    const token = withAuth ? (tokenOverride ?? cookieStore.get(COOKIE_NAME)?.value) : undefined;
     const headers = new Headers(options.headers);
 
     if (token) {
@@ -94,7 +96,12 @@ export async function bffFetch(
       : normalizedSetCookie;
 
   const initialRes = sanitized ?? res;
-  if (res.status !== 401 || path === REFRESH_BACKEND_PATH || path === REFRESH_BFF_PATH) {
+  if (
+    !withAuth ||
+    res.status !== 401 ||
+    path === REFRESH_BACKEND_PATH ||
+    path === REFRESH_BFF_PATH
+  ) {
     return nextRes ? initialRes : { res: initialRes, setCookie: baseSetCookie };
   }
 

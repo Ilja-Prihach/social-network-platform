@@ -8,6 +8,7 @@ type ServerRequestOptions = {
   method?: HttpMethod;
   body?: unknown;
   headers?: HeadersInit;
+  withAuth?: boolean;
 };
 
 export async function serverApi<T>(path: string, options: ServerRequestOptions = {}): Promise<T> {
@@ -18,6 +19,7 @@ export async function serverApi<T>(path: string, options: ServerRequestOptions =
       ...options.headers,
     },
     json: options.body,
+    withAuth: options.withAuth,
   });
 
   const text = await res.text();

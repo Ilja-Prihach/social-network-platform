@@ -28,6 +28,7 @@ export async function GET(request: Request) {
     `/api/v1/posts/all/${Number.isFinite(endCursorPostId) ? endCursorPostId : 0}?${query.toString()}`,
     {
       method: 'GET',
+      withAuth: false,
     },
   );
 
