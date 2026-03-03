@@ -10,7 +10,6 @@ import {
 import type { ApiError } from '@/shared/api/types';
 import { mapPublicPostsToPostCardVM } from '@/widgets/post-card';
 import type { PostCardVM } from '@/widgets/post-card';
-import { useMe } from '@/features/auth/model/useMe';
 import { HOME_FEED_INITIAL_PAGE_SIZE, HOME_FEED_NEXT_PAGE_SIZE } from '@/shared/config/pagination';
 
 type HomePostsPage = {
@@ -18,34 +17,21 @@ type HomePostsPage = {
   nextCursorPostId: number | null;
 };
 
-const sortOwnPostsFirst = (items: PostCardVM[], meId: string | null): PostCardVM[] => {
-  if (!meId) {
-    return items;
-  }
-
-  return [...items].sort((left, right) => {
-    const leftOwn = left.author.id === meId;
-    const rightOwn = right.author.id === meId;
-    if (leftOwn === rightOwn) return 0;
-    return leftOwn ? -1 : 1;
-  });
-};
-
 export function useHomePosts(
   initialPosts: PostCardVM[] = [],
   initialNextCursorPostId: number | null = null,
+  options?: { enabled?: boolean; mode?: 'preview' | 'feed' },
 ) {
-  const { data: me } = useMe();
-  const meId = me?.userId ? String(me.userId) : null;
+  const mode = options?.mode ?? 'feed';
 
   return useInfiniteQuery<
     HomePostsPage,
     ApiError,
     InfiniteData<HomePostsPage>,
-    [string, string | null],
+    [string, 'preview' | 'feed'],
     number | null
   >({
-    queryKey: ['home-posts', meId],
+    queryKey: ['home-posts', mode],
     queryFn: async ({ pageParam }) => {
       const isInitialPage = pageParam === 0;
       const targetPageSize = isInitialPage ? HOME_FEED_INITIAL_PAGE_SIZE : HOME_FEED_NEXT_PAGE_SIZE;
@@ -68,7 +54,7 @@ export function useHomePosts(
       };
     },
     initialPageParam: 0 as number | null,
-    ...(initialPosts.length
+    ...(initialPosts.length && (options?.enabled ?? true)
       ? {
           initialData: {
             pages: [
@@ -86,16 +72,10 @@ export function useHomePosts(
 
       return typeof lastPage.nextCursorPostId === 'number' ? lastPage.nextCursorPostId : undefined;
     },
-    select: (data) => ({
-      ...data,
-      pages: data.pages.map((page) => ({
-        ...page,
-        items: sortOwnPostsFirst(page.items, meId),
-      })),
-    }),
+    enabled: options?.enabled ?? true,
     staleTime: 60 * 1000,
-    refetchOnMount: true,
-    refetchInterval: 60 * 1000,
-    refetchIntervalInBackground: true,
+    refetchOnMount: options?.enabled ?? true,
+    refetchInterval: options?.enabled ? 60 * 1000 : false,
+    refetchIntervalInBackground: options?.enabled ?? true,
   });
 }

@@ -1,4 +1,5 @@
 export const PUBLIC_POSTS_DEFAULT_PAGE_SIZE = 12;
 
+export const HOME_PREVIEW_PAGE_SIZE = 4;
 export const HOME_FEED_INITIAL_PAGE_SIZE = 16;
 export const HOME_FEED_NEXT_PAGE_SIZE = 12;
