@@ -1,6 +1,3 @@
-// Фронт ожидает переменную
-// NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-
 'use client';
 
 import { useState } from 'react';
@@ -13,6 +10,7 @@ import { showModal } from '@/shared/ui/ModalWindow/ModalWindow';
 import { useRecoverPassword } from '@/features/auth/forgot-password/model/useRecoverPassword';
 import { useDictionary } from 'next-intlayer';
 import requestPasswordResetContent from '../request-password-reset.content';
+import Script from 'next/script';
 
 const STORAGE_KEY = 'forgotPasswordEmail';
 
@@ -106,10 +104,16 @@ export function RequestPasswordResetForm() {
       </div>
       <div className={styles.recaptcha}>
         {isRecaptchaEnabled && (
-          <Recaptcha
-            siteKey={recaptchaSiteKey!}
-            onChange={(token) => setRecaptchaToken(token || undefined)}
-          />
+          <>
+            <Script
+              src="https://www.google.com/recaptcha/api.js?render=explicit"
+              strategy="afterInteractive"
+            />
+            <Recaptcha
+              siteKey={recaptchaSiteKey!}
+              onChange={(token) => setRecaptchaToken(token || undefined)}
+            />
+          </>
         )}
       </div>
     </form>

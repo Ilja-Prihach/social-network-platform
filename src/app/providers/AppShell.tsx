@@ -5,7 +5,7 @@ import { ReactQueryProvider } from '@/app/providers/ReactQueryProvider';
 import { Alert } from '@/shared/ui/Alert/Alert';
 import { SvgSprite } from '@/shared/ui/SvgSprite';
 import { ModalWindow } from '@/shared/ui/ModalWindow';
-import Script from 'next/script';
+// import Script from 'next/script';
 import { Header } from '@/widgets/header/ui/Header';
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
 import { useMe } from '@/features/auth/model/useMe';
@@ -35,10 +35,10 @@ const AppShellContent = ({ children }: PropsWithChildren) => {
         )}
         <div className={showSidebar ? styles.content_with_sidebar : styles.content}>{children}</div>
       </div>
-      <Script
-        src="https://www.google.com/recaptcha/api.js?render=explicit"
-        strategy="afterInteractive"
-      />
+      {/*<Script*/}
+      {/*  src="https://www.google.com/recaptcha/api.js?render=explicit"*/}
+      {/*  strategy="afterInteractive"*/}
+      {/*/>*/}
     </>
   );
 };
