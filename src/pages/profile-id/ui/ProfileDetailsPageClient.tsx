@@ -16,6 +16,7 @@ import { mapProfilePostToViewerPost } from '../model/mapProfilePostToViewerPost'
 import { ProfileHeader } from '@/widgets/profile-header';
 import { PostMediaCarousel } from '@/entities/post';
 import { PostViewerModal } from '@/widgets/post-viewer-modal';
+import type { PostViewerPost } from '@/entities/post';
 
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
@@ -28,12 +29,14 @@ type ProfileDetailsPageClientProps = {
   profileId: number;
   initialProfile: PublicProfile;
   initialPostsPage: ProfilePostsPage;
+  initialPost?: PostViewerPost | null;
 };
 
 export function ProfileDetailsPageClient({
   profileId,
   initialProfile,
   initialPostsPage,
+  initialPost,
 }: ProfileDetailsPageClientProps) {
   const { data: me } = useMe();
   const router = useRouter();
@@ -87,12 +90,25 @@ export function ProfileDetailsPageClient({
     getIsFriendPost: () => Boolean(profile?.isFollowing && profile?.isFollowedBy),
   });
 
+  const modalPost =
+    selectedPostIdFromUrl && initialPost && initialPost.id === selectedPostIdFromUrl
+      ? initialPost
+      : viewer.selectedPost;
+
+  const modalIsOwner =
+    modalPost && initialPost && modalPost.id === initialPost.id ? isOwner : viewer.isOwner;
+
+  const modalIsFriendPost =
+    modalPost && initialPost && modalPost.id === initialPost.id
+      ? Boolean(profile?.isFollowing && profile?.isFollowedBy)
+      : viewer.isFriendPost;
+
   useEffect(() => {
     if (!selectedPostIdFromUrl) {
       return;
     }
     viewer.openPost(selectedPostIdFromUrl);
-  }, [selectedPostIdFromUrl, viewer]);
+  }, [selectedPostIdFromUrl, viewer.openPost]);
 
   return (
     <section className={styles.page}>
@@ -151,9 +167,9 @@ export function ProfileDetailsPageClient({
         </main>
       </div>
       <PostViewerModal
-        post={viewer.selectedPost}
-        isOwner={viewer.isOwner}
-        isFriendPost={viewer.isFriendPost}
+        post={modalPost}
+        isOwner={modalIsOwner}
+        isFriendPost={modalIsFriendPost}
         onClose={() => {
           viewer.closePost();
           const next = new URLSearchParams(searchParams?.toString());
