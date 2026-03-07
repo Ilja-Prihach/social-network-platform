@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import { DatePicker } from '@/shared/ui/DatePicker';
 import { Icon } from '@/shared/ui/Icon';
 import { Input } from '@/shared/ui/Input';
@@ -11,7 +11,7 @@ type DateOfBirthFieldProps = {
   label: string;
   value: string;
   placeholder: string;
-  error?: string;
+  error?: ReactNode;
   onChange: (value: string) => void;
 };
 
@@ -38,6 +38,7 @@ export const DateOfBirthField = ({
         onChange={onChange}
         placeholder={placeholder}
         error={error}
+        readonly
         rightIcon={<Icon iconId="calendar-outline" width="20" height="20" />}
         onRightIconClick={() => setIsDatePickerOpen(true)}
       />

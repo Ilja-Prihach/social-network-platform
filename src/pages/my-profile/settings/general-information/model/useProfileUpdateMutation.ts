@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+
 import { updateProfile } from '@/entities/profile';
 import type { UpdateProfileRequest } from '@/entities/profile';
 import type { ApiError } from '@/shared/api/types';
@@ -10,31 +10,23 @@ type UseProfileUpdateMutationParams = {
   userId?: number;
   invalidateProfileQueries: (userId?: number) => Promise<void>;
   successMessage: string;
+  errorMessage: string;
 };
 
 export const useProfileUpdateMutation = ({
   userId,
   invalidateProfileQueries,
   successMessage,
+  errorMessage,
 }: UseProfileUpdateMutationParams) => {
-  const router = useRouter();
-
   return useMutation<void, ApiError<ProfileUpdateErrorResponse>, UpdateProfileRequest>({
     mutationFn: updateProfile,
     onSuccess: async () => {
       showAlert(successMessage, 'success');
-
       await invalidateProfileQueries(userId);
-
-      if (userId) {
-        router.replace(`/profile/${userId}`);
-        return;
-      }
-
-      router.replace('/my-profile');
     },
     onError: (error) => {
-      showAlert(getProfileUpdateError(error), 'error');
+      showAlert(getProfileUpdateError(error, errorMessage), 'error');
     },
   });
 };

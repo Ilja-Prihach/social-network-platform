@@ -9,8 +9,9 @@ export type InputProps = {
   onChange?: (value: string) => void;
   disabled?: boolean;
   placeholder?: string;
-  error?: string;
+  error?: ReactNode;
   dir?: 'ltr' | 'rtl';
+  readonly?: boolean;
 
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -28,6 +29,7 @@ export const Input = ({
   placeholder,
   error,
   dir = 'ltr',
+  readonly = false,
   leftIcon,
   rightIcon,
   onLeftIconClick,
@@ -85,6 +87,7 @@ export const Input = ({
           value={value}
           onChange={handleChange}
           dir={dir}
+          readOnly={readonly}
         />
 
         {rightIcon && (

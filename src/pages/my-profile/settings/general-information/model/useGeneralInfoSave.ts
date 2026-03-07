@@ -13,6 +13,7 @@ type UseGeneralInfoSaveParams = {
     success: string;
     dateOfBirthFormatError: string;
     dateOfBirthUnder13Error: string;
+    errorServerUnavailable: string;
   };
   values: {
     dateOfBirthValidation: DateOfBirthValidationResult;
@@ -39,6 +40,7 @@ export const useGeneralInfoSave = ({
     userId,
     invalidateProfileQueries,
     successMessage: messages.success,
+    errorMessage: messages.errorServerUnavailable,
   });
 
   const onSave = () => {

@@ -4,7 +4,10 @@ export type ProfileUpdateErrorResponse = {
   messages?: string | { message: string; field: string }[];
 };
 
-export const getProfileUpdateError = (error: ApiError<ProfileUpdateErrorResponse>) => {
+export const getProfileUpdateError = (
+  error: ApiError<ProfileUpdateErrorResponse>,
+  fallbackMessage = 'Error! Server is not available!',
+) => {
   const messages = error.data?.messages;
 
   if (typeof messages === 'string') return messages;
@@ -12,5 +15,5 @@ export const getProfileUpdateError = (error: ApiError<ProfileUpdateErrorResponse
     return messages[0].message;
   }
 
-  return 'Failed to update profile';
+  return fallbackMessage;
 };
