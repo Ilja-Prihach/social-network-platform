@@ -1,5 +1,8 @@
 'use client';
 
+import Link from 'next/link';
+import { getLocalizedUrl } from 'intlayer';
+import { useLocale } from 'next-intlayer';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { Select } from '@/shared/ui/Select/Select';
@@ -17,7 +20,22 @@ const toText = (value: DictionaryText): string => (typeof value === 'string' ? v
 
 export function MyProfileSettingsPage() {
   const content = useDictionary(generalInformationContent);
+  const { locale } = useLocale();
   const controller = useGeneralInformationController(content);
+  const privacyPolicyHref = getLocalizedUrl('/privacy-policy', locale);
+  const dateOfBirthError = controller.dateOfBirthAgeError ? (
+    <>
+      {controller.dateOfBirthAgeError}{' '}
+      <Link
+        className={styles.privacy_policy_link}
+        href={privacyPolicyHref}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {controller.privacyPolicyLinkLabel}
+      </Link>
+    </>
+  ) : undefined;
 
   return (
     <>
@@ -57,7 +75,7 @@ export function MyProfileSettingsPage() {
             value={controller.dateOfBirthValue}
             onChange={controller.formState.setDateOfBirth}
             placeholder={toText(content.dateOfBirthPlaceholder)}
-            error={controller.dateOfBirthAgeError ?? undefined}
+            error={dateOfBirthError}
           />
 
           <div className={styles.selects_row}>

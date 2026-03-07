@@ -30,6 +30,8 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
 
   const profileData = myProfileQuery.data;
   const dateOfBirthUnder13ErrorText = toText(content.dateOfBirthUnder13Error);
+  const privacyPolicyLinkLabel = toText(content.privacyPolicyLinkLabel);
+  const dateOfBirthUnder13AlertText = `${dateOfBirthUnder13ErrorText} ${privacyPolicyLinkLabel}`;
   const {
     selectedCountryValue,
     cityOptions: city_options,
@@ -84,7 +86,7 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
     messages: {
       success: toText(content.profileUpdatedSuccess),
       dateOfBirthFormatError: toText(content.dateOfBirthFormatError),
-      dateOfBirthUnder13Error: dateOfBirthUnder13ErrorText,
+      dateOfBirthUnder13Error: dateOfBirthUnder13AlertText,
       errorServerUnavailable: toText(content.profileUpdateServerUnavailable),
     },
     values: {
@@ -116,6 +118,7 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
     dateOfBirthValue,
     aboutMeValue,
     dateOfBirthAgeError,
+    privacyPolicyLinkLabel,
     isSaveDisabledByValidation,
     isUpdatePending,
   };

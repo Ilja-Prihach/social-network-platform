@@ -33,6 +33,11 @@
   white-space: nowrap;
 }
 
+.privacy_policy_link {
+  color: inherit;
+  text-decoration: underline;
+}
+
 @media (width <= 1024px) {
   .content_layout {
     grid-template-columns: 1fr;

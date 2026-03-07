@@ -9,7 +9,7 @@ export type InputProps = {
   onChange?: (value: string) => void;
   disabled?: boolean;
   placeholder?: string;
-  error?: string;
+  error?: ReactNode;
   dir?: 'ltr' | 'rtl';
   readonly?: boolean;
 
