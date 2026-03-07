@@ -91,6 +91,7 @@ export function MyProfileSettingsPage() {
             rows={3}
             value={controller.aboutMeValue}
             onChange={(event) => controller.formState.setAboutMe(event.target.value)}
+            maxLength={200}
           />
         </div>
       </div>
