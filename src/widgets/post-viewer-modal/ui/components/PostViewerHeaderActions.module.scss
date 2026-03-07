@@ -2,6 +2,24 @@
   position: relative;
 }
 
+.actions_skeleton {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--dark-300-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.actions_skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
+  transform: translateX(-100%);
+  animation: post-actions-skeleton-shimmer 1.4s infinite;
+}
+
 .icon_button {
   width: 24px;
   height: 24px;
@@ -44,4 +62,14 @@
 
 .post_menu_item:hover {
   background: var(--dark-300-color);
+}
+
+@keyframes post-actions-skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }

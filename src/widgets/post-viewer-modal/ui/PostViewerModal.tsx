@@ -12,6 +12,7 @@ import { PostViewerHeaderActions } from './components/PostViewerHeaderActions';
 import { PostViewerDescriptionSection } from './components/PostViewerDescriptionSection';
 import { PostViewerFooter } from './components/PostViewerFooter';
 import postViewerModalContent from '../post-viewer-modal.content';
+import { useMe } from '@/features/auth/model/useMe';
 
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
@@ -25,6 +26,7 @@ type PostViewerModalProps = {
 export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostViewerModalProps) {
   const dictionary = useDictionary(postViewerModalContent);
   const { locale } = useLocale();
+  const { isPending: isAuthPending } = useMe();
   const [mediaIndex, setMediaIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -155,6 +157,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
             </div>
 
             <PostViewerHeaderActions
+              isAuthPending={isAuthPending}
               isEditMode={isEditMode}
               isActionPending={isActionPending}
               isMenuOpen={isMenuOpen}
@@ -178,6 +181,7 @@ export function PostViewerModal({ post, isOwner, isFriendPost, onClose }: PostVi
           />
 
           <PostViewerFooter
+            isAuthPending={isAuthPending}
             isEditMode={isEditMode}
             isActionPending={isActionPending}
             likeIconId={likeIconId}
