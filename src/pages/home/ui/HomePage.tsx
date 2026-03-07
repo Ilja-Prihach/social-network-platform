@@ -88,6 +88,7 @@ export function HomePage({
                     const profilePath = getLocalizedUrl(`/profile/${vm.author.id}`, locale);
                     const next = new URLSearchParams();
                     next.set('postId', vm.post.id);
+                    next.set('from', 'home');
                     const href = `${profilePath}?${next.toString()}`;
 
                     return (

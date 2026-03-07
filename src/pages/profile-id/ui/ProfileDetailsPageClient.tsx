@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { getLocalizedUrl } from 'intlayer';
+import { useLocale } from 'next-intlayer';
 import styles from './ProfileDetailsPage.module.scss';
 import {
   usePublicProfileQuery,
@@ -40,10 +42,13 @@ export function ProfileDetailsPageClient({
 }: ProfileDetailsPageClientProps) {
   const { data: me } = useMe();
   const router = useRouter();
+  const { locale } = useLocale();
   const pathname = usePathname();
   const safePathname = pathname ?? `/profile/${profileId}`;
   const searchParams = useSearchParams();
   const selectedPostIdFromUrl = searchParams?.get('postId');
+  const fromHome = searchParams?.get('from') === 'home';
+  const homePath = getLocalizedUrl('/', locale);
   const pendingOpenRef = useRef<string | null>(null);
   const pendingCloseRef = useRef(false);
   const profileQuery = usePublicProfileQuery(profileId, initialProfile);
@@ -193,11 +198,16 @@ export function ProfileDetailsPageClient({
         isOwner={modalIsOwner}
         isFriendPost={modalIsFriendPost}
         onClose={() => {
+          if (fromHome) {
+            router.replace(homePath);
+            return;
+          }
           pendingCloseRef.current = true;
           pendingOpenRef.current = null;
           viewer.closePost();
           const next = new URLSearchParams(searchParams?.toString());
           next.delete('postId');
+          next.delete('from');
           const nextQuery = next.toString();
           router.replace(nextQuery ? `${safePathname}?${nextQuery}` : safePathname);
         }}
