@@ -5,7 +5,7 @@ const generalInformationContent = {
   content: {
     selectProfilePhoto: t({
       en: 'Select Profile Photo',
-      he: 'Select Profile Photo',
+      he: 'בחר תמונת פרופיל',
       fr: 'Sélectionner une photo de profil',
       es: 'Seleccionar foto de perfil',
       ru: 'Выбрать фото профиля',
@@ -13,7 +13,7 @@ const generalInformationContent = {
     }),
     usernameLabel: t({
       en: 'Username',
-      he: 'Username',
+      he: 'שם משתמש',
       fr: "Nom d'utilisateur",
       es: 'Nombre de usuario',
       ru: 'Имя пользователя',
@@ -29,7 +29,7 @@ const generalInformationContent = {
     }),
     firstNameLabel: t({
       en: 'First Name*',
-      he: 'First Name*',
+      he: 'שם פרטי*',
       fr: 'Prénom*',
       es: 'Nombre*',
       ru: 'Имя*',
@@ -37,7 +37,7 @@ const generalInformationContent = {
     }),
     firstNamePlaceholder: t({
       en: 'First name',
-      he: 'First name',
+      he: 'שם פרטי',
       fr: 'Prénom',
       es: 'Nombre',
       ru: 'Имя',
@@ -45,7 +45,7 @@ const generalInformationContent = {
     }),
     lastNameLabel: t({
       en: 'Last Name*',
-      he: 'Last Name*',
+      he: 'שם משפחה*',
       fr: 'Nom*',
       es: 'Apellido*',
       ru: 'Фамилия*',
@@ -53,7 +53,7 @@ const generalInformationContent = {
     }),
     lastNamePlaceholder: t({
       en: 'Last name',
-      he: 'Last name',
+      he: 'שם משפחה',
       fr: 'Nom',
       es: 'Apellido',
       ru: 'Фамилия',
@@ -61,7 +61,7 @@ const generalInformationContent = {
     }),
     dateOfBirthLabel: t({
       en: 'Date of birth',
-      he: 'Date of birth',
+      he: 'תאריך לידה',
       fr: 'Date de naissance',
       es: 'Fecha de nacimiento',
       ru: 'Дата рождения',
@@ -77,7 +77,7 @@ const generalInformationContent = {
     }),
     countryLabel: t({
       en: 'Select your country',
-      he: 'Select your country',
+      he: 'בחר את המדינה שלך',
       fr: 'Sélectionnez votre pays',
       es: 'Selecciona tu país',
       ru: 'Выберите страну',
@@ -85,7 +85,7 @@ const generalInformationContent = {
     }),
     countryPlaceholder: t({
       en: 'Country',
-      he: 'Country',
+      he: 'מדינה',
       fr: 'Pays',
       es: 'País',
       ru: 'Страна',
@@ -93,7 +93,7 @@ const generalInformationContent = {
     }),
     countryBelarus: t({
       en: 'Belarus',
-      he: 'Belarus',
+      he: 'בלארוס',
       fr: 'Biélorussie',
       es: 'Bielorrusia',
       ru: 'Беларусь',
@@ -101,7 +101,7 @@ const generalInformationContent = {
     }),
     countryRussia: t({
       en: 'Russia',
-      he: 'Russia',
+      he: 'רוסיה',
       fr: 'Russie',
       es: 'Rusia',
       ru: 'Россия',
@@ -109,7 +109,7 @@ const generalInformationContent = {
     }),
     countryIsrael: t({
       en: 'Israel',
-      he: 'Israel',
+      he: 'ישראל',
       fr: 'Israël',
       es: 'Israel',
       ru: 'Израиль',
@@ -117,7 +117,7 @@ const generalInformationContent = {
     }),
     countryPoland: t({
       en: 'Poland',
-      he: 'Poland',
+      he: 'פולין',
       fr: 'Pologne',
       es: 'Polonia',
       ru: 'Польша',
@@ -125,7 +125,7 @@ const generalInformationContent = {
     }),
     countryGermany: t({
       en: 'Germany',
-      he: 'Germany',
+      he: 'גרמניה',
       fr: 'Allemagne',
       es: 'Alemania',
       ru: 'Германия',
@@ -133,7 +133,7 @@ const generalInformationContent = {
     }),
     countryItaly: t({
       en: 'Italy',
-      he: 'Italy',
+      he: 'איטליה',
       fr: 'Italie',
       es: 'Italia',
       ru: 'Италия',
@@ -141,7 +141,7 @@ const generalInformationContent = {
     }),
     countrySpain: t({
       en: 'Spain',
-      he: 'Spain',
+      he: 'ספרד',
       fr: 'Espagne',
       es: 'España',
       ru: 'Испания',
@@ -149,7 +149,7 @@ const generalInformationContent = {
     }),
     countryFrance: t({
       en: 'France',
-      he: 'France',
+      he: 'צרפת',
       fr: 'France',
       es: 'Francia',
       ru: 'Франция',
@@ -157,7 +157,7 @@ const generalInformationContent = {
     }),
     countryNorway: t({
       en: 'Norway',
-      he: 'Norway',
+      he: 'נורווגיה',
       fr: 'Norvège',
       es: 'Noruega',
       ru: 'Норвегия',
@@ -165,7 +165,7 @@ const generalInformationContent = {
     }),
     countrySweden: t({
       en: 'Sweden',
-      he: 'Sweden',
+      he: 'שבדיה',
       fr: 'Suède',
       es: 'Suecia',
       ru: 'Швеция',
@@ -173,7 +173,7 @@ const generalInformationContent = {
     }),
     countryUsa: t({
       en: 'USA',
-      he: 'USA',
+      he: 'ארה״ב',
       fr: 'États-Unis',
       es: 'EE. UU.',
       ru: 'США',
@@ -181,7 +181,7 @@ const generalInformationContent = {
     }),
     countryCanada: t({
       en: 'Canada',
-      he: 'Canada',
+      he: 'קנדה',
       fr: 'Canada',
       es: 'Canadá',
       ru: 'Канада',
@@ -189,7 +189,7 @@ const generalInformationContent = {
     }),
     cityLabel: t({
       en: 'Select your city',
-      he: 'Select your city',
+      he: 'בחר את העיר שלך',
       fr: 'Sélectionnez votre ville',
       es: 'Selecciona tu ciudad',
       ru: 'Выберите город',
@@ -197,7 +197,7 @@ const generalInformationContent = {
     }),
     cityPlaceholder: t({
       en: 'City',
-      he: 'City',
+      he: 'עיר',
       fr: 'Ville',
       es: 'Ciudad',
       ru: 'Город',
@@ -205,18 +205,18 @@ const generalInformationContent = {
     }),
     cityPlaceholderSelectCountryFirst: t({
       en: 'Select country first',
-      he: 'Select country first',
+      he: 'בחר מדינה תחילה',
       fr: "Sélectionnez d'abord le pays",
       es: 'Primero selecciona el país',
       ru: 'Сначала выберите страну',
       it: 'Seleziona prima il paese',
     }),
-    cityMinsk: t({ en: 'Minsk', he: 'Minsk', fr: 'Minsk', es: 'Minsk', ru: 'Минск', it: 'Minsk' }),
-    cityBrest: t({ en: 'Brest', he: 'Brest', fr: 'Brest', es: 'Brest', ru: 'Брест', it: 'Brest' }),
-    cityGomel: t({ en: 'Gomel', he: 'Gomel', fr: 'Gomel', es: 'Gómel', ru: 'Гомель', it: 'Gomel' }),
+    cityMinsk: t({ en: 'Minsk', he: 'מינסק', fr: 'Minsk', es: 'Minsk', ru: 'Минск', it: 'Minsk' }),
+    cityBrest: t({ en: 'Brest', he: 'ברסט', fr: 'Brest', es: 'Brest', ru: 'Брест', it: 'Brest' }),
+    cityGomel: t({ en: 'Gomel', he: 'גומל', fr: 'Gomel', es: 'Gómel', ru: 'Гомель', it: 'Gomel' }),
     cityGrodno: t({
       en: 'Grodno',
-      he: 'Grodno',
+      he: 'גרודנו',
       fr: 'Grodno',
       es: 'Grodno',
       ru: 'Гродно',
@@ -224,7 +224,7 @@ const generalInformationContent = {
     }),
     cityVitebsk: t({
       en: 'Vitebsk',
-      he: 'Vitebsk',
+      he: 'ויטבסק',
       fr: 'Vitebsk',
       es: 'Vítebsk',
       ru: 'Витебск',
@@ -232,7 +232,7 @@ const generalInformationContent = {
     }),
     cityMogilev: t({
       en: 'Mogilev',
-      he: 'Mogilev',
+      he: 'מוגילב',
       fr: 'Moguilev',
       es: 'Moguilov',
       ru: 'Могилев',
@@ -240,7 +240,7 @@ const generalInformationContent = {
     }),
     cityWarsaw: t({
       en: 'Warsaw',
-      he: 'Warsaw',
+      he: 'ורשה',
       fr: 'Varsovie',
       es: 'Varsovia',
       ru: 'Варшава',
@@ -248,16 +248,16 @@ const generalInformationContent = {
     }),
     cityKrakow: t({
       en: 'Krakow',
-      he: 'Krakow',
+      he: 'קרקוב',
       fr: 'Cracovie',
       es: 'Cracovia',
       ru: 'Краков',
       it: 'Cracovia',
     }),
-    cityLodz: t({ en: 'Lodz', he: 'Lodz', fr: 'Łódź', es: 'Lodz', ru: 'Лодзь', it: 'Lodz' }),
+    cityLodz: t({ en: 'Lodz', he: "לודז'", fr: 'Łódź', es: 'Lodz', ru: 'Лодзь', it: 'Lodz' }),
     cityWroclaw: t({
       en: 'Wroclaw',
-      he: 'Wroclaw',
+      he: 'ורוצלב',
       fr: 'Wrocław',
       es: 'Wroclaw',
       ru: 'Вроцлав',
@@ -265,7 +265,7 @@ const generalInformationContent = {
     }),
     cityPoznan: t({
       en: 'Poznan',
-      he: 'Poznan',
+      he: 'פוזנן',
       fr: 'Poznań',
       es: 'Poznan',
       ru: 'Познань',
@@ -273,7 +273,7 @@ const generalInformationContent = {
     }),
     cityGdansk: t({
       en: 'Gdansk',
-      he: 'Gdansk',
+      he: 'גדנסק',
       fr: 'Gdańsk',
       es: 'Gdansk',
       ru: 'Гданьск',
@@ -281,7 +281,7 @@ const generalInformationContent = {
     }),
     cityHamburg: t({
       en: 'Hamburg',
-      he: 'Hamburg',
+      he: 'המבורג',
       fr: 'Hambourg',
       es: 'Hamburgo',
       ru: 'Гамбург',
@@ -289,7 +289,7 @@ const generalInformationContent = {
     }),
     cityMunich: t({
       en: 'Munich',
-      he: 'Munich',
+      he: 'מינכן',
       fr: 'Munich',
       es: 'Múnich',
       ru: 'Мюнхен',
@@ -297,7 +297,7 @@ const generalInformationContent = {
     }),
     cityCologne: t({
       en: 'Cologne',
-      he: 'Cologne',
+      he: 'קלן',
       fr: 'Cologne',
       es: 'Colonia',
       ru: 'Кёльн',
@@ -305,7 +305,7 @@ const generalInformationContent = {
     }),
     cityFrankfurt: t({
       en: 'Frankfurt',
-      he: 'Frankfurt',
+      he: 'פרנקפורט',
       fr: 'Francfort',
       es: 'Fráncfort',
       ru: 'Франкфурт',
@@ -313,25 +313,39 @@ const generalInformationContent = {
     }),
     cityStuttgart: t({
       en: 'Stuttgart',
-      he: 'Stuttgart',
+      he: 'שטוטגרט',
       fr: 'Stuttgart',
       es: 'Stuttgart',
       ru: 'Штутгарт',
       it: 'Stoccarda',
     }),
-    cityMilan: t({ en: 'Milan', he: 'Milan', fr: 'Milan', es: 'Milán', ru: 'Милан', it: 'Milano' }),
+    cityMilan: t({
+      en: 'Milan',
+      he: 'מילאנו',
+      fr: 'Milan',
+      es: 'Milán',
+      ru: 'Милан',
+      it: 'Milano',
+    }),
     cityNaples: t({
       en: 'Naples',
-      he: 'Naples',
+      he: 'נאפולי',
       fr: 'Naples',
       es: 'Nápoles',
       ru: 'Неаполь',
       it: 'Napoli',
     }),
-    cityTurin: t({ en: 'Turin', he: 'Turin', fr: 'Turin', es: 'Turín', ru: 'Турин', it: 'Torino' }),
+    cityTurin: t({
+      en: 'Turin',
+      he: 'טורינו',
+      fr: 'Turin',
+      es: 'Turín',
+      ru: 'Турин',
+      it: 'Torino',
+    }),
     cityPalermo: t({
       en: 'Palermo',
-      he: 'Palermo',
+      he: 'פלרמו',
       fr: 'Palerme',
       es: 'Palermo',
       ru: 'Палермо',
@@ -339,7 +353,7 @@ const generalInformationContent = {
     }),
     cityBologna: t({
       en: 'Bologna',
-      he: 'Bologna',
+      he: 'בולוניה',
       fr: 'Bologne',
       es: 'Bolonia',
       ru: 'Болонья',
@@ -347,7 +361,7 @@ const generalInformationContent = {
     }),
     cityBarcelona: t({
       en: 'Barcelona',
-      he: 'Barcelona',
+      he: 'ברצלונה',
       fr: 'Barcelone',
       es: 'Barcelona',
       ru: 'Барселона',
@@ -355,7 +369,7 @@ const generalInformationContent = {
     }),
     cityValencia: t({
       en: 'Valencia',
-      he: 'Valencia',
+      he: 'ולנסיה',
       fr: 'Valence',
       es: 'Valencia',
       ru: 'Валенсия',
@@ -363,7 +377,7 @@ const generalInformationContent = {
     }),
     citySeville: t({
       en: 'Seville',
-      he: 'Seville',
+      he: 'סביליה',
       fr: 'Séville',
       es: 'Sevilla',
       ru: 'Севилья',
@@ -371,7 +385,7 @@ const generalInformationContent = {
     }),
     cityZaragoza: t({
       en: 'Zaragoza',
-      he: 'Zaragoza',
+      he: 'סרגוסה',
       fr: 'Saragosse',
       es: 'Zaragoza',
       ru: 'Сарагоса',
@@ -379,7 +393,7 @@ const generalInformationContent = {
     }),
     cityMalaga: t({
       en: 'Malaga',
-      he: 'Malaga',
+      he: 'מאלגה',
       fr: 'Malaga',
       es: 'Málaga',
       ru: 'Малага',
@@ -387,34 +401,34 @@ const generalInformationContent = {
     }),
     cityMarseille: t({
       en: 'Marseille',
-      he: 'Marseille',
+      he: 'מרסיי',
       fr: 'Marseille',
       es: 'Marsella',
       ru: 'Марсель',
       it: 'Marsiglia',
     }),
-    cityLyon: t({ en: 'Lyon', he: 'Lyon', fr: 'Lyon', es: 'Lyon', ru: 'Лион', it: 'Lione' }),
+    cityLyon: t({ en: 'Lyon', he: 'ליון', fr: 'Lyon', es: 'Lyon', ru: 'Лион', it: 'Lione' }),
     cityToulouse: t({
       en: 'Toulouse',
-      he: 'Toulouse',
+      he: 'טולוז',
       fr: 'Toulouse',
       es: 'Toulouse',
       ru: 'Тулуза',
       it: 'Tolosa',
     }),
-    cityNice: t({ en: 'Nice', he: 'Nice', fr: 'Nice', es: 'Niza', ru: 'Ницца', it: 'Nizza' }),
+    cityNice: t({ en: 'Nice', he: 'ניס', fr: 'Nice', es: 'Niza', ru: 'Ницца', it: 'Nizza' }),
     cityNantes: t({
       en: 'Nantes',
-      he: 'Nantes',
+      he: 'נאנט',
       fr: 'Nantes',
       es: 'Nantes',
       ru: 'Нант',
       it: 'Nantes',
     }),
-    cityOslo: t({ en: 'Oslo', he: 'Oslo', fr: 'Oslo', es: 'Oslo', ru: 'Осло', it: 'Oslo' }),
+    cityOslo: t({ en: 'Oslo', he: 'אוסלו', fr: 'Oslo', es: 'Oslo', ru: 'Осло', it: 'Oslo' }),
     cityBergen: t({
       en: 'Bergen',
-      he: 'Bergen',
+      he: 'ברגן',
       fr: 'Bergen',
       es: 'Bergen',
       ru: 'Берген',
@@ -422,7 +436,7 @@ const generalInformationContent = {
     }),
     cityTrondheim: t({
       en: 'Trondheim',
-      he: 'Trondheim',
+      he: 'טרונדהיים',
       fr: 'Trondheim',
       es: 'Trondheim',
       ru: 'Тронхейм',
@@ -430,7 +444,7 @@ const generalInformationContent = {
     }),
     cityStavanger: t({
       en: 'Stavanger',
-      he: 'Stavanger',
+      he: 'סטוונגר',
       fr: 'Stavanger',
       es: 'Stavanger',
       ru: 'Ставангер',
@@ -438,7 +452,7 @@ const generalInformationContent = {
     }),
     cityDrammen: t({
       en: 'Drammen',
-      he: 'Drammen',
+      he: 'דרמן',
       fr: 'Drammen',
       es: 'Drammen',
       ru: 'Драммен',
@@ -446,7 +460,7 @@ const generalInformationContent = {
     }),
     cityFredrikstad: t({
       en: 'Fredrikstad',
-      he: 'Fredrikstad',
+      he: 'פרדריקסטאד',
       fr: 'Fredrikstad',
       es: 'Fredrikstad',
       ru: 'Фредрикстад',
@@ -454,7 +468,7 @@ const generalInformationContent = {
     }),
     cityStockholm: t({
       en: 'Stockholm',
-      he: 'Stockholm',
+      he: 'סטוקהולם',
       fr: 'Stockholm',
       es: 'Estocolmo',
       ru: 'Стокгольм',
@@ -462,16 +476,16 @@ const generalInformationContent = {
     }),
     cityGothenburg: t({
       en: 'Gothenburg',
-      he: 'Gothenburg',
+      he: 'גטבורג',
       fr: 'Göteborg',
       es: 'Gotemburgo',
       ru: 'Гётеборг',
       it: 'Goteborg',
     }),
-    cityMalmo: t({ en: 'Malmo', he: 'Malmo', fr: 'Malmö', es: 'Malmö', ru: 'Мальмё', it: 'Malmo' }),
+    cityMalmo: t({ en: 'Malmo', he: 'מאלמו', fr: 'Malmö', es: 'Malmö', ru: 'Мальмё', it: 'Malmo' }),
     cityUppsala: t({
       en: 'Uppsala',
-      he: 'Uppsala',
+      he: 'אופסלה',
       fr: 'Uppsala',
       es: 'Uppsala',
       ru: 'Уппсала',
@@ -479,7 +493,7 @@ const generalInformationContent = {
     }),
     cityVasteras: t({
       en: 'Vasteras',
-      he: 'Vasteras',
+      he: 'וסטרוס',
       fr: 'Västerås',
       es: 'Västerås',
       ru: 'Вестерос',
@@ -487,7 +501,7 @@ const generalInformationContent = {
     }),
     cityOrebro: t({
       en: 'Orebro',
-      he: 'Orebro',
+      he: 'אורברו',
       fr: 'Örebro',
       es: 'Örebro',
       ru: 'Эребру',
@@ -495,7 +509,7 @@ const generalInformationContent = {
     }),
     cityMoscow: t({
       en: 'Moscow',
-      he: 'Moscow',
+      he: 'מוסקבה',
       fr: 'Moscou',
       es: 'Moscú',
       ru: 'Москва',
@@ -503,7 +517,7 @@ const generalInformationContent = {
     }),
     citySaintPetersburg: t({
       en: 'Saint Petersburg',
-      he: 'Saint Petersburg',
+      he: 'סנקט פטרבורג',
       fr: 'Saint-Pétersbourg',
       es: 'San Petersburgo',
       ru: 'Санкт-Петербург',
@@ -511,7 +525,7 @@ const generalInformationContent = {
     }),
     cityNovosibirsk: t({
       en: 'Novosibirsk',
-      he: 'Novosibirsk',
+      he: 'נובוסיבירסק',
       fr: 'Novossibirsk',
       es: 'Novosibirsk',
       ru: 'Новосибирск',
@@ -519,16 +533,16 @@ const generalInformationContent = {
     }),
     cityYekaterinburg: t({
       en: 'Yekaterinburg',
-      he: 'Yekaterinburg',
+      he: 'יקטרינבורג',
       fr: 'Iekaterinbourg',
       es: 'Ekaterimburgo',
       ru: 'Екатеринбург',
       it: 'Ekaterinburg',
     }),
-    cityKazan: t({ en: 'Kazan', he: 'Kazan', fr: 'Kazan', es: 'Kazán', ru: 'Казань', it: 'Kazan' }),
+    cityKazan: t({ en: 'Kazan', he: 'קאזאן', fr: 'Kazan', es: 'Kazán', ru: 'Казань', it: 'Kazan' }),
     cityNizhnyNovgorod: t({
       en: 'Nizhny Novgorod',
-      he: 'Nizhny Novgorod',
+      he: "ניז'ני נובגורוד",
       fr: 'Nijni Novgorod',
       es: 'Nizhni Nóvgorod',
       ru: 'Нижний Новгород',
@@ -536,7 +550,7 @@ const generalInformationContent = {
     }),
     cityJerusalem: t({
       en: 'Jerusalem',
-      he: 'Jerusalem',
+      he: 'ירושלים',
       fr: 'Jérusalem',
       es: 'Jerusalén',
       ru: 'Иерусалим',
@@ -544,16 +558,16 @@ const generalInformationContent = {
     }),
     cityTelAviv: t({
       en: 'Tel Aviv',
-      he: 'Tel Aviv',
+      he: 'תל אביב',
       fr: 'Tel-Aviv',
       es: 'Tel Aviv',
       ru: 'Тель-Авив',
       it: 'Tel Aviv',
     }),
-    cityHaifa: t({ en: 'Haifa', he: 'Haifa', fr: 'Haïfa', es: 'Haifa', ru: 'Хайфа', it: 'Haifa' }),
+    cityHaifa: t({ en: 'Haifa', he: 'חיפה', fr: 'Haïfa', es: 'Haifa', ru: 'Хайфа', it: 'Haifa' }),
     cityRishonLeZion: t({
       en: 'Rishon LeZion',
-      he: 'Rishon LeZion',
+      he: 'ראשון לציון',
       fr: 'Rishon LeZion',
       es: 'Rishon LeZion',
       ru: 'Ришон-ле-Цион',
@@ -561,7 +575,7 @@ const generalInformationContent = {
     }),
     cityPetahTikva: t({
       en: 'Petah Tikva',
-      he: 'Petah Tikva',
+      he: 'פתח תקווה',
       fr: 'Petah Tikva',
       es: 'Petaj Tikva',
       ru: 'Петах-Тиква',
@@ -569,16 +583,16 @@ const generalInformationContent = {
     }),
     cityAshdod: t({
       en: 'Ashdod',
-      he: 'Ashdod',
+      he: 'אשדוד',
       fr: 'Ashdod',
       es: 'Asdod',
       ru: 'Ашдод',
       it: 'Ashdod',
     }),
-    cityParis: t({ en: 'Paris', he: 'Paris', fr: 'Paris', es: 'París', ru: 'Париж', it: 'Parigi' }),
+    cityParis: t({ en: 'Paris', he: 'פריז', fr: 'Paris', es: 'París', ru: 'Париж', it: 'Parigi' }),
     cityBerlin: t({
       en: 'Berlin',
-      he: 'Berlin',
+      he: 'ברלין',
       fr: 'Berlin',
       es: 'Berlín',
       ru: 'Берлин',
@@ -586,16 +600,16 @@ const generalInformationContent = {
     }),
     cityMadrid: t({
       en: 'Madrid',
-      he: 'Madrid',
+      he: 'מדריד',
       fr: 'Madrid',
       es: 'Madrid',
       ru: 'Мадрид',
       it: 'Madrid',
     }),
-    cityRome: t({ en: 'Rome', he: 'Rome', fr: 'Rome', es: 'Roma', ru: 'Рим', it: 'Roma' }),
+    cityRome: t({ en: 'Rome', he: 'רומא', fr: 'Rome', es: 'Roma', ru: 'Рим', it: 'Roma' }),
     cityWashingtonDc: t({
       en: 'Washington, D.C.',
-      he: 'Washington, D.C.',
+      he: 'וושינגטון די.סי.',
       fr: 'Washington, D.C.',
       es: 'Washington D. C.',
       ru: 'Вашингтон, округ Колумбия',
@@ -603,7 +617,7 @@ const generalInformationContent = {
     }),
     cityNewYork: t({
       en: 'New York',
-      he: 'New York',
+      he: 'ניו יורק',
       fr: 'New York',
       es: 'Nueva York',
       ru: 'Нью-Йорк',
@@ -611,7 +625,7 @@ const generalInformationContent = {
     }),
     cityLosAngeles: t({
       en: 'Los Angeles',
-      he: 'Los Angeles',
+      he: "לוס אנג'לס",
       fr: 'Los Angeles',
       es: 'Los Ángeles',
       ru: 'Лос-Анджелес',
@@ -619,7 +633,7 @@ const generalInformationContent = {
     }),
     cityChicago: t({
       en: 'Chicago',
-      he: 'Chicago',
+      he: 'שיקגו',
       fr: 'Chicago',
       es: 'Chicago',
       ru: 'Чикаго',
@@ -627,7 +641,7 @@ const generalInformationContent = {
     }),
     cityHouston: t({
       en: 'Houston',
-      he: 'Houston',
+      he: 'יוסטון',
       fr: 'Houston',
       es: 'Houston',
       ru: 'Хьюстон',
@@ -635,7 +649,7 @@ const generalInformationContent = {
     }),
     cityPhoenix: t({
       en: 'Phoenix',
-      he: 'Phoenix',
+      he: 'פיניקס',
       fr: 'Phoenix',
       es: 'Phoenix',
       ru: 'Финикс',
@@ -643,7 +657,7 @@ const generalInformationContent = {
     }),
     cityOttawa: t({
       en: 'Ottawa',
-      he: 'Ottawa',
+      he: 'אוטווה',
       fr: 'Ottawa',
       es: 'Ottawa',
       ru: 'Оттава',
@@ -651,7 +665,7 @@ const generalInformationContent = {
     }),
     cityToronto: t({
       en: 'Toronto',
-      he: 'Toronto',
+      he: 'טורונטו',
       fr: 'Toronto',
       es: 'Toronto',
       ru: 'Торонто',
@@ -659,7 +673,7 @@ const generalInformationContent = {
     }),
     cityMontreal: t({
       en: 'Montreal',
-      he: 'Montreal',
+      he: 'מונטריאול',
       fr: 'Montréal',
       es: 'Montreal',
       ru: 'Монреаль',
@@ -667,7 +681,7 @@ const generalInformationContent = {
     }),
     cityVancouver: t({
       en: 'Vancouver',
-      he: 'Vancouver',
+      he: 'ונקובר',
       fr: 'Vancouver',
       es: 'Vancouver',
       ru: 'Ванкувер',
@@ -675,7 +689,7 @@ const generalInformationContent = {
     }),
     cityCalgary: t({
       en: 'Calgary',
-      he: 'Calgary',
+      he: 'קלגרי',
       fr: 'Calgary',
       es: 'Calgary',
       ru: 'Калгари',
@@ -683,7 +697,7 @@ const generalInformationContent = {
     }),
     cityEdmonton: t({
       en: 'Edmonton',
-      he: 'Edmonton',
+      he: 'אדמונטון',
       fr: 'Edmonton',
       es: 'Edmonton',
       ru: 'Эдмонтон',
@@ -691,7 +705,7 @@ const generalInformationContent = {
     }),
     aboutMeLabel: t({
       en: 'About Me',
-      he: 'About Me',
+      he: 'עליי',
       fr: 'À propos de moi',
       es: 'Sobre mí',
       ru: 'Обо мне',
@@ -699,7 +713,7 @@ const generalInformationContent = {
     }),
     aboutMePlaceholder: t({
       en: 'Tell us about yourself',
-      he: 'Tell us about yourself',
+      he: 'ספר/י לנו על עצמך',
       fr: 'Parlez-nous de vous',
       es: 'Cuéntanos sobre ti',
       ru: 'Расскажите о себе',
@@ -707,7 +721,7 @@ const generalInformationContent = {
     }),
     saveChanges: t({
       en: 'Save Changes',
-      he: 'Save Changes',
+      he: 'שמור שינויים',
       fr: 'Enregistrer les modifications',
       es: 'Guardar cambios',
       ru: 'Сохранить изменения',
@@ -715,7 +729,7 @@ const generalInformationContent = {
     }),
     profileUpdatedSuccess: t({
       en: 'Profile updated successfully',
-      he: 'Profile updated successfully',
+      he: 'ההגדרות שלך נשמרו!',
       fr: 'Profil mis à jour avec succès',
       es: 'Perfil actualizado correctamente',
       ru: 'Профиль успешно обновлен',
@@ -723,7 +737,7 @@ const generalInformationContent = {
     }),
     dateOfBirthFormatError: t({
       en: 'Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD',
-      he: 'Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD',
+      he: 'תאריך הלידה חייב להיות בפורמט DD.MM.YYYY או YYYY-MM-DD',
       fr: 'La date de naissance doit être au format JJ.MM.AAAA ou AAAA-MM-JJ',
       es: 'La fecha de nacimiento debe tener el formato DD.MM.AAAA o AAAA-MM-DD',
       ru: 'Дата рождения должна быть в формате ДД.ММ.ГГГГ или ГГГГ-ММ-ДД',
@@ -731,7 +745,7 @@ const generalInformationContent = {
     }),
     dateOfBirthUnder13Error: t({
       en: 'A user under 13 cannot create a profile. Privacy Policy',
-      he: 'A user under 13 cannot create a profile. Privacy Policy',
+      he: 'משתמש מתחת לגיל 13 אינו יכול ליצור פרופיל. מדיניות פרטיות',
       fr: 'Un utilisateur de moins de 13 ans ne peut pas créer de profil. Politique de confidentialité',
       es: 'Un usuario menor de 13 años no puede crear un perfil. Política de privacidad',
       ru: 'Пользователь младше 13 лет не может создать профиль. Политика конфиденциальности',
@@ -739,7 +753,7 @@ const generalInformationContent = {
     }),
     avatarAddModalTitle: t({
       en: 'Add a Profile Photo',
-      he: 'Add a Profile Photo',
+      he: 'הוסף תמונת פרופיל',
       fr: 'Ajouter une photo de profil',
       es: 'Agregar una foto de perfil',
       ru: 'Добавить фото профиля',
@@ -747,7 +761,7 @@ const generalInformationContent = {
     }),
     avatarSaveButton: t({
       en: 'Save',
-      he: 'Save',
+      he: 'שמור',
       fr: 'Enregistrer',
       es: 'Guardar',
       ru: 'Сохранить',
@@ -755,7 +769,7 @@ const generalInformationContent = {
     }),
     avatarModalCloseAriaLabel: t({
       en: 'Close',
-      he: 'Close',
+      he: 'סגור',
       fr: 'Fermer',
       es: 'Cerrar',
       ru: 'Закрыть',
@@ -763,7 +777,7 @@ const generalInformationContent = {
     }),
     avatarModalPreviewAriaLabel: t({
       en: 'Avatar preview',
-      he: 'Avatar preview',
+      he: 'תצוגה מקדימה של אווטאר',
       fr: "Aperçu de l'avatar",
       es: 'Vista previa del avatar',
       ru: 'Предпросмотр аватара',
@@ -771,7 +785,7 @@ const generalInformationContent = {
     }),
     avatarDeleteModalTitle: t({
       en: 'Delete Profile Photo',
-      he: 'Delete Profile Photo',
+      he: 'מחק תמונת פרופיל',
       fr: 'Supprimer la photo de profil',
       es: 'Eliminar foto de perfil',
       ru: 'Удалить фото профиля',
@@ -779,7 +793,7 @@ const generalInformationContent = {
     }),
     avatarDeleteModalDescription: t({
       en: 'Are you sure you want to delete the photo?',
-      he: 'Are you sure you want to delete the photo?',
+      he: 'האם אתה בטוח שברצונך למחוק את התמונה?',
       fr: 'Êtes-vous sûr de vouloir supprimer la photo ?',
       es: '¿Seguro que quieres eliminar la foto?',
       ru: 'Вы уверены, что хотите удалить фото?',
@@ -787,7 +801,7 @@ const generalInformationContent = {
     }),
     avatarDeleteModalYes: t({
       en: 'Yes',
-      he: 'Yes',
+      he: 'כן',
       fr: 'Oui',
       es: 'Sí',
       ru: 'Да',
@@ -795,7 +809,7 @@ const generalInformationContent = {
     }),
     avatarDeleteModalNo: t({
       en: 'No',
-      he: 'No',
+      he: 'לא',
       fr: 'Non',
       es: 'No',
       ru: 'Нет',
@@ -803,7 +817,7 @@ const generalInformationContent = {
     }),
     avatarUploadFormatError: t({
       en: 'Error! The format of the uploaded photo must be PNG and JPEG',
-      he: 'Error! The format of the uploaded photo must be PNG and JPEG',
+      he: 'שגיאה! פורמט התמונה חייב להיות PNG או JPEG',
       fr: 'Erreur ! Le format de la photo téléchargée doit être PNG ou JPEG',
       es: '¡Error! El formato de la foto cargada debe ser PNG o JPEG',
       ru: 'Ошибка! Формат загруженной фотографии должен быть PNG или JPEG',
@@ -811,7 +825,7 @@ const generalInformationContent = {
     }),
     avatarUploadSizeError: t({
       en: 'Error! Photo size must be less than 10 MB!',
-      he: 'Error! Photo size must be less than 10 MB!',
+      he: 'שגיאה! גודל התמונה חייב להיות קטן מ-10MB!',
       fr: 'Erreur ! La taille de la photo doit être inférieure à 10 Mo !',
       es: '¡Error! El tamaño de la foto debe ser menor de 10 MB',
       ru: 'Ошибка! Размер фото должен быть меньше 10 МБ!',
@@ -819,7 +833,7 @@ const generalInformationContent = {
     }),
     avatarUpdatedSuccess: t({
       en: 'Profile photo updated successfully',
-      he: 'Profile photo updated successfully',
+      he: 'תמונת הפרופיל עודכנה בהצלחה',
       fr: 'Photo de profil mise à jour avec succès',
       es: 'Foto de perfil actualizada correctamente',
       ru: 'Фото профиля успешно обновлено',
@@ -827,7 +841,7 @@ const generalInformationContent = {
     }),
     avatarDeletedSuccess: t({
       en: 'Profile photo deleted successfully',
-      he: 'Profile photo deleted successfully',
+      he: 'תמונת הפרופיל נמחקה בהצלחה',
       fr: 'Photo de profil supprimée avec succès',
       es: 'Foto de perfil eliminada correctamente',
       ru: 'Фото профиля успешно удалено',
@@ -835,7 +849,7 @@ const generalInformationContent = {
     }),
     avatarDeleteFailed: t({
       en: 'Failed to delete profile photo',
-      he: 'Failed to delete profile photo',
+      he: 'נכשל למחוק את תמונת הפרופיל',
       fr: 'Échec de la suppression de la photo de profil',
       es: 'No se pudo eliminar la foto de perfil',
       ru: 'Не удалось удалить фото профиля',
