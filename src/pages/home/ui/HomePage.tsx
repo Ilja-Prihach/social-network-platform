@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, useEffect, useMemo, useRef } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styles from './HomePage.module.scss';
 import { PostCard } from '@/widgets/post-card';
 import { PeopleCounter } from '@/widgets/people-counter';
@@ -29,6 +30,11 @@ export function HomePage({
   mode = 'preview',
 }: Props) {
   const { data: me } = useMe();
+  const router = useRouter();
+  const pathname = usePathname();
+  const safePathname = pathname ?? '/';
+  const searchParams = useSearchParams();
+  const selectedPostIdFromUrl = searchParams?.get('postId');
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const isFeed = mode === 'feed';
   const postsQuery = useHomePosts(initialPosts, initialNextCursorPostId, {
@@ -74,6 +80,13 @@ export function HomePage({
     getAuthorId: getPostCardVmAuthorId,
   });
 
+  useEffect(() => {
+    if (!selectedPostIdFromUrl) {
+      return;
+    }
+    viewer.openPost(selectedPostIdFromUrl);
+  }, [selectedPostIdFromUrl, viewer]);
+
   return (
     <>
       <Suspense fallback={null}>
@@ -96,7 +109,16 @@ export function HomePage({
                     />
                   ))
                 : items.map((vm) => (
-                    <PostCard key={vm.post.id} vm={vm} onOpen={() => viewer.openPost(vm.post.id)} />
+                    <PostCard
+                      key={vm.post.id}
+                      vm={vm}
+                      onOpen={() => {
+                        viewer.openPost(vm.post.id);
+                        const next = new URLSearchParams(searchParams?.toString());
+                        next.set('postId', vm.post.id);
+                        router.replace(`${safePathname}?${next.toString()}`);
+                      }}
+                    />
                   ))}
             </div>
             {isFeed && isFetchingNextPage && (
@@ -112,7 +134,13 @@ export function HomePage({
         post={viewer.selectedPost}
         isOwner={viewer.isOwner}
         isFriendPost={viewer.isFriendPost}
-        onClose={viewer.closePost}
+        onClose={() => {
+          viewer.closePost();
+          const next = new URLSearchParams(searchParams?.toString());
+          next.delete('postId');
+          const nextQuery = next.toString();
+          router.replace(nextQuery ? `${safePathname}?${nextQuery}` : safePathname);
+        }}
       />
     </>
   );

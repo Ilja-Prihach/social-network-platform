@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styles from './ProfileDetailsPage.module.scss';
 import {
   usePublicProfileQuery,
@@ -35,6 +36,11 @@ export function ProfileDetailsPageClient({
   initialPostsPage,
 }: ProfileDetailsPageClientProps) {
   const { data: me } = useMe();
+  const router = useRouter();
+  const pathname = usePathname();
+  const safePathname = pathname ?? `/profile/${profileId}`;
+  const searchParams = useSearchParams();
+  const selectedPostIdFromUrl = searchParams?.get('postId');
   const profileQuery = usePublicProfileQuery(profileId, initialProfile);
   const postsQuery = useProfilePostsInfiniteQuery(profileId, true, initialPostsPage);
 
@@ -81,6 +87,13 @@ export function ProfileDetailsPageClient({
     getIsFriendPost: () => Boolean(profile?.isFollowing && profile?.isFollowedBy),
   });
 
+  useEffect(() => {
+    if (!selectedPostIdFromUrl) {
+      return;
+    }
+    viewer.openPost(selectedPostIdFromUrl);
+  }, [selectedPostIdFromUrl, viewer]);
+
   return (
     <section className={styles.page}>
       <div className={styles.layout}>
@@ -102,10 +115,18 @@ export function ProfileDetailsPageClient({
                     role="button"
                     tabIndex={0}
                     className={styles.post_open}
-                    onClick={() => viewer.openPost(post.id)}
+                    onClick={() => {
+                      viewer.openPost(post.id);
+                      const next = new URLSearchParams(searchParams?.toString());
+                      next.set('postId', post.id);
+                      router.replace(`${safePathname}?${next.toString()}`);
+                    }}
                     onKeyDown={(event) => {
                       if (event.key === 'Enter' || event.key === ' ') {
                         viewer.openPost(post.id);
+                        const next = new URLSearchParams(searchParams?.toString());
+                        next.set('postId', post.id);
+                        router.replace(`${safePathname}?${next.toString()}`);
                       }
                     }}
                     aria-label={`Open ${post.userName} post`}
@@ -133,7 +154,13 @@ export function ProfileDetailsPageClient({
         post={viewer.selectedPost}
         isOwner={viewer.isOwner}
         isFriendPost={viewer.isFriendPost}
-        onClose={viewer.closePost}
+        onClose={() => {
+          viewer.closePost();
+          const next = new URLSearchParams(searchParams?.toString());
+          next.delete('postId');
+          const nextQuery = next.toString();
+          router.replace(nextQuery ? `${safePathname}?${nextQuery}` : safePathname);
+        }}
       />
     </section>
   );
