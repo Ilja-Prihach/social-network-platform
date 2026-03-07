@@ -728,12 +728,12 @@ const generalInformationContent = {
       it: 'Salva modifiche',
     }),
     profileUpdatedSuccess: t({
-      en: 'Profile updated successfully',
+      en: 'Your settings are saved!',
       he: 'ההגדרות שלך נשמרו!',
-      fr: 'Profil mis à jour avec succès',
-      es: 'Perfil actualizado correctamente',
-      ru: 'Профиль успешно обновлен',
-      it: 'Profilo aggiornato con successo',
+      fr: 'Vos paramètres ont été enregistrés !',
+      es: '¡Tu configuración se ha guardado!',
+      ru: 'Ваши настройки сохранены!',
+      it: 'Le tue impostazioni sono state salvate!',
     }),
     dateOfBirthFormatError: t({
       en: 'Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD',
