@@ -1,20 +1,15 @@
 'use client';
 
 import { Suspense, useEffect, useMemo, useRef } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { getLocalizedUrl } from 'intlayer';
+import { useLocale } from 'next-intlayer';
 import styles from './HomePage.module.scss';
 import { PostCard } from '@/widgets/post-card';
 import { PeopleCounter } from '@/widgets/people-counter';
 import { HomeQueryBridge } from './HomeQueryBridge';
 import { useHomePosts } from '../model/useHomePosts';
 import type { PostCardVM } from '@/widgets/post-card';
-import {
-  mapPostCardVmToViewerPost,
-  getPostCardVmAuthorId,
-} from '../model/mapPostCardVmToViewerPost';
-import { useMe } from '@/features/auth/model/useMe';
-import { usePostViewer } from '@/features/post/open-post-viewer';
-import { PostViewerModal } from '@/widgets/post-viewer-modal';
 
 type Props = {
   initialPosts?: PostCardVM[];
@@ -29,14 +24,8 @@ export function HomePage({
   initialPeopleCount = null,
   mode = 'preview',
 }: Props) {
-  const { data: me } = useMe();
   const router = useRouter();
-  const pathname = usePathname();
-  const safePathname = pathname ?? '/';
-  const searchParams = useSearchParams();
-  const selectedPostIdFromUrl = searchParams?.get('postId');
-  const pendingOpenRef = useRef<string | null>(null);
-  const pendingCloseRef = useRef(false);
+  const { locale } = useLocale();
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const isFeed = mode === 'feed';
   const postsQuery = useHomePosts(initialPosts, initialNextCursorPostId, {
@@ -74,37 +63,6 @@ export function HomePage({
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFeed, isFetchingNextPage]);
 
-  const viewer = usePostViewer<PostCardVM>({
-    items,
-    currentUserId: me?.userId,
-    getId: (item) => item.post.id,
-    mapToPost: mapPostCardVmToViewerPost,
-    getAuthorId: getPostCardVmAuthorId,
-  });
-
-  useEffect(() => {
-    if (pendingCloseRef.current) {
-      if (!selectedPostIdFromUrl) {
-        pendingCloseRef.current = false;
-      }
-      return;
-    }
-
-    if (!selectedPostIdFromUrl) {
-      if (pendingOpenRef.current) return;
-      if (viewer.selectedPost) viewer.closePost();
-      return;
-    }
-
-    if (pendingOpenRef.current === selectedPostIdFromUrl) {
-      pendingOpenRef.current = null;
-    }
-
-    if (viewer.selectedPost?.id !== selectedPostIdFromUrl) {
-      viewer.openPost(selectedPostIdFromUrl);
-    }
-  }, [selectedPostIdFromUrl, viewer.openPost, viewer.closePost, viewer.selectedPost?.id]);
-
   return (
     <>
       <Suspense fallback={null}>
@@ -126,20 +84,23 @@ export function HomePage({
                       aria-hidden
                     />
                   ))
-                : items.map((vm) => (
-                    <PostCard
-                      key={vm.post.id}
-                      vm={vm}
-                      onOpen={() => {
-                        pendingOpenRef.current = vm.post.id;
-                        pendingCloseRef.current = false;
-                        viewer.openPost(vm.post.id);
-                        const next = new URLSearchParams(searchParams?.toString());
-                        next.set('postId', vm.post.id);
-                        router.replace(`${safePathname}?${next.toString()}`);
-                      }}
-                    />
-                  ))}
+                : items.map((vm) => {
+                    const profilePath = getLocalizedUrl(`/profile/${vm.author.id}`, locale);
+                    const next = new URLSearchParams();
+                    next.set('postId', vm.post.id);
+                    const href = `${profilePath}?${next.toString()}`;
+
+                    return (
+                      <PostCard
+                        key={vm.post.id}
+                        vm={vm}
+                        onHover={() => router.prefetch(href)}
+                        onOpen={() => {
+                          router.push(href);
+                        }}
+                      />
+                    );
+                  })}
             </div>
             {isFeed && isFetchingNextPage && (
               <div className={styles.load_more}>Loading more posts...</div>
@@ -150,20 +111,6 @@ export function HomePage({
           </main>
         </div>
       </section>
-      <PostViewerModal
-        post={viewer.selectedPost}
-        isOwner={viewer.isOwner}
-        isFriendPost={viewer.isFriendPost}
-        onClose={() => {
-          pendingCloseRef.current = true;
-          pendingOpenRef.current = null;
-          viewer.closePost();
-          const next = new URLSearchParams(searchParams?.toString());
-          next.delete('postId');
-          const nextQuery = next.toString();
-          router.replace(nextQuery ? `${safePathname}?${nextQuery}` : safePathname);
-        }}
-      />
     </>
   );
 }
