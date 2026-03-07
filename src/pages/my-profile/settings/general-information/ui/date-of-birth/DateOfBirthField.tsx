@@ -38,6 +38,7 @@ export const DateOfBirthField = ({
         onChange={onChange}
         placeholder={placeholder}
         error={error}
+        readonly
         rightIcon={<Icon iconId="calendar-outline" width="20" height="20" />}
         onRightIconClick={() => setIsDatePickerOpen(true)}
       />
