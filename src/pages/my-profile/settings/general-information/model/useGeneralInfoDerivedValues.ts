@@ -60,7 +60,6 @@ export const useGeneralInfoDerivedValues = ({
 
   const {
     dateOfBirthValidation,
-    isDateOfBirthMissing,
     isDateOfBirthInvalid,
     dateOfBirthAgeError,
     setDateOfBirthAgeError,
@@ -72,10 +71,7 @@ export const useGeneralInfoDerivedValues = ({
   });
 
   const isRequiredFieldsMissing =
-    !userNameValue.trim() ||
-    !firstNameValue.trim() ||
-    !lastNameValue.trim() ||
-    isDateOfBirthMissing;
+    !userNameValue.trim() || !firstNameValue.trim() || !lastNameValue.trim();
   const isSaveDisabledByValidation = isRequiredFieldsMissing || isDateOfBirthInvalid;
 
   return {
