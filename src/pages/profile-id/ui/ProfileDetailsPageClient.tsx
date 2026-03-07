@@ -44,6 +44,8 @@ export function ProfileDetailsPageClient({
   const safePathname = pathname ?? `/profile/${profileId}`;
   const searchParams = useSearchParams();
   const selectedPostIdFromUrl = searchParams?.get('postId');
+  const pendingOpenRef = useRef<string | null>(null);
+  const pendingCloseRef = useRef(false);
   const profileQuery = usePublicProfileQuery(profileId, initialProfile);
   const postsQuery = useProfilePostsInfiniteQuery(profileId, true, initialPostsPage);
 
@@ -104,11 +106,27 @@ export function ProfileDetailsPageClient({
       : viewer.isFriendPost;
 
   useEffect(() => {
-    if (!selectedPostIdFromUrl) {
+    if (pendingCloseRef.current) {
+      if (!selectedPostIdFromUrl) {
+        pendingCloseRef.current = false;
+      }
       return;
     }
-    viewer.openPost(selectedPostIdFromUrl);
-  }, [selectedPostIdFromUrl, viewer.openPost]);
+
+    if (!selectedPostIdFromUrl) {
+      if (pendingOpenRef.current) return;
+      if (viewer.selectedPost) viewer.closePost();
+      return;
+    }
+
+    if (pendingOpenRef.current === selectedPostIdFromUrl) {
+      pendingOpenRef.current = null;
+    }
+
+    if (viewer.selectedPost?.id !== selectedPostIdFromUrl) {
+      viewer.openPost(selectedPostIdFromUrl);
+    }
+  }, [selectedPostIdFromUrl, viewer.openPost, viewer.closePost, viewer.selectedPost?.id]);
 
   return (
     <section className={styles.page}>
@@ -132,6 +150,8 @@ export function ProfileDetailsPageClient({
                     tabIndex={0}
                     className={styles.post_open}
                     onClick={() => {
+                      pendingOpenRef.current = post.id;
+                      pendingCloseRef.current = false;
                       viewer.openPost(post.id);
                       const next = new URLSearchParams(searchParams?.toString());
                       next.set('postId', post.id);
@@ -139,6 +159,8 @@ export function ProfileDetailsPageClient({
                     }}
                     onKeyDown={(event) => {
                       if (event.key === 'Enter' || event.key === ' ') {
+                        pendingOpenRef.current = post.id;
+                        pendingCloseRef.current = false;
                         viewer.openPost(post.id);
                         const next = new URLSearchParams(searchParams?.toString());
                         next.set('postId', post.id);
@@ -171,6 +193,8 @@ export function ProfileDetailsPageClient({
         isOwner={modalIsOwner}
         isFriendPost={modalIsFriendPost}
         onClose={() => {
+          pendingCloseRef.current = true;
+          pendingOpenRef.current = null;
           viewer.closePost();
           const next = new URLSearchParams(searchParams?.toString());
           next.delete('postId');

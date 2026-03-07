@@ -35,6 +35,8 @@ export function HomePage({
   const safePathname = pathname ?? '/';
   const searchParams = useSearchParams();
   const selectedPostIdFromUrl = searchParams?.get('postId');
+  const pendingOpenRef = useRef<string | null>(null);
+  const pendingCloseRef = useRef(false);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const isFeed = mode === 'feed';
   const postsQuery = useHomePosts(initialPosts, initialNextCursorPostId, {
@@ -81,11 +83,27 @@ export function HomePage({
   });
 
   useEffect(() => {
-    if (!selectedPostIdFromUrl) {
+    if (pendingCloseRef.current) {
+      if (!selectedPostIdFromUrl) {
+        pendingCloseRef.current = false;
+      }
       return;
     }
-    viewer.openPost(selectedPostIdFromUrl);
-  }, [selectedPostIdFromUrl, viewer]);
+
+    if (!selectedPostIdFromUrl) {
+      if (pendingOpenRef.current) return;
+      if (viewer.selectedPost) viewer.closePost();
+      return;
+    }
+
+    if (pendingOpenRef.current === selectedPostIdFromUrl) {
+      pendingOpenRef.current = null;
+    }
+
+    if (viewer.selectedPost?.id !== selectedPostIdFromUrl) {
+      viewer.openPost(selectedPostIdFromUrl);
+    }
+  }, [selectedPostIdFromUrl, viewer.openPost, viewer.closePost, viewer.selectedPost?.id]);
 
   return (
     <>
@@ -113,6 +131,8 @@ export function HomePage({
                       key={vm.post.id}
                       vm={vm}
                       onOpen={() => {
+                        pendingOpenRef.current = vm.post.id;
+                        pendingCloseRef.current = false;
                         viewer.openPost(vm.post.id);
                         const next = new URLSearchParams(searchParams?.toString());
                         next.set('postId', vm.post.id);
@@ -135,6 +155,8 @@ export function HomePage({
         isOwner={viewer.isOwner}
         isFriendPost={viewer.isFriendPost}
         onClose={() => {
+          pendingCloseRef.current = true;
+          pendingOpenRef.current = null;
           viewer.closePost();
           const next = new URLSearchParams(searchParams?.toString());
           next.delete('postId');
