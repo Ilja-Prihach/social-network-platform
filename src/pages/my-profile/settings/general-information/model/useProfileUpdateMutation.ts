@@ -10,12 +10,14 @@ type UseProfileUpdateMutationParams = {
   userId?: number;
   invalidateProfileQueries: (userId?: number) => Promise<void>;
   successMessage: string;
+  errorMessage: string;
 };
 
 export const useProfileUpdateMutation = ({
   userId,
   invalidateProfileQueries,
   successMessage,
+  errorMessage,
 }: UseProfileUpdateMutationParams) => {
   return useMutation<void, ApiError<ProfileUpdateErrorResponse>, UpdateProfileRequest>({
     mutationFn: updateProfile,
@@ -24,7 +26,7 @@ export const useProfileUpdateMutation = ({
       await invalidateProfileQueries(userId);
     },
     onError: (error) => {
-      showAlert(getProfileUpdateError(error), 'error');
+      showAlert(getProfileUpdateError(error, errorMessage), 'error');
     },
   });
 };

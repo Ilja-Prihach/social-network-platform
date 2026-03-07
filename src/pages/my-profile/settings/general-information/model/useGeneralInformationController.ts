@@ -85,6 +85,7 @@ export const useGeneralInformationController = (content: Record<string, Dictiona
       success: toText(content.profileUpdatedSuccess),
       dateOfBirthFormatError: toText(content.dateOfBirthFormatError),
       dateOfBirthUnder13Error: dateOfBirthUnder13ErrorText,
+      errorServerUnavailable: toText(content.profileUpdateServerUnavailable),
     },
     values: {
       dateOfBirthValidation,

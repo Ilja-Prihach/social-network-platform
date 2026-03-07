@@ -735,6 +735,14 @@ const generalInformationContent = {
       ru: 'Ваши настройки сохранены!',
       it: 'Le tue impostazioni sono state salvate!',
     }),
+    profileUpdateServerUnavailable: t({
+      en: 'Error! Server is not available!',
+      he: 'שגיאה! השרת אינו זמין!',
+      fr: 'Erreur ! Le serveur n’est pas disponible !',
+      es: '¡Error! El servidor no está disponible!',
+      ru: 'Ошибка! Сервер недоступен!',
+      it: 'Errore! Il server non è disponibile!',
+    }),
     dateOfBirthFormatError: t({
       en: 'Date of birth must be in format DD.MM.YYYY or YYYY-MM-DD',
       he: 'תאריך הלידה חייב להיות בפורמט DD.MM.YYYY או YYYY-MM-DD',
