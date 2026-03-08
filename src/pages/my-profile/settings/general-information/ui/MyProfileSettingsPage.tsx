@@ -139,6 +139,7 @@ export function MyProfileSettingsPage() {
         closeButtonAriaLabel={toText(content.avatarModalCloseAriaLabel)}
         previewAriaLabel={toText(content.avatarModalPreviewAriaLabel)}
         onCloseAvatarModal={controller.avatarController.onCloseAvatarModal}
+        pendingFile={controller.avatarController.pendingAvatarFile}
         onSaveAvatar={controller.avatarController.onSaveAvatar}
       />
     </>
