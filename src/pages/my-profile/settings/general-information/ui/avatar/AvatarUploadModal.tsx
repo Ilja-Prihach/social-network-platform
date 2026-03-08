@@ -107,14 +107,16 @@ export const AvatarUploadModal = ({
             </div>
           </div>
         </div>
-        <Button
-          type="button"
-          className={styles.avatar_modal_action}
-          onClick={handleSave}
-          disabled={isAvatarUploadPending}
-        >
-          {saveButtonText}
-        </Button>
+        <div className={styles.avatar_modal_footer}>
+          <Button
+            type="button"
+            className={styles.avatar_modal_action}
+            onClick={handleSave}
+            disabled={isAvatarUploadPending}
+          >
+            {saveButtonText}
+          </Button>
+        </div>
       </div>
     </div>
   );

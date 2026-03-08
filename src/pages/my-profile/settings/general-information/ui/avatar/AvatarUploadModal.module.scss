@@ -129,7 +129,11 @@
 }
 
 .avatar_modal_action {
-  position: absolute;
-  right: 24px;
-  bottom: 36px;
+  position: static;
+}
+
+.avatar_modal_footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 24px 36px;
 }
