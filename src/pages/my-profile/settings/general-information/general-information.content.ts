@@ -808,12 +808,12 @@ const generalInformationContent = {
       it: 'Elimina foto profilo',
     }),
     avatarDeleteModalDescription: t({
-      en: 'Are you sure you want to delete the photo?',
-      he: 'האם אתה בטוח שברצונך למחוק את התמונה?',
-      fr: 'Êtes-vous sûr de vouloir supprimer la photo ?',
-      es: '¿Seguro que quieres eliminar la foto?',
-      ru: 'Вы уверены, что хотите удалить фото?',
-      it: 'Sei sicuro di voler eliminare la foto?',
+      en: 'Do you really want to delete your profile photo?',
+      he: 'האם אתה באמת רוצה למחוק את תמונת הפרופיל שלך?',
+      fr: 'Voulez-vous vraiment supprimer votre photo de profil ?',
+      es: '¿De verdad quieres eliminar tu foto de perfil?',
+      ru: 'Вы действительно хотите удалить фото профиля?',
+      it: 'Vuoi davvero eliminare la tua foto del profilo?',
     }),
     avatarDeleteModalYes: t({
       en: 'Yes',
