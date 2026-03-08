@@ -3,6 +3,7 @@ import type { PostActionMenuItem } from '@/features/post/post-actions';
 import styles from './PostViewerHeaderActions.module.scss';
 
 type PostViewerHeaderActionsProps = {
+  isAuthPending?: boolean;
   isEditMode: boolean;
   isActionPending: boolean;
   isMenuOpen: boolean;
@@ -15,6 +16,7 @@ type PostViewerHeaderActionsProps = {
 };
 
 export function PostViewerHeaderActions({
+  isAuthPending,
   isEditMode,
   isActionPending,
   isMenuOpen,
@@ -25,6 +27,14 @@ export function PostViewerHeaderActions({
   exitEditModeLabel,
   openPostActionsLabel,
 }: PostViewerHeaderActionsProps) {
+  if (isAuthPending) {
+    return (
+      <div className={styles.header_actions}>
+        <div className={styles.actions_skeleton} aria-hidden />
+      </div>
+    );
+  }
+
   if (isEditMode) {
     return (
       <div className={styles.header_actions}>

@@ -18,6 +18,7 @@ export const Header = () => {
     pathname?.includes('/sign-up') ||
     pathname?.includes('/forgot-password'),
   );
+  const showAuthSkeleton = isPending && !hideAuthActions;
 
   return (
     <header>
@@ -28,6 +29,13 @@ export const Header = () => {
         <div className={styles.wrapper}>
           {me && <Icon iconId="Outline bell" />}
           <LanguageSelect />
+          {showAuthSkeleton && (
+            <div className={styles.actions} aria-hidden>
+              <div className={styles.header_skeleton_circle} />
+              <div className={styles.header_skeleton_button} />
+              <div className={styles.header_skeleton_button} />
+            </div>
+          )}
           {!me && !isPending && !hideAuthActions && (
             <div className={styles.actions}>
               <Button href="/sign-in" variant="text" className={styles.action_button}>

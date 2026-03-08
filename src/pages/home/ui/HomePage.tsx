@@ -1,19 +1,15 @@
 'use client';
 
 import { Suspense, useEffect, useMemo, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { getLocalizedUrl } from 'intlayer';
+import { useLocale } from 'next-intlayer';
 import styles from './HomePage.module.scss';
 import { PostCard } from '@/widgets/post-card';
 import { PeopleCounter } from '@/widgets/people-counter';
 import { HomeQueryBridge } from './HomeQueryBridge';
 import { useHomePosts } from '../model/useHomePosts';
 import type { PostCardVM } from '@/widgets/post-card';
-import {
-  mapPostCardVmToViewerPost,
-  getPostCardVmAuthorId,
-} from '../model/mapPostCardVmToViewerPost';
-import { useMe } from '@/features/auth/model/useMe';
-import { usePostViewer } from '@/features/post/open-post-viewer';
-import { PostViewerModal } from '@/widgets/post-viewer-modal';
 
 type Props = {
   initialPosts?: PostCardVM[];
@@ -28,7 +24,8 @@ export function HomePage({
   initialPeopleCount = null,
   mode = 'preview',
 }: Props) {
-  const { data: me } = useMe();
+  const router = useRouter();
+  const { locale } = useLocale();
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const isFeed = mode === 'feed';
   const postsQuery = useHomePosts(initialPosts, initialNextCursorPostId, {
@@ -66,14 +63,6 @@ export function HomePage({
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFeed, isFetchingNextPage]);
 
-  const viewer = usePostViewer<PostCardVM>({
-    items,
-    currentUserId: me?.userId,
-    getId: (item) => item.post.id,
-    mapToPost: mapPostCardVmToViewerPost,
-    getAuthorId: getPostCardVmAuthorId,
-  });
-
   return (
     <>
       <Suspense fallback={null}>
@@ -95,9 +84,24 @@ export function HomePage({
                       aria-hidden
                     />
                   ))
-                : items.map((vm) => (
-                    <PostCard key={vm.post.id} vm={vm} onOpen={() => viewer.openPost(vm.post.id)} />
-                  ))}
+                : items.map((vm) => {
+                    const profilePath = getLocalizedUrl(`/profile/${vm.author.id}`, locale);
+                    const next = new URLSearchParams();
+                    next.set('postId', vm.post.id);
+                    next.set('from', 'home');
+                    const href = `${profilePath}?${next.toString()}`;
+
+                    return (
+                      <PostCard
+                        key={vm.post.id}
+                        vm={vm}
+                        onHover={() => router.prefetch(href)}
+                        onOpen={() => {
+                          router.push(href);
+                        }}
+                      />
+                    );
+                  })}
             </div>
             {isFeed && isFetchingNextPage && (
               <div className={styles.load_more}>Loading more posts...</div>
@@ -108,12 +112,6 @@ export function HomePage({
           </main>
         </div>
       </section>
-      <PostViewerModal
-        post={viewer.selectedPost}
-        isOwner={viewer.isOwner}
-        isFriendPost={viewer.isFriendPost}
-        onClose={viewer.closePost}
-      />
     </>
   );
 }

@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useRef } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { getLocalizedUrl } from 'intlayer';
+import { useLocale } from 'next-intlayer';
 import styles from './ProfileDetailsPage.module.scss';
 import {
   usePublicProfileQuery,
@@ -15,6 +18,7 @@ import { mapProfilePostToViewerPost } from '../model/mapProfilePostToViewerPost'
 import { ProfileHeader } from '@/widgets/profile-header';
 import { PostMediaCarousel } from '@/entities/post';
 import { PostViewerModal } from '@/widgets/post-viewer-modal';
+import type { PostViewerPost } from '@/entities/post';
 
 const AVATAR_FALLBACK = '/mock/Avatar1.jpg';
 
@@ -27,14 +31,26 @@ type ProfileDetailsPageClientProps = {
   profileId: number;
   initialProfile: PublicProfile;
   initialPostsPage: ProfilePostsPage;
+  initialPost?: PostViewerPost | null;
 };
 
 export function ProfileDetailsPageClient({
   profileId,
   initialProfile,
   initialPostsPage,
+  initialPost,
 }: ProfileDetailsPageClientProps) {
   const { data: me } = useMe();
+  const router = useRouter();
+  const { locale } = useLocale();
+  const pathname = usePathname();
+  const safePathname = pathname ?? `/profile/${profileId}`;
+  const searchParams = useSearchParams();
+  const selectedPostIdFromUrl = searchParams?.get('postId');
+  const fromHome = searchParams?.get('from') === 'home';
+  const homePath = getLocalizedUrl('/', locale);
+  const pendingOpenRef = useRef<string | null>(null);
+  const pendingCloseRef = useRef(false);
   const profileQuery = usePublicProfileQuery(profileId, initialProfile);
   const postsQuery = useProfilePostsInfiniteQuery(profileId, true, initialPostsPage);
 
@@ -81,6 +97,42 @@ export function ProfileDetailsPageClient({
     getIsFriendPost: () => Boolean(profile?.isFollowing && profile?.isFollowedBy),
   });
 
+  const modalPost =
+    selectedPostIdFromUrl && initialPost && initialPost.id === selectedPostIdFromUrl
+      ? initialPost
+      : viewer.selectedPost;
+
+  const modalIsOwner =
+    modalPost && initialPost && modalPost.id === initialPost.id ? isOwner : viewer.isOwner;
+
+  const modalIsFriendPost =
+    modalPost && initialPost && modalPost.id === initialPost.id
+      ? Boolean(profile?.isFollowing && profile?.isFollowedBy)
+      : viewer.isFriendPost;
+
+  useEffect(() => {
+    if (pendingCloseRef.current) {
+      if (!selectedPostIdFromUrl) {
+        pendingCloseRef.current = false;
+      }
+      return;
+    }
+
+    if (!selectedPostIdFromUrl) {
+      if (pendingOpenRef.current) return;
+      if (viewer.selectedPost) viewer.closePost();
+      return;
+    }
+
+    if (pendingOpenRef.current === selectedPostIdFromUrl) {
+      pendingOpenRef.current = null;
+    }
+
+    if (viewer.selectedPost?.id !== selectedPostIdFromUrl) {
+      viewer.openPost(selectedPostIdFromUrl);
+    }
+  }, [selectedPostIdFromUrl, viewer.openPost, viewer.closePost, viewer.selectedPost?.id]);
+
   return (
     <section className={styles.page}>
       <div className={styles.layout}>
@@ -102,10 +154,22 @@ export function ProfileDetailsPageClient({
                     role="button"
                     tabIndex={0}
                     className={styles.post_open}
-                    onClick={() => viewer.openPost(post.id)}
+                    onClick={() => {
+                      pendingOpenRef.current = post.id;
+                      pendingCloseRef.current = false;
+                      viewer.openPost(post.id);
+                      const next = new URLSearchParams(searchParams?.toString());
+                      next.set('postId', post.id);
+                      router.replace(`${safePathname}?${next.toString()}`);
+                    }}
                     onKeyDown={(event) => {
                       if (event.key === 'Enter' || event.key === ' ') {
+                        pendingOpenRef.current = post.id;
+                        pendingCloseRef.current = false;
                         viewer.openPost(post.id);
+                        const next = new URLSearchParams(searchParams?.toString());
+                        next.set('postId', post.id);
+                        router.replace(`${safePathname}?${next.toString()}`);
                       }
                     }}
                     aria-label={`Open ${post.userName} post`}
@@ -130,10 +194,23 @@ export function ProfileDetailsPageClient({
         </main>
       </div>
       <PostViewerModal
-        post={viewer.selectedPost}
-        isOwner={viewer.isOwner}
-        isFriendPost={viewer.isFriendPost}
-        onClose={viewer.closePost}
+        post={modalPost}
+        isOwner={modalIsOwner}
+        isFriendPost={modalIsFriendPost}
+        onClose={() => {
+          if (fromHome) {
+            router.replace(homePath);
+            return;
+          }
+          pendingCloseRef.current = true;
+          pendingOpenRef.current = null;
+          viewer.closePost();
+          const next = new URLSearchParams(searchParams?.toString());
+          next.delete('postId');
+          next.delete('from');
+          const nextQuery = next.toString();
+          router.replace(nextQuery ? `${safePathname}?${nextQuery}` : safePathname);
+        }}
       />
     </section>
   );

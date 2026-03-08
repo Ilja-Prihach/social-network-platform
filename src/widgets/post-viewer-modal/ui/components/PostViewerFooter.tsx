@@ -4,6 +4,7 @@ import { Icon } from '@/shared/ui/Icon';
 import styles from './PostViewerFooter.module.scss';
 
 type PostViewerFooterProps = {
+  isAuthPending?: boolean;
   isEditMode: boolean;
   isActionPending: boolean;
   likeIconId: string;
@@ -22,6 +23,7 @@ type PostViewerFooterProps = {
 };
 
 export function PostViewerFooter({
+  isAuthPending,
   isEditMode,
   isActionPending,
   likeIconId,
@@ -39,6 +41,26 @@ export function PostViewerFooter({
   localeTag,
 }: PostViewerFooterProps) {
   const hasLikesData = likesCount !== null || likesAvatars.length > 0;
+
+  if (isAuthPending) {
+    return (
+      <>
+        <div className={styles.actions}>
+          <div className={styles.skeleton_row}>
+            <span className={styles.skeleton_icon} />
+            <span className={styles.skeleton_icon} />
+            <span className={styles.skeleton_icon} />
+            <span className={styles.skeleton_spacer} />
+          </div>
+          <div className={styles.skeleton_line} />
+        </div>
+        <div className={styles.add_comment}>
+          <div className={styles.skeleton_input} />
+          <div className={styles.skeleton_button} />
+        </div>
+      </>
+    );
+  }
 
   if (isEditMode) {
     return (

@@ -17,8 +17,10 @@ export const AppShell = ({ children }: PropsWithChildren) => (
 );
 
 const AppShellContent = ({ children }: PropsWithChildren) => {
-  const { data: me, isLoading } = useMe();
-  const showSidebar = !isLoading && Boolean(me);
+  const { data: me, isPending } = useMe();
+  const showSidebar = Boolean(me);
+  const showSidebarSkeleton = isPending;
+  const hasSidebar = showSidebar || showSidebarSkeleton;
 
   return (
     <>
@@ -27,12 +29,27 @@ const AppShellContent = ({ children }: PropsWithChildren) => {
       <Header />
       <ModalWindow />
       <div className={styles.layout}>
-        {showSidebar && (
+        {hasSidebar && (
           <aside className={styles.sidebar_slot}>
-            <Sidebar />
+            {showSidebar ? (
+              <Sidebar />
+            ) : (
+              <div className={styles.sidebar_skeleton} aria-hidden>
+                <div className={styles.sidebar_skeleton_group}>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <div key={`sidebar-main-${index}`} className={styles.sidebar_skeleton_item} />
+                  ))}
+                </div>
+                <div className={styles.sidebar_skeleton_group}>
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <div key={`sidebar-tools-${index}`} className={styles.sidebar_skeleton_item} />
+                  ))}
+                </div>
+              </div>
+            )}
           </aside>
         )}
-        <div className={showSidebar ? styles.content_with_sidebar : styles.content}>{children}</div>
+        <div className={hasSidebar ? styles.content_with_sidebar : styles.content}>{children}</div>
       </div>
     </>
   );

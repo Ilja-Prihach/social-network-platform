@@ -42,6 +42,45 @@
   white-space: nowrap;
 }
 
+.header_skeleton_circle,
+.header_skeleton_button {
+  background: var(--dark-300-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.header_skeleton_circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.header_skeleton_button {
+  width: 110px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.header_skeleton_circle::after,
+.header_skeleton_button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
+  transform: translateX(-100%);
+  animation: header-skeleton-shimmer 1.4s infinite;
+}
+
 :dir(rtl) .actions {
   direction: ltr;
+}
+
+@keyframes header-skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }

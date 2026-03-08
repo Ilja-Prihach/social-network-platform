@@ -7,9 +7,10 @@ import s from './PostCard.module.scss';
 type Props = {
   vm: PostCardVM;
   onOpen?: () => void;
+  onHover?: () => void;
 };
 
-export function PostCard({ vm, onOpen }: Props) {
+export function PostCard({ vm, onOpen, onHover }: Props) {
   const { post, author } = vm;
 
   return (
@@ -19,6 +20,8 @@ export function PostCard({ vm, onOpen }: Props) {
         tabIndex={onOpen ? 0 : undefined}
         className={`${s.media} ${onOpen ? s.media_open : ''}`}
         onClick={onOpen}
+        onMouseEnter={onHover}
+        onFocus={onHover}
         onKeyDown={(event) => {
           if (!onOpen) return;
           if (event.key === 'Enter' || event.key === ' ') {
