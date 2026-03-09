@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import alertStyles from '@/shared/ui/Alert/Alert.module.scss';
+import { useAvatarCrop } from './useAvatarCrop';
 import styles from './AvatarUploadModal.module.scss';
 
 type AvatarUploadModalProps = {
@@ -14,7 +15,8 @@ type AvatarUploadModalProps = {
   avatarModalError: string | null;
   isAvatarUploadPending: boolean;
   onCloseAvatarModal: () => void;
-  onSaveAvatar: () => void;
+  pendingFile: File | null;
+  onSaveAvatar: (file?: File) => void;
 };
 
 export const AvatarUploadModal = ({
@@ -27,8 +29,30 @@ export const AvatarUploadModal = ({
   avatarModalError,
   isAvatarUploadPending,
   onCloseAvatarModal,
+  pendingFile,
   onSaveAvatar,
 }: AvatarUploadModalProps) => {
+  const CROP_SIZE = 316;
+  const OUTPUT_SIZE = 512;
+
+  const { offset, scale, onPointerDown, onPointerMove, onPointerUp, buildCroppedFile } =
+    useAvatarCrop({
+      modalPreviewUrl,
+      pendingFile,
+      cropSize: CROP_SIZE,
+      outputSize: OUTPUT_SIZE,
+    });
+
+  const handleSave = async () => {
+    if (!pendingFile) {
+      onSaveAvatar();
+      return;
+    }
+
+    const cropped = await buildCroppedFile();
+    onSaveAvatar(cropped ?? pendingFile);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -63,22 +87,36 @@ export const AvatarUploadModal = ({
               className={styles.avatar_modal_preview_image}
               role="img"
               aria-label={previewAriaLabel}
-              style={modalPreviewUrl ? { backgroundImage: `url("${modalPreviewUrl}")` } : undefined}
+              onPointerDown={onPointerDown}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
+              onPointerLeave={onPointerUp}
             >
-              {!modalPreviewUrl && (
+              {modalPreviewUrl ? (
+                <img
+                  src={modalPreviewUrl}
+                  alt=""
+                  className={styles.avatar_modal_preview_img}
+                  style={{
+                    transform: `translate(-50%, -50%) translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+                  }}
+                />
+              ) : (
                 <Icon iconId="image-outline" className={styles.avatar_modal_preview_icon} />
               )}
             </div>
           </div>
         </div>
-        <Button
-          type="button"
-          className={styles.avatar_modal_action}
-          onClick={onSaveAvatar}
-          disabled={isAvatarUploadPending}
-        >
-          {saveButtonText}
-        </Button>
+        <div className={styles.avatar_modal_footer}>
+          <Button
+            type="button"
+            className={styles.avatar_modal_action}
+            onClick={handleSave}
+            disabled={isAvatarUploadPending}
+          >
+            {saveButtonText}
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -128,13 +128,14 @@ export const useProfileAvatarController = ({
     }
   };
 
-  const onSaveAvatar = () => {
-    if (!pendingAvatarFile) {
+  const onSaveAvatar = (file?: File) => {
+    const fileToUpload = file ?? pendingAvatarFile;
+    if (!fileToUpload) {
       fileInputRef.current?.click();
       return;
     }
 
-    avatarUploadMutation.mutate(pendingAvatarFile, {
+    avatarUploadMutation.mutate(fileToUpload, {
       onSuccess: () => {
         onCloseAvatarModal();
       },
@@ -161,6 +162,7 @@ export const useProfileAvatarController = ({
     modalPreviewUrl,
     avatarModalError,
     isAvatarModalOpen,
+    pendingAvatarFile,
     isAvatarUploadPending: avatarUploadMutation.isPending,
     isAvatarDeletePending: deleteAvatarMutation.isPending,
     onSelectPhotoClick,
