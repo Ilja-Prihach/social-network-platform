@@ -95,6 +95,7 @@ export function HomePage({
                       <PostCard
                         key={vm.post.id}
                         vm={vm}
+                        profileHref={profilePath}
                         onHover={() => router.prefetch(href)}
                         onOpen={() => {
                           router.push(href);

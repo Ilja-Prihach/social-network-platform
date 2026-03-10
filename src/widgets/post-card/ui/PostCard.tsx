@@ -8,9 +8,10 @@ type Props = {
   vm: PostCardVM;
   onOpen?: () => void;
   onHover?: () => void;
+  profileHref?: string;
 };
 
-export function PostCard({ vm, onOpen, onHover }: Props) {
+export function PostCard({ vm, onOpen, onHover, profileHref }: Props) {
   const { post, author } = vm;
 
   return (
@@ -33,7 +34,7 @@ export function PostCard({ vm, onOpen, onHover }: Props) {
       </div>
 
       <header className={s.header}>
-        <UserBadge user={author} createdAt={post.createdAt} />
+        <UserBadge user={author} createdAt={post.createdAt} profileHref={profileHref} />
       </header>
 
       <div className={s.body}>

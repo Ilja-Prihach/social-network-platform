@@ -9,24 +9,31 @@ import { Header } from '@/widgets/header/ui/Header';
 import { Sidebar } from '@/widgets/sidebar/ui/Sidebar';
 import { useMe } from '@/features/auth/model/useMe';
 import styles from './AppShell.module.scss';
+import type { MeResponse } from '@/entities/user/api/me';
 
-export const AppShell = ({ children }: PropsWithChildren) => (
+type AppShellProps = PropsWithChildren<{ initialMe?: MeResponse | null }>;
+
+export const AppShell = ({ children, initialMe }: AppShellProps) => (
   <ReactQueryProvider>
-    <AppShellContent>{children}</AppShellContent>
+    <AppShellContent initialMe={initialMe}>{children}</AppShellContent>
   </ReactQueryProvider>
 );
 
-const AppShellContent = ({ children }: PropsWithChildren) => {
+type AppShellContentProps = PropsWithChildren<{ initialMe?: MeResponse | null }>;
+
+const AppShellContent = ({ children, initialMe }: AppShellContentProps) => {
   const { data: me, isPending } = useMe();
-  const showSidebar = Boolean(me);
-  const showSidebarSkeleton = isPending;
+  const resolvedMe = me ?? initialMe ?? undefined;
+  const authResolved = initialMe !== undefined || !isPending;
+  const showSidebar = Boolean(resolvedMe);
+  const showSidebarSkeleton = !authResolved;
   const hasSidebar = showSidebar || showSidebarSkeleton;
 
   return (
     <>
       <Alert />
       <SvgSprite />
-      <Header />
+      <Header initialMe={initialMe} />
       <ModalWindow />
       <div className={styles.layout}>
         {hasSidebar && (

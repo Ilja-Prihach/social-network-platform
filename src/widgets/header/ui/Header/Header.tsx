@@ -8,8 +8,13 @@ import { useDictionary } from 'next-intlayer';
 import headerContent from '../../header.content';
 import { useMe } from '@/features/auth/model/useMe';
 import { usePathname } from 'next/navigation';
+import type { MeResponse } from '@/entities/user/api/me';
 
-export const Header = () => {
+type HeaderProps = {
+  initialMe?: MeResponse | null;
+};
+
+export const Header = ({ initialMe }: HeaderProps) => {
   const content = useDictionary(headerContent);
   const { data: me, isPending } = useMe();
   const pathname = usePathname();
@@ -18,7 +23,9 @@ export const Header = () => {
     pathname?.includes('/sign-up') ||
     pathname?.includes('/forgot-password'),
   );
-  const showAuthSkeleton = isPending && !hideAuthActions;
+  const resolvedMe = me ?? initialMe ?? undefined;
+  const authResolved = initialMe !== undefined || !isPending;
+  const showAuthSkeleton = !authResolved && !hideAuthActions;
 
   return (
     <header>
@@ -36,7 +43,7 @@ export const Header = () => {
               <div className={styles.header_skeleton_button} />
             </div>
           )}
-          {!me && !isPending && !hideAuthActions && (
+          {!resolvedMe && !isPending && !hideAuthActions && (
             <div className={styles.actions}>
               <Button href="/sign-in" variant="text" className={styles.action_button}>
                 {content.logIn}
