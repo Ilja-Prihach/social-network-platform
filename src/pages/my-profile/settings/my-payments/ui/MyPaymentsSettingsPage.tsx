@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useDictionary } from 'next-intlayer';
 import Pagination from '@/shared/ui/Pagination';
 import type { PaymentItem } from '@/entities/payment';
@@ -43,27 +43,21 @@ export function MyPaymentsSettingsPage() {
   const items = pageData?.items ?? [];
   const totalCount = pageData?.totalCount ?? 0;
 
-  const subscription_labels = useMemo(
-    () => ({
-      DAY: toText(content.subscriptionDaily),
-      DAILY: toText(content.subscriptionDaily),
-      WEEK: toText(content.subscriptionWeekly),
-      WEEKLY: toText(content.subscriptionWeekly),
-      MONTH: toText(content.subscriptionMonthly),
-      MONTHLY: toText(content.subscriptionMonthly),
-      YEAR: toText(content.subscriptionYearly),
-      YEARLY: toText(content.subscriptionYearly),
-    }),
-    [content],
-  );
+  const subscription_labels = {
+    DAY: toText(content.subscriptionDaily),
+    DAILY: toText(content.subscriptionDaily),
+    WEEK: toText(content.subscriptionWeekly),
+    WEEKLY: toText(content.subscriptionWeekly),
+    MONTH: toText(content.subscriptionMonthly),
+    MONTHLY: toText(content.subscriptionMonthly),
+    YEAR: toText(content.subscriptionYearly),
+    YEARLY: toText(content.subscriptionYearly),
+  } as const;
 
-  const payment_labels = useMemo(
-    () => ({
-      STRIPE: toText(content.paymentStripe),
-      PAYPAL: toText(content.paymentPaypal),
-    }),
-    [content],
-  );
+  const payment_labels = {
+    STRIPE: toText(content.paymentStripe),
+    PAYPAL: toText(content.paymentPaypal),
+  } as const;
 
   const mapSubscriptionType = (subscriptionType: string): string => {
     const normalized = subscriptionType.trim().toUpperCase();
@@ -80,21 +74,15 @@ export function MyPaymentsSettingsPage() {
     );
   };
 
-  const renderState = () => {
-    if (paymentsQuery.isPending) {
-      return <p className={styles.state_text}>{toText(content.loading)}</p>;
-    }
+  let stateMessage: string | null = null;
 
-    if (paymentsQuery.isError) {
-      return <p className={styles.state_text}>{toText(content.failedToLoad)}</p>;
-    }
-
-    if (!items.length) {
-      return <p className={styles.state_text}>{toText(content.noPayments)}</p>;
-    }
-
-    return null;
-  };
+  if (paymentsQuery.isPending) {
+    stateMessage = toText(content.loading);
+  } else if (paymentsQuery.isError) {
+    stateMessage = toText(content.failedToLoad);
+  } else if (items.length === 0) {
+    stateMessage = toText(content.noPayments);
+  }
 
   return (
     <section className={styles.page}>
@@ -123,7 +111,7 @@ export function MyPaymentsSettingsPage() {
         </table>
       </div>
 
-      {renderState()}
+      {stateMessage ? <p className={styles.state_text}>{stateMessage}</p> : null}
 
       {!paymentsQuery.isPending && !paymentsQuery.isError && totalCount > 0 && (
         <Pagination
