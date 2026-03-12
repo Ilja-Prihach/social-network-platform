@@ -1,10 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDictionary, useLocale } from 'next-intlayer';
 
 import {
-  formatNotificationRelativeTime,
   useMarkNotificationsReadMutation,
   useNotificationsInfiniteQuery,
   useNotificationRealtimeSync,
@@ -12,14 +11,15 @@ import {
 import { Icon } from '@/shared/ui/Icon/Icon';
 
 import headerNotificationsContent from '../../header-notifications.content';
+import { HeaderNotificationItem } from './HeaderNotificationItem';
 import styles from './HeaderNotifications.module.scss';
+import { useNotificationInfiniteScroll } from './useNotificationInfiniteScroll';
+import { useNotificationPanelDismiss } from './useNotificationPanelDismiss';
+import { useVisibleNotificationsRead } from './useVisibleNotificationsRead';
 
 type HeaderNotificationsProps = {
   userId: number;
 };
-
-const READ_DELAY_MS = 3000;
-const READ_VISIBILITY_THRESHOLD = 0.75;
 
 export const HeaderNotifications = ({ userId }: HeaderNotificationsProps) => {
   const content = useDictionary(headerNotificationsContent);
@@ -28,8 +28,6 @@ export const HeaderNotifications = ({ userId }: HeaderNotificationsProps) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const panelBodyRef = useRef<HTMLDivElement | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
-  const requestedReadIdsRef = useRef<Set<number>>(new Set());
-  const readTimeoutsRef = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
 
   const notificationsQuery = useNotificationsInfiniteQuery(userId, true);
   const markNotificationsReadMutation = useMarkNotificationsReadMutation(userId);
@@ -59,147 +57,37 @@ export const HeaderNotifications = ({ userId }: HeaderNotificationsProps) => {
     setIsOpen((prev) => !prev);
   }, []);
 
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
+  const closePanel = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
-    const handlePointerDown = (event: MouseEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
+  useNotificationPanelDismiss({
+    isOpen,
+    rootRef,
+    onClose: closePanel,
+  });
 
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
+  useNotificationInfiniteScroll({
+    enabled: isOpen,
+    hasNextPage: Boolean(hasNextPage),
+    isFetchingNextPage,
+    loadMoreRef,
+    rootRef: panelBodyRef,
+    onLoadMore: () => {
+      void fetchNextPage();
+    },
+  });
 
-    document.addEventListener('mousedown', handlePointerDown);
-    document.addEventListener('keydown', handleEscape);
-
-    return () => {
-      document.removeEventListener('mousedown', handlePointerDown);
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    const target = loadMoreRef.current;
-    if (!target || !hasNextPage || isFetchingNextPage) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting || !hasNextPage) {
-          return;
-        }
-
-        void fetchNextPage();
-      },
-      {
-        root: target.parentElement,
-        rootMargin: '120px 0px',
-      },
-    );
-
-    observer.observe(target);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [isOpen, fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-  useEffect(() => {
-    const readTimeouts = readTimeoutsRef.current;
-
-    if (!isOpen) {
-      readTimeouts.forEach((timeoutId) => {
-        clearTimeout(timeoutId);
+  useVisibleNotificationsRead({
+    enabled: isOpen,
+    items,
+    rootRef: panelBodyRef,
+    onRead: (id, rollback) => {
+      markNotificationsReadMutation.mutate([id], {
+        onError: rollback,
       });
-      readTimeouts.clear();
-      return;
-    }
-
-    const root = panelBodyRef.current;
-    if (!root) {
-      return;
-    }
-
-    const unreadItems = items.filter(
-      (item) => !item.isRead && !requestedReadIdsRef.current.has(item.id),
-    );
-    if (!unreadItems.length) {
-      return;
-    }
-
-    const unreadIds = new Set(unreadItems.map((item) => item.id));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const idValue = entry.target.getAttribute('data-notification-id');
-          const id = Number(idValue);
-
-          if (!id || requestedReadIdsRef.current.has(id) || !unreadIds.has(id)) {
-            return;
-          }
-
-          if (entry.isIntersecting && entry.intersectionRatio >= READ_VISIBILITY_THRESHOLD) {
-            if (readTimeouts.has(id)) {
-              return;
-            }
-
-            const timeoutId = setTimeout(() => {
-              requestedReadIdsRef.current.add(id);
-              readTimeouts.delete(id);
-              markNotificationsReadMutation.mutate([id], {
-                onError: () => {
-                  requestedReadIdsRef.current.delete(id);
-                },
-              });
-            }, READ_DELAY_MS);
-
-            readTimeouts.set(id, timeoutId);
-            return;
-          }
-
-          const timeoutId = readTimeouts.get(id);
-          if (timeoutId) {
-            clearTimeout(timeoutId);
-            readTimeouts.delete(id);
-          }
-        });
-      },
-      {
-        root,
-        threshold: [READ_VISIBILITY_THRESHOLD],
-      },
-    );
-
-    unreadIds.forEach((id) => {
-      const element = root.querySelector<HTMLElement>(`[data-notification-id="${id}"]`);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-      unreadIds.forEach((id) => {
-        const timeoutId = readTimeouts.get(id);
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-          readTimeouts.delete(id);
-        }
-      });
-    };
-  }, [isOpen, items, markNotificationsReadMutation]);
+    },
+  });
 
   return (
     <div className={styles.root} ref={rootRef}>
@@ -239,22 +127,14 @@ export const HeaderNotifications = ({ userId }: HeaderNotificationsProps) => {
             {!notificationsQuery.isLoading &&
               !notificationsQuery.isError &&
               items.map((item) => (
-                <article
+                <HeaderNotificationItem
                   key={item.id}
-                  className={styles.notification_item}
-                  data-notification-id={item.id}
-                >
-                  <div className={styles.notification_item_header}>
-                    <span className={styles.notification_item_title}>{labels.itemTitle}</span>
-                    {!item.isRead && (
-                      <span className={styles.notification_item_new}>{labels.newLabel}</span>
-                    )}
-                  </div>
-                  <p className={styles.notification_message}>{item.message}</p>
-                  <time className={styles.notification_time} dateTime={item.notifyAt}>
-                    {formatNotificationRelativeTime(item.notifyAt, locale, labels.justNow)}
-                  </time>
-                </article>
+                  item={item}
+                  itemTitle={labels.itemTitle}
+                  newLabel={labels.newLabel}
+                  justNow={labels.justNow}
+                  locale={locale}
+                />
               ))}
 
             {isFetchingNextPage && <div className={styles.loading_more}>{labels.title}...</div>}
