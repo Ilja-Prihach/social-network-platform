@@ -18,13 +18,18 @@ type HeaderNotificationsProps = {
   userId: number;
 };
 
+const READ_DELAY_MS = 3000;
+const READ_VISIBILITY_THRESHOLD = 0.75;
+
 export const HeaderNotifications = ({ userId }: HeaderNotificationsProps) => {
   const content = useDictionary(headerNotificationsContent);
   const { locale } = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const panelBodyRef = useRef<HTMLDivElement | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const requestedReadIdsRef = useRef<Set<number>>(new Set());
+  const readTimeoutsRef = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
 
   const notificationsQuery = useNotificationsInfiniteQuery(userId, true);
   const markNotificationsReadMutation = useMarkNotificationsReadMutation(userId);
@@ -112,25 +117,88 @@ export const HeaderNotifications = ({ userId }: HeaderNotificationsProps) => {
   }, [isOpen, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   useEffect(() => {
+    const readTimeouts = readTimeoutsRef.current;
+
     if (!isOpen) {
+      readTimeouts.forEach((timeoutId) => {
+        clearTimeout(timeoutId);
+      });
+      readTimeouts.clear();
       return;
     }
 
-    const unreadIds = items
-      .filter((item) => !item.isRead && !requestedReadIdsRef.current.has(item.id))
-      .map((item) => item.id);
-
-    if (!unreadIds.length) {
+    const root = panelBodyRef.current;
+    if (!root) {
       return;
     }
 
-    unreadIds.forEach((id) => requestedReadIdsRef.current.add(id));
+    const unreadItems = items.filter(
+      (item) => !item.isRead && !requestedReadIdsRef.current.has(item.id),
+    );
+    if (!unreadItems.length) {
+      return;
+    }
 
-    markNotificationsReadMutation.mutate(unreadIds, {
-      onError: () => {
-        unreadIds.forEach((id) => requestedReadIdsRef.current.delete(id));
+    const unreadIds = new Set(unreadItems.map((item) => item.id));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const idValue = entry.target.getAttribute('data-notification-id');
+          const id = Number(idValue);
+
+          if (!id || requestedReadIdsRef.current.has(id) || !unreadIds.has(id)) {
+            return;
+          }
+
+          if (entry.isIntersecting && entry.intersectionRatio >= READ_VISIBILITY_THRESHOLD) {
+            if (readTimeouts.has(id)) {
+              return;
+            }
+
+            const timeoutId = setTimeout(() => {
+              requestedReadIdsRef.current.add(id);
+              readTimeouts.delete(id);
+              markNotificationsReadMutation.mutate([id], {
+                onError: () => {
+                  requestedReadIdsRef.current.delete(id);
+                },
+              });
+            }, READ_DELAY_MS);
+
+            readTimeouts.set(id, timeoutId);
+            return;
+          }
+
+          const timeoutId = readTimeouts.get(id);
+          if (timeoutId) {
+            clearTimeout(timeoutId);
+            readTimeouts.delete(id);
+          }
+        });
       },
+      {
+        root,
+        threshold: [READ_VISIBILITY_THRESHOLD],
+      },
+    );
+
+    unreadIds.forEach((id) => {
+      const element = root.querySelector<HTMLElement>(`[data-notification-id="${id}"]`);
+      if (element) {
+        observer.observe(element);
+      }
     });
+
+    return () => {
+      observer.disconnect();
+      unreadIds.forEach((id) => {
+        const timeoutId = readTimeouts.get(id);
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          readTimeouts.delete(id);
+        }
+      });
+    };
   }, [isOpen, items, markNotificationsReadMutation]);
 
   return (
@@ -155,7 +223,7 @@ export const HeaderNotifications = ({ userId }: HeaderNotificationsProps) => {
             <h2 className={styles.panel_title}>{labels.title}</h2>
           </div>
 
-          <div className={styles.panel_body}>
+          <div className={styles.panel_body} ref={panelBodyRef}>
             {notificationsQuery.isLoading && (
               <div className={styles.loading_state}>{labels.title}...</div>
             )}
@@ -171,7 +239,11 @@ export const HeaderNotifications = ({ userId }: HeaderNotificationsProps) => {
             {!notificationsQuery.isLoading &&
               !notificationsQuery.isError &&
               items.map((item) => (
-                <article key={item.id} className={styles.notification_item}>
+                <article
+                  key={item.id}
+                  className={styles.notification_item}
+                  data-notification-id={item.id}
+                >
                   <div className={styles.notification_item_header}>
                     <span className={styles.notification_item_title}>{labels.itemTitle}</span>
                     {!item.isRead && (
