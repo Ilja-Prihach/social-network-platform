@@ -1,0 +1,116 @@
+import { io } from 'socket.io-client';
+
+import { getSocketAccessToken } from '../api/notificationApi.client';
+import { createNotificationPollingAdapter } from './pollingAdapter';
+import type { NotificationRealtimeAdapter, NotificationRealtimeCallbacks } from './types';
+
+type CreateSocketNotificationAdapterParams = {
+  url?: string;
+  eventName?: string;
+  enablePollingFallback?: boolean;
+};
+
+const DEFAULT_SOCKET_URL = 'https://inctagram.work';
+const DEFAULT_EVENT_NAME = 'notifications';
+
+export const createSocketNotificationAdapter = ({
+  url = DEFAULT_SOCKET_URL,
+  eventName = DEFAULT_EVENT_NAME,
+  enablePollingFallback = true,
+}: CreateSocketNotificationAdapterParams = {}): NotificationRealtimeAdapter => {
+  return {
+    start: (callbacks) => startSocketRealtime({ url, eventName, callbacks, enablePollingFallback }),
+  };
+};
+
+const startSocketRealtime = ({
+  url,
+  eventName,
+  callbacks,
+  enablePollingFallback,
+}: {
+  url: string;
+  eventName: string;
+  callbacks: NotificationRealtimeCallbacks;
+  enablePollingFallback: boolean;
+}) => {
+  let socket: ReturnType<typeof io> | null = null;
+  let stopPollingFallback: (() => void) | null = null;
+  let isStopped = false;
+  let isConnected = false;
+
+  const startPollingFallback = () => {
+    if (!enablePollingFallback || stopPollingFallback) {
+      return;
+    }
+
+    stopPollingFallback = createNotificationPollingAdapter().start(callbacks);
+  };
+
+  void getSocketAccessToken()
+    .then((accessToken) => {
+      if (isStopped) return;
+
+      if (!accessToken) {
+        startPollingFallback();
+        return;
+      }
+
+      socket = io(url, {
+        transports: ['websocket'],
+        reconnection: true,
+        reconnectionAttempts: 3,
+        reconnectionDelay: 1_500,
+        timeout: 10_000,
+        autoConnect: false,
+        query: {
+          accessToken,
+        },
+      });
+
+      socket.on('connect', () => {
+        isConnected = true;
+      });
+
+      socket.on('connect_error', (error) => {
+        callbacks.onError?.(error);
+      });
+
+      socket.on('disconnect', (reason) => {
+        isConnected = false;
+        callbacks.onError?.(new Error(`Notification socket disconnected: ${reason}`));
+      });
+
+      socket.on('error', (error) => {
+        callbacks.onError?.(error);
+      });
+
+      socket.on(eventName, () => {
+        callbacks.onInvalidate();
+      });
+
+      socket.io.on('error', (error) => {
+        callbacks.onError?.(error);
+
+        if (!isConnected) {
+          startPollingFallback();
+        }
+      });
+
+      socket.io.on('reconnect_failed', () => {
+        startPollingFallback();
+      });
+
+      socket.connect();
+    })
+    .catch((error) => {
+      callbacks.onError?.(error);
+      startPollingFallback();
+    });
+
+  return () => {
+    isStopped = true;
+    stopPollingFallback?.();
+    socket?.close();
+  };
+};
