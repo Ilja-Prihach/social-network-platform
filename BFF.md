@@ -67,6 +67,7 @@ Other routes:
 - `POST /api/posts/image` -> backend `/api/v1/posts/image`
 - `DELETE /api/posts/image/:uploadId` -> backend `/api/v1/posts/image/:uploadId`
 - `GET /api/posts/public` -> backend `/api/v1/posts/public`
+- `GET /api/subscriptions/my-payments` -> backend `/api/v1/subscriptions/my-payments`
 - `GET /api/notifications` -> backend `/api/v1/notifications` or `/api/v1/notifications/:cursor`
 - `PUT /api/notifications/mark-as-read` -> backend `/api/v1/notifications/mark-as-read`
 
