@@ -43,6 +43,23 @@ const hasCookie = (cookies: string[] | undefined, name: string): boolean => {
   return cookies.some((cookie) => cookie.startsWith(`${name}=`));
 };
 
+const appendAccessCookie = (
+  cookies: string[] | undefined,
+  token?: string,
+): string[] | undefined => {
+  if (!token) {
+    return cookies;
+  }
+
+  const nextCookies = [...(cookies ?? [])].filter(
+    (cookie) => !cookie.startsWith(`${ACCESS_TOKEN_COOKIE_NAME}=`),
+  );
+
+  nextCookies.push(buildAccessCookie(token));
+
+  return nextCookies;
+};
+
 export async function bffFetch(
   nextRes: NextResponse,
   path: string,
@@ -127,12 +144,12 @@ export async function bffFetch(
   if (retryAccessToken) setAccessCookie(nextRes, retryAccessToken);
 
   if (!nextRes) {
-    const merged = [
-      ...(baseSetCookie ?? []),
-      ...(refreshed.setCookie ?? []),
-      ...(retrySetCookie ?? []),
-    ];
-    return { res: retrySanitized ?? retryRes, setCookie: merged.length ? merged : undefined };
+    const merged = appendAccessCookie(
+      [...(baseSetCookie ?? []), ...(refreshed.setCookie ?? []), ...(retrySetCookie ?? [])],
+      retryAccessToken ?? refreshed.accessToken,
+    );
+
+    return { res: retrySanitized ?? retryRes, setCookie: merged?.length ? merged : undefined };
   }
 
   return retrySanitized ?? retryRes;

@@ -12,6 +12,8 @@ type CreateSocketNotificationAdapterParams = {
 
 const DEFAULT_SOCKET_URL = 'https://inctagram.work';
 const DEFAULT_EVENT_NAME = 'notifications';
+const NOTIFICATION_BROADCAST_CHANNEL_NAME = 'notification-realtime-sync';
+const NOTIFICATION_INVALIDATE_MESSAGE = 'invalidate';
 
 export const createSocketNotificationAdapter = ({
   url = DEFAULT_SOCKET_URL,
@@ -38,6 +40,25 @@ const startSocketRealtime = ({
   let stopPollingFallback: (() => void) | null = null;
   let isStopped = false;
   let isConnected = false;
+  const broadcastChannel = createNotificationBroadcastChannel();
+
+  const invalidateNotifications = (shouldBroadcast: boolean) => {
+    callbacks.onInvalidate();
+
+    if (shouldBroadcast) {
+      broadcastChannel?.postMessage(NOTIFICATION_INVALIDATE_MESSAGE);
+    }
+  };
+
+  const handleBroadcastMessage = (event: MessageEvent<string>) => {
+    if (event.data !== NOTIFICATION_INVALIDATE_MESSAGE) {
+      return;
+    }
+
+    invalidateNotifications(false);
+  };
+
+  broadcastChannel?.addEventListener('message', handleBroadcastMessage);
 
   const startPollingFallback = () => {
     if (!enablePollingFallback || stopPollingFallback) {
@@ -86,7 +107,7 @@ const startSocketRealtime = ({
       });
 
       socket.on(eventName, () => {
-        callbacks.onInvalidate();
+        invalidateNotifications(true);
       });
 
       socket.io.on('error', (error) => {
@@ -112,5 +133,15 @@ const startSocketRealtime = ({
     isStopped = true;
     stopPollingFallback?.();
     socket?.close();
+    broadcastChannel?.removeEventListener('message', handleBroadcastMessage);
+    broadcastChannel?.close();
   };
+};
+
+const createNotificationBroadcastChannel = (): BroadcastChannel | null => {
+  if (typeof window === 'undefined' || typeof BroadcastChannel === 'undefined') {
+    return null;
+  }
+
+  return new BroadcastChannel(NOTIFICATION_BROADCAST_CHANNEL_NAME);
 };
