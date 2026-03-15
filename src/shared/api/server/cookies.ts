@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const isProd = process.env.NODE_ENV === 'production';
-const ACCESS_COOKIE = isProd ? '__Host-access_token' : 'access_token';
+import { ACCESS_TOKEN_COOKIE_NAME, isProd } from './accessTokenCookie';
 
 export const getSetCookie = (res: Response): string[] => {
   const headers = res.headers as unknown as { getSetCookie?: () => string[] };
@@ -21,7 +20,7 @@ export const rewriteAccessCookieForProd = (cookie: string): string => {
   const separatorIndex = nameValue.indexOf('=');
   const name = separatorIndex === -1 ? nameValue : nameValue.slice(0, separatorIndex);
   const value = separatorIndex === -1 ? '' : nameValue.slice(separatorIndex + 1);
-  if (name !== 'access_token' && name !== ACCESS_COOKIE) return cookie;
+  if (name !== 'access_token' && name !== ACCESS_TOKEN_COOKIE_NAME) return cookie;
 
   const normalizedAttrs: string[] = [];
   let hasPath = false;
@@ -51,7 +50,7 @@ export const rewriteAccessCookieForProd = (cookie: string): string => {
   if (!hasPath) normalizedAttrs.push('Path=/');
   if (!hasSecure) normalizedAttrs.push('Secure');
 
-  return [`${ACCESS_COOKIE}=${value ?? ''}`, ...normalizedAttrs].join('; ');
+  return [`${ACCESS_TOKEN_COOKIE_NAME}=${value ?? ''}`, ...normalizedAttrs].join('; ');
 };
 
 export const forwardSetCookie = (

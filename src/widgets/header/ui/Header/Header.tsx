@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/shared/ui/Button/Button';
-import { Icon } from '@/shared/ui/Icon/Icon';
 import styles from './Header.module.scss';
 import { LanguageSelect } from '@/features/i18n/language-select/ui/LanguageSelect';
 import { useDictionary } from 'next-intlayer';
@@ -9,6 +8,7 @@ import headerContent from '../../header.content';
 import { useMe } from '@/features/auth/model/useMe';
 import { usePathname } from 'next/navigation';
 import type { MeResponse } from '@/entities/user/api/me';
+import { HeaderNotifications } from '../HeaderNotifications/HeaderNotifications';
 
 type HeaderProps = {
   initialMe?: MeResponse | null;
@@ -34,7 +34,7 @@ export const Header = ({ initialMe }: HeaderProps) => {
           <p className={styles.logo}>SocialNetwork-AI</p>
         </div>
         <div className={styles.wrapper}>
-          {me && <Icon iconId="Outline bell" />}
+          {resolvedMe && <HeaderNotifications userId={resolvedMe.userId} />}
           <LanguageSelect />
           {showAuthSkeleton && (
             <div className={styles.actions} aria-hidden>

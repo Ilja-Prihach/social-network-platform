@@ -4,10 +4,9 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 import { forwardSetCookie, getSetCookie } from './cookies';
+import { ACCESS_TOKEN_COOKIE_NAME, isProd } from './accessTokenCookie';
 
 const API_URL = process.env.API_URL;
-const isProd = process.env.NODE_ENV === 'production';
-const COOKIE_NAME = isProd ? '__Host-access_token' : 'access_token';
 const REFRESH_BFF_PATH = '/api/auth/update';
 const REFRESH_BACKEND_PATH = '/api/v1/auth/update';
 
@@ -36,12 +35,29 @@ const getApiUrl = (): string => {
 const buildAccessCookie = (token: string): string => {
   const attrs = ['Path=/', 'HttpOnly', 'SameSite=Lax'];
   if (isProd) attrs.push('Secure');
-  return `${COOKIE_NAME}=${token}; ${attrs.join('; ')}`;
+  return `${ACCESS_TOKEN_COOKIE_NAME}=${token}; ${attrs.join('; ')}`;
 };
 
 const hasCookie = (cookies: string[] | undefined, name: string): boolean => {
   if (!cookies || !cookies.length) return false;
   return cookies.some((cookie) => cookie.startsWith(`${name}=`));
+};
+
+const appendAccessCookie = (
+  cookies: string[] | undefined,
+  token?: string,
+): string[] | undefined => {
+  if (!token) {
+    return cookies;
+  }
+
+  const nextCookies = [...(cookies ?? [])].filter(
+    (cookie) => !cookie.startsWith(`${ACCESS_TOKEN_COOKIE_NAME}=`),
+  );
+
+  nextCookies.push(buildAccessCookie(token));
+
+  return nextCookies;
 };
 
 export async function bffFetch(
@@ -66,7 +82,9 @@ export async function bffFetch(
   const doFetch = async (tokenOverride?: string) => {
     const apiUrl = getApiUrl();
     const cookieStore = await cookies();
-    const token = withAuth ? (tokenOverride ?? cookieStore.get(COOKIE_NAME)?.value) : undefined;
+    const token = withAuth
+      ? (tokenOverride ?? cookieStore.get(ACCESS_TOKEN_COOKIE_NAME)?.value)
+      : undefined;
     const headers = new Headers(options.headers);
 
     if (token) {
@@ -91,7 +109,7 @@ export async function bffFetch(
   const { accessToken, sanitized } = await extractAccessToken(res, shouldAttemptJson);
   if (accessToken) setAccessCookie(nextRes, accessToken);
   const baseSetCookie =
-    !nextRes && accessToken && !hasCookie(normalizedSetCookie, COOKIE_NAME)
+    !nextRes && accessToken && !hasCookie(normalizedSetCookie, ACCESS_TOKEN_COOKIE_NAME)
       ? [...(normalizedSetCookie ?? []), buildAccessCookie(accessToken)]
       : normalizedSetCookie;
 
@@ -126,12 +144,12 @@ export async function bffFetch(
   if (retryAccessToken) setAccessCookie(nextRes, retryAccessToken);
 
   if (!nextRes) {
-    const merged = [
-      ...(baseSetCookie ?? []),
-      ...(refreshed.setCookie ?? []),
-      ...(retrySetCookie ?? []),
-    ];
-    return { res: retrySanitized ?? retryRes, setCookie: merged.length ? merged : undefined };
+    const merged = appendAccessCookie(
+      [...(baseSetCookie ?? []), ...(refreshed.setCookie ?? []), ...(retrySetCookie ?? [])],
+      retryAccessToken ?? refreshed.accessToken,
+    );
+
+    return { res: retrySanitized ?? retryRes, setCookie: merged?.length ? merged : undefined };
   }
 
   return retrySanitized ?? retryRes;
@@ -145,7 +163,7 @@ const refreshTokens = async (): Promise<RefreshResult> => {
     const cookieStore = await cookies();
     const cookieHeader = cookieStore
       .getAll()
-      .filter(({ name }) => name === 'refreshToken' || name === COOKIE_NAME)
+      .filter(({ name }) => name === 'refreshToken' || name === ACCESS_TOKEN_COOKIE_NAME)
       .map(({ name, value }) => `${name}=${value}`)
       .join('; ');
 
@@ -216,7 +234,7 @@ const isRecord = (value: unknown): value is Record<string, unknown> => {
 const setAccessCookie = (nextRes: NextResponse | undefined, token: string) => {
   if (!nextRes) return;
   nextRes.cookies.set({
-    name: COOKIE_NAME,
+    name: ACCESS_TOKEN_COOKIE_NAME,
     value: token,
     httpOnly: true,
     secure: isProd,
