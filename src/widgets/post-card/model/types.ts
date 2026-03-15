@@ -8,4 +8,6 @@ import type { User } from '@/entities/user';
 export type PostCardVM = {
   post: Post;
   author: User;
+  likesCount?: number;
+  isLiked?: boolean;
 };
