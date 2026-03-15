@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { getLocalizedUrl } from 'intlayer';
 import { useLocale } from 'next-intlayer';
 import styles from './HomePage.module.scss';
-import { PostCard } from '@/widgets/post-card';
+import { FeedPostCard, PostCard } from '@/widgets/post-card';
 import { PeopleCounter } from '@/widgets/people-counter';
 import { HomeQueryBridge } from './HomeQueryBridge';
 import { useHomePosts } from '../model/useHomePosts';
@@ -93,7 +93,7 @@ export function HomePage({
                       const href = `${profilePath}?${next.toString()}`;
 
                       return (
-                        <PostCard
+                        <FeedPostCard
                           key={vm.post.id}
                           vm={vm}
                           profileHref={profilePath}

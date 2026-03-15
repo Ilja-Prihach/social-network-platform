@@ -11,6 +11,11 @@
   background: #111;
 }
 
+.viewport_feed {
+  width: 491px;
+  height: 504px;
+}
+
 .media {
   object-fit: cover;
   width: 100%;
@@ -39,8 +44,24 @@
   left: 6px;
 }
 
+.prev_feed {
+  left: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 2px;
+  background: rgb(51 51 51 / 50%);
+}
+
 .next {
   right: 6px;
+}
+
+.next_feed {
+  right: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 2px;
+  background: rgb(51 51 51 / 50%);
 }
 
 .dots {
@@ -53,6 +74,12 @@
   justify-content: space-between;
   width: 78px;
   height: 12px;
+}
+
+.dots_feed {
+  bottom: 16px;
+  width: 104px;
+  height: 24px;
 }
 
 .dot,
@@ -71,4 +98,18 @@
 
 .dot_active {
   background: var(--accent-500-color);
+}
+
+@media (width <= 560px) {
+  .viewport_feed {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 491 / 504;
+  }
+
+  .prev_feed,
+  .next_feed {
+    width: 40px;
+    height: 40px;
+  }
 }
