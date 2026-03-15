@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo, useState } from 'react';
 import { useDictionary, useLocale } from 'next-intlayer';
 import type { PostViewerPost } from '@/entities/post';
