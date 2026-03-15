@@ -75,6 +75,38 @@ const feedPostCardContent = {
       ru: 'Опубликовать',
       it: 'Pubblica',
     }),
+    openPostActions: t({
+      en: 'Open post actions',
+      he: 'פתח פעולות פוסט',
+      fr: 'Ouvrir les actions du post',
+      es: 'Abrir acciones de la publicación',
+      ru: 'Открыть действия поста',
+      it: 'Apri azioni del post',
+    }),
+    exitEditMode: t({
+      en: 'Exit edit mode',
+      he: 'צא ממצב עריכה',
+      fr: "Quitter le mode d'édition",
+      es: 'Salir del modo edición',
+      ru: 'Выйти из режима редактирования',
+      it: 'Esci dalla modalità modifica',
+    }),
+    editDescriptionPlaceholder: t({
+      en: 'Edit description...',
+      he: 'ערוך תיאור...',
+      fr: 'Modifier la description...',
+      es: 'Editar descripción...',
+      ru: 'Редактировать описание...',
+      it: 'Modifica descrizione...',
+    }),
+    saveChanges: t({
+      en: 'Save changes',
+      he: 'שמור שינויים',
+      fr: 'Enregistrer les modifications',
+      es: 'Guardar cambios',
+      ru: 'Сохранить изменения',
+      it: 'Salva modifiche',
+    }),
   },
 } satisfies Dictionary;
 
