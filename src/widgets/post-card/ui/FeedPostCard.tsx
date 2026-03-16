@@ -191,7 +191,7 @@ export function FeedPostCard({ vm, onOpen, onHover, profileHref }: Props) {
 
             {descriptionForView && <PostText text={descriptionForView} />}
 
-            {typeof likesCount === 'number' && (
+            {typeof likesCount === 'number' && likesCount > 0 && (
               <p className={s.likes}>
                 {new Intl.NumberFormat(locale).format(likesCount)}{' '}
                 <span className={s.likes_label}>{dictionary.likesLabel.value}</span>
