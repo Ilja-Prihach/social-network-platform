@@ -6,6 +6,7 @@ import type { PostViewerPost } from '@/entities/post';
 import { Icon } from '@/shared/ui/Icon';
 import { UserBadge } from '@/entities/user';
 import { PostMediaCarousel } from '@/entities/post/ui/PostMediaCarousel';
+import { PostText } from '@/features/post/toggle-text';
 import { usePostViewerActions } from '@/features/post/post-actions';
 import { useMe } from '@/features/auth/model/useMe';
 import type { PostCardVM } from '../model/types';
@@ -186,8 +187,9 @@ export function FeedPostCard({ vm, onOpen, onHover, profileHref }: Props) {
           <div className={s.body}>
             <p className={s.text}>
               <span className={s.username}>{author.username}</span>
-              {descriptionForView ? ` ${descriptionForView}` : ''}
             </p>
+
+            {descriptionForView && <PostText text={descriptionForView} />}
 
             {typeof likesCount === 'number' && (
               <p className={s.likes}>
