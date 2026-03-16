@@ -13,7 +13,7 @@ Scope:
 
 ## High-Level Flow
 
-1. Client calls local Next.js API route (for example `/api/auth/*`, `/api/posts`, `/api/public-user`).
+1. Client calls local Next.js API route (for example `/api/auth/*`, `/api/posts`, `/api/public-user`, `/api/notifications`).
 2. Route handler proxies request via `bffFetch(...)`.
 3. `bffFetch` calls backend at `${API_URL}<backend_path>`.
 4. BFF forwards backend `Set-Cookie`, keeps auth token logic server-side, and normalizes response payloads.
@@ -47,6 +47,7 @@ Auth routes:
 - `POST /api/auth/login` -> backend `/api/v1/auth/login`
 - `POST /api/auth/logout` -> backend `/api/v1/auth/logout`
 - `GET /api/auth/me` -> backend `/api/v1/auth/me`
+- `GET /api/auth/socket-token` -> returns current access token from HttpOnly cookie to bootstrap Socket.IO on the client
 - `POST /api/auth/update` -> backend `/api/v1/auth/update`
 - `POST /api/auth/registration` -> backend `/api/v1/auth/registration`
 - `POST /api/auth/registration-email-resending` -> backend `/api/v1/auth/registration-email-resending`
@@ -67,6 +68,8 @@ Other routes:
 - `DELETE /api/posts/image/:uploadId` -> backend `/api/v1/posts/image/:uploadId`
 - `GET /api/posts/public` -> backend `/api/v1/posts/public`
 - `GET /api/subscriptions/my-payments` -> backend `/api/v1/subscriptions/my-payments`
+- `GET /api/notifications` -> backend `/api/v1/notifications` or `/api/v1/notifications/:cursor`
+- `PUT /api/notifications/mark-as-read` -> backend `/api/v1/notifications/mark-as-read`
 
 ## Refresh Path Rules (Important)
 
@@ -96,6 +99,12 @@ Expected effect:
 
 - After access token expires, BFF refresh uses correct backend endpoint and session remains authenticated when refresh token is valid.
 
+## Socket.IO Note
+
+- Notifications use REST as the source of truth and Socket.IO as a realtime trigger.
+- Because the current app stores the access token in HttpOnly cookie, `GET /api/auth/socket-token` exists as a narrow bridge for Socket.IO client bootstrap.
+- If socket bootstrap fails, frontend falls back to polling and continues to use REST notification endpoints.
+
 ## Operational Rules For New BFF Endpoints
 
 When adding or editing BFF endpoints:
@@ -103,5 +112,5 @@ When adding or editing BFF endpoints:
 1. Proxy backend calls through `bffFetch`.
 2. Normalize responses via `buildJsonResponse`.
 3. Preserve `Set-Cookie` using `forwardSetCookie`.
-4. Keep token/cookie logic server-side only.
+4. Keep token/cookie logic server-side only unless a task explicitly requires a narrow client bridge.
 5. Update this document when route map or auth/cookie behavior changes.
