@@ -11,9 +11,10 @@ import postMediaCarouselContent from './post-media-carousel.content';
 
 type Props = {
   media: PostMedia[];
+  variant?: 'compact' | 'feed';
 };
 
-export function PostMediaCarousel({ media }: Props) {
+export function PostMediaCarousel({ media, variant = 'compact' }: Props) {
   const dictionary = useDictionary(postMediaCarouselContent);
   const items = useMemo(() => media ?? [], [media]);
   const [index, setIndex] = useState(0);
@@ -36,7 +37,7 @@ export function PostMediaCarousel({ media }: Props) {
 
   return (
     <div className={s.root}>
-      <div className={s.viewport}>
+      <div className={variant === 'feed' ? `${s.viewport} ${s.viewport_feed}` : s.viewport}>
         <Image
           src={current.src}
           alt={current.alt || dictionary.postMediaAlt.value}
@@ -50,7 +51,7 @@ export function PostMediaCarousel({ media }: Props) {
           <>
             <button
               type="button"
-              className={s.prev}
+              className={variant === 'feed' ? `${s.prev} ${s.prev_feed}` : s.prev}
               aria-label={dictionary.previousMedia.value}
               onClick={handleControlClick(goPrev)}
             >
@@ -58,7 +59,7 @@ export function PostMediaCarousel({ media }: Props) {
             </button>
             <button
               type="button"
-              className={s.next}
+              className={variant === 'feed' ? `${s.next} ${s.next_feed}` : s.next}
               aria-label={dictionary.nextMedia.value}
               onClick={handleControlClick(goNext)}
             >
@@ -68,7 +69,11 @@ export function PostMediaCarousel({ media }: Props) {
         )}
 
         {hasMany && (
-          <div className={s.dots} role="tablist" aria-label={dictionary.mediaPagination.value}>
+          <div
+            className={variant === 'feed' ? `${s.dots} ${s.dots_feed}` : s.dots}
+            role="tablist"
+            aria-label={dictionary.mediaPagination.value}
+          >
             {items.map((_, i) => (
               <button
                 key={i}

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { getLocalizedUrl } from 'intlayer';
 import { useLocale } from 'next-intlayer';
 import styles from './HomePage.module.scss';
-import { PostCard } from '@/widgets/post-card';
+import { FeedPostCard, PostCard } from '@/widgets/post-card';
 import { PeopleCounter } from '@/widgets/people-counter';
 import { HomeQueryBridge } from './HomeQueryBridge';
 import { useHomePosts } from '../model/useHomePosts';
@@ -75,35 +75,67 @@ export function HomePage({
           </div>
 
           <main className={styles.main}>
-            <div className={styles.grid}>
-              {shouldShowPostSkeleton
-                ? Array.from({ length: 4 }).map((_, index) => (
-                    <div
-                      key={`post-skeleton-${index}`}
-                      className={styles.post_skeleton}
-                      aria-hidden
-                    />
-                  ))
-                : items.map((vm) => {
-                    const profilePath = getLocalizedUrl(`/profile/${vm.author.id}`, locale);
-                    const next = new URLSearchParams();
-                    next.set('postId', vm.post.id);
-                    next.set('from', 'home');
-                    const href = `${profilePath}?${next.toString()}`;
-
-                    return (
-                      <PostCard
-                        key={vm.post.id}
-                        vm={vm}
-                        profileHref={profilePath}
-                        onHover={() => router.prefetch(href)}
-                        onOpen={() => {
-                          router.push(href);
-                        }}
+            {isFeed ? (
+              <div className={styles.feed_list}>
+                {shouldShowPostSkeleton
+                  ? Array.from({ length: 4 }).map((_, index) => (
+                      <div
+                        key={`post-skeleton-${index}`}
+                        className={`${styles.post_skeleton} ${styles.post_skeleton_feed}`}
+                        aria-hidden
                       />
-                    );
-                  })}
-            </div>
+                    ))
+                  : items.map((vm) => {
+                      const profilePath = getLocalizedUrl(`/profile/${vm.author.id}`, locale);
+                      const next = new URLSearchParams();
+                      next.set('postId', vm.post.id);
+                      next.set('from', 'home');
+                      const href = `${profilePath}?${next.toString()}`;
+
+                      return (
+                        <FeedPostCard
+                          key={vm.post.id}
+                          vm={vm}
+                          profileHref={profilePath}
+                          onHover={() => router.prefetch(href)}
+                          onOpen={() => {
+                            router.push(href);
+                          }}
+                        />
+                      );
+                    })}
+              </div>
+            ) : (
+              <div className={styles.grid}>
+                {shouldShowPostSkeleton
+                  ? Array.from({ length: 4 }).map((_, index) => (
+                      <div
+                        key={`post-skeleton-${index}`}
+                        className={styles.post_skeleton}
+                        aria-hidden
+                      />
+                    ))
+                  : items.map((vm) => {
+                      const profilePath = getLocalizedUrl(`/profile/${vm.author.id}`, locale);
+                      const next = new URLSearchParams();
+                      next.set('postId', vm.post.id);
+                      next.set('from', 'home');
+                      const href = `${profilePath}?${next.toString()}`;
+
+                      return (
+                        <PostCard
+                          key={vm.post.id}
+                          vm={vm}
+                          profileHref={profilePath}
+                          onHover={() => router.prefetch(href)}
+                          onOpen={() => {
+                            router.push(href);
+                          }}
+                        />
+                      );
+                    })}
+              </div>
+            )}
             {isFeed && isFetchingNextPage && (
               <div className={styles.load_more}>Loading more posts...</div>
             )}

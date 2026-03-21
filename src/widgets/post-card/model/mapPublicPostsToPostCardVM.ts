@@ -23,6 +23,11 @@ export function mapPublicPostsToPostCardVM(items: PublicPostDto[]): PostCardVM[]
       avatarUrl: item.avatarOwner ?? undefined,
     };
 
-    return { post, author };
+    return {
+      post,
+      author,
+      likesCount: item.likesCount,
+      isLiked: item.isLiked,
+    };
   });
 }

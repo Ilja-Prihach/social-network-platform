@@ -1,0 +1,263 @@
+.card {
+  width: 100%;
+  color: var(--light-100-color);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.more_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--light-100-color);
+  cursor: pointer;
+}
+
+.header_actions {
+  position: relative;
+}
+
+.actions_skeleton {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--dark-300-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.actions_skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
+  transform: translateX(-100%);
+  animation: post-actions-skeleton-shimmer 1.4s infinite;
+}
+
+.post_menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 204px;
+  padding: 12px 0;
+  border: 1px solid var(--dark-100-color);
+  background: var(--dark-500-color);
+  z-index: 2;
+}
+
+.post_menu_item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--light-100-color);
+  text-align: left;
+  padding: 10px 16px;
+  font-size: 14px;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.post_menu_item:hover {
+  background: var(--dark-300-color);
+}
+
+.post_menu_icon {
+  flex-shrink: 0;
+}
+
+.media {
+  width: 100%;
+}
+
+.media_open {
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.actions_left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--light-100-color);
+  cursor: pointer;
+}
+
+.body {
+  padding-top: 10px;
+}
+
+.text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--light-100-color);
+}
+
+.likes {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--light-100-color);
+}
+
+.likes_label {
+  font-weight: 700;
+}
+
+.comments_link {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--light-900-color);
+  cursor: pointer;
+}
+
+.username {
+  font-weight: 700;
+}
+
+.comment_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 12px;
+  padding-bottom: 4px;
+  border-top: 1px solid var(--dark-100-color);
+}
+
+.comment_box_edit {
+  justify-content: flex-end;
+}
+
+.comment_input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--light-100-color);
+  outline: none;
+}
+
+.comment_input::placeholder {
+  color: var(--light-900-color);
+}
+
+.publish_button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--accent-500-color);
+  cursor: pointer;
+}
+
+.save_button {
+  min-width: 132px;
+  padding: 6px 24px;
+  border: 1px solid var(--accent-500-color);
+  background: transparent;
+  color: var(--accent-500-color);
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.save_button:disabled,
+.post_menu_item:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.edit_description_input {
+  width: 100%;
+  margin-top: 8px;
+  padding: 0;
+  border: none;
+  resize: vertical;
+  background: transparent;
+  color: var(--light-100-color);
+  font-size: 14px;
+  line-height: 24px;
+  outline: none;
+}
+
+.edit_description_input::placeholder {
+  color: var(--light-900-color);
+}
+
+@media (width <= 560px) {
+  .header {
+    margin-bottom: 8px;
+  }
+
+  .actions_left {
+    gap: 12px;
+  }
+
+  .body {
+    padding-top: 10px;
+  }
+
+  .comment_box {
+    gap: 8px;
+  }
+
+  .publish_button {
+    font-size: 14px;
+  }
+}
+
+@keyframes post-actions-skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
