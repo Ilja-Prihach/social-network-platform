@@ -11,7 +11,12 @@ jobs:
         with:
           node-version: '20.x'
           cache: 'npm'
+          cache-dependency-path: web/package-lock.json
       - run: npm ci
+        working-directory: web
       - run: npm run lint
+        working-directory: web
       - run: npm run stylelint
+        working-directory: web
       - run: npm run build
+        working-directory: web
