@@ -1,9 +1,12 @@
 import type { IntlayerConfig } from 'intlayer';
 
+export const adminLocales = ['en', 'ru', 'it', 'es', 'fr', 'he'] as const;
+export const adminDefaultLocale = 'en';
+
 const config: IntlayerConfig = {
   internationalization: {
-    locales: ['en', 'ru', 'it', 'es', 'fr', 'he'],
-    defaultLocale: 'en',
+    locales: [...adminLocales],
+    defaultLocale: adminDefaultLocale,
   },
 };
 
