@@ -24,6 +24,7 @@ export default defineConfig([
         { type: 'features', pattern: 'src/features/*' },
         { type: 'entities', pattern: 'src/entities/*' },
         { type: 'shared', pattern: 'src/shared/*' },
+        { type: 'packages', pattern: '../packages/*' },
       ],
     },
 
@@ -42,11 +43,12 @@ export default defineConfig([
         {
           default: 'disallow',
           rules: [
-            { from: 'pages', allow: ['widgets', 'features', 'entities', 'shared'] },
-            { from: 'widgets', allow: ['features', 'entities', 'shared'] },
-            { from: 'features', allow: ['entities', 'shared'] },
-            { from: 'entities', allow: ['shared'] },
-            { from: 'shared', allow: ['shared'] },
+            { from: 'pages', allow: ['widgets', 'features', 'entities', 'shared', 'packages'] },
+            { from: 'widgets', allow: ['features', 'entities', 'shared', 'packages'] },
+            { from: 'features', allow: ['entities', 'shared', 'packages'] },
+            { from: 'entities', allow: ['shared', 'packages'] },
+            { from: 'shared', allow: ['shared', 'packages'] },
+            { from: 'packages', allow: ['packages'] },
           ],
         },
       ],

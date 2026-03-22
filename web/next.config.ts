@@ -2,6 +2,9 @@ import { withIntlayer } from 'next-intlayer/server'; // Add the plugin to the Ne
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  experimental: {
+    externalDir: true,
+  },
   images: {
     remotePatterns: [
       {
