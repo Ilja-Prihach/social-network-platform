@@ -1,0 +1,27 @@
+{
+  "name": "social-network-ai-admin",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "next": "^16.1.6",
+    "react": "19.2.1",
+    "react-dom": "19.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.0.10",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-boundaries": "^5.3.1",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "prettier": "^3.7.4",
+    "typescript": "5.9.3"
+  }
+}
