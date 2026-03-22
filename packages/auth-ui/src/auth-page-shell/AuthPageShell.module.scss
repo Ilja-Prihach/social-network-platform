@@ -2,6 +2,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.page_sign_in {
+  margin-top: 110px;
+}
+
+.page_sign_up {
   min-height: 100vh;
 }
 
@@ -11,18 +18,31 @@
   justify-content: center;
 }
 
-// Main page Sign up
-
-.sign {
+.container_sign_in {
   background: var(--dark-500-color);
   border: 1px solid #333;
   border-radius: 2px;
+  min-height: 504px;
+}
+
+.card {
   width: 378px;
-  padding: 30px 20px;
-  gap: 19px;
   display: flex;
   flex-direction: column;
+  gap: 19px;
   align-items: center;
+}
+
+.card_sign_in {
+  padding: 24px;
+  min-height: 456px;
+}
+
+.card_sign_up {
+  background: var(--dark-500-color);
+  border: 1px solid #333;
+  border-radius: 2px;
+  padding: 30px 20px;
 }
 
 .title {
@@ -30,37 +50,18 @@
   text-align: center;
 }
 
-.head {
+.social {
   display: flex;
   justify-content: center;
   gap: 60px;
 }
 
-.bot {
+.footer {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.button {
-  width: 100%;
-  padding: 8px;
-}
-
-.text {
+.footer_text {
   line-height: 1.5;
-}
-
-// verification
-.verification {
-  width: 229px;
-}
-
-.verification input {
-  margin-bottom: 24px;
-}
-
-.verification a {
-  width: 100%;
-  padding: 8px;
 }
