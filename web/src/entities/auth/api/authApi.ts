@@ -1,4 +1,6 @@
 import { baseApi } from '@/shared/api/baseApi';
+import { createAuthApi } from '@auth-core/authApi';
+
 export interface SignUpRequest {
   userName: string;
   email: string;
@@ -8,15 +10,6 @@ export interface SignUpRequest {
 
 export interface SignUpResponse {
   userId: string;
-}
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  ok: boolean;
 }
 
 export type SessionItem = {
@@ -58,11 +51,11 @@ export interface RegistrationConfirmationRequest {
   code: string;
 }
 
-export type AuthErrorResponse = {
-  statusCode: number;
-  messages?: string | { message: string; field: string }[];
-  error: string;
-};
+export type {
+  AuthErrorResponse,
+  LoginRequest,
+  LoginResponse,
+} from '@auth-core/authApi';
 
 export type RecoverPasswordPayload = {
   email: string;
@@ -82,12 +75,7 @@ export function signUp(data: SignUpRequest) {
   });
 }
 
-export function login(data: LoginRequest) {
-  return baseApi<LoginResponse>('/api/auth/login', {
-    method: 'POST',
-    body: data,
-  });
-}
+export const { login } = createAuthApi(baseApi);
 
 export function acceptGithubAccessToken(data: GithubAcceptRequest) {
   return baseApi<{ ok: boolean }>('/api/auth/github/accept', {
