@@ -1,13 +1,20 @@
 {
   "name": "social-network-ai-root",
   "private": true,
+  "workspaces": [
+    "web",
+    "admin",
+    "packages/auth-ui",
+    "packages/auth-core"
+  ],
   "scripts": {
-    "dev": "npm --prefix ./web run dev",
-    "build": "npm --prefix ./web run build",
-    "build:production": "npm --prefix ./web run build:production",
-    "start": "npm --prefix ./web run start",
-    "lint": "npm --prefix ./web run lint",
-    "stylelint": "npm --prefix ./web run stylelint",
-    "stylelint:fix": "npm --prefix ./web run stylelint:fix"
+    "dev": "npm run dev --workspace web",
+    "build": "npm run build --workspace web",
+    "build:production": "npm run build:production --workspace web",
+    "start": "npm run start --workspace web",
+    "lint": "npm run lint --workspace web",
+    "lint:admin": "npm run lint --workspace admin",
+    "stylelint": "npm run stylelint --workspace web",
+    "stylelint:fix": "npm run stylelint:fix --workspace web"
   }
 }
