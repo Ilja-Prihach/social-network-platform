@@ -1,9 +1,9 @@
 'use client';
 
+import { LanguageSelect } from '@i18n-ui/language-select';
 import { HeaderShell } from '@layout-ui/header-shell';
 import { Button } from '@/shared/ui/Button/Button';
 import styles from './Header.module.scss';
-import { LanguageSelect } from '@/features/i18n/language-select/ui/LanguageSelect';
 import { useDictionary } from 'next-intlayer';
 import headerContent from '../../header.content';
 import { useMe } from '@/features/auth/model/useMe';

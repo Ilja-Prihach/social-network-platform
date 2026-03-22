@@ -23,9 +23,10 @@
       "@/*": ["src/*"],
       "@auth-ui/*": ["../packages/auth-ui/src/*"],
       "@auth-core/*": ["../packages/auth-core/src/*"],
-      "@layout-ui/*": ["../packages/layout-ui/src/*"]
+      "@layout-ui/*": ["../packages/layout-ui/src/*"],
+      "@i18n-ui/*": ["../packages/i18n-ui/src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

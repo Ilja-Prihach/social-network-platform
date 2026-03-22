@@ -5,7 +5,8 @@
     "web",
     "admin",
     "packages/auth-ui",
-    "packages/auth-core"
+    "packages/auth-core",
+    "packages/i18n-ui"
   ],
   "scripts": {
     "dev": "npm run dev --workspace web",

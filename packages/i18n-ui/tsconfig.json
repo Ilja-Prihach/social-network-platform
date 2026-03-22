@@ -1,0 +1,12 @@
+{
+  "extends": "../../web/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": {
+      "@i18n-ui/*": ["packages/i18n-ui/src/*"],
+      "react": ["web/node_modules/@types/react"],
+      "react/jsx-runtime": ["web/node_modules/@types/react/jsx-runtime"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
+}

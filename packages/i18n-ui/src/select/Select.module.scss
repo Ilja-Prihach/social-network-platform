@@ -1,0 +1,122 @@
+.root {
+  position: relative;
+  width: 210px;
+}
+
+.trigger {
+  width: 100%;
+  height: 36px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  border: 1px solid var(--dark-100-color, var(--admin-border-color, #4c4c4c));
+  border-radius: 2px;
+  color: var(--light-100-color, var(--admin-text-color, #fff));
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--accent-500-color, var(--admin-accent-color, #397df6));
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--light-100-color, var(--admin-text-color, #fff));
+  }
+
+  &[aria-expanded='true'] {
+    border-color: var(--light-100-color, var(--admin-text-color, #fff));
+    border-radius: 0;
+  }
+}
+
+.value_wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.label_title {
+  display: block;
+  color: var(--light-900-color, var(--admin-text-muted-color, #8d9094));
+  font-size: 14px;
+  line-height: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.label {
+  font-size: 16px;
+  line-height: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arrow {
+  width: 24px;
+  text-align: right;
+  transition: transform 0.2s ease;
+  color: var(--light-100-color, var(--admin-text-color, #fff));
+}
+
+.root[data-open='true'] .arrow {
+  transform: rotate(180deg);
+}
+
+.list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--dark-500-color, var(--admin-surface-color, #171717));
+  border: 1px solid var(--light-100-color, var(--admin-text-color, #fff));
+  padding: 0;
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.option {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--light-100-color, var(--admin-text-color, #fff));
+  font-size: 16px;
+  line-height: 24px;
+  transition: background-color 0.15s;
+  background: var(--dark-500-color, var(--admin-surface-color, #171717));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:hover {
+    background: var(--dark-300-color, #333);
+    color: var(--accent-500-color, var(--admin-accent-color, #397df6));
+  }
+}
+
+.option_active {
+  background: var(--dark-300-color, #333);
+}

@@ -21,6 +21,7 @@ export default defineConfig([
             './packages/auth-core/tsconfig.json',
             './packages/auth-ui/tsconfig.json',
             './packages/layout-ui/tsconfig.json',
+            './packages/i18n-ui/tsconfig.json',
           ],
         },
       },

@@ -1,0 +1,21 @@
+.logo {
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  color: var(--admin-text-color);
+  white-space: nowrap;
+}
+
+.logo_main {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 36px;
+}
+
+.logo_suffix {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  padding-bottom: 5px;
+}

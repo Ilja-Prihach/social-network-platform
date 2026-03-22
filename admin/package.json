@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.19",
+    "intlayer": "^7.5.14",
     "next": "^16.1.6",
+    "next-intlayer": "^7.5.14",
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "sass": "^1.97.0"
