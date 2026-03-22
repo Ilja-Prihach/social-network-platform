@@ -1,5 +1,6 @@
 'use client';
 
+import { SidebarShell } from '@layout-ui/sidebar-shell';
 import styles from './Sidebar.module.scss';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
@@ -75,16 +76,14 @@ export const Sidebar = () => {
   };
 
   return (
-    <nav className={styles.sidebar}>
-      <ul className={styles.sidebar_nav}>
-        {navItems.map((item) => renderNavItem(item.href, item.label, item.icon, item.iconActive))}
-      </ul>
-
-      <ul className={styles.sidebar_tools}>
-        {toolsItems.map((item) => renderNavItem(item.href, item.label, item.icon, item.iconActive))}
-      </ul>
-
-      <ul className={styles.sidebar_logout}>
+    <SidebarShell
+      primary={navItems.map((item) =>
+        renderNavItem(item.href, item.label, item.icon, item.iconActive),
+      )}
+      secondary={toolsItems.map((item) =>
+        renderNavItem(item.href, item.label, item.icon, item.iconActive),
+      )}
+      footer={
         <li>
           <SignOutButton
             label={content.logOut.value}
@@ -97,7 +96,7 @@ export const Sidebar = () => {
             iconClassName={styles.svg}
           />
         </li>
-      </ul>
-    </nav>
+      }
+    />
   );
 };

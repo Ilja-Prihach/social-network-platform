@@ -1,26 +1,3 @@
-.layout {
-  min-height: 100vh;
-}
-
-.sidebar_slot {
-  position: fixed;
-  top: var(--header-h);
-  left: 0;
-  height: calc(100vh - var(--header-h));
-  overflow-y: auto;
-  z-index: 900;
-}
-
-.content,
-.content_with_sidebar {
-  min-height: calc(100vh - var(--header-h));
-  padding-top: var(--header-h);
-}
-
-.content_with_sidebar {
-  padding-left: 280px;
-}
-
 .sidebar_skeleton {
   width: 280px;
   padding: 24px 20px;
@@ -50,16 +27,6 @@
   background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
   transform: translateX(-100%);
   animation: sidebar-skeleton-shimmer 1.4s infinite;
-}
-
-:dir(rtl) .sidebar_slot {
-  left: auto;
-  right: 0;
-}
-
-:dir(rtl) .content_with_sidebar {
-  padding-left: 0;
-  padding-right: 280px;
 }
 
 @keyframes sidebar-skeleton-shimmer {

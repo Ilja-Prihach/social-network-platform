@@ -1,0 +1,31 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  height: 734px;
+  padding: 72px 0 36px 60px;
+  color: var(--light-100-color);
+}
+
+.sidebar_nav {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sidebar_tools {
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sidebar_logout {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+}
+
+:dir(rtl) .sidebar {
+  padding: 72px 60px 36px 0;
+}

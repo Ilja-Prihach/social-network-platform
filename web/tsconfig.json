@@ -22,7 +22,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@auth-ui/*": ["../packages/auth-ui/src/*"],
-      "@auth-core/*": ["../packages/auth-core/src/*"]
+      "@auth-core/*": ["../packages/auth-core/src/*"],
+      "@layout-ui/*": ["../packages/layout-ui/src/*"]
     }
   },
   "include": [

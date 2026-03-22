@@ -1,6 +1,7 @@
 'use client';
 
 import type { PropsWithChildren } from 'react';
+import { AppFrame } from '@layout-ui/app-frame';
 import { ReactQueryProvider } from '@/app/providers/ReactQueryProvider';
 import { Alert } from '@/shared/ui/Alert/Alert';
 import { SvgSprite } from '@/shared/ui/SvgSprite';
@@ -27,37 +28,34 @@ const AppShellContent = ({ children, initialMe }: AppShellContentProps) => {
   const authResolved = initialMe !== undefined || !isPending;
   const showSidebar = Boolean(resolvedMe);
   const showSidebarSkeleton = !authResolved;
-  const hasSidebar = showSidebar || showSidebarSkeleton;
 
   return (
     <>
       <Alert />
       <SvgSprite />
-      <Header initialMe={initialMe} />
       <ModalWindow />
-      <div className={styles.layout}>
-        {hasSidebar && (
-          <aside className={styles.sidebar_slot}>
-            {showSidebar ? (
-              <Sidebar />
-            ) : (
-              <div className={styles.sidebar_skeleton} aria-hidden>
-                <div className={styles.sidebar_skeleton_group}>
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <div key={`sidebar-main-${index}`} className={styles.sidebar_skeleton_item} />
-                  ))}
-                </div>
-                <div className={styles.sidebar_skeleton_group}>
-                  {Array.from({ length: 3 }).map((_, index) => (
-                    <div key={`sidebar-tools-${index}`} className={styles.sidebar_skeleton_item} />
-                  ))}
-                </div>
+      <AppFrame
+        header={<Header initialMe={initialMe} />}
+        sidebar={showSidebar ? <Sidebar /> : undefined}
+        sidebarFallback={
+          showSidebarSkeleton ? (
+            <div className={styles.sidebar_skeleton} aria-hidden>
+              <div className={styles.sidebar_skeleton_group}>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <div key={`sidebar-main-${index}`} className={styles.sidebar_skeleton_item} />
+                ))}
               </div>
-            )}
-          </aside>
-        )}
-        <div className={hasSidebar ? styles.content_with_sidebar : styles.content}>{children}</div>
-      </div>
+              <div className={styles.sidebar_skeleton_group}>
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={`sidebar-tools-${index}`} className={styles.sidebar_skeleton_item} />
+                ))}
+              </div>
+            </div>
+          ) : undefined
+        }
+      >
+        {children}
+      </AppFrame>
     </>
   );
 };

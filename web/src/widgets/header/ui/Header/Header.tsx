@@ -1,5 +1,6 @@
 'use client';
 
+import { HeaderShell } from '@layout-ui/header-shell';
 import { Button } from '@/shared/ui/Button/Button';
 import styles from './Header.module.scss';
 import { LanguageSelect } from '@/features/i18n/language-select/ui/LanguageSelect';
@@ -28,12 +29,10 @@ export const Header = ({ initialMe }: HeaderProps) => {
   const showAuthSkeleton = !authResolved && !hideAuthActions;
 
   return (
-    <header>
-      <div className={styles.header}>
-        <div>
-          <p className={styles.logo}>SocialNetwork-AI</p>
-        </div>
-        <div className={styles.wrapper}>
+    <HeaderShell
+      logo={<p>SocialNetwork-AI</p>}
+      controls={
+        <>
           {resolvedMe && <HeaderNotifications userId={resolvedMe.userId} />}
           <LanguageSelect />
           {showAuthSkeleton && (
@@ -53,8 +52,8 @@ export const Header = ({ initialMe }: HeaderProps) => {
               </Button>
             </div>
           )}
-        </div>
-      </div>
-    </header>
+        </>
+      }
+    />
   );
 };
