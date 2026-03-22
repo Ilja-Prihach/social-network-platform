@@ -1,0 +1,14 @@
+{
+  "extends": "../../web/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": {
+      "@auth-ui/*": ["packages/auth-ui/src/*"],
+      "@auth-core/*": ["packages/auth-core/src/*"],
+      "@tanstack/react-query": ["web/node_modules/@tanstack/react-query"],
+      "react": ["web/node_modules/@types/react"],
+      "react/jsx-runtime": ["web/node_modules/@types/react/jsx-runtime"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
+}
