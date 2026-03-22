@@ -9,9 +9,12 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace web",
+    "dev:admin": "npm run dev --workspace admin",
     "build": "npm run build --workspace web",
+    "build:admin": "npm run build --workspace admin",
     "build:production": "npm run build:production --workspace web",
     "start": "npm run start --workspace web",
+    "start:admin": "npm run start --workspace admin",
     "lint": "npm run lint --workspace web",
     "lint:admin": "npm run lint --workspace admin",
     "stylelint": "npm run stylelint --workspace web",
