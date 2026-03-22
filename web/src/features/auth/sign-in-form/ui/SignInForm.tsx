@@ -3,12 +3,12 @@
 import { Controller, useForm } from 'react-hook-form';
 import { Input } from '@/shared/ui/Input';
 import { InputPassword } from '@/features/auth/input-password';
-import styles from './SignInForm.module.scss';
 import { Button } from '@/shared/ui/Button';
 import { useDictionary } from 'next-intlayer';
 import signInFormContent from '../sign-in-form.content';
 import { useSignIn } from '../model/useSignIn';
 import { useEffect } from 'react';
+import { CredentialsForm } from '@auth-ui/credentials-form';
 
 type SignInFormValues = {
   email: string;
@@ -66,63 +66,63 @@ export const SignInForm = () => {
   const isLoading = isPending;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <div className={styles.wrapper}>
-        <Controller
-          control={control}
-          name="email"
-          rules={{
-            required: content.emailRequired.value,
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: content.emailInvalid.value,
-            },
-          }}
-          render={({ field }) => (
-            <Input
-              label={content.emailLabel.value}
-              placeholder={content.emailPlaceholder.value}
-              type="email"
-              value={field.value}
-              onChange={(value) => field.onChange(value)}
-              disabled={isLoading}
-              error={errors.email?.message}
-            />
-          )}
-        />
+    <CredentialsForm
+      onSubmit={handleSubmit(onSubmit)}
+      fields={
+        <>
+          <Controller
+            control={control}
+            name="email"
+            rules={{
+              required: content.emailRequired.value,
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: content.emailInvalid.value,
+              },
+            }}
+            render={({ field }) => (
+              <Input
+                label={content.emailLabel.value}
+                placeholder={content.emailPlaceholder.value}
+                type="email"
+                value={field.value}
+                onChange={(value) => field.onChange(value)}
+                disabled={isLoading}
+                error={errors.email?.message}
+              />
+            )}
+          />
 
-        <Controller
-          control={control}
-          name="password"
-          rules={{
-            required: content.passwordRequired.value,
-            minLength: { value: 6, message: content.passwordMin.value },
-          }}
-          render={({ field }) => (
-            <InputPassword
-              label={content.passwordLabel.value}
-              placeholder={content.passwordPlaceholder.value}
-              value={field.value}
-              onChange={(value) => field.onChange(value)}
-              disabled={isLoading}
-              error={errors.password?.message}
-            />
-          )}
-        />
-      </div>
-      <p className={styles.term_text}>
-        <Button
-          href="/forgot-password"
-          variant="text"
-          disabled={isLoading}
-          className={styles.forgot_password}
-        >
+          <Controller
+            control={control}
+            name="password"
+            rules={{
+              required: content.passwordRequired.value,
+              minLength: { value: 6, message: content.passwordMin.value },
+            }}
+            render={({ field }) => (
+              <InputPassword
+                label={content.passwordLabel.value}
+                placeholder={content.passwordPlaceholder.value}
+                value={field.value}
+                onChange={(value) => field.onChange(value)}
+                disabled={isLoading}
+                error={errors.password?.message}
+              />
+            )}
+          />
+        </>
+      }
+      footer={
+        <Button href="/forgot-password" variant="text" disabled={isLoading}>
           {content.forgotPassword}
         </Button>
-      </p>
-      <Button variant="primary" className={styles.button} type={'submit'} disabled={isLoading}>
-        {isLoading ? content.signingIn : content.signIn}
-      </Button>
-    </form>
+      }
+      submit={
+        <Button variant="primary" type="submit" disabled={isLoading}>
+          {isLoading ? content.signingIn : content.signIn}
+        </Button>
+      }
+    />
   );
 };
