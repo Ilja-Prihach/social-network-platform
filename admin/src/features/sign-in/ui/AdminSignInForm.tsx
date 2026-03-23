@@ -1,6 +1,9 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intlayer';
 import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { saveAdminCredentials } from '@/shared/lib/adminAuthStorage';
 import { loginAdmin } from '../model';
 import styles from './AdminSignInForm.module.scss';
 
@@ -8,6 +11,8 @@ export function AdminSignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const { locale } = useLocale();
 
   const isSubmitDisabled = email.trim() === '' || password.trim() === '' || isSubmitting;
 
@@ -30,7 +35,16 @@ export function AdminSignInForm() {
         password,
       });
 
-      console.log('loginAdmin result', result);
+      if (!result.logged) {
+        return;
+      }
+
+      saveAdminCredentials({
+        email: email.trim(),
+        password,
+      });
+
+      router.replace(`/${locale}/users`);
     } finally {
       setIsSubmitting(false);
     }
