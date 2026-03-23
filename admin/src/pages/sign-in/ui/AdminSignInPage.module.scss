@@ -1,0 +1,32 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 168px;
+}
+
+.container {
+  width: 378px;
+  min-height: 348px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark-500-color);
+  border: 1px solid var(--dark-300-color);
+  border-radius: 2px;
+}
+
+.card {
+  width: 100%;
+  min-height: 100%;
+  padding: 23px 24px 36px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  text-align: center;
+  color: var(--admin-text-color);
+}

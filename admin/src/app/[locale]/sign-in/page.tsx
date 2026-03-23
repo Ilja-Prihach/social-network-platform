@@ -1,3 +1,1 @@
-export default function AdminSignInPage() {
-  return <main>Admin sign-in placeholder</main>;
-}
+export { default, metadata } from '@/pages/sign-in';
