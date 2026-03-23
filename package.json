@@ -1,64 +1,13 @@
 {
-  "name": "social-network-ai",
-  "version": "0.1.0",
+  "name": "social-network-ai-root",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "build:production": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "prepare": "husky",
-    "stylelint": "stylelint \"**/*.scss\"",
-    "stylelint:fix": "stylelint \"**/*.scss\" --fix"
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml,mjs}": [
-      "prettier --write"
-    ],
-    "*.scss": [
-      "stylelint",
-      "prettier --write"
-    ]
-  },
-  "dependencies": {
-    "@tanstack/react-query": "^5.90.19",
-    "@tanstack/react-query-devtools": "^5.91.2",
-    "clsx": "^2.1.1",
-    "intlayer": "^7.5.14",
-    "next": "^16.1.6",
-    "next-intlayer": "^7.5.14",
-    "react": "19.2.1",
-    "react-dom": "19.2.1",
-    "react-hook-form": "^7.69.0",
-    "sass": "^1.97.0",
-    "socket.io-client": "^4.8.3",
-    "zustand": "^5.0.11"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "baseline-browser-mapping": "^2.9.19",
-    "eslint": "^9.39.2",
-    "eslint-config-next": "^16.0.10",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-boundaries": "^5.3.1",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.5.4",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
-    "prettier": "^3.7.4",
-    "stylelint": "^16.26.1",
-    "stylelint-config-standard": "^39.0.1",
-    "stylelint-config-standard-scss": "^16.0.0",
-    "tailwindcss": "^4",
-    "typescript": "5.9.3"
+    "dev": "npm --prefix ./web run dev",
+    "build": "npm --prefix ./web run build",
+    "build:production": "npm --prefix ./web run build:production",
+    "start": "npm --prefix ./web run start",
+    "lint": "npm --prefix ./web run lint",
+    "stylelint": "npm --prefix ./web run stylelint",
+    "stylelint:fix": "npm --prefix ./web run stylelint:fix"
   }
 }
