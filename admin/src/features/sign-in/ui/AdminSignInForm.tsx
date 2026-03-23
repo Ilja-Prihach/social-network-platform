@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { loginAdmin } from '../model';
 import styles from './AdminSignInForm.module.scss';
 
 export function AdminSignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const isSubmitDisabled = email.trim() === '' || password.trim() === '';
+  const isSubmitDisabled = email.trim() === '' || password.trim() === '' || isSubmitting;
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -17,8 +19,21 @@ export function AdminSignInForm() {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    try {
+      setIsSubmitting(true);
+
+      const result = await loginAdmin({
+        email: email.trim(),
+        password,
+      });
+
+      console.log('loginAdmin result', result);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -33,6 +48,7 @@ export function AdminSignInForm() {
             autoComplete="email"
             value={email}
             onChange={handleEmailChange}
+            disabled={isSubmitting}
           />
         </label>
 
@@ -45,13 +61,14 @@ export function AdminSignInForm() {
             autoComplete="current-password"
             value={password}
             onChange={handlePasswordChange}
+            disabled={isSubmitting}
           />
         </label>
       </div>
 
       <div className={styles.actions}>
         <button className={styles.submit_button} type="submit" disabled={isSubmitDisabled}>
-          Sign In
+          {isSubmitting ? 'Signing In...' : 'Sign In'}
         </button>
       </div>
     </form>
