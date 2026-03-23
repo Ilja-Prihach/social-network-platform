@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getHTMLTextDir } from 'intlayer';
 import { IntlayerClientProvider } from 'next-intlayer';
 import { AdminHeader } from '@/widgets/admin-header';
+import { AdminRouteGuard } from '@/widgets/admin-shell';
 import { adminLocales } from '../../../intlayer.config';
 
 export { generateStaticParams } from 'next-intlayer';
@@ -23,7 +24,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     <IntlayerClientProvider locale={locale}>
       <div lang={locale} dir={getHTMLTextDir(locale)}>
         <AdminHeader />
-        {children}
+        <AdminRouteGuard>{children}</AdminRouteGuard>
       </div>
     </IntlayerClientProvider>
   );
