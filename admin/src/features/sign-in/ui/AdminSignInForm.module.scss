@@ -32,11 +32,16 @@
   padding: 5px 12px;
   border: 1px solid var(--dark-100-color);
   border-radius: 2px;
-  background-color: transparent;
+  appearance: none;
+  background-color: var(--dark-500-color);
   font-size: 16px;
   line-height: 1.5;
   color: var(--light-900-color);
   font-family: inherit;
+}
+
+.input::placeholder {
+  color: var(--light-900-color);
 }
 
 .input:active {
@@ -51,7 +56,50 @@
 
 .input:disabled {
   border-color: var(--dark-100-color);
+  background-color: var(--dark-500-color);
   color: var(--dark-100-color);
+}
+
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+.input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--light-900-color);
+  -webkit-box-shadow: 0 0 0 1000px var(--dark-500-color) inset;
+  box-shadow: 0 0 0 1000px var(--dark-500-color) inset;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+.password_field {
+  position: relative;
+}
+
+.input_password {
+  padding-right: 60px;
+}
+
+.password_toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  border: 0;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  color: var(--light-100-color);
+  cursor: pointer;
+}
+
+.password_toggle svg {
+  display: block;
+  fill: currentColor;
+}
+
+.password_toggle:disabled {
+  color: var(--dark-100-color);
+  cursor: not-allowed;
 }
 
 .actions {
