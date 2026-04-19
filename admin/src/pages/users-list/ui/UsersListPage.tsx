@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Select } from '@i18n-ui/select';
 import { getUsersList, type UsersListItem, type UsersListPagination } from '@/features/users-list';
 import { getAdminCredentials } from '@/shared/lib/adminAuthStorage';
 import styles from './UsersListPage.module.scss';
@@ -13,7 +14,15 @@ type UserRow = {
   blocked: boolean;
 };
 
-const PAGE_SIZE = 8;
+type PageSizeOption = '8' | '16' | '24' | '50';
+
+const DEFAULT_PAGE_SIZE: PageSizeOption = '8';
+const PAGE_SIZE_OPTIONS: Array<{ title: string; value: PageSizeOption }> = [
+  { title: '8', value: '8' },
+  { title: '16', value: '16' },
+  { title: '24', value: '24' },
+  { title: '50', value: '50' },
+];
 
 const formatDate = (value: string) => {
   const date = new Date(value);
@@ -114,6 +123,7 @@ export function UsersListPage() {
   const [users, setUsers] = useState<UserRow[]>([]);
   const [pagination, setPagination] = useState<UsersListPagination | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState<PageSizeOption>(DEFAULT_PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -133,7 +143,7 @@ export function UsersListPage() {
 
         const result = await getUsersList(credentials, {
           pageNumber: currentPage,
-          pageSize: PAGE_SIZE,
+          pageSize: Number(pageSize),
         });
 
         setUsers(mapUsers(result.users));
@@ -146,7 +156,7 @@ export function UsersListPage() {
     };
 
     void run();
-  }, [currentPage]);
+  }, [currentPage, pageSize]);
 
   const totalPages = pagination?.pagesCount ?? 0;
   const visiblePages = buildVisiblePages(currentPage, totalPages);
@@ -269,10 +279,16 @@ export function UsersListPage() {
 
         <div className={styles.page_size}>
           <span>Show</span>
-          <button type="button" className={styles.page_size_select}>
-            <span>{pagination?.pageSize ?? PAGE_SIZE}</span>
-            <ChevronDownIcon />
-          </button>
+          <Select
+            className={styles.page_size_select}
+            options={PAGE_SIZE_OPTIONS}
+            value={pageSize}
+            disabled={isLoading}
+            onChange={(value) => {
+              setCurrentPage(1);
+              setPageSize(value);
+            }}
+          />
           <span>on page</span>
         </div>
       </section>

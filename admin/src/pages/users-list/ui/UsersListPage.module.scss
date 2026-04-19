@@ -193,10 +193,21 @@
 }
 
 .page_size_select {
-  gap: 4px;
-  min-width: 52px;
-  border-color: var(--dark-300-color);
-  background: var(--dark-500-color);
+  width: 92px;
+}
+
+.page_size_select :global(.trigger) {
+  padding: 6px 6px;
+}
+
+.page_size_select :global(.value_wrapper) {
+  gap: 6px;
+}
+
+.page_size_select :global(.label) {
+  min-width: 0;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 .search_icon {
