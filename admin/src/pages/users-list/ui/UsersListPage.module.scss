@@ -165,6 +165,13 @@
   line-height: 24px;
 }
 
+.page_button:disabled,
+.page_arrow:disabled,
+.page_size_select:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 .page_button_active {
   background: var(--light-100-color);
   color: var(--dark-900-color);

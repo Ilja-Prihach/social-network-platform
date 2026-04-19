@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getUsersList, type UsersListItem } from '@/features/users-list';
+import { getUsersList, type UsersListItem, type UsersListPagination } from '@/features/users-list';
 import { getAdminCredentials } from '@/shared/lib/adminAuthStorage';
 import styles from './UsersListPage.module.scss';
 
@@ -13,7 +13,7 @@ type UserRow = {
   blocked: boolean;
 };
 
-const pages = ['1', '2', '3', '4', '5'];
+const PAGE_SIZE = 8;
 
 const formatDate = (value: string) => {
   const date = new Date(value);
@@ -33,6 +33,38 @@ const mapUsers = (items: UsersListItem[]): UserRow[] =>
     dateAdded: formatDate(item.createdAt),
     blocked: item.userBan !== null,
   }));
+
+const buildVisiblePages = (currentPage: number, totalPages: number) => {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  if (currentPage <= 4) {
+    return [1, 2, 3, 4, 5, 'ellipsis', totalPages] as const;
+  }
+
+  if (currentPage >= totalPages - 3) {
+    return [
+      1,
+      'ellipsis',
+      totalPages - 4,
+      totalPages - 3,
+      totalPages - 2,
+      totalPages - 1,
+      totalPages,
+    ] as const;
+  }
+
+  return [
+    1,
+    'ellipsis',
+    currentPage - 1,
+    currentPage,
+    currentPage + 1,
+    'ellipsis',
+    totalPages,
+  ] as const;
+};
 
 const BanIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.ban_icon}>
@@ -80,6 +112,8 @@ const ChevronDownIcon = () => (
 
 export function UsersListPage() {
   const [users, setUsers] = useState<UserRow[]>([]);
+  const [pagination, setPagination] = useState<UsersListPagination | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -94,8 +128,16 @@ export function UsersListPage() {
 
     const run = async () => {
       try {
-        const result = await getUsersList(credentials);
+        setIsLoading(true);
+        setError(null);
+
+        const result = await getUsersList(credentials, {
+          pageNumber: currentPage,
+          pageSize: PAGE_SIZE,
+        });
+
         setUsers(mapUsers(result.users));
+        setPagination(result.pagination);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load users');
       } finally {
@@ -104,7 +146,12 @@ export function UsersListPage() {
     };
 
     void run();
-  }, []);
+  }, [currentPage]);
+
+  const totalPages = pagination?.pagesCount ?? 0;
+  const visiblePages = buildVisiblePages(currentPage, totalPages);
+  const hasPreviousPage = pagination !== null && pagination.page > 1;
+  const hasNextPage = pagination !== null && pagination.page < pagination.pagesCount;
 
   return (
     <main className={styles.page}>
@@ -182,33 +229,48 @@ export function UsersListPage() {
       </section>
 
       <section className={styles.pagination}>
-        <button type="button" className={styles.page_arrow} aria-label="Previous page">
+        <button
+          type="button"
+          className={styles.page_arrow}
+          aria-label="Previous page"
+          disabled={!hasPreviousPage || isLoading}
+          onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+        >
           ‹
         </button>
 
-        {pages.map((page, index) => (
-          <button
-            key={page}
-            type="button"
-            className={`${styles.page_button} ${index === 0 ? styles.page_button_active : ''}`}
-          >
-            {page}
-          </button>
-        ))}
+        {visiblePages.map((page, index) =>
+          page === 'ellipsis' ? (
+            <span key={`ellipsis-${index}`} className={styles.page_dots}>
+              ...
+            </span>
+          ) : (
+            <button
+              key={page}
+              type="button"
+              className={`${styles.page_button} ${page === currentPage ? styles.page_button_active : ''}`}
+              disabled={isLoading}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </button>
+          ),
+        )}
 
-        <span className={styles.page_dots}>...</span>
-        <button type="button" className={styles.page_button}>
-          55
-        </button>
-
-        <button type="button" className={styles.page_arrow} aria-label="Next page">
+        <button
+          type="button"
+          className={styles.page_arrow}
+          aria-label="Next page"
+          disabled={!hasNextPage || isLoading}
+          onClick={() => setCurrentPage((page) => page + 1)}
+        >
           ›
         </button>
 
         <div className={styles.page_size}>
           <span>Show</span>
           <button type="button" className={styles.page_size_select}>
-            <span>100</span>
+            <span>{pagination?.pageSize ?? PAGE_SIZE}</span>
             <ChevronDownIcon />
           </button>
           <span>on page</span>

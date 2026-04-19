@@ -18,6 +18,11 @@ export type UsersListPagination = {
   pageSize: number;
 };
 
+export type GetUsersListParams = {
+  pageNumber: number;
+  pageSize?: number;
+};
+
 type GetUsersResponse = {
   getUsers: {
     users: UsersListItem[];
@@ -61,14 +66,17 @@ const GET_USERS_QUERY = gql`
   }
 `;
 
-export const getUsersList = async (credentials: AdminCredentials) => {
+export const getUsersList = async (
+  credentials: AdminCredentials,
+  { pageNumber, pageSize = 8 }: GetUsersListParams,
+) => {
   const client = createAdminApolloClient(credentials);
 
   const result = await client.query<GetUsersResponse>({
     query: GET_USERS_QUERY,
     variables: {
-      pageSize: 8,
-      pageNumber: 1,
+      pageSize,
+      pageNumber,
       sortBy: 'createdAt',
       sortDirection: 'desc',
       searchTerm: null,
