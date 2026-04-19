@@ -1,3 +1,1 @@
-export default function AdminUsersPage() {
-  return <main>Users list placeholder</main>;
-}
+export { default } from '@/pages/users-list';
