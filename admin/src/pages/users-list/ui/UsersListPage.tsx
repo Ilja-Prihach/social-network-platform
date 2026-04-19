@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { Select } from '@i18n-ui/select';
-import { getUsersList, type UsersListItem, type UsersListPagination } from '@/features/users-list';
+import {
+  banUser,
+  getUsersList,
+  removeUser,
+  unbanUser,
+  type UsersListItem,
+  type UsersListPagination,
+} from '@/features/users-list';
+import type { AdminCredentials } from '@/shared/apollo';
 import { getAdminCredentials } from '@/shared/lib/adminAuthStorage';
 import styles from './UsersListPage.module.scss';
 
@@ -13,9 +21,15 @@ type UserRow = {
   dateAdded: string;
   blocked: boolean;
 };
+type DialogState =
+  | { type: 'ban'; user: UserRow }
+  | { type: 'unban'; user: UserRow }
+  | { type: 'delete'; user: UserRow }
+  | null;
 
 type PageSizeOption = '8' | '16' | '24' | '50';
 type StatusFilterOption = 'ALL' | 'BLOCKED' | 'UNBLOCKED';
+type BanReasonOption = 'Bad behavior' | 'Advertising placement' | 'Another reason';
 
 const DEFAULT_PAGE_SIZE: PageSizeOption = '8';
 const PAGE_SIZE_OPTIONS: Array<{ title: string; value: PageSizeOption }> = [
@@ -28,6 +42,11 @@ const STATUS_FILTER_OPTIONS: Array<{ title: string; value: StatusFilterOption }>
   { title: 'Not selected', value: 'ALL' },
   { title: 'Blocked', value: 'BLOCKED' },
   { title: 'Not Blocked', value: 'UNBLOCKED' },
+];
+const BAN_REASON_OPTIONS: Array<{ title: BanReasonOption; value: BanReasonOption }> = [
+  { title: 'Bad behavior', value: 'Bad behavior' },
+  { title: 'Advertising placement', value: 'Advertising placement' },
+  { title: 'Another reason', value: 'Another reason' },
 ];
 
 const formatDate = (value: string) => {
@@ -48,6 +67,29 @@ const mapUsers = (items: UsersListItem[]): UserRow[] =>
     dateAdded: formatDate(item.createdAt),
     blocked: item.userBan !== null,
   }));
+
+const resolveBanReason = (reason: BanReasonOption, customReason: string) => {
+  if (reason !== 'Another reason') {
+    return reason;
+  }
+
+  return customReason.trim();
+};
+
+const loadUsersPage = async (params: {
+  credentials: AdminCredentials;
+  currentPage: number;
+  pageSize: PageSizeOption;
+  searchTerm: string | null;
+  statusFilter: StatusFilterOption;
+}) => {
+  return getUsersList(params.credentials, {
+    pageNumber: params.currentPage,
+    pageSize: Number(params.pageSize),
+    searchTerm: params.searchTerm,
+    statusFilter: params.statusFilter,
+  });
+};
 
 const buildVisiblePages = (currentPage: number, totalPages: number) => {
   if (totalPages <= 7) {
@@ -124,6 +166,12 @@ export function UsersListPage() {
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<StatusFilterOption>('ALL');
+  const [activeMenuUserId, setActiveMenuUserId] = useState<number | null>(null);
+  const [dialogState, setDialogState] = useState<DialogState>(null);
+  const [banReason, setBanReason] = useState<BanReasonOption>('Bad behavior');
+  const [customBanReason, setCustomBanReason] = useState('');
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [isActionSubmitting, setIsActionSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -151,10 +199,10 @@ export function UsersListPage() {
       try {
         setIsLoading(true);
         setError(null);
-
-        const result = await getUsersList(credentials, {
-          pageNumber: currentPage,
-          pageSize: Number(pageSize),
+        const result = await loadUsersPage({
+          credentials,
+          currentPage,
+          pageSize,
           searchTerm,
           statusFilter,
         });
@@ -175,6 +223,79 @@ export function UsersListPage() {
   const visiblePages = buildVisiblePages(currentPage, totalPages);
   const hasPreviousPage = pagination !== null && pagination.page > 1;
   const hasNextPage = pagination !== null && pagination.page < pagination.pagesCount;
+  const currentBanReason = resolveBanReason(banReason, customBanReason);
+  const isBanReasonInvalid = banReason === 'Another reason' && currentBanReason.trim() === '';
+
+  const openDialog = (dialog: Exclude<DialogState, null>) => {
+    setActionError(null);
+    setActiveMenuUserId(null);
+    setDialogState(dialog);
+    setBanReason('Bad behavior');
+    setCustomBanReason('');
+  };
+
+  const closeDialog = () => {
+    if (isActionSubmitting) return;
+
+    setActionError(null);
+    setDialogState(null);
+    setBanReason('Bad behavior');
+    setCustomBanReason('');
+  };
+
+  const handleConfirmAction = async () => {
+    if (!dialogState) return;
+
+    const credentials = getAdminCredentials();
+
+    if (!credentials) {
+      setActionError('Admin credentials not found');
+      return;
+    }
+
+    try {
+      setIsActionSubmitting(true);
+      setActionError(null);
+
+      if (dialogState.type === 'ban') {
+        if (isBanReasonInvalid) {
+          setActionError('Please provide a reason');
+          return;
+        }
+
+        await banUser(credentials, {
+          userId: dialogState.user.id,
+          banReason: currentBanReason,
+        });
+      }
+
+      if (dialogState.type === 'unban') {
+        await unbanUser(credentials, { userId: dialogState.user.id });
+      }
+
+      if (dialogState.type === 'delete') {
+        await removeUser(credentials, { userId: dialogState.user.id });
+      }
+
+      const result = await loadUsersPage({
+        credentials,
+        currentPage,
+        pageSize,
+        searchTerm,
+        statusFilter,
+      });
+
+      setUsers(mapUsers(result.users));
+      setPagination(result.pagination);
+      setDialogState(null);
+      setBanReason('Bad behavior');
+      setCustomBanReason('');
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Action failed');
+    } finally {
+      setIsActionSubmitting(false);
+    }
+  };
 
   return (
     <main className={styles.page}>
@@ -251,9 +372,44 @@ export function UsersListPage() {
                     <td>{user.username}</td>
                     <td>{user.dateAdded}</td>
                     <td className={styles.actions}>
-                      <button type="button" className={styles.icon_button} aria-label="Row actions">
+                      <button
+                        type="button"
+                        className={styles.icon_button}
+                        aria-label="Open row actions"
+                        onClick={() =>
+                          setActiveMenuUserId((value) => (value === user.id ? null : user.id))
+                        }
+                      >
                         <DotsIcon />
                       </button>
+                      {activeMenuUserId === user.id ? (
+                        <div className={styles.row_menu}>
+                          {user.blocked ? (
+                            <button
+                              type="button"
+                              className={styles.row_menu_item}
+                              onClick={() => openDialog({ type: 'unban', user })}
+                            >
+                              Unban user
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className={styles.row_menu_item}
+                              onClick={() => openDialog({ type: 'ban', user })}
+                            >
+                              Ban user
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            className={`${styles.row_menu_item} ${styles.row_menu_item_danger}`}
+                            onClick={() => openDialog({ type: 'delete', user })}
+                          >
+                            Delete user
+                          </button>
+                        </div>
+                      ) : null}
                     </td>
                   </tr>
                 ))
@@ -316,6 +472,75 @@ export function UsersListPage() {
           <span>on page</span>
         </div>
       </section>
+
+      {dialogState ? (
+        <div className={styles.dialog_overlay} onClick={closeDialog}>
+          <div className={styles.dialog} onClick={(event) => event.stopPropagation()}>
+            <h2 className={styles.dialog_title}>
+              {dialogState.type === 'ban' ? 'Ban user' : null}
+              {dialogState.type === 'unban' ? 'Unban user' : null}
+              {dialogState.type === 'delete' ? 'Delete user' : null}
+            </h2>
+
+            <p className={styles.dialog_description}>
+              {dialogState.type === 'ban'
+                ? `Are you sure you want to ban ${dialogState.user.username}?`
+                : null}
+              {dialogState.type === 'unban'
+                ? `Are you sure you want to unban ${dialogState.user.username}?`
+                : null}
+              {dialogState.type === 'delete'
+                ? `Are you sure you want to delete ${dialogState.user.username}?`
+                : null}
+            </p>
+
+            {dialogState.type === 'ban' ? (
+              <div className={styles.dialog_form}>
+                <Select
+                  className={styles.dialog_select}
+                  options={BAN_REASON_OPTIONS}
+                  value={banReason}
+                  disabled={isActionSubmitting}
+                  onChange={setBanReason}
+                />
+
+                {banReason === 'Another reason' ? (
+                  <label className={styles.dialog_input}>
+                    <span>Custom reason</span>
+                    <input
+                      type="text"
+                      value={customBanReason}
+                      onChange={(event) => setCustomBanReason(event.target.value)}
+                      disabled={isActionSubmitting}
+                    />
+                  </label>
+                ) : null}
+              </div>
+            ) : null}
+
+            {actionError ? <p className={styles.dialog_error}>{actionError}</p> : null}
+
+            <div className={styles.dialog_actions}>
+              <button
+                type="button"
+                className={styles.dialog_button_secondary}
+                onClick={closeDialog}
+                disabled={isActionSubmitting}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className={styles.dialog_button_primary}
+                onClick={handleConfirmAction}
+                disabled={isActionSubmitting || isBanReasonInvalid}
+              >
+                {isActionSubmitting ? 'Processing...' : 'Confirm'}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

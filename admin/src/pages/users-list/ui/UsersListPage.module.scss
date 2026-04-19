@@ -118,6 +118,7 @@
 
 .actions {
   text-align: right;
+  position: relative;
 }
 
 .icon_button {
@@ -128,6 +129,37 @@
   border: 0;
   background: transparent;
   color: var(--light-100-color);
+}
+
+.row_menu {
+  position: absolute;
+  top: calc(100% - 6px);
+  right: 16px;
+  z-index: 20;
+  min-width: 168px;
+  border: 1px solid var(--dark-300-color);
+  border-radius: 2px;
+  background: var(--dark-500-color);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 35%);
+}
+
+.row_menu_item {
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--light-100-color);
+  text-align: left;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.row_menu_item:hover {
+  background: var(--dark-300-color);
+}
+
+.row_menu_item_danger {
+  color: #ff6b6b;
 }
 
 .pagination {
@@ -205,15 +237,102 @@
   flex: 0 0 20px;
 }
 
-.chevron_icon {
-  width: 16px;
-  height: 16px;
-  flex: 0 0 16px;
-}
-
 .ban_icon,
 .dots_icon {
   width: 24px;
   height: 24px;
   flex: 0 0 24px;
+}
+
+.dialog_overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 60%);
+}
+
+.dialog {
+  width: min(100%, 438px);
+  padding: 24px;
+  border: 1px solid var(--dark-300-color);
+  background: var(--dark-700-color);
+}
+
+.dialog_title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+}
+
+.dialog_description {
+  margin: 0 0 20px;
+  color: var(--light-900-color);
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.dialog_form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.dialog_select {
+  width: 100%;
+}
+
+.dialog_input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.dialog_input input {
+  height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--dark-100-color);
+  background: transparent;
+  color: var(--light-100-color);
+}
+
+.dialog_error {
+  margin: 0 0 16px;
+  color: #ff6b6b;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.dialog_actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dialog_button_primary,
+.dialog_button_secondary {
+  min-width: 96px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 2px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.dialog_button_primary {
+  border: 0;
+  background: var(--accent-500-color);
+  color: var(--light-100-color);
+}
+
+.dialog_button_secondary {
+  border: 1px solid var(--dark-100-color);
+  background: transparent;
+  color: var(--light-100-color);
 }
