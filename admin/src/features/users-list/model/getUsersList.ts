@@ -21,6 +21,8 @@ export type UsersListPagination = {
 export type GetUsersListParams = {
   pageNumber: number;
   pageSize?: number;
+  searchTerm?: string | null;
+  statusFilter?: 'ALL' | 'BLOCKED' | 'UNBLOCKED';
 };
 
 type GetUsersResponse = {
@@ -68,7 +70,7 @@ const GET_USERS_QUERY = gql`
 
 export const getUsersList = async (
   credentials: AdminCredentials,
-  { pageNumber, pageSize = 8 }: GetUsersListParams,
+  { pageNumber, pageSize = 8, searchTerm = null, statusFilter = 'ALL' }: GetUsersListParams,
 ) => {
   const client = createAdminApolloClient(credentials);
 
@@ -79,8 +81,8 @@ export const getUsersList = async (
       pageNumber,
       sortBy: 'createdAt',
       sortDirection: 'desc',
-      searchTerm: null,
-      statusFilter: 'ALL',
+      searchTerm,
+      statusFilter,
     },
     fetchPolicy: 'no-cache',
   });

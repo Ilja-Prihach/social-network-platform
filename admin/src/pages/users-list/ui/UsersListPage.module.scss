@@ -40,19 +40,8 @@
 }
 
 .filter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   width: 234px;
   min-width: 234px;
-  height: 36px;
-  padding: 6px 12px;
-  border: 1px solid var(--light-100-color);
-  border-radius: 2px;
-  background: transparent;
-  color: var(--light-100-color);
-  font-size: 16px;
-  line-height: 24px;
 }
 
 .table_card {
