@@ -17,8 +17,7 @@ dist-ssr
 /coverage
 
 # next.js
-/.next/
-/web/.next/
+**/.next/
 /out/
 
 # production
@@ -46,11 +45,12 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# env files
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
 
 # vercel
 .vercel
@@ -59,18 +59,12 @@ lerna-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
 # Intlayer
 .intlayer
 /web/.intlayer
 
 # nested app dependencies
-/web/node_modules/
+**/node_modules/
 
 .serena/
 tasks/
