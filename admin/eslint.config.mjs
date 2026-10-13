@@ -19,7 +19,7 @@ export default defineConfig([
         typescript: { project: './tsconfig.json' },
       },
       'boundaries/elements': [
-        { type: 'pages', pattern: 'src/pages/*' },
+        { type: 'pages', pattern: 'src/screens/*' },
         { type: 'widgets', pattern: 'src/widgets/*' },
         { type: 'features', pattern: 'src/features/*' },
         { type: 'entities', pattern: 'src/entities/*' },

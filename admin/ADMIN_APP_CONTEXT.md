@@ -133,7 +133,7 @@
 
 - `src/app`
 - route folders and route-level composition
-- `src/pages`
+- `src/screens`
 - page-level admin screens
 - `src/widgets`
 - complex sections such as tables, filters, menus, tab panels
