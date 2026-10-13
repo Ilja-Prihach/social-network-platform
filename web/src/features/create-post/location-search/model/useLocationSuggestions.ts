@@ -33,13 +33,11 @@ export function useLocationSuggestions({ enabled, query }: UseLocationSuggestion
 } {
   const [suggestions, setSuggestions] = useState<LocationSuggestion[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const normalizedQuery = query.trim();
+  const canSearch = enabled && normalizedQuery.length >= 2;
 
   useEffect(() => {
-    const normalizedQuery = query.trim();
-
-    if (!enabled || normalizedQuery.length < 2) {
-      setSuggestions([]);
-      setIsLoading(false);
+    if (!canSearch) {
       return;
     }
 
@@ -103,10 +101,10 @@ export function useLocationSuggestions({ enabled, query }: UseLocationSuggestion
       clearTimeout(timer);
       controller.abort();
     };
-  }, [enabled, query]);
+  }, [canSearch, normalizedQuery]);
 
   return {
-    suggestions,
-    isLoading,
+    suggestions: canSearch ? suggestions : [],
+    isLoading: canSearch && isLoading,
   };
 }

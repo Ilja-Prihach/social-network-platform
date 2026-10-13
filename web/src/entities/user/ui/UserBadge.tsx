@@ -18,7 +18,11 @@ export function UserBadge({ user, createdAt, profileHref }: Props) {
   const [relativeTime, setRelativeTime] = useState('');
 
   useEffect(() => {
-    setRelativeTime(formatRelativeTime(createdAt));
+    const timer = window.setTimeout(() => {
+      setRelativeTime(formatRelativeTime(createdAt));
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, [createdAt]);
 
   return (

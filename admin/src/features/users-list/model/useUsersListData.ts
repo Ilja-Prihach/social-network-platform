@@ -53,7 +53,11 @@ export const useUsersListData = (queryState: UsersListQueryState) => {
   );
 
   useEffect(() => {
-    void reloadUsers();
+    const timer = window.setTimeout(() => {
+      void reloadUsers();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, [reloadUsers]);
 
   return {
