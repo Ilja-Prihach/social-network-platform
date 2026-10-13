@@ -5,15 +5,20 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "peerDependencies": {
-    "intlayer": "^7.5.14",
-    "next": "^16.1.6",
-    "next-intlayer": "^7.5.14",
+    "intlayer": "^9.7.0",
+    "next": "^16.4.0",
+    "next-intlayer": "^9.7.0",
     "react": "19.2.1",
     "react-dom": "19.2.1"
   },
   "devDependencies": {
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "intlayer": "^9.7.0",
+    "next": "^16.4.0",
+    "next-intlayer": "^9.7.0",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
     "typescript": "5.9.3"
   }
 }
