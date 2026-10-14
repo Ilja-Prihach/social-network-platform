@@ -223,9 +223,9 @@ The example files contain placeholders only. Never commit real tokens, credentia
 
 ## Team and attribution
 
-This is a collaborative project rather than a single-author showcase. The public Git history preserves the original contribution graph and makes the ownership of individual changes inspectable.
+This is a collaborative project with clearly documented ownership. In the original product history, **Ilya Prihach was the principal contributor with 296 commits (52.8%)**, while **Artem Bedash was the second-largest contributor with 111 commits (19.8%)**. Together they authored 72.5% of the product commits and led the broadest architectural and feature tracks.
 
-See [CONTRIBUTORS.md](CONTRIBUTORS.md) for each contributor's main areas of work, or inspect the history locally:
+See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the complete contribution breakdown, methodology, and each team member's main areas of work, or inspect the history locally:
 
 ```bash
 git shortlog -sne HEAD
