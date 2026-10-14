@@ -1,96 +1,240 @@
 # Social Network Platform
 
-An archived, team-built social networking product developed as an internship project. This repository is a security-sanitized portfolio edition published with permission from the original contributors.
+> A production-oriented social network frontend built by a six-person team during an internship program. The project combines a multilingual user application, a separate administration console, shared workspace packages, a Backend-for-Frontend layer, real-time notifications, and AI-assisted post translation.
 
-The codebase contains a user-facing application, a separate administration application, shared workspace packages, and a Next.js BFF layer for backend integration.
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-149ECA?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Portfolio archive](https://img.shields.io/badge/status-portfolio%20archive-6C63FF)](#project-status)
 
-## Product highlights
+This repository is a security-sanitized portfolio edition of the original team project. It preserves the authors, timestamps, commit messages, and merge history while excluding secrets, generated output, and private deployment configuration.
 
-- Email/password authentication, Google and GitHub OAuth, password recovery, and reCAPTCHA
-- Server-side authentication through BFF route handlers with secure cookie forwarding
-- User profiles, profile settings, avatar upload and crop, and active-session management
-- Post creation with image upload, feed and profile views, editing, deletion, and pagination
-- AI-assisted post translation
-- Real-time notifications through WebSocket integration
-- Subscription payment history
-- Six locales, including RTL support for Hebrew
-- Administration app with GraphQL authentication, user search, filtering, sorting, pagination, and moderation actions
+## At a glance
+
+|                      |                                                                              |
+| -------------------- | ---------------------------------------------------------------------------- |
+| Applications         | User-facing web app and a separate admin app                                 |
+| Architecture         | Next.js App Router, BFF route handlers, layered feature architecture         |
+| Product scope        | Authentication, profiles, posts, media, notifications, payments, moderation  |
+| Internationalization | English, Russian, French, Spanish, Italian, and Hebrew with RTL support      |
+| Data layer           | TanStack Query, Zustand, Apollo Client, GraphQL, REST                        |
+| Repository           | npm workspaces with shared authentication, localization, and layout packages |
+| Scale                | 370 TypeScript/TSX files, 80 Sass files, and 30 content dictionaries         |
+
+## Product functionality
+
+### Authentication and account security
+
+- Email registration with verification and resend flow
+- Email/password sign-in and sign-out
+- Google and GitHub OAuth callbacks
+- Password recovery and new-password flow
+- Optional Google reCAPTCHA protection
+- Current-user hydration for server and client rendering
+- Active device sessions with individual and bulk termination
+- Account-management settings
+
+Authentication is routed through the Next.js BFF. The browser talks to same-origin route handlers, while server-side utilities forward requests to the backend and manage access-token cookies. This keeps backend credentials and token handling out of feature components.
+
+### Profiles and social content
+
+- Public and authenticated profile pages
+- Editable personal information and location fields
+- Avatar upload with interactive crop, zoom, and positioning
+- Public post feed and per-user post collections
+- Post viewer with paginated navigation
+- Create, edit, and delete operations
+- Multi-step post creation: upload, crop, filters, description, and publishing
+- Multiple images, location suggestions, and recoverable local draft state
+- Responsive reusable UI primitives for forms, modals, tabs, pagination, and media controls
+
+### AI-assisted translation
+
+Users can request an on-demand translation of a post into the active interface language and switch between the translated and original versions. The feature includes:
+
+- language-aware request parameters;
+- loading, retry, unavailable, and unchanged-text states;
+- TanStack Query caching to avoid repeated translation calls;
+- a BFF endpoint that isolates the backend translation service from the browser.
+
+The repository contains the frontend integration and interaction logic. The language model or translation provider is owned by the external backend and is not included here.
+
+### Real-time notifications
+
+- Authenticated Socket.IO connection using a short-lived socket token
+- Infinite notification history loading
+- Mark-as-read behavior and unread state
+- Polling fallback when the socket transport is unavailable
+- Cross-tab synchronization through `BroadcastChannel`
+- Connection cleanup and reconnect error handling
+
+### Payments and subscriptions
+
+The profile settings area displays paginated payment history, subscription periods, providers, prices, and status mappings. Stripe and PayPal values returned by the backend are normalized for presentation; payment processing itself belongs to the external API.
+
+### Administration console
+
+The admin workspace has its own application shell, authentication flow, GraphQL client, and route tree. The implemented user-management area supports:
+
+- user search and status filtering;
+- sortable columns and URL-backed query state;
+- configurable pagination;
+- user details navigation;
+- ban, unban, and delete actions with confirmation dialogs.
+
+Routes for statistics, posts, payments, and detailed user views remain scaffolded from the original roadmap. They are intentionally not presented as completed modules.
 
 ## Architecture
 
-```text
-.
-├── web/                 User-facing Next.js application
-├── admin/               Administration Next.js application
-└── packages/
-    ├── auth-core/       Shared authentication logic
-    ├── auth-ui/         Shared authentication UI
-    ├── i18n-ui/         Shared locale controls
-    └── layout-ui/       Shared application shells
+```mermaid
+flowchart LR
+    Browser[Browser] --> Web[Next.js web app]
+    Browser --> Admin[Next.js admin app]
+    Web --> BFF[Same-origin BFF route handlers]
+    BFF --> REST[External REST API]
+    Web --> Socket[Socket.IO notifications]
+    Admin --> GraphQL[External GraphQL API]
+    Web --> Shared[Shared workspace packages]
+    Admin --> Shared
 ```
 
-The frontend follows a layered feature architecture and enforces import boundaries between pages, widgets, features, entities, and shared modules. Sensitive backend communication is proxied through route handlers instead of exposing authentication tokens to browser code.
+```text
+.
+├── web/
+│   ├── app/                 Next.js routes and BFF endpoints
+│   └── src/
+│       ├── app/             Providers and application composition
+│       ├── pages/           Route-level screens
+│       ├── widgets/         Composite interface blocks
+│       ├── features/        User interactions and business flows
+│       ├── entities/        Domain models, APIs, and entity UI
+│       └── shared/          Infrastructure, utilities, and UI kit
+├── admin/
+│   └── src/
+│       ├── app/             Admin route tree
+│       ├── screens/         Admin screens
+│       ├── features/        Authentication and moderation actions
+│       ├── entities/        Admin domain models
+│       └── shared/          GraphQL, utilities, and reusable UI
+└── packages/
+    ├── auth-core/           Shared authentication API and hooks
+    ├── auth-ui/             Reusable authentication screens and forms
+    ├── i18n-ui/             Locale-aware controls
+    └── layout-ui/           Shared application shells
+```
 
-## Technology
+The source follows a Feature-Sliced-inspired dependency direction:
 
-- Next.js 16, React 19, and TypeScript
-- Sass Modules and a layered feature architecture
-- TanStack Query and Zustand
-- Apollo Client and GraphQL in the administration app
-- Intlayer internationalization
-- React Hook Form, WebSockets, and Next.js route handlers
-- npm workspaces, ESLint, Stylelint, Prettier, and Husky
+```text
+app → pages/screens → widgets → features → entities → shared
+```
+
+ESLint boundary rules enforce these imports. Domain API code stays near its entity, business interactions live in features, and route files remain thin composition points.
+
+## Important implementation decisions
+
+### Backend-for-Frontend
+
+More than 30 route handlers cover authentication, sessions, profiles, posts, uploads, notifications, payments, and translation. Shared server utilities provide consistent request forwarding, cookie propagation, error normalization, and response handling.
+
+### Server and client data
+
+- Server components perform initial public-profile and feed requests where appropriate.
+- TanStack Query manages asynchronous client state, caching, pagination, and mutations.
+- Zustand stores transient multi-step post creation state.
+- Apollo Client is isolated to the admin GraphQL integration.
+
+### Internationalization
+
+Intlayer dictionaries are colocated with their components instead of being kept in one global translation file. Locale-prefixed routes are generated for six languages, and Hebrew layouts support right-to-left rendering.
+
+### Styling and quality controls
+
+- Sass Modules and shared design tokens
+- Typed reusable controls and SVG sprite assets
+- ESLint architecture boundaries
+- Stylelint and Prettier formatting
+- Husky and lint-staged pre-commit checks
+- Independent production builds for both applications
+
+## Technology stack
+
+| Area               | Technology                                           |
+| ------------------ | ---------------------------------------------------- |
+| Framework          | Next.js 16, React 19, TypeScript 5.9                 |
+| Server integration | App Router route handlers, REST BFF, secure cookies  |
+| Client data        | TanStack Query, Apollo Client, GraphQL               |
+| Local state        | Zustand, React Hook Form                             |
+| Real time          | Socket.IO client, BroadcastChannel, polling fallback |
+| Localization       | Intlayer, locale-prefixed routes, RTL support        |
+| Styling            | Sass Modules, design tokens, SVG sprite system       |
+| Tooling            | npm workspaces, ESLint, Stylelint, Prettier, Husky   |
 
 ## Running locally
 
-This repository contains the frontend only. A compatible backend API is required for authentication, profiles, posts, notifications, payments, and administration data.
+### Requirements
+
+- Node.js 20 or newer
+- npm 10 or newer
+- A compatible backend exposing the REST and GraphQL contracts used by the applications
+
+Install the monorepo and create local environment files:
 
 ```bash
 npm ci
 cp web/.env.example web/.env.local
 cp admin/.env.example admin/.env.local
+```
+
+Start the user application:
+
+```bash
 npm run dev
 ```
 
-The user application starts on the default Next.js port. Start the administration application separately:
+Start the admin application on port `3001` in a second terminal:
 
 ```bash
 npm run dev:admin
 ```
 
-Configure the following variables in the local environment files:
+### Environment variables
 
-| Variable | Used by | Purpose |
-| --- | --- | --- |
-| `API_URL` | Web server | Server-side backend base URL |
-| `NEXT_PUBLIC_API_URL` | Web and admin | Public backend base URL |
-| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Web | Google OAuth client identifier |
-| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Web | reCAPTCHA site key |
+| Variable                         | Used by       | Purpose                                               |
+| -------------------------------- | ------------- | ----------------------------------------------------- |
+| `API_URL`                        | Web server    | Private backend base URL used by server-side requests |
+| `NEXT_PUBLIC_API_URL`            | Web and admin | Public backend base URL                               |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID`   | Web           | Google OAuth client identifier                        |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Web           | Optional reCAPTCHA site key                           |
 
-Never commit real environment values. The example files intentionally contain empty placeholders.
+The example files contain placeholders only. Never commit real tokens, credentials, or environment values.
 
-## Commands
+## Available commands
 
-```bash
-npm run lint
-npm run lint:admin
-npm run stylelint
-npm run build
-npm run build:admin
-```
+| Command               | Purpose                                  |
+| --------------------- | ---------------------------------------- |
+| `npm run dev`         | Start the user application               |
+| `npm run dev:admin`   | Start the admin application on port 3001 |
+| `npm run build`       | Build the user application               |
+| `npm run build:admin` | Build the admin application              |
+| `npm run lint`        | Lint the user workspace                  |
+| `npm run lint:admin`  | Lint the admin workspace                 |
+| `npm run stylelint`   | Validate Sass styles                     |
 
 ## Team and attribution
 
-This is a collaborative project, not a single-author codebase. The rewritten public history preserves the original authors, dates, commit messages, and merge structure while removing generated files, environment configuration, personal email addresses, and exposed client configuration.
+This is a collaborative project rather than a single-author showcase. The public Git history preserves the original contribution graph and makes the ownership of individual changes inspectable.
 
-See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the contributors and their main areas of work. The complete contribution history remains available through Git:
+See [CONTRIBUTORS.md](CONTRIBUTORS.md) for each contributor's main areas of work, or inspect the history locally:
 
 ```bash
 git shortlog -sne HEAD
 ```
 
+The portfolio preparation only removed generated files, environment configuration, personal email addresses, and private infrastructure artifacts. Product commits were not squashed into a single re-publication commit.
+
 ## Project status
 
-The original team project is no longer under active development. This portfolio edition is maintained as an archive and technical case study.
+The original internship project is no longer under active team development. This repository is maintained as an archived technical case study, so several roadmap screens are present as scaffolding and the applications require the original backend contract for full end-to-end operation.
 
-No open-source license is granted at this time. The source is publicly available for portfolio review; copyright remains with its respective contributors.
+No open-source license is granted at this time. The source is publicly available for portfolio review; copyright remains with the respective contributors.
