@@ -1,6 +1,6 @@
 # Social Network Platform
 
-> A production-oriented social network frontend built by a six-person team during an internship program. The project combines a multilingual user application, a separate administration console, shared workspace packages, a Backend-for-Frontend layer, real-time notifications, and AI-assisted post translation.
+> A production-oriented social network frontend built by a six-person team. The project combines a multilingual user application, a separate administration console, shared workspace packages, a Backend-for-Frontend layer, real-time notifications, and AI-assisted post translation.
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-149ECA?logo=react)](https://react.dev/)
@@ -235,6 +235,6 @@ The portfolio preparation only removed generated files, environment configuratio
 
 ## Project status
 
-The original internship project is no longer under active team development. This repository is maintained as an archived technical case study, so several roadmap screens are present as scaffolding and the applications require the original backend contract for full end-to-end operation.
+The original team project is no longer under active development. This repository is maintained as an archived technical case study, so several roadmap screens are present as scaffolding and the applications require the original backend contract for full end-to-end operation.
 
 No open-source license is granted at this time. The source is publicly available for portfolio review; copyright remains with the respective contributors.
